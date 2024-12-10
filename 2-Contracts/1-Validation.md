@@ -1,10 +1,10 @@
-# Validation
+# Validação
 
-CMMV supports automatic contract validation using the ``class-validator`` ([NPM](https://www.npmjs.com/package/class-validator)) module. During data insertion and update operations, CMMV can apply validation rules to contract fields, ensuring that data meets the defined criteria before being processed. You can specify validation rules for each field by adding the validations parameter.
+O CMMV suporta validação automática de contratos usando o módulo `class-validator` ([NPM](https://www.npmjs.com/package/class-validator)). Durante as operações de inserção e atualização de dados, o CMMV pode aplicar regras de validação aos campos do contrato, garantindo que os dados atendam aos critérios definidos antes de serem processados. Você pode especificar regras de validação para cada campo adicionando o parâmetro `validations`.
 
-These validations are executed automatically during ``insert`` and ``update`` operations, and the system will return errors if any validation fails.
+Essas validações são executadas automaticamente durante as operações de `insert` e `update`, e o sistema retornará erros caso alguma validação falhe.
 
-Below is an example of a ``TasksContract``, where each field is validated using different rules:
+Abaixo está um exemplo de `TasksContract`, onde cada campo é validado usando diferentes regras:
 
 ```typescript
 import { AbstractContract, Contract, ContractField } from '@cmmv/core';
@@ -20,10 +20,10 @@ export class TasksContract extends AbstractContract {
         unique: true,
         validations: [{ 
             type: "IsString",
-            message: "Invalid label"
+            message: "Label inválido"
         }, { 
             type: "IsNotEmpty",
-            message: "Label cannot be empty"
+            message: "Label não pode estar vazio"
         }]
     })
     label: string;
@@ -33,7 +33,7 @@ export class TasksContract extends AbstractContract {
         defaultValue: false,
         validations: [{
             type: "IsBoolean",
-            message: "Invalid checked type"
+            message: "Tipo de checked inválido"
         }]
     })
     checked: boolean;
@@ -43,87 +43,62 @@ export class TasksContract extends AbstractContract {
         defaultValue: false,
         validations: [{
             type: "IsBoolean",
-            message: "Invalid removed type"
+            message: "Tipo de removed inválido"
         }]
     })
     removed: boolean;
 }
 ```
 
-## Structure 
+## Estrutura 
 
-Each validation rule is configured using the ``validations`` parameter, which contains an array of validation objects. Each object can include the following properties:
+Cada regra de validação é configurada usando o parâmetro `validations`, que contém um array de objetos de validação. Cada objeto pode incluir as seguintes propriedades:
 
-* **type:** The type of validation to apply, such as IsString, IsNotEmpty, IsBoolean, etc.
-* **message (optional):** A custom error message that will be shown when the validation fails.
-* **context (optional):** Additional context information that can be included with the validation.
+* **type:** O tipo de validação a ser aplicado, como `IsString`, `IsNotEmpty`, `IsBoolean`, etc.
+* **message (opcional):** Uma mensagem de erro personalizada que será exibida quando a validação falhar.
+* **context (opcional):** Informações adicionais de contexto que podem ser incluídas com a validação.
 
-## Validation Types
+## Tipos de Validação
 
-``class-validator`` provides a wide range of validation types that can be applied to contract fields. Some common types are:
+O `class-validator` fornece uma ampla gama de tipos de validação que podem ser aplicados aos campos do contrato. Alguns tipos comuns são:
 
-| **Decorator**                | **Description**                                                                                                                                                                   |
-|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| IsDefined        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.                                                       |
-| IsOptional                 | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property.                                                                  |
-| Equals      | Checks if value equals ("===") comparison.                                                                                                                                       |
-| NotEquals   | Checks if value not equal ("!==") comparison.                                                                                                                                    |
-| IsEmpty                    | Checks if given value is empty (=== '', === null, === undefined).                                                                                                                |
-| IsNotEmpty                 | Checks if given value is not empty (!== '', !== null, !== undefined).                                                                                                            |
-| IsIn          | Checks if value is in an array of allowed values.                                                                                                                                |
-| IsNotIn       | Checks if value is not in an array of disallowed values.                                                                                                                         |
-| IsBoolean                  | Checks if a value is a boolean.                                                                                                                                                  |
-| IsDate                     | Checks if the value is a date.                                                                                                                                                   |
-| IsString                   | Checks if the value is a string.                                                                                                                                                 |
-| IsNumber | Checks if the value is a number.                                                                                                                                       |
-| IsInt                      | Checks if the value is an integer number.                                                                                                                                        |
-| IsArray                    | Checks if the value is an array.                                                                                                                                                |
-| IsEnum       | Checks if the value is a valid enum.                                                                                                                                             |
-| IsDivisibleBy   | Checks if the value is a number that's divisible by another.                                                                                                                     |
-| IsPositive                 | Checks if the value is a positive number greater than zero.                                                                                                                      |
-| IsNegative                 | Checks if the value is a negative number smaller than zero.                                                                                                                      |
-| Min             | Checks if the given number is greater than or equal to given number.                                                                                                             |
-| Max             | Checks if the given number is less than or equal to given number.                                                                                                                |
-| MinDate | Checks if the value is a date that's after the specified date.                                                                                                            |
-| MaxDate | Checks if the value is a date that's before the specified date.                                                                                                           |
-| IsBooleanString            | Checks if a string is a boolean (e.g. is "true" or "false" or "1", "0").                                                                                                         |
-| IsDateString               | Alias for @IsISO8601().                                                                                                                                                          |
-| IsNumberString | Checks if a string is a number.                                                                                                                                  |
-| Contains       | Checks if the string contains the seed.                                                                                                                                          |
-| NotContains    | Checks if the string not contains the seed.                                                                                                                                      |
-| IsAlpha                    | Checks if the string contains only letters (a-zA-Z).                                                                                                                             |
-| IsAlphanumeric             | Checks if the string contains only letters and numbers.                                                                                                                          |
-| IsDecimal | Checks if the string is a valid decimal value.                                                                                                                          |
-| IsAscii                    | Checks if the string contains ASCII chars only.                                                                                                                                  |
-| IsBase32                   | Checks if a string is base32 encoded.                                                                                                                                           |
-| IsBase58                   | Checks if a string is base58 encoded.                                                                                                                                           |
-| IsBase64 | Checks if a string is base64 encoded.                                                                                                                                    |
-| IsIBAN                     | Checks if a string is an IBAN (International Bank Account Number).                                                                                                              |
-| IsBIC                      | Checks if a string is a BIC (Bank Identification Code) or SWIFT code.                                                                                                           |
-| IsByteLength | Checks if the string's length (in bytes) falls in a range.                                                                                                          |
-| IsCreditCard               | Checks if the string is a credit card.                                                                                                                                          |
-| IsCurrency | Checks if the string is a valid currency amount.                                                                                                                     |
-| IsEthereumAddress          | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums.                                                                              |
-| IsDataURI                  | Checks if the string is a data uri format.                                                                                                                                       |
-| IsEmail | Checks if the string is an email.                                                                                                                                           |
-| IsFQDN | Checks if the string is a fully qualified domain name (e.g. domain.com).                                                                                                      |
-| IsHexColor                 | Checks if the string is a hexadecimal color.                                                                                                                                     |
-| IsISBN | Checks if the string is an ISBN (version 10 or 13).                                                                                                                           |
-| IsUUID | Checks if the string is a UUID (version 3, 4, 5 or all).                                                                                                                       |
-| ArrayContains | Checks if array contains all values from the given array of values.                                                                                                              |
-| ArrayNotEmpty              | Checks if given array is not empty.                                                                                                                                             |
-| ArrayMinSize    | Checks if the array's length is greater than or equal to the specified number.                                                                                                   |
-| @Allow()                      | Prevents stripping off the property when no other constraint is specified for it.                                                                                               |
+| **Decorador**               | **Descrição**                                                                                                                                                   |
+|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| IsDefined                   | Verifica se o valor está definido (!== undefined, !== null). Este é o único decorador que ignora a opção skipMissingProperties.                                  |
+| IsOptional                  | Verifica se o valor fornecido está vazio (=== null, === undefined) e, se estiver, ignora todos os validadores na propriedade.                                    |
+| Equals                      | Verifica se o valor é igual (`===`) à comparação.                                                                                                            |
+| NotEquals                   | Verifica se o valor não é igual (`!==`) à comparação.                                                                                                        |
+| IsEmpty                     | Verifica se o valor fornecido está vazio (=== '', === null, === undefined).                                                                                    |
+| IsNotEmpty                  | Verifica se o valor fornecido não está vazio (!== '', !== null, !== undefined).                                                                                |
+| IsIn                        | Verifica se o valor está em um array de valores permitidos.                                                                                                    |
+| IsNotIn                     | Verifica se o valor não está em um array de valores não permitidos.                                                                                            |
+| IsBoolean                   | Verifica se um valor é um booleano.                                                                                                                            |
+| IsDate                      | Verifica se o valor é uma data.                                                                                                                                |
+| IsString                    | Verifica se o valor é uma string.                                                                                                                              |
+| IsNumber                    | Verifica se o valor é um número.                                                                                                                               |
+| IsInt                       | Verifica se o valor é um número inteiro.                                                                                                                       |
+| IsArray                     | Verifica se o valor é um array.                                                                                                                                |
+| IsEnum                      | Verifica se o valor é um enum válido.                                                                                                                          |
+| Min                         | Verifica se o número fornecido é maior ou igual ao número fornecido.                                                                                           |
+| Max                         | Verifica se o número fornecido é menor ou igual ao número fornecido.                                                                                           |
+| IsPositive                  | Verifica se o valor é um número positivo maior que zero.                                                                                                       |
+| IsNegative                  | Verifica se o valor é um número negativo menor que zero.                                                                                                       |
+| IsUUID                      | Verifica se a string é um UUID (versão 3, 4, 5 ou todos).                                                                                                      |
+| IsEmail                     | Verifica se a string é um email válido.                                                                                                                        |
+| IsNotEmptyObject            | Verifica se um objeto não está vazio.                                                                                                                           |
+| ArrayNotEmpty               | Verifica se um array não está vazio.                                                                                                                            |
 
-When a contract is used in insert or update operations, CMMV automatically converts the incoming data to class instances, applies any transformations, and performs the validation according to the rules defined in the contract. If any field does not meet the validation criteria, the process is halted, and a list of validation errors is returned.
+Quando um contrato é usado em operações de inserção ou atualização, o CMMV converte automaticamente os dados recebidos em instâncias de classe, aplica quaisquer transformações e realiza a validação de acordo com as regras definidas no contrato. Se algum campo não atender aos critérios de validação, o processo é interrompido e uma lista de erros de validação é retornada.
 
-This process ensures that data is always compliant with the rules defined in the contract, protecting the integrity of the system.
+Esse processo garante que os dados estejam sempre em conformidade com as regras definidas no contrato, protegendo a integridade do sistema.
 
-## Validation in Models
+## Validação em Modelos
 
-When validations are defined in the contract fields, the CMMV framework automatically adds the corresponding class-validator decorators to the generated model. These decorators perform runtime validation to ensure the data adheres to the defined rules. The model generation process inserts the correct validation decorators above each field, along with any specified validation options, such as custom error messages.
+Quando as validações são definidas nos campos do contrato, o framework CMMV adiciona automaticamente os decoradores correspondentes do `class-validator` ao modelo gerado. Esses decoradores realizam validações em tempo de execução para garantir que os dados aderem às regras definidas. 
 
-Here's an example of how to define a contract with validations:
+A geração de modelos insere os decoradores de validação corretos acima de cada campo, junto com quaisquer opções de validação especificadas, como mensagens de erro personalizadas.
+
+A validação garante consistência e integridade dos dados em toda a aplicação.
 
 ```typescript
 import { AbstractContract, Contract, ContractField } from '@cmmv/core';
@@ -169,7 +144,7 @@ export class TasksContract extends AbstractContract {
 }
 ```
 
-When the contract is processed by the framework, the following model is automatically generated. The decorators from ``class-validator`` are added to each field to perform validation according to the specified rules:
+Quando o contrato é processado pelo framework, o seguinte modelo é gerado automaticamente. Os decoradores de ``class-validator`` são adicionados a cada campo para executar a validação de acordo com as regras especificadas:
 
 ```typescript
 // Generated automatically by CMMV
@@ -198,62 +173,68 @@ export class Task implements ITask {
 }
 ```
 
-This approach ensures that data is validated correctly and that the model is generated dynamically based on the contract definitions, making the framework highly adaptable and efficient for managing validations across various models.
+Essa abordagem garante que os dados sejam validados corretamente e que o modelo seja gerado dinamicamente com base nas definições do contrato, tornando a estrutura altamente adaptável e eficiente para gerenciar validações em vários modelos.
 
-## Validation in Services
+## Validação nos Serviços
 
-In addition to the generated model, services also undergo changes to ensure that the data being input is properly validated before it's processed or stored. Both the service generated by ``@cmmv/http`` and the repository implementation from ``@cmmv/repository`` include built-in validation mechanisms using the ``class-validator`` module.
+Além do modelo gerado, os serviços também passam por modificações para garantir que os dados de entrada sejam validados corretamente antes de serem processados ou armazenados. Tanto o serviço gerado pelo `@cmmv/http` quanto a implementação do repositório de `@cmmv/repository` incluem mecanismos de validação embutidos usando o módulo `class-validator`.
 
-This validation ensures that all incoming data adheres to the rules specified in the contract fields before any database operations or further business logic are executed.
+Essa validação assegura que todos os dados de entrada atendam às regras especificadas nos campos do contrato antes que qualquer operação de banco de dados ou lógica de negócio seja executada.
 
-Here’s an example of the add function in the service that is generated by the repository:
+Aqui está um exemplo da função `add` no serviço gerado pelo repositório:
 
 ```typescript
 async add(item: ITask, req?: any): Promise<TaskEntity> {
     return new Promise(async (resolve, reject) => {
-        try{
+        try {
             Telemetry.start('TaskService::Add', req?.requestId);
-                    
-            // Convert plain object to class and validate the data
+
+            // Converter objeto comum em uma instância de classe e validar os dados
             const newItem = plainToClass(Task, item, { 
                 exposeUnsetFields: true,
                 enableImplicitConversion: true
             }); 
 
-            // Validate the newItem with class-validator
+            // Validar o newItem com class-validator
             const errors = await validate(newItem, { 
                 skipMissingProperties: true 
             });
-            
+
             if (errors.length > 0) {
-                // If validation fails, return the errors
+                // Se a validação falhar, retornar os erros
                 Telemetry.end('TaskService::Add', req?.requestId);
                 reject(errors);
-            } 
-            else {                   
-                // If validation passes, proceed with the repository
+            } else {
+                // Se a validação for bem-sucedida, prosseguir com o repositório
                 const result = await Repository.insert<TaskEntity>(
                     TaskEntity, newItem
                 );
                 Telemetry.end('TaskService::Add', req?.requestId);
-                resolve(result);                    
+                resolve(result);
             }
-        }
-        catch(e){ 
+        } catch (e) {
             Telemetry.end('TaskService::Add', req?.requestId);
-            console.log(e); 
+            console.log(e);
             reject(e);
         }
     });
 }
 ```
 
-* **Validation Step:** Before performing any database operations, the input data is converted into a class instance using ``plainToClass`` and then validated using ``validate`` from ``class-validator``.
+### Detalhes do Processo
 
-* **Error Handling:** If validation fails, the process halts, and the errors are returned to the caller without proceeding to the database operation.
+* **Passo de Validação:** Antes de realizar qualquer operação no banco de dados, os dados de entrada são convertidos em uma instância de classe usando `plainToClass` e, em seguida, validados usando `validate` do `class-validator`.
 
-* **Telemetry Tracking:** Telemetry functions track the beginning and end of the ``add`` operation, ensuring that all actions are monitored for performance and logging.
+* **Manipulação de Erros:** Se a validação falhar, o processo é interrompido e os erros são retornados ao chamador sem prosseguir para a operação no banco de dados.
 
-* **Repository Insert:** Once the validation passes, the ``Repository.insert`` method inserts the validated data into the database.
+* **Rastreamento por Telemetria:** As funções de telemetria monitoram o início e o fim da operação `add`, garantindo que todas as ações sejam registradas para desempenho e análise de logs.
 
-This mechanism ensures that all input data is validated in a consistent manner across the system, making it easy to manage and enforce validation rules at the service level, guaranteeing data integrity and reducing the risk of invalid data being stored or processed.
+* **Inserção no Repositório:** Após a validação, o método `Repository.insert` insere os dados validados no banco de dados.
+
+Essa abordagem garante que todos os dados de entrada sejam validados de forma consistente em todo o sistema, tornando mais fácil gerenciar e impor regras de validação no nível do serviço, protegendo a integridade dos dados e reduzindo o risco de informações inválidas serem armazenadas ou processadas.
+
+## Mais Sobre Validações
+
+Para garantir a robustez e a integridade do sistema, a validação é aplicada em vários níveis dentro do framework CMMV. Essa funcionalidade cobre desde o contrato até o serviço, oferecendo uma abordagem uniforme para o gerenciamento de regras de validação. Isso reduz significativamente a probabilidade de erros de dados e melhora a confiabilidade da aplicação.
+
+Para mais informações e exemplos detalhados, consulte a documentação oficial do módulo `class-validator` ou explore os módulos adicionais do CMMV para descobrir funcionalidades avançadas que podem ser integradas ao seu projeto.

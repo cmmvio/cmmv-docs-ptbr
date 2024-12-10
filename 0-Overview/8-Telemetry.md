@@ -1,45 +1,49 @@
-# Telemetry
+# Telemetria
 
-The telemetry system within the CMMV framework provides a powerful mechanism for tracking and monitoring internal processes both in the **backend** and **frontend**. It is designed to measure the performance of various components such as database queries, service calls, API responses, and rendering times. By utilizing this telemetry system, developers can identify potential bottlenecks or performance issues in the system.
+O sistema de telemetria no framework **CMMV** oferece uma poderosa ferramenta para monitorar e analisar processos internos tanto no **backend** quanto no **frontend**. Ele é projetado para medir o desempenho de componentes como consultas a bancos de dados, chamadas de serviços, respostas de APIs e tempos de renderização. Utilizando este sistema de telemetria, os desenvolvedores podem identificar possíveis gargalos ou problemas de desempenho no sistema.
 
-The **Telemetry** class, a singleton, manages telemetry records for processes in both server and client environments. It tracks the start and end times of labeled processes, allowing the calculation of the time spent on each task. These records can be accessed, monitored, and displayed in real-time, particularly in development mode, to help developers analyze where slowdowns or inefficiencies are occurring.
+A classe **Telemetry**, implementada como um singleton, gerencia registros de telemetria para processos nos ambientes de servidor e cliente. Ela acompanha os tempos de início e fim de processos rotulados, permitindo calcular o tempo gasto em cada tarefa. Esses registros podem ser acessados, monitorados e exibidos em tempo real, especialmente no modo de desenvolvimento, ajudando os desenvolvedores a analisar onde estão ocorrendo lentidões ou ineficiências.
 
-| Method                                      | Description                                                                                           |
-|---------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| `start(label: string, requestId?: string)`  | Starts a telemetry record for a process with a given label and request ID.                            |
-| `end(label: string, requestId?: string)`    | Ends the telemetry record by marking the end time for the process with the given label.               |
-| `getTelemetry(requestId: string)`           | Returns all telemetry records for a given request ID.                                                 |
-| `clearTelemetry(requestId: string)`         | Clears telemetry records for a specific request ID.                                                   |
-| `registerPlugin(plugin: any)`               | Allows external plugins to register and extend the telemetry system with additional capabilities.      |
-| `getRecords()`                              | Retrieves all telemetry records currently stored.                                                     |
+| Método                                     | Descrição                                                                 |
+|-------------------------------------------|---------------------------------------------------------------------------|
+| `start(label: string, requestId?: string)` | Inicia um registro de telemetria para um processo com o rótulo especificado e ID opcional. |
+| `end(label: string, requestId?: string)`   | Finaliza o registro de telemetria marcando o tempo de término para o processo. |
+| `getTelemetry(requestId: string)`        | Retorna todos os registros de telemetria associados a um ID de solicitação. |
+| `clearTelemetry(requestId: string)`      | Limpa os registros de telemetria para um ID de solicitação específico. |
+| `registerPlugin(plugin: any)`            | Permite que plugins externos se registrem e estendam o sistema de telemetria com funcionalidades adicionais. |
+| `getRecords()`                           | Recupera todos os registros de telemetria armazenados atualmente. |
 
-## Workflow
+## Fluxo de Trabalho
 
-Start a Telemetry Record: When a request or action starts, the telemetry system logs the start time with the process label.
+### Iniciar um Registro de Telemetria
+Quando uma solicitação ou ação começa, o sistema de telemetria registra o tempo de início com o rótulo do processo.
 
 ```typescript
 Telemetry.start('TaskService::GetAll', requestId);
 ```
 
-End the Telemetry Record: When the process completes, the telemetry system logs the end time.
+### Finalizar o Registro de Telemetria
+Quando o processo é concluído, o sistema de telemetria registra o tempo de término.
 
 ```typescript
 Telemetry.end('TaskService::GetAll', requestId);
 ```
 
-Retrieve the Telemetry Data: After the request completes, you can retrieve all telemetry data associated with the request ID.
+### Recuperar os Dados de Telemetria
+Após a conclusão da solicitação, você pode recuperar todos os dados de telemetria associados ao ID da solicitação.
 
 ```typescript
 const records = Telemetry.getTelemetry(requestId);
 ```
 
-Clear the Telemetry Data: Once telemetry data is no longer needed, you can clear it.
+### Limpar os Dados de Telemetria
+Quando os dados de telemetria não são mais necessários, você pode limpá-los.
 
 ```typescript
 Telemetry.clearTelemetry(requestId);
 ```
 
-In services that communicate with external components (e.g., databases, queues), it is recommended to implement telemetry points to track the execution time of these operations. This is particularly helpful when ``NODE_ENV`` is set to ``dev``, as it will log the telemetry data and display it in the console.
+Em serviços que se comunicam com componentes externos (ex.: bancos de dados, filas), é recomendável implementar pontos de telemetria para rastrear o tempo de execução dessas operações. Isso é especialmente útil quando `NODE_ENV` está configurado como `dev`, pois os dados de telemetria serão exibidos no console.
 
 ```typescript
 async getAll(req?: any): Promise<TaskEntity[]> {
@@ -57,30 +61,30 @@ async getAll(req?: any): Promise<TaskEntity[]> {
 }
 ```
 
-The telemetry system supports both backend and frontend processes. By implementing telemetry in both environments, you can get a complete view of the system's performance from request initiation to response and rendering.
+O sistema de telemetria suporta processos tanto no backend quanto no frontend. Implementando a telemetria em ambos os ambientes, você obtém uma visão completa do desempenho do sistema desde a solicitação inicial até a resposta e renderização.
 
-**Example console output of telemetry:**
+### Exemplo de saída no console da telemetria:
 
-| Index | Process                            | Duration    |
-|-------|------------------------------------|-------------|
-| 0     | 'Server: Request Process'          | '35.00 ms'  |
-| 1     | 'Server: Compile Template'         | '30.00 ms'  |
-| 2     | 'Server: Load Includes'            | '0.00 ms'   |
-| 3     | 'Server: TaskService::GetAll'      | '10.00 ms'  |
-| 4     | 'Server: Process Setup'            | '17.00 ms'  |
-| 5     | 'Client: Initialize Frontend'      | '0.30 ms'   |
-| 6     | 'Client: WebSocket Initialization' | '0.30 ms'   |
-| 7     | 'Client: Load Contracts'           | '1.30 ms'   |
-| 8     | 'Client: Process Expressions'      | '5.30 ms'   |
-| 9     | 'Client: CreateApp'                | '1.00 ms'   |
-| 10    | 'Client: Mount App'                | '4.20 ms'   |
+| Índice | Processo                            | Duração     |
+|--------|-------------------------------------|-------------|
+| 0      | 'Server: Processamento da Solicitação' | '35.00 ms'  |
+| 1      | 'Server: Compilar Template'         | '30.00 ms'  |
+| 2      | 'Server: Carregar Includes'         | '0.00 ms'   |
+| 3      | 'Server: TaskService::GetAll'       | '10.00 ms'  |
+| 4      | 'Server: Configuração do Processo'  | '17.00 ms'  |
+| 5      | 'Client: Inicializar Frontend'      | '0.30 ms'   |
+| 6      | 'Client: Inicialização do WebSocket'| '0.30 ms'   |
+| 7      | 'Client: Carregar Contratos'        | '1.30 ms'   |
+| 8      | 'Client: Processar Expressões'      | '5.30 ms'   |
+| 9      | 'Client: Criar Aplicação'           | '1.00 ms'   |
+| 10     | 'Client: Montar Aplicação'          | '4.20 ms'   |
 
-This output provides a detailed timeline of both server-side and client-side processes, allowing you to pinpoint slow areas in the system.
+Essa saída fornece um detalhamento cronológico dos processos no servidor e no cliente, permitindo identificar áreas lentas no sistema.
 
-## Best Practices
+## Melhores Práticas
 
-* **Telemetry in Services:** Always implement telemetry for operations that involve external services or long-running tasks such as database queries or message queue operations.
-* **Use in Development:** When ``NODE_ENV`` is set to dev, telemetry data is automatically sent to ``@cmmv/view`` and displayed in the console, allowing for immediate performance analysis.
-* **Clear Telemetry:** Clear telemetry records when they are no longer needed to avoid memory leaks or excessive storage.
+* **Telemetria em Serviços:** Sempre implemente telemetria para operações que envolvam serviços externos ou tarefas de longa duração, como consultas ao banco de dados ou operações em filas.
+* **Use no Desenvolvimento:** Quando `NODE_ENV` estiver configurado como `dev`, os dados de telemetria são automaticamente enviados para `@cmmv/view` e exibidos no console para análise imediata de desempenho.
+* **Limpar Telemetria:** Limpe os registros de telemetria quando eles não forem mais necessários para evitar vazamentos de memória ou armazenamento excessivo.
 
-By using the telemetry system, you can gain full visibility into how long processes take and where slowdowns occur, whether in the backend or frontend of your application. This can help you optimize your system's performance and ensure smooth communication between components.
+Utilizando o sistema de telemetria, você pode obter total visibilidade sobre o tempo gasto nos processos e onde ocorrem lentidões, seja no backend ou no frontend da aplicação. Isso ajuda a otimizar o desempenho do sistema e garantir uma comunicação eficiente entre os componentes.

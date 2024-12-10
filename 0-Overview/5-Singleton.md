@@ -1,14 +1,14 @@
 # Singleton
 
-In CMMV, the traditional dependency injection pattern is replaced by singleton registries, which streamline the management of global services. In many applications, modules often share services such as cache, queues, or database connections. Instead of declaring and injecting these services across multiple modules, a singleton ensures that only one instance of a service is created and shared across the entire application.
+No CMMV, o padrão tradicional de injeção de dependências é substituído por registros singleton, que simplificam o gerenciamento de serviços globais. Em muitas aplicações, os módulos frequentemente compartilham serviços como cache, filas ou conexões de banco de dados. Em vez de declarar e injetar esses serviços em vários módulos, um singleton garante que apenas uma instância de um serviço seja criada e compartilhada em toda a aplicação.
 
-This approach offers several advantages:
+Essa abordagem oferece várias vantagens:
 
-* Simplifies service management by eliminating the need for explicit injection across modules.
-* Reduces complexity by avoiding circular dependencies.
-* Optimizes performance by ensuring only one instance of each service exists, minimizing overhead.
+* Simplifica o gerenciamento de serviços ao eliminar a necessidade de injeção explícita entre módulos.
+* Reduz a complexidade ao evitar dependências circulares.
+* Otimiza o desempenho ao garantir que apenas uma instância de cada serviço exista, minimizando a sobrecarga.
 
-## Example
+## Exemplo
 
 ```typescript
 import { Singleton } from "@cmmv/core";
@@ -94,24 +94,23 @@ export class Scope extends Singleton {
 }
 ```
 
-## Advantages
+## Vantagens
 
-Using singletons provides several advantages over traditional dependency injection systems, especially for larger applications with complex services and multiple modules:
+O uso de singletons oferece várias vantagens em relação aos sistemas tradicionais de injeção de dependências, especialmente em aplicações maiores com serviços complexos e múltiplos módulos:
 
-* **Performance Optimization:** Since singletons are instantiated only once, they reduce the overhead associated with creating multiple instances of services. This is particularly beneficial when dealing with high-frequency services like database connections or cache managers.
+* **Otimização de Desempenho:** Como os singletons são instanciados apenas uma vez, eles reduzem a sobrecarga associada à criação de múltiplas instâncias de serviços. Isso é particularmente benéfico ao lidar com serviços de alta frequência, como conexões de banco de dados ou gerenciadores de cache.
 
-* **Simplified Architecture:** Instead of managing complex dependency trees and imports in each module, singleton registries allow direct access to services, simplifying module design and reducing the need for boilerplate code.
+* **Arquitetura Simplificada:** Em vez de gerenciar árvores de dependências complexas e imports em cada módulo, os registros singleton permitem acesso direto aos serviços, simplificando o design do módulo e reduzindo a necessidade de código boilerplate.
 
-* **Avoid Circular Dependencies:** Circular dependencies occur when two services depend on each other, causing dependency injection systems to fail or become overly complex. Singletons avoid this issue by being self-contained and globally accessible.
+* **Evita Dependências Circulares:** Dependências circulares ocorrem quando dois serviços dependem um do outro, fazendo com que sistemas de injeção de dependências falhem ou se tornem excessivamente complexos. Singletons evitam esse problema sendo autocontidos e acessíveis globalmente.
 
-* **Ease of Access:** Services like configuration, caching, and logging can be made globally accessible without requiring them to be explicitly injected into every module or service that needs them.
+* **Facilidade de Acesso:** Serviços como configuração, cache e logging podem ser tornados acessíveis globalmente sem precisar ser explicitamente injetados em cada módulo ou serviço que os utilize.
 
-* **Scalability:** As the application grows, using singletons simplifies service management. Unlike traditional dependency injection systems that require the careful management of imports and global providers, singletons offer a straightforward solution to sharing services across different modules.
+* **Escalabilidade:** À medida que a aplicação cresce, o uso de singletons simplifica o gerenciamento de serviços. Diferentemente dos sistemas tradicionais de injeção de dependências, que exigem o gerenciamento cuidadoso de imports e provedores globais, os singletons oferecem uma solução direta para o compartilhamento de serviços entre diferentes módulos.
 
+## Melhores Práticas
 
-## Best Practices
-
-* **Use Singletons for Global Services:** Use singleton registries for services that need to be shared across multiple modules, such as configuration, logging, caching, and database connections.
-* **Minimize Overuse:** While singletons simplify service management, overusing them can make testing and debugging more difficult. Use them judiciously for truly global services.
-* **Avoid State Mutability:** If possible, keep singleton services stateless or ensure their state is managed carefully to avoid unintended side effects.
-* **Testing:** When testing singleton services, remember that they maintain their state throughout the application lifecycle. Reset or mock singleton instances as needed during tests.
+* **Use Singletons para Serviços Globais:** Utilize registros singleton para serviços que precisam ser compartilhados entre múltiplos módulos, como configuração, logging, cache e conexões de banco de dados.
+* **Minimize o Uso Excessivo:** Embora os singletons simplifiquem o gerenciamento de serviços, o uso excessivo pode dificultar o teste e a depuração. Use-os com moderação para serviços verdadeiramente globais.
+* **Evite Mutabilidade de Estado:** Se possível, mantenha os serviços singleton sem estado ou garanta que seu estado seja gerenciado cuidadosamente para evitar efeitos colaterais indesejados.
+* **Testes:** Ao testar serviços singleton, lembre-se de que eles mantêm seu estado durante todo o ciclo de vida da aplicação. Restaure ou faça mock das instâncias singleton conforme necessário durante os testes.

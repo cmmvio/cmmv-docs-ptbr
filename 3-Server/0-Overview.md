@@ -1,10 +1,10 @@
-# Server
+# Servidor
 
-The ``@cmmv/server`` is a minimalistic server written in TypeScript, designed to maintain the same structure and methods as [Express](https://expressjs.com/), while addressing performance issues and introducing new features for efficient delivery of components and static files.
+O `@cmmv/server` é um servidor minimalista escrito em TypeScript, projetado para manter a mesma estrutura e métodos do [Express](https://expressjs.com/), enquanto resolve problemas de desempenho e introduz novos recursos para a entrega eficiente de componentes e arquivos estáticos.
 
-This project incorporates code from [Express](https://github.com/expressjs/express), [Koa](https://github.com/koajs/koa), and [Fastify](https://github.com/fastify/fastify), but has been completely rewritten in TypeScript with a focus on modernity and performance. Additionally, it integrates features from Vite to optimize the delivery of components and assets, ensuring a faster and more agile experience for modern applications.
+Este projeto incorpora código do [Express](https://github.com/expressjs/express), [Koa](https://github.com/koajs/koa) e [Fastify](https://github.com/fastify/fastify), mas foi completamente reescrito em TypeScript com foco na modernidade e desempenho. Além disso, integra recursos do Vite para otimizar a entrega de componentes e ativos, garantindo uma experiência mais ágil para aplicativos modernos.
 
-Due to the complexity of the project, it has been separated into another repository [cmmv-server monorepo](https://github.com/andrehrferreira/cmmv-server), which contains multiple packages. In addition to the core server, several modules have been implemented, including:
+Devido à complexidade do projeto, ele foi separado em outro repositório [cmmv-server monorepo](https://github.com/andrehrferreira/cmmv-server), que contém múltiplos pacotes. Além do servidor principal, vários módulos foram implementados, incluindo:
 
 * body-parser
 * compression
@@ -14,29 +14,29 @@ Due to the complexity of the project, it has been separated into another reposit
 * helmet
 * server-static
 
-Below, we will discuss each module in more detail.
+Abaixo, discutiremos cada módulo em mais detalhes.
 
-Currently, the project is in a testing phase and therefore not recommended for production use.
+Atualmente, o projeto está em fase de testes e, portanto, não é recomendado para uso em produção.
 
-## Features
+## Recursos
 
-* Fully rewritten in **TypeScript**.
-* **Dynamic property definitions** (like ``Object.defineProperty``) were removed to avoid serious performance issues.
-* **Fastify-inspired hook system** for flexible request lifecycle management.
-* Support for **HTTP/2**.
-* Compression support for **Brotli**, **gzip**, and **deflate**.
-* **ETag** implementation using **FNV-1a**.
-* Built-in support for cryptographic algorithms such as **MD5**, **SHA-1**, and others from the ``crypto`` module.
-* Superior performance compared to **Koa**, **Hapi**, and **Express**, and ongoing optimization to achieve performance similar to **Fastify**.
-* Full compatibility with all methods provided by **Express.js**.
+* Reescrito totalmente em **TypeScript**.
+* Definições dinâmicas de propriedade (como `Object.defineProperty`) foram removidas para evitar problemas graves de desempenho.
+* Sistema de hooks inspirado no **Fastify** para um gerenciamento flexível do ciclo de vida das requisições.
+* Suporte para **HTTP/2**.
+* Suporte a compressão para **Brotli**, **gzip** e **deflate**.
+* Implementação de **ETag** usando **FNV-1a**.
+* Suporte embutido para algoritmos criptográficos, como **MD5**, **SHA-1** e outros do módulo `crypto`.
+* Desempenho superior em comparação com **Koa**, **Hapi** e **Express**, com otimizações contínuas para alcançar desempenho semelhante ao **Fastify**.
+* Total compatibilidade com todos os métodos fornecidos pelo **Express.js**.
 
 ## Benchmarks
 
 * [https://github.com/fastify/benchmarks](https://github.com/fastify/benchmarks)
-* Machine: linux x64 | 32 vCPUs | 128.0GB Mem
+* Máquina: linux x64 | 32 vCPUs | 128.0GB Mem
 * Node: v20.17.0
-* Run: Thu Nov 26 2024 15:23:41 GMT+0000 (Coordinated Universal Time)
-* Method: ``autocannon -c 100 -d 40 -p 10 localhost:3000``
+* Execução: Qui Nov 26 2024 15:23:41 GMT+0000 (Horário Universal Coordenado)
+* Método: `autocannon -c 100 -d 40 -p 10 localhost:3000`
 
 | Framework                | Version  | Router | Requests/s | Latency (ms) | Throughput/Mb |
 |--------------------------|----------|--------|------------|--------------|---------------|
@@ -69,29 +69,22 @@ Currently, the project is in a testing phase and therefore not recommended for p
 | express-with-middlewares | 5.0.1    | ✓      | 18930.4    | 52.30        | 7.04          |
 | trpc-router              | 10.45.2  | ✓      | N/A        | N/A          | N/A           |
 
-## Installation
+## Instalação
 
-Install the ``@cmmv/server`` package via npm:
+Instale o pacote `@cmmv/server` via npm:
 
 ```bash
 $ pnpm add @cmmv/server
 ```
 
-## Quick Start
+## Início Rápido
 
-Below is a simple example of how to create a new CMMV application:
+Abaixo está um exemplo simples de como criar uma nova aplicação CMMV:
 
 ```typescript
 import cmmv, { json, urlencoded, serverStatic } from '@cmmv/server';
 
-const app = cmmv({
-    /*http2: true,
-    https: {
-        key: readFileSync("./cert/private-key.pem"),
-        cert: readFileSync("./cert/certificate.pem"),
-        passphrase: "1234"
-    }*/
-});
+const app = cmmv();
 
 app.use(serverStatic('public'));
 app.use(json({ limit: '50mb' }));
@@ -105,7 +98,7 @@ app.listen({ host: "0.0.0.0", port: 3000 })
 .then(server => {
     const addr = server.address();
     console.log(
-        `Listen on http://${addr.address}:${addr.port}`,
+        `Listen on http://\${addr.address}:\${addr.port}`,
     );
 })
 .catch(err => {
@@ -113,39 +106,33 @@ app.listen({ host: "0.0.0.0", port: 3000 })
 });
 ```
 
-## Application
+## Aplicação
 
-The Application class is central to the ``@cmmv/server`` and provides a flexible foundation for managing HTTP/HTTP2 server instances, routing, middleware, and error handling. It is built on top of Node.js’s ``EventEmitter``, and integrates features such as query parsing, content-type parsers, and HTTP method handlers.
+A classe Application é central para o `@cmmv/server` e fornece uma base flexível para gerenciar instâncias de servidor HTTP/HTTP2, rotas, middlewares e tratamento de erros. 
 
-This class is responsible for managing the lifecycle of HTTP requests, routing them to the correct handlers, and applying middlewares and hooks (such as pre-parsing, on-request, and error handling). The class also supports customizable settings and error handling mechanisms. Here’s a breakdown of its features:
+**Recursos:**
+* Suporte a HTTP/HTTP2.
+* Roteamento com métodos HTTP (GET, POST, DELETE, etc.).
+* Middleware via `use()`.
+* Hooks personalizáveis para request lifecycle.
+* Configurações ajustáveis como timeouts, limites de tamanho de corpo, etc.
 
+| Opção                     | Descrição                                                                                                                                                           | Tipo                | Padrão         |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|----------------|
+| `http2`                  | Habilita o suporte a HTTP2. Quando `true`, a instância do servidor usará HTTP2 para comunicação.                                                                    | `boolean`           | `false`        |
+| `https`                  | Configuração para HTTPS (incluindo chaves e certificados). Necessário para HTTP2 seguro.                                                                            | `object`            | `undefined`    |
+| `connectionTimeout`      | O tempo (em milissegundos) que o servidor esperará antes de fechar conexões inativas.                                                                               | `number`            | `0`            |
+| `keepAliveTimeout`       | O tempo (em milissegundos) que o servidor esperará por uma conexão keep-alive antes de fechá-la.                                                                    | `number`            | `72000`        |
+| `maxRequestsPerSocket`   | O número máximo de requisições permitidas por socket.                                                                                                               | `number`            | `0`            |
+| `requestTimeout`         | O tempo (em milissegundos) que o servidor esperará para a conclusão da requisição antes de expirar.                                                                 | `number`            | `0`            |
+| `bodyLimit`              | O tamanho máximo (em bytes) permitido para o corpo da requisição.                                                                                                   | `number`            | `1048576`      |
+| `maxHeaderSize`          | O tamanho máximo (em bytes) permitido para os cabeçalhos da requisição.                                                                                            | `number`            | `16384`        |
+| `insecureHTTPParser`     | Habilita o uso de um analisador HTTP inseguro que aceita requisições HTTP não padronizadas.                                                                          | `boolean`           | `false`        |
+| `joinDuplicateHeaders`   | Combina cabeçalhos HTTP duplicados em um único cabeçalho se configurado como `true`.                                                                                 | `boolean`           | `false`        |
+| `querystringParser`      | Função personalizada para análise de query strings. Deve ser uma função, se fornecida.                                                                               | `function`          | `undefined`    |
+| `serverFactory`          | Uma função personalizada para criar a instância do servidor, útil para configurações avançadas como clustering.                                                     | `function`          | `undefined`    |
 
-***Features:***
-
-* **HTTP/HTTP2 Support:** The ``Application`` class can create either HTTP or HTTP2 servers, supporting both regular and secure requests.
-* **Routing:** Offers full routing capabilities for different HTTP methods (``GET``, ``POST``, etc.) via the ``Router`` class.
-* **Middleware:** Supports chaining middlewares via the ``use()`` method, including handling arrays of middlewares.
-* **Error Handling:** Custom error handling through ``setErrorHandler`` that allows defining specific error-handling logic.
-* **View Rendering:** Uses the ``View`` class for rendering templates. It supports custom view engines that can be registered via ``app.engine()``.
-* **Hooks:** Manages lifecycle hooks like ``onRequest``, ``preParsing``, ``onError``, and more, which can be used to customize request handling.
-* **Configuration Options:** Configurable server settings like timeouts, body limits, and HTTP2 support.
-
-| Option                    | Description                                                                                                                                                           | Type                | Default        |
-|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|----------------|
-| `http2`                    | Enables HTTP2 support. When `true`, the server instance will use HTTP2 for communication.                                                                              | `boolean`           | `false`        |
-| `https`                    | Configuration for HTTPS (including keys and certificates). Required for secure HTTP2.                                                                                  | `object`            | `undefined`    |
-| `connectionTimeout`        | The time (in milliseconds) the server will wait before closing idle connections.                                                                                       | `number`            | `0`            |
-| `keepAliveTimeout`         | The time (in milliseconds) the server will wait for a keep-alive connection before closing it.                                                                          | `number`            | `72000`        |
-| `maxRequestsPerSocket`     | The maximum number of requests allowed per socket.                                                                                                                     | `number`            | `0`            |
-| `requestTimeout`           | The time (in milliseconds) the server will wait for the request to complete before timing out.                                                                          | `number`            | `0`            |
-| `bodyLimit`                | The maximum size (in bytes) for the request body.                                                                                                                      | `number`            | `1048576`      |
-| `maxHeaderSize`            | The maximum size (in bytes) for the request headers.                                                                                                                   | `number`            | `16384`        |
-| `insecureHTTPParser`       | Enables the use of an insecure HTTP parser that accepts non-standard HTTP requests.                                                                                     | `boolean`           | `false`        |
-| `joinDuplicateHeaders`     | Combines duplicate HTTP headers into a single header if set to `true`.                                                                                                 | `boolean`           | `false`        |
-| `querystringParser`        | Custom query string parsing function. Must be a function if provided.                                                                                                  | `function`          | `undefined`    |
-| `serverFactory`            | A custom function for creating the server instance, useful for advanced configurations like clustering.                                                                | `function`          | `undefined`    |
-
-This table lists the configuration options available when creating an instance of the ``Application`` class, which can be used to fine-tune its behavior for different environments and use cases.
+Esta tabela lista as opções de configuração disponíveis ao criar uma instância da classe ``Application``, que podem ser usadas para ajustar seu comportamento para diferentes ambientes e casos de uso.
 
 ```typescript
 import cmmv from '@cmmv/server';
@@ -162,99 +149,97 @@ const app = new cmmv({
 app.listen({ port: 8080, host: '0.0.0.0' });
 ```
 
-This example creates a secure HTTP2 server using the ``Application`` class with custom request timeouts and listens on port 8080. The flexibility of the ``Application`` class allows for dynamic middleware registration, custom hooks, and full control over server behavior.
+Este exemplo cria um servidor HTTP2 seguro usando a classe Application com tempos limite personalizados para requisições e ouve na porta 8080. A flexibilidade da classe Application permite o registro dinâmico de middlewares, hooks personalizados e controle total sobre o comportamento do servidor.
 
-## Router
+## Roteador
 
-The ``Router`` class is responsible for defining, registering, and handling routes in the ``@cmmv/server``. It uses the [``find-my-way``](https://github.com/delvedor/find-my-way) module to manage HTTP method routing, and it provides an abstraction for setting up routes using various HTTP methods (GET, POST, PUT, DELETE, etc.).
+A classe `Router` é responsável por definir, registrar e gerenciar rotas no `@cmmv/server`. Ela utiliza o módulo [`find-my-way`](https://github.com/delvedor/find-my-way) para lidar com o roteamento de métodos HTTP de maneira eficiente.
 
-By utilizing ``find-my-way``, the ``Router`` class ensures efficient routing, supporting features such as route param handling, middleware stacking, and dynamic route resolution. This router supports all major HTTP methods and allows flexible route definitions.
+**Recursos do Roteador**:
+* **Gerenciamento de Rotas:** Permite registrar rotas para todos os métodos HTTP, incluindo métodos personalizados como `BIND`, `MKCOL` e outros.
+* **Suporte a Middleware:** Suporta empilhamento de middlewares para cada rota, permitindo a adição de vários manipuladores por rota.
+* **Manipulação de Parâmetros:** Fornece um mecanismo para lidar com parâmetros dentro das rotas via o método `param()`, semelhante à forma como o Express lida com parâmetros de rota.
+* **Manipulação de Caminhos Dinâmicos:** Resolve caminhos dinâmicos de maneira eficiente e pode aplicar múltiplos middlewares à mesma rota.
+* **Tratamento de Erros:** Inclui mecanismos para garantir que manipuladores de rota válidos sejam definidos, com tratamento de erros para manipuladores ausentes ou inválidos.
+* **Compatibilidade:** Embora forneça uma API semelhante ao Express.js para definições de rotas, não depende do Express e opera de forma independente.
 
-Features of the ``Router``:
-* **Route Management:** Allows registering routes for all HTTP methods, including custom methods like ``BIND``, ``MKCOL``, and more.
-* **Middleware Support:** Supports middleware stacking for each route, allowing the addition of multiple handlers per route.
-* **Parameter Handlers:** Provides a mechanism to handle parameters within routes via the ``param()`` method, similar to how Express handles route parameters.
-* **Dynamic Path Handling:** Efficiently resolves dynamic paths and can apply multiple middlewares to the same route.
-* **Error Handling:** Includes mechanisms to ensure valid route handlers are defined, with error handling for missing or invalid handlers.
-* **Compatibility:** While it provides an API similar to Express.js for route definitions, it does not depend on Express and operates independently.
+A biblioteca `find-my-way` é um roteador HTTP de alto desempenho que combina solicitações a rotas registradas. Ela fornece recursos como:
 
-The ``find-my-way`` library is a high-performance HTTP router that matches requests to registered routes. It provides features such as:
+* **Roteamento Dinâmico:** Suporta segmentos de caminho dinâmicos e parâmetros (ex.: `/users/:id`).
+* **Vários Métodos:** As rotas podem ser registradas para qualquer método HTTP (GET, POST, etc.).
+* **Sensibilidade a Maiúsculas e Minúsculas:** As rotas são insensíveis a maiúsculas e minúsculas por padrão, mas podem ser configuradas de outra forma.
+* **Desempenho:** Projetado para eficiência, suporta tempos de busca rápidos para um grande número de rotas.
+* **Empilhamento de Middleware:** Permite anexar uma matriz de funções de middleware a uma única rota.
 
-* **Dynamic Routing:** Supports dynamic path segments and parameters (e.g., ``/users/:id``).
-* **Multiple Methods:** Routes can be registered for any HTTP method (GET, POST, etc.).
-* **Case Sensitivity:** Routes are case-insensitive by default but can be configured otherwise.
-* **Performance:** Designed for efficiency, it supports fast lookup times for large numbers of routes.
-* **Middleware Stack:** Allows attaching an array of middleware functions to a single route.
+A classe Router fornece métodos para cada método HTTP e permite definições de rota. Abaixo está uma tabela resumindo os métodos e sua funcionalidade:
 
-The Router class provides methods for each HTTP method and allows route definitions. Below is a table summarizing the methods and their functionality:
+| Método       | Descrição                                                            | Exemplo de Uso                             |
+|--------------|----------------------------------------------------------------------|--------------------------------------------|
+| `acl()`      | Registra uma rota para o método ACL.                                 | `router.acl('/resources', handler)`        |
+| `bind()`     | Registra uma rota para o método BIND.                                | `router.bind('/binding', handler)`         |
+| `checkout()` | Registra uma rota para o método CHECKOUT.                            | `router.checkout('/checkout', handler)`   |
+| `connect()`  | Registra uma rota para o método CONNECT.                             | `router.connect('/connect', handler)`     |
+| `copy()`     | Registra uma rota para o método COPY.                                | `router.copy('/copy', handler)`           |
+| `delete()`   | Registra uma rota para o método DELETE.                              | `router.delete('/resource/:id', handler)` |
+| `get()`      | Registra uma rota para o método GET. Também registra HEAD por padrão. | `router.get('/users', handler)`           |
+| `head()`     | Registra uma rota para o método HEAD.                                | `router.head('/headers', handler)`        |
+| `link()`     | Registra uma rota para o método LINK.                                | `router.link('/link', handler)`           |
+| `lock()`     | Registra uma rota para o método LOCK.                                | `router.lock('/lock', handler)`           |
+| `m-search()` | Registra uma rota para o método M-SEARCH.                            | `router['m-search']('/search', handler)`  |
+| `merge()`    | Registra uma rota para o método MERGE.                               | `router.merge('/merge', handler)`         |
+| `mkactivity()`| Registra uma rota para o método MKACTIVITY.                         | `router.mkactivity('/activity', handler)` |
+| `mkcalendar()`| Registra uma rota para o método MKCALENDAR.                         | `router.mkcalendar('/calendar', handler)` |
+| `mkcol()`    | Registra uma rota para o método MKCOL.                               | `router.mkcol('/col', handler)`           |
+| `move()`     | Registra uma rota para o método MOVE.                                | `router.move('/move', handler)`           |
+| `notify()`   | Registra uma rota para o método NOTIFY.                              | `router.notify('/notify', handler)`       |
+| `options()`  | Registra uma rota para o método OPTIONS.                             | `router.options('/options', handler)`     |
+| `patch()`    | Registra uma rota para o método PATCH.                               | `router.patch('/update', handler)`        |
+| `post()`     | Registra uma rota para o método POST.                                | `router.post('/submit', handler)`         |
+| `propfind()` | Registra uma rota para o método PROPFIND.                            | `router.propfind('/find', handler)`       |
+| `proppatch()`| Registra uma rota para o método PROPPATCH.                           | `router.proppatch('/patch', handler)`     |
+| `purge()`    | Registra uma rota para o método PURGE.                               | `router.purge('/purge', handler)`         |
+| `put()`      | Registra uma rota para o método PUT.                                 | `router.put('/resource', handler)`        |
+| `rebind()`   | Registra uma rota para o método REBIND.                              | `router.rebind('/rebind', handler)`       |
+| `report()`   | Registra uma rota para o método REPORT.                              | `router.report('/report', handler)`       |
+| `search()`   | Registra uma rota para o método SEARCH.                              | `router.search('/search', handler)`       |
+| `source()`   | Registra uma rota para o método SOURCE.                              | `router.source('/source', handler)`       |
+| `subscribe()`| Registra uma rota para o método SUBSCRIBE.                           | `router.subscribe('/subscribe', handler)` |
+| `trace()`    | Registra uma rota para o método TRACE.                               | `router.trace('/trace', handler)`         |
+| `unbind()`   | Registra uma rota para o método UNBIND.                              | `router.unbind('/unbind', handler)`       |
+| `unlink()`   | Registra uma rota para o método UNLINK.                              | `router.unlink('/unlink', handler)`       |
+| `unlock()`   | Registra uma rota para o método UNLOCK.                              | `router.unlock('/unlock', handler)`       |
+| `unsubscribe()`| Registra uma rota para o método UNSUBSCRIBE.                       | `router.unsubscribe('/unsubscribe', handler)`|
 
-| Method       | Description                                                           | Example Usage                                |
-|--------------|-----------------------------------------------------------------------|----------------------------------------------|
-| `acl()`      | Registers a route for the ACL method.                                 | `router.acl('/resources', handler)`          |
-| `bind()`     | Registers a route for the BIND method.                                | `router.bind('/binding', handler)`           |
-| `checkout()` | Registers a route for the CHECKOUT method.                            | `router.checkout('/checkout', handler)`      |
-| `connect()`  | Registers a route for the CONNECT method.                             | `router.connect('/connect', handler)`        |
-| `copy()`     | Registers a route for the COPY method.                                | `router.copy('/copy', handler)`              |
-| `delete()`   | Registers a route for the DELETE method.                              | `router.delete('/resource/:id', handler)`    |
-| `get()`      | Registers a route for the GET method. Also registers HEAD by default.  | `router.get('/users', handler)`              |
-| `head()`     | Registers a route for the HEAD method.                                | `router.head('/headers', handler)`           |
-| `link()`     | Registers a route for the LINK method.                                | `router.link('/link', handler)`              |
-| `lock()`     | Registers a route for the LOCK method.                                | `router.lock('/lock', handler)`              |
-| `m-search()` | Registers a route for the M-SEARCH method.                            | `router['m-search']('/search', handler)`     |
-| `merge()`    | Registers a route for the MERGE method.                               | `router.merge('/merge', handler)`            |
-| `mkactivity()`| Registers a route for the MKACTIVITY method.                         | `router.mkactivity('/activity', handler)`    |
-| `mkcalendar()`| Registers a route for the MKCALENDAR method.                         | `router.mkcalendar('/calendar', handler)`    |
-| `mkcol()`    | Registers a route for the MKCOL method.                               | `router.mkcol('/col', handler)`              |
-| `move()`     | Registers a route for the MOVE method.                                | `router.move('/move', handler)`              |
-| `notify()`   | Registers a route for the NOTIFY method.                              | `router.notify('/notify', handler)`          |
-| `options()`  | Registers a route for the OPTIONS method.                             | `router.options('/options', handler)`        |
-| `patch()`    | Registers a route for the PATCH method.                               | `router.patch('/update', handler)`           |
-| `post()`     | Registers a route for the POST method.                                | `router.post('/submit', handler)`            |
-| `propfind()` | Registers a route for the PROPFIND method.                            | `router.propfind('/find', handler)`          |
-| `proppatch()`| Registers a route for the PROPPATCH method.                           | `router.proppatch('/patch', handler)`        |
-| `purge()`    | Registers a route for the PURGE method.                               | `router.purge('/purge', handler)`            |
-| `put()`      | Registers a route for the PUT method.                                 | `router.put('/resource', handler)`           |
-| `rebind()`   | Registers a route for the REBIND method.                              | `router.rebind('/rebind', handler)`          |
-| `report()`   | Registers a route for the REPORT method.                              | `router.report('/report', handler)`          |
-| `search()`   | Registers a route for the SEARCH method.                              | `router.search('/search', handler)`          |
-| `source()`   | Registers a route for the SOURCE method.                              | `router.source('/source', handler)`          |
-| `subscribe()`| Registers a route for the SUBSCRIBE method.                           | `router.subscribe('/subscribe', handler)`    |
-| `trace()`    | Registers a route for the TRACE method.                               | `router.trace('/trace', handler)`            |
-| `unbind()`   | Registers a route for the UNBIND method.                              | `router.unbind('/unbind', handler)`          |
-| `unlink()`   | Registers a route for the UNLINK method.                              | `router.unlink('/unlink', handler)`          |
-| `unlock()`   | Registers a route for the UNLOCK method.                              | `router.unlock('/unlock', handler)`          |
-| `unsubscribe()`| Registers a route for the UNSUBSCRIBE method.                       | `router.unsubscribe('/unsubscribe', handler)`|
-
-Example 
+Exemplo
 
 ```typescript
-// Initialize router
+// Inicializa o roteador
 const router = new Router();
 
-// Register GET route
+// Registra rota GET
 router.get('/users', (req, res) => {
-  res.send('List of users');
+  res.send('Lista de usuários');
 });
 
-// Register POST route
+// Registra rota POST
 router.post('/users', (req, res) => {
-  res.send('User created');
+  res.send('Usuário criado');
 });
 
-// Register PUT route
+// Registra rota PUT
 router.put('/users/:id', (req, res) => {
-  res.send(`User ${req.params.id} updated`);
+  res.send(`Usuário \${req.params.id} atualizado`);
 });
 
-// Register DELETE route
+// Registra rota DELETE
 router.delete('/users/:id', (req, res) => {
-  res.send(`User ${req.params.id} deleted`);
+  res.send(`Usuário \${req.params.id} deletado`);
 });
 ```
 
-In this example, the ``Router`` class is used to define routes for handling different HTTP methods such as GET, POST, PUT, and DELETE. Each route accepts a request (``req``) and a response (``res``), allowing handlers to manage incoming requests and send appropriate responses.
+Neste exemplo, a classe `Router` é usada para definir rotas que lidam com diferentes métodos HTTP, como GET, POST, PUT e DELETE. Cada rota aceita uma solicitação (`req`) e uma resposta (`res`), permitindo que os manipuladores gerenciem as solicitações recebidas e enviem respostas apropriadas.
 
-Exemple in Application 
+Exemplo com Aplicação
 
 ```typescript
 import cmmv from '@cmmv/server';
@@ -266,19 +251,19 @@ const port = 3000;
 app.set('view engine', 'pug');
 
 app.get('/view', function (req, res) {
-    res.render('index', { title: 'Hey', message: 'Hello there!' });
+    res.render('index', { title: 'Oi', message: 'Olá Mundo!' });
 });
 
 app.get('/', async (req, res) => {
-    res.send('Hello World');
+    res.send('Olá Mundo');
 });
 
 app.get('/json', async (req, res) => {
-    res.json({ hello: 'world' });
+    res.json({ hello: 'mundo' });
 });
 
 app.get('/user/:id', async (req, res) => {
-    res.send('User ' + req.params.id);
+    res.send('Usuário ' + req.params.id);
 });
 
 app.get('/users', async (req, res) => {
@@ -293,113 +278,113 @@ app.post('/test', async (req, res) => {
 app.listen({ host, port });
 ```
 
-## Static
+## Estático
 
-The ``@cmmv/server-static`` middleware is used to serve static files from a specified directory or directories. It is designed to handle requests for static content such as HTML, CSS, JavaScript, images, or any other assets. The middleware offers several configuration options for file serving behavior, including caching, compression, custom headers, and more.
+O middleware `@cmmv/server-static` é usado para servir arquivos estáticos de um diretório ou diretórios especificados. Ele foi projetado para lidar com solicitações de conteúdo estático, como HTML, CSS, JavaScript, imagens ou quaisquer outros assets. O middleware oferece várias opções de configuração para o comportamento de entrega de arquivos, incluindo cache, compressão, cabeçalhos personalizados e mais.
 
-Once the middleware is initialized, it listens for requests matching the specified prefix and serves files from the root directory (or multiple directories) as configured.
+Após a inicialização do middleware, ele escuta solicitações que correspondem ao prefixo especificado e serve arquivos do diretório raiz (ou múltiplos diretórios) conforme configurado.
 
-| Option          | Description                                                                                                                                                                                   | Type                     | Default         |
+| Opção          | Descrição                                                                                                                                                                                   | Tipo                     | Padrão         |
 |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|-----------------|
-| `root`          | Specifies the root directory (or directories) from which static files will be served.                                                                                                         | `string` or `string[]`    | `undefined` (Required) |
-| `prefix`        | URL prefix for serving static files. Files will be served from `prefix + path` (e.g., `/static/myfile.js`).                                                                                   | `string`                  | `'/'`           |
-| `maxAge`        | Sets the Cache-Control max-age directive in milliseconds. Determines how long files should be cached by the client.                                                                            | `number`                  | `0`             |
-| `cacheControl`  | Enables or disables the Cache-Control header. When enabled, cache headers will be automatically set based on the `maxAge` option.                                                              | `boolean`                 | `true`          |
-| `dotfiles`      | Defines how to handle dotfiles (files starting with `.`). Options are `'allow'`, `'deny'`, or `'ignore'`.                                                                                      | `'allow'`, `'deny'`, `'ignore'` | `'allow'`     |
-| `serverDotfiles`| If enabled, the server will serve dotfiles from the root directory.                                                                                                                            | `boolean`                 | `false`         |
-| `index`         | Specifies the default file to serve when a directory is requested. Can be a string (e.g., `'index.html'`) or `false` to disable index file serving.                                             | `string` or `boolean`     | `'index.html'`  |
-| `fallthrough`   | When `true`, allows requests to fall through to the next middleware if a file is not found. If `false`, a 404 error will be returned.                                                          | `boolean`                 | `true`          |
-| `redirect`      | Redirects requests to directories that don't end with a `/` by adding a trailing slash.                                                                                                        | `boolean`                 | `true`          |
-| `immutable`     | When set to `true`, serves files with the `Cache-Control: immutable` directive, indicating that the files will never change.                                                                   | `boolean`                 | `false`         |
-| `lastModified`  | Enables or disables the Last-Modified header. When enabled, it sets the Last-Modified header based on the file's last modified time.                                                           | `boolean`                 | `true`          |
-| `etag`          | Enables or disables the generation of ETag headers, which can be used for cache validation.                                                                                                    | `boolean`                 | `true`          |
-| `extensions`    | File extensions to try when a file is not found (e.g., serving `file.html` when the request is for `file`). Can be an array of strings.                                                        | `string[]` or `boolean`   | `false`         |
-| `acceptRanges`  | Enables support for HTTP range requests, useful for media streaming.                                                                                                                           | `boolean`                 | `true`          |
-| `preCompressed` | If `true`, the middleware will attempt to serve pre-compressed files (e.g., `.br` or `.gz` files) if available.                                                                                | `boolean`                 | `false`         |
-| `allowedPath`   | A function that can be used to filter or restrict access to specific paths. The function receives `pathname`, `root`, and `req` as parameters and returns `true` to allow the path or `false` to reject it. | `Function` | `undefined` |
-| `setHeaders`    | A custom function to set headers for the response. It receives `res`, `path`, and `stat` as parameters and can modify headers before the response is sent.                                     | `Function`                | `null`          |
+| `root`          | Especifica o diretório raiz (ou diretórios) de onde os arquivos estáticos serão servidos.                                                                                                         | `string` ou `string[]`    | `undefined` (Obrigatório) |
+| `prefix`        | Prefixo da URL para servir arquivos estáticos. Os arquivos serão servidos de `prefix + path` (por exemplo, `/static/myfile.js`).                                                                                   | `string`                  | `'/'`           |
+| `maxAge`        | Define a diretiva Cache-Control max-age em milissegundos. Determina por quanto tempo os arquivos devem ser armazenados em cache pelo cliente.                                                                            | `number`                  | `0`             |
+| `cacheControl`  | Ativa ou desativa o cabeçalho Cache-Control. Quando ativado, cabeçalhos de cache serão configurados automaticamente com base na opção `maxAge`.                                                              | `boolean`                 | `true`          |
+| `dotfiles`      | Define como lidar com arquivos ocultos (arquivos que começam com `.`). As opções são `'allow'`, `'deny'` ou `'ignore'`.                                                                                      | `'allow'`, `'deny'`, `'ignore'` | `'allow'`     |
+| `serverDotfiles`| Se ativado, o servidor irá servir arquivos ocultos do diretório raiz.                                                                                                                            | `boolean`                 | `false`         |
+| `index`         | Especifica o arquivo padrão a ser servido quando um diretório é solicitado. Pode ser uma string (por exemplo, `'index.html'`) ou `false` para desativar o serviço de arquivos de índice.                                             | `string` ou `boolean`     | `'index.html'`  |
+| `fallthrough`   | Quando `true`, permite que solicitações passem para o próximo middleware se um arquivo não for encontrado. Se `false`, será retornado um erro 404.                                                          | `boolean`                 | `true`          |
+| `redirect`      | Redireciona solicitações para diretórios que não terminam com `/` adicionando uma barra final.                                                                                                        | `boolean`                 | `true`          |
+| `immutable`     | Quando configurado como `true`, serve arquivos com a diretiva `Cache-Control: immutable`, indicando que os arquivos nunca mudarão.                                                                   | `boolean`                 | `false`         |
+| `lastModified`  | Ativa ou desativa o cabeçalho Last-Modified. Quando ativado, define o cabeçalho Last-Modified com base no tempo de última modificação do arquivo.                                                           | `boolean`                 | `true`          |
+| `etag`          | Ativa ou desativa a geração de cabeçalhos ETag, que podem ser usados para validação de cache.                                                                                                    | `boolean`                 | `true`          |
+| `extensions`    | Extensões de arquivo para tentar quando um arquivo não for encontrado (por exemplo, servir `file.html` quando a solicitação for para `file`). Pode ser um array de strings.                                                        | `string[]` ou `boolean`   | `false`         |
+| `acceptRanges`  | Ativa suporte para solicitações de intervalo HTTP, útil para streaming de mídia.                                                                                                                           | `boolean`                 | `true`          |
+| `preCompressed` | Se `true`, o middleware tentará servir arquivos pré-comprimidos (por exemplo, arquivos `.br` ou `.gz`) se disponíveis.                                                                                | `boolean`                 | `false`         |
+| `allowedPath`   | Uma função que pode ser usada para filtrar ou restringir o acesso a caminhos específicos. A função recebe `pathname`, `root` e `req` como parâmetros e retorna `true` para permitir o caminho ou `false` para rejeitá-lo. | `Function` | `undefined` |
+| `setHeaders`    | Uma função personalizada para definir cabeçalhos para a resposta. Ela recebe `res`, `path` e `stat` como parâmetros e pode modificar os cabeçalhos antes que a resposta seja enviada.                                     | `Function`                | `null`          |
 
-This middleware is not compatible with Express because its internal workings differ significantly from Express’s static file server. One major change is the removal of directory listing support. Instead, the middleware verifies existing files and creates routes at the application’s startup, resulting in improved efficiency.
+Este middleware não é compatível com Express porque seu funcionamento interno difere significativamente do servidor de arquivos estáticos do Express. Uma grande mudança é a remoção do suporte a listagem de diretórios. Em vez disso, o middleware verifica arquivos existentes e cria rotas na inicialização do aplicativo, resultando em uma eficiência aprimorada.
 
-It leverages [``@fastify/send``](https://github.com/fastify/send) and [``@fastify/accept-negotiator``](https://github.com/fastify/accept-negotiator) to deliver files efficiently. Additionally, it supports add-ons like ``@cmmv/etag`` and ``@cmmv/compression`` for enhanced static file delivery, offering cache control through the use of ``lastModified`` and ``ETag`` headers. These features provide a more optimized and performant static file server compared to traditional approaches.
+Ele aproveita `[@fastify/send](https://github.com/fastify/send)` e `[@fastify/accept-negotiator](https://github.com/fastify/accept-negotiator)` para entregar arquivos de forma eficiente. Além disso, suporta complementos como `@cmmv/etag` e `@cmmv/compression` para uma entrega aprimorada de arquivos estáticos, oferecendo controle de cache por meio do uso de cabeçalhos `lastModified` e `ETag`. Esses recursos fornecem um servidor de arquivos estáticos mais otimizado e com melhor desempenho em comparação com abordagens tradicionais.
 
 ## JSON
 
-The ``@cmmv/body-parser`` middleware in cmmv-server serves as a built-in function designed to handle incoming requests with JSON payloads. Similar to Express, this middleware parses the request body and attaches the parsed data to the ``req.body`` object, making it easily accessible for further processing.
+O middleware ``@cmmv/body-parser`` no cmmv-server serve como uma função embutida projetada para lidar com solicitações de entrada com payloads JSON. Semelhante ao Express, este middleware analisa o corpo da solicitação e anexa os dados analisados ao objeto ``req.body``, tornando-o facilmente acessível para processamento adicional.
 
-This middleware specifically parses JSON data, and only processes requests where the ``Content-Type: application/json`` or ``application/vnd.api+json`` header matches the specified type option. It supports any Unicode encoding and can automatically inflate compressed requests using gzip or deflate.
+Este middleware processa especificamente dados JSON e somente processa solicitações onde o cabeçalho ``Content-Type: application/json`` ou ``application/vnd.api+json`` corresponde à opção de tipo especificada. Ele suporta qualquer codificação Unicode e pode inflar automaticamente solicitações compactadas usando gzip ou deflate.
 
-After the middleware runs, the parsed JSON data is available in ``req.body``. If there’s no body to parse, the ``Content-Type`` doesn’t match, or an error occurs, req.body will be an empty object (``{}``).
+Após a execução do middleware, os dados JSON analisados estarão disponíveis em ``req.body``. Se não houver um corpo para analisar, o ``Content-Type`` não corresponder, ou ocorrer um erro, ``req.body`` será um objeto vazio (``{}``).
 
-Since ``req.body`` is populated from user-provided input, it is important to note that all properties and values in the object are untrusted. They should be carefully validated before being used. For instance, attempting to access ``req.body.foo.toString()`` could result in errors if ``foo`` is undefined, not a string, or if the ``toString`` method has been overridden or replaced by malicious input.
+Como ``req.body`` é preenchido a partir de entrada fornecida pelo usuário, é importante observar que todas as propriedades e valores no objeto são não confiáveis. Eles devem ser cuidadosamente validados antes de serem usados. Por exemplo, tentar acessar ``req.body.foo.toString()`` pode resultar em erros se ``foo`` for indefinido, não for uma string ou se o método ``toString`` tiver sido sobrescrito ou substituído por entrada maliciosa.
 
-The following table outlines the options available for configuring this middleware, offering customization over its behavior to suit various application needs.
+A tabela a seguir descreve as opções disponíveis para configurar este middleware, oferecendo personalização sobre seu comportamento para atender às necessidades de várias aplicações.
 
-| Property  | Description                                                                                                                                                                                                                                                                                                                                                                             | Type     | Default          |
-|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|------------------|
-| `inflate` | Enables or disables handling deflated (compressed) bodies. When disabled, deflated bodies are rejected.                                                                                                                                                                                                                                           | Boolean  | `true`           |
-| `limit`   | Controls the maximum request body size. If this is a number, the value specifies the number of bytes; if it is a string, the value is passed to the `bytes` library for parsing.                                                                                                                                                                   | Mixed    | `"100kb"`        |
-| `reviver` | The `reviver` option is passed directly to `JSON.parse` as the second argument. It allows custom transformation of parsed JSON data. More details can be found in the [MDN documentation on JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#using_the_reviver_parameter).               | Function | `null`           |
-| `strict`  | Enables or disables only accepting arrays and objects as valid JSON. When disabled, the middleware will accept anything that `JSON.parse` accepts.                                                                                                                                                                                                | Boolean  | `true`           |
-| `type`    | Determines the media type the middleware will parse. This can be a string, array of strings, or a function. If not a function, the value is passed directly to the `type-is` library and can be an extension (e.g., `json`), a MIME type (e.g., `application/json`), or a wildcard MIME type (e.g., `*/json`). If a function, it is called as `fn(req)` and parses when it returns `true`. | Mixed    | `"application/json"` |
-| `verify`  | If provided, this function is called as `verify(req, res, buf, encoding)`, where `buf` is the raw request body. The parsing can be aborted by throwing an error from within this function.                                                                                                                                                        | Function | `undefined`      |
+| Propriedade  | Descrição                                                                                                                                                                                                                                                                                                                                                                             | Tipo     | Padrão          |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|------------------|
+| `inflate`    | Ativa ou desativa o tratamento de corpos compactados (deflated). Quando desativado, corpos compactados são rejeitados.                                                                                                                                                                                                                                           | Booleano  | `true`           |
+| `limit`      | Controla o tamanho máximo do corpo da solicitação. Se for um número, o valor especifica o número de bytes; se for uma string, o valor é passado para a biblioteca `bytes` para análise.                                                                                                                                                                   | Misto    | `"100kb"`        |
+| `reviver`    | A opção `reviver` é passada diretamente para `JSON.parse` como o segundo argumento. Ela permite a transformação personalizada de dados JSON analisados. Mais detalhes podem ser encontrados na [documentação MDN sobre JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#using_the_reviver_parameter).               | Função   | `null`           |
+| `strict`     | Ativa ou desativa a aceitação de apenas arrays e objetos como JSON válido. Quando desativado, o middleware aceitará qualquer coisa que `JSON.parse` aceitar.                                                                                                                                                                                                | Booleano  | `true`           |
+| `type`       | Determina o tipo de mídia que o middleware analisará. Pode ser uma string, um array de strings ou uma função. Se não for uma função, o valor é passado diretamente para a biblioteca `type-is` e pode ser uma extensão (por exemplo, `json`), um tipo MIME (por exemplo, `application/json`) ou um tipo MIME curinga (por exemplo, `*/json`). Se for uma função, ela será chamada como `fn(req)` e analisará quando retornar `true`. | Misto    | `"application/json"` |
+| `verify`     | Se fornecida, esta função é chamada como `verify(req, res, buf, encoding)`, onde `buf` é o corpo bruto da solicitação. O processo de análise pode ser interrompido lançando um erro a partir desta função.                                                                                                                                                        | Função   | `undefined`      |
 
 ## Raw
 
-This middleware processes incoming request payloads and converts them into a Buffer, leveraging functionality inspired by ``body-parser``. It is designed specifically to handle bodies as Buffers and only processes requests where the ``Content-Type: application/octet-stream`` or ``application/vnd+octets`` header matches the defined type option.
+Este middleware processa payloads de solicitação de entrada e os converte em um Buffer, aproveitando a funcionalidade inspirada no ``body-parser``. Ele é projetado especificamente para lidar com corpos como Buffers e somente processa solicitações onde o cabeçalho ``Content-Type: application/octet-stream`` ou ``application/vnd+octets`` corresponde à opção de tipo definida.
 
-The parser is capable of handling any Unicode encoding and supports automatic decompression for gzip and deflate encoded requests.
+O analisador é capaz de lidar com qualquer codificação Unicode e suporta descompressão automática para solicitações codificadas com gzip e deflate.
 
-After the middleware runs, a Buffer containing the parsed data is assigned to the ``req.body`` property. If no body is found, the ``Content-Type`` doesn't match, or an error occurs, ``req.body`` will either default to an empty object ({}) or remain unchanged if another parser has already processed it.
+Após a execução do middleware, um Buffer contendo os dados analisados é atribuído à propriedade ``req.body``. Se nenhum corpo for encontrado, o ``Content-Type`` não corresponder, ou ocorrer um erro, ``req.body`` será por padrão um objeto vazio (``{}``) ou permanecerá inalterado se outro analisador já o tiver processado.
 
-Since ``req.body`` is populated based on user input, it is crucial to validate any properties and values before using them. For example, calling ``req.body.toString()`` might lead to errors if ``req.body`` has been altered by multiple parsers. It is highly recommended to verify that ``req.body`` is a Buffer before performing any buffer-specific operations.
+Como ``req.body`` é preenchido com base na entrada do usuário, é crucial validar quaisquer propriedades e valores antes de usá-los. Por exemplo, chamar ``req.body.toString()`` pode levar a erros se ``req.body`` tiver sido alterado por vários analisadores. É altamente recomendado verificar se ``req.body`` é um Buffer antes de realizar quaisquer operações específicas de Buffer.
 
-The following table provides an overview of the optional configuration options:
+A tabela a seguir fornece uma visão geral das opções de configuração opcionais:
 
-| Property  | Description                                                                                                                                                                                                                                                                                                              | Type     | Default                    |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------------------------|
-| `inflate` | Enables or disables handling deflated (compressed) bodies. When disabled, deflated bodies are rejected.                                                                                                                                                                                                                  | Boolean  | `true`                     |
-| `limit`   | Controls the maximum request body size. If this is a number, it specifies the number of bytes. If it is a string, the value is passed to the `bytes` library for parsing.                                                                                                                                               | Mixed    | `"100kb"`                  |
-| `type`    | Determines the media type the middleware will parse. This can be a string, array of strings, or a function. If it’s not a function, it’s passed to the `type-is` library and can be an extension (e.g., `bin`), a MIME type (e.g., `application/octet-stream`), or a wildcard MIME type (e.g., `application/*`).         | Mixed    | `"application/octet-stream"` |
-| `verify`  | A function called as `verify(req, res, buf, encoding)` where `buf` is the raw request body and `encoding` is its encoding. Throwing an error from this function aborts the parsing process.                                                                                                                               | Function | `undefined`                |
+| Propriedade  | Descrição                                                                                                                                                                                                                                                                                                              | Tipo     | Padrão                    |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------------------------|
+| `inflate`    | Ativa ou desativa o tratamento de corpos compactados (deflated). Quando desativado, corpos compactados são rejeitados.                                                                                                                                                                                                                  | Booleano  | `true`                     |
+| `limit`      | Controla o tamanho máximo do corpo da solicitação. Se for um número, especifica o número de bytes. Se for uma string, o valor é passado para a biblioteca `bytes` para análise.                                                                                                                                               | Misto    | `"100kb"`                  |
+| `type`       | Determina o tipo de mídia que o middleware analisará. Pode ser uma string, um array de strings ou uma função. Se não for uma função, é passada para a biblioteca `type-is` e pode ser uma extensão (por exemplo, `bin`), um tipo MIME (por exemplo, `application/octet-stream`) ou um padrão curinga (por exemplo, `application/*`).         | Misto    | `"application/octet-stream"` |
+| `verify`     | Uma função chamada como `verify(req, res, buf, encoding)` onde `buf` é o corpo bruto da solicitação e `encoding` é sua codificação. Lançar um erro a partir desta função interrompe o processo de análise.                                                                                                                               | Função   | `undefined`                |
 
 ## Text
 
-This middleware processes incoming request payloads by converting them into a string, utilizing functionality from the ``body-parser`` module.
+Este middleware processa payloads de solicitações de entrada, convertendo-os em uma string, utilizando a funcionalidade do módulo ``body-parser``.
 
-It provides middleware that parses all bodies as strings, only processing requests where the ``Content-Type: text/plain`` header aligns with the specified type. It handles various Unicode encodings and supports automatic decompression of gzip and deflate encodings.
+Ele fornece um middleware que analisa todos os corpos como strings, processando apenas solicitações onde o cabeçalho ``Content-Type: text/plain`` corresponda ao tipo especificado. Ele lida com várias codificações Unicode e suporta descompressão automática de solicitações compactadas com gzip e deflate.
 
-After the middleware runs, a new string representation of the parsed data is assigned to the ``req.body`` object. If there is no body to parse, the Content-Type does not match, or an error occurs, ``req.body`` will default to an empty object (``{}``).
+Após a execução do middleware, uma nova representação em string dos dados analisados é atribuída ao objeto ``req.body``. Se não houver corpo para analisar, o ``Content-Type`` não corresponder ou ocorrer um erro, ``req.body`` será por padrão um objeto vazio (``{}``).
 
-Since the structure of req.body is based on user input, it is important to treat it as untrusted. Each property and value must be validated before use. For instance, attempting to call ``req.body.trim()`` could lead to errors if req.body is not a string. Therefore, it's advisable to ensure that ``req.body`` is a string before using string methods.
+Como a estrutura de ``req.body`` é baseada na entrada do usuário, é importante tratá-la como não confiável. Cada propriedade e valor deve ser validado antes do uso. Por exemplo, tentar chamar ``req.body.trim()`` pode levar a erros se ``req.body`` não for uma string. Portanto, é recomendável garantir que ``req.body`` seja uma string antes de usar métodos de string.
 
-The following table outlines the available configuration options:
+A tabela a seguir descreve as opções de configuração disponíveis:
 
-| Property        | Description                                                                                                                                                                                                                                                   | Type     | Default       |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| `defaultCharset` | Specifies the default character set for the text content when the charset is not included in the `Content-Type` header of the request.                                                                                                                        | String   | `"utf-8"`     |
-| `inflate`       | Controls whether or not compressed (deflated) request bodies should be handled. If disabled, compressed bodies will be rejected.                                                                                                                               | Boolean  | `true`        |
-| `limit`         | Sets the maximum allowed size for the request body. When provided as a number, the value is treated as the number of bytes. If provided as a string, it is parsed using the `bytes` library.                                                                    | Mixed    | `"100kb"`     |
-| `type`          | Defines the media type the middleware should parse. This option can be a string, an array of strings, or a function. If not a function, the value is passed to the `type-is` library and can be an extension (e.g., `txt`), a MIME type (e.g., `text/plain`), or a wildcard pattern (e.g., `text/*`). If a function, it is called as `fn(req)` and the request is parsed if it returns a truthy value. | Mixed    | `"text/plain"` |
-| `verify`        | If provided, this function is invoked as `verify(req, res, buf, encoding)`, where `buf` is the raw request body in Buffer form, and `encoding` is the encoding of the request. Parsing can be stopped by throwing an error within this function.                  | Function | `undefined`   |
+| Propriedade        | Descrição                                                                                                                                                                                                                                                   | Tipo     | Padrão       |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|--------------|
+| `defaultCharset`   | Especifica o conjunto de caracteres padrão para o conteúdo de texto quando o charset não está incluído no cabeçalho `Content-Type` da solicitação.                                                                                                            | String   | `"utf-8"`    |
+| `inflate`          | Controla se os corpos de solicitações compactados (deflated) devem ser processados. Se desativado, corpos compactados serão rejeitados.                                                                                                                       | Booleano | `true`       |
+| `limit`            | Define o tamanho máximo permitido para o corpo da solicitação. Quando fornecido como um número, o valor é tratado como o número de bytes. Se fornecido como uma string, ele é analisado usando a biblioteca `bytes`.                                           | Misto    | `"100kb"`    |
+| `type`             | Define o tipo de mídia que o middleware deve analisar. Esta opção pode ser uma string, um array de strings ou uma função. Se não for uma função, o valor é passado para a biblioteca `type-is` e pode ser uma extensão (por exemplo, `txt`), um tipo MIME (por exemplo, `text/plain`), ou um padrão curinga (por exemplo, `text/*`). Se for uma função, ela será chamada como `fn(req)` e a solicitação será analisada se retornar um valor verdadeiro. | Misto    | `"text/plain"` |
+| `verify`           | Se fornecida, esta função é invocada como `verify(req, res, buf, encoding)`, onde `buf` é o corpo bruto da solicitação em formato Buffer, e `encoding` é a codificação da solicitação. O processo de análise pode ser interrompido lançando um erro dentro desta função.                              | Função   | `undefined`  |
 
 ## Urlencoded
 
-This middleware is designed to parse incoming requests that contain urlencoded payloads. It is based on the functionality provided by body-parser.
+Este middleware é projetado para analisar solicitações de entrada que contêm payloads codificados como URL. Ele é baseado na funcionalidade fornecida pelo body-parser.
 
-The middleware only processes urlencoded bodies, specifically looking for requests where the ``Content-Type: application/x-www-form-urlencoded`` header matches the specified type option. This parser accepts bodies encoded in UTF-8 and supports automatic decompression for requests compressed with gzip or deflate.
+O middleware processa apenas corpos codificados como URL, especificamente procurando solicitações onde o cabeçalho ``Content-Type: application/x-www-form-urlencoded`` corresponda à opção de tipo especificada. Este analisador aceita corpos codificados em UTF-8 e suporta descompressão automática para solicitações compactadas com gzip ou deflate.
 
-After the middleware processes a request, it populates the req.body object with the parsed data. If no body is found, the Content-Type doesn't match, or an error occurs, ``req.body`` will be set to an empty object ({}). The object will contain key-value pairs, where values can either be strings or arrays (when extended: false), or any data type (when extended: true).
+Após o processamento da solicitação pelo middleware, ele popula o objeto ``req.body`` com os dados analisados. Se nenhum corpo for encontrado, o ``Content-Type`` não corresponder ou ocorrer um erro, ``req.body`` será definido como um objeto vazio (``{}``). O objeto conterá pares de chave-valor, onde os valores podem ser strings ou arrays (quando `extended: false`), ou qualquer tipo de dado (quando `extended: true`).
 
-Since ``req.body`` is populated based on user input, it is important to validate all properties and values before using them. For example, calling ``req.body.foo.toString()`` might cause errors if foo is not a string, or if it is undefined. Therefore, it is advisable to check the type of ``req.body`` values before performing any operations on them.
+Como ``req.body`` é preenchido com base na entrada do usuário, é importante validar todas as propriedades e valores antes de usá-los. Por exemplo, chamar ``req.body.foo.toString()`` pode causar erros se `foo` não for uma string ou se estiver indefinido. Portanto, é aconselhável verificar o tipo dos valores de ``req.body`` antes de realizar quaisquer operações sobre eles.
 
-The following table outlines the available configuration options for the middleware:
+A tabela a seguir descreve as opções de configuração disponíveis para o middleware:
 
-| Property         | Description                                                                                                                                                                                                                                           | Type     | Default                           |
-|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-----------------------------------|
-| `extended`       | Allows you to choose between parsing URL-encoded data with the `querystring` library (when `false`) or the `qs` library (when `true`). The "extended" syntax allows for more complex objects and arrays to be encoded into URL-encoded format.         | Boolean  | `true`                            |
-| `inflate`        | Enables or disables support for handling compressed (deflated) request bodies. If disabled, compressed bodies will be rejected.                                                                                                                        | Boolean  | `true`                            |
-| `limit`          | Sets the maximum allowed size for the request body. If provided as a number, it specifies the number of bytes. If provided as a string, it will be parsed by the `bytes` library.                                                                      | Mixed    | `"100kb"`                         |
-| `parameterLimit` | Controls the maximum number of parameters that can be present in the URL-encoded data. If the request exceeds this limit, an error will be thrown.                                                                                                      | Number   | `1000`                            |
-| `type`           | Defines which media types the middleware will process. This can be specified as a string, array of strings, or a function. If not a function, this value is passed to the `type-is` library and can be an extension (e.g., `urlencoded`), a MIME type (e.g., `application/x-www-form-urlencoded`), or a wildcard pattern. | Mixed    | `"application/x-www-form-urlencoded"` |
-| `verify`         | A function that is invoked as `verify(req, res, buf, encoding)`, where `buf` is the raw request body in Buffer form. Throwing an error from this function will stop the parsing process.                                                                | Function | `undefined`                       |
+| Propriedade         | Descrição                                                                                                                                                                                                                                           | Tipo     | Padrão                           |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-----------------------------------|
+| `extended`          | Permite escolher entre analisar dados codificados como URL com a biblioteca `querystring` (quando `false`) ou com a biblioteca `qs` (quando `true`). A sintaxe "extended" permite objetos e arrays mais complexos serem codificados no formato URL.   | Booleano | `true`                            |
+| `inflate`           | Ativa ou desativa o suporte para lidar com corpos de solicitações compactados (deflated). Se desativado, corpos compactados serão rejeitados.                                                                                                         | Booleano | `true`                            |
+| `limit`             | Define o tamanho máximo permitido para o corpo da solicitação. Se fornecido como um número, especifica o número de bytes. Se fornecido como uma string, será analisado pela biblioteca `bytes`.                                                       | Misto    | `"100kb"`                         |
+| `parameterLimit`    | Controla o número máximo de parâmetros que podem estar presentes nos dados codificados como URL. Se a solicitação exceder esse limite, um erro será lançado.                                                                                           | Número   | `1000`                            |
+| `type`              | Define quais tipos de mídia o middleware processará. Isso pode ser especificado como uma string, um array de strings ou uma função. Se não for uma função, este valor é passado para a biblioteca `type-is` e pode ser uma extensão (por exemplo, `urlencoded`), um tipo MIME (por exemplo, `application/x-www-form-urlencoded`), ou um padrão curinga. | Misto    | `"application/x-www-form-urlencoded"` |
+| `verify`            | Uma função que é invocada como `verify(req, res, buf, encoding)`, onde `buf` é o corpo bruto da solicitação em formato Buffer. Lançar um erro a partir desta função interromperá o processo de análise.                                                | Função   | `undefined`                       |

@@ -1,12 +1,12 @@
-# Transform
+# Transformação
 
-In CMMV, you can ``transform`` data within contracts using the transform parameter in the field decorator. The system utilizes the ``class-transformer`` ([NPM](https://www.npmjs.com/package/class-transformer)) library to handle these transformations. This is particularly useful for converting input data into the appropriate format for entity and model classes, which are necessary for interactions with repositories, among other functionalities.
+No CMMV, você pode **transformar** dados dentro dos contratos usando o parâmetro `transform` no decorador de campo. O sistema utiliza a biblioteca `class-transformer` ([NPM](https://www.npmjs.com/package/class-transformer)) para lidar com essas transformações. Isso é particularmente útil para converter dados de entrada no formato apropriado para classes de entidade e modelo, necessárias para interações com repositórios, entre outras funcionalidades.
 
-* **``exclude:``** Removes the field during serialization or deserialization.
-* **``toClassOnly:``** Ensures that the transformation is only applied when converting to a class instance (useful for data integrity).
-* **``transform:``** Allows for custom transformation logic such as encrypting, hashing, adding metadata, or converting dates.
+* **`exclude:`** Remove o campo durante a serialização ou desserialização.
+* **`toClassOnly:`** Garante que a transformação seja aplicada apenas ao converter para uma instância de classe (útil para integridade de dados).
+* **`transform:`** Permite lógica de transformação personalizada, como criptografar, aplicar hash, adicionar metadados ou converter datas.
 
-These transforms enable seamless handling of complex data formats like hashing passwords, generating timestamps, and converting or formatting incoming/outgoing data. Below are a few examples:
+Essas transformações possibilitam o tratamento eficiente de formatos de dados complexos, como aplicar hash em senhas, gerar timestamps e converter ou formatar dados de entrada/saída. Veja abaixo alguns exemplos:
 
 ```typescript
 import * as crypto from 'crypto';
@@ -21,20 +21,20 @@ export class UsersContract extends AbstractContract {
     @ContractField({
         protoType: 'string',
         validations: ["IsString"],
-        // Example of simple transformation
+        // Exemplo de transformação simples
         transform: ({ value }) => value.toUpperCase(),  
     })
     name: string;
 
     @ContractField({
         protoType: 'string',
-        // This field will be excluded in output
+        // Este campo será excluído na saída
         exclude: false,  
-        // Will be processed only when converting to class
+        // Será processado apenas ao converter para uma classe
         toClassOnly: true,  
         transform: ({ value }) => 
             crypto.createHash('sha256')
-            .update(value).digest('hex'),  // Hash the value
+            .update(value).digest('hex'),  // Aplica hash ao valor
     })
     password: string;
 }
@@ -42,15 +42,15 @@ export class UsersContract extends AbstractContract {
 
 <br/>
 
-* **Data Security:** You can easily encrypt or hash sensitive fields, such as passwords.
-* **Data Formatting:** Automatically format dates, strings, or numbers before they are stored in a repository.
-* **Flexibility:** You have full control over how input data is transformed, ensuring compatibility with backend services and databases.
+* **Segurança de Dados:** Você pode facilmente criptografar ou aplicar hash a campos sensíveis, como senhas.
+* **Formatação de Dados:** Formate automaticamente datas, strings ou números antes de armazená-los em um repositório.
+* **Flexibilidade:** Você tem controle total sobre como os dados de entrada são transformados, garantindo compatibilidade com serviços de backend e bancos de dados.
 
-These transforms ensure that your contract and data structure remain flexible while allowing control over how data is processed during the request-response lifecycle.
+Essas transformações asseguram que o contrato e a estrutura de dados permaneçam flexíveis, ao mesmo tempo que permitem controle sobre como os dados são processados durante o ciclo de vida de requisição-resposta.
 
-## Input Data
+## Dados de Entrada
 
-Assume you have the following plain JavaScript object as input data:
+Suponha que você tenha o seguinte objeto JavaScript como dados de entrada:
 
 ```json
 {
@@ -59,35 +59,35 @@ Assume you have the following plain JavaScript object as input data:
 }
 ```
 
-Here’s what happens when plainToClass(UsersContract, input) is applied:
+Veja o que acontece quando `plainToClass(UsersContract, input)` é aplicado:
 
 ```typescript
 {
-    // Transformed to uppercase as specified
+    // Transformado para letras maiúsculas, conforme especificado
     name: "JOHN DOE",
-    // Not included in output due to `exclude` and `toClassOnly` options   
+    // Não incluído na saída devido às opções `exclude` e `toClassOnly`   
     password: undefined 
 }
 ```
 
 <br/>
 
-* **Name Transformation:**
-* The ``name`` field was converted to uppercase due to the ``transform`` function applied: ``value.toUpperCase()``.
-* **Password Transformation:**
-* The ``password`` field was hashed using SHA-256, but it was excluded from the resulting class because of the ``exclude: true`` and ``toClassOnly: true`` options. This means the password is hashed when converting to the class instance, but it's not included in the serialized output.
+* **Transformação do Nome:**
+  * O campo `name` foi convertido para letras maiúsculas devido à função `transform` aplicada: `value.toUpperCase()`.
+* **Transformação da Senha:**
+  * O campo `password` foi aplicado hash com SHA-256, mas foi excluído da saída devido às opções `exclude: true` e `toClassOnly: true`. Isso significa que a senha é aplicada hash ao converter para uma instância de classe, mas não é incluída na saída serializada.
 
-**Example Without Exclude**
+**Exemplo Sem Excluir**
 
-If we remove the ``exclude: true`` option for password, it will still be hashed but included in the output:
+Se removermos a opção `exclude: true` para `password`, ela ainda será aplicada hash, mas será incluída na saída:
 
 ```typescript
 {
-    // Transformed to uppercase
+    // Transformado para letras maiúsculas
     name: "JOHN DOE",   
-    // Hashed password
+    // Senha com hash
     password: "5e884898da28047151d0e56f..."  
 }
 ```
 
-In this case, the ``transform`` function is applied, and the password is hashed, but it is not excluded from the output anymore. The ``toClassOnly: true`` ensures the transformation is only applied when converting to a class.
+Nesse caso, a função `transform` é aplicada e a senha recebe hash, mas não é mais excluída da saída. A opção `toClassOnly: true` garante que a transformação seja aplicada apenas ao converter para uma instância de classe.

@@ -1,8 +1,8 @@
-# Decorators
+# Decoradores
 
-Custom decorators in ``@cmmv`` allow you to extend and modify class behavior dynamically by using ``Reflect`` metadata. Here's how you can create your own decorators:
+Os decoradores personalizados no ``@cmmv`` permitem estender e modificar o comportamento de classes dinamicamente usando metadados com ``Reflect``. Veja como criar seus próprios decoradores:
 
-Use TypeScript's ``ClassDecorator``, ``MethodDecorator``, or ``PropertyDecorator`` interfaces to define your custom decorators.
+Use as interfaces do TypeScript ``ClassDecorator``, ``MethodDecorator`` ou ``PropertyDecorator`` para definir seus decoradores personalizados.
 
 ```typescript
 function CustomClassDecorator(options?: any): ClassDecorator {
@@ -12,17 +12,17 @@ function CustomClassDecorator(options?: any): ClassDecorator {
 }
 ```
 
-This stores metadata (``options``) associated with the class.
+Isso armazena metadados (``options``) associados à classe.
 
-To access this metadata later, use ``Reflect.getMetadata()``:
+Para acessar esses metadados posteriormente, use ``Reflect.getMetadata()``:
 
 ```typescript
 const metadata = Reflect.getMetadata('custom_metadata', MyClass);
 ```
 
-## Custom Method
+## Método Personalizado
 
-You can define decorators for methods similarly:
+Você pode definir decoradores para métodos de forma semelhante:
 
 ```typescript
 function LogExecutionTime(): MethodDecorator {
@@ -33,18 +33,18 @@ function LogExecutionTime(): MethodDecorator {
             const start = Date.now();
             const result = originalMethod.apply(this, args);
             const end = Date.now();
-            console.log(`Execution time: ${end - start}ms`);
+            console.log(`Tempo de execução: \${end - start}ms`);
             return result;
         };
     };
 }
 ```
 
-This method decorator logs the execution time of the method.
+Este decorador de método registra o tempo de execução do método.
 
-## Property Decorator
+## Decorador de Propriedade
 
-For property decorators, you can use the following pattern:
+Para decoradores de propriedade, você pode usar o seguinte padrão:
 
 ```typescript
 function DefaultValue(value: any): PropertyDecorator {
@@ -56,7 +56,7 @@ function DefaultValue(value: any): PropertyDecorator {
 }
 ```
 
-Later, retrieve the default value:
+Posteriormente, recupere o valor padrão:
 
 ```typescript
 const defaultValue = Reflect.getMetadata(
@@ -66,13 +66,13 @@ const defaultValue = Reflect.getMetadata(
 
 <br/>
 
-* **Create the Decorator:** Use ``Reflect.defineMetadata()`` to attach metadata to the class, method, or property.
-* **Use the Decorator:** Apply the decorator to classes, methods, or properties.
-* **Retrieve Metadata:** Use ``Reflect.getMetadata()`` to retrieve the attached metadata at runtime.
+* **Crie o Decorador:** Use ``Reflect.defineMetadata()`` para anexar metadados à classe, método ou propriedade.
+* **Use o Decorador:** Aplique o decorador a classes, métodos ou propriedades.
+* **Recupere os Metadados:** Use ``Reflect.getMetadata()`` para recuperar os metadados anexados em tempo de execução.
 
-## Contract Decorator
+## Decorador Contract
 
-The ``@Contract`` decorator is used to define a contract controller with various options, such as authentication, caching, and proto file paths.
+O decorador ``@Contract`` é usado para definir um controlador de contrato com várias opções, como autenticação, cache e caminhos de arquivos proto.
 
 ```typescript
 @Contract({
@@ -87,40 +87,39 @@ class UserContract {}
 
 <br/>
 
-* **``controllerName (string):``** Defines the name of the controller to be generated.
-* **``controllerCustomPath (string, optional):``** Custom path for the controller.
-* **``protoPath (string):``** Path to the .proto file for the contract.
-* **``protoPackage (string, optional):``** Package name for the protocol buffer.
-* **``directMessage (boolean, optional):``** If true, enables direct messaging via WebSocket.
-* **``generateController (boolean, optional):``** Automatically generates the controller if set to true.
-* **``generateEntities (boolean, optional):``** Controls whether entities are generated.
-* **``auth (boolean, optional):``** Enables authentication for the controller.
-* **``imports (Array<string>, optional):``** Specifies additional imports required by the controller.
-* **``cache (CacheOptions, optional):``** Defines caching behavior for the contract.
+* **``controllerName (string):``** Define o nome do controlador a ser gerado.
+* **``controllerCustomPath (string, opcional):``** Caminho personalizado para o controlador.
+* **``protoPath (string):``** Caminho para o arquivo ``.proto`` do contrato.
+* **``protoPackage (string, opcional):``** Nome do pacote para o buffer de protocolo.
+* **``directMessage (boolean, opcional):``** Se verdadeiro, habilita mensagens diretas via WebSocket.
+* **``generateController (boolean, opcional):``** Gera automaticamente o controlador se configurado como verdadeiro.
+* **``generateEntities (boolean, opcional):``** Controla se as entidades serão geradas.
+* **``auth (boolean, opcional):``** Habilita autenticação para o controlador.
+* **``imports (Array<string>, opcional):``** Especifica importações adicionais necessárias pelo controlador.
+* **``cache (CacheOptions, opcional):``** Define o comportamento de cache para o contrato.
 
-## ContractField Decorator
+## Decorador ContractField
 
-The ``@ContractField`` decorator is used to declare fields within a contract and define validation rules, transformations, and database configurations.
+O decorador ``@ContractField`` é usado para declarar campos dentro de um contrato e definir regras de validação, transformações e configurações de banco de dados.
 
 ```typescript
 @ContractField({
   protoType: 'string',
   unique: true,
-  validations: [{ type: 'isEmail', message: 'Invalid email format' }]
+  validations: [{ type: 'isEmail', message: 'Formato de e-mail inválido' }]
 })
 email: string;
 ```
 
 <br/>
 
-* **``protoType (string):``** Defines the data type in the protocol buffer (e.g., ``string``, ``int32``).
-* **``protoRepeated (boolean, optional):``** Indicates if the field is a repeated (array) type.
-* **``defaultValue (any, optional):``** Specifies the default value for the field.
-* **``index (boolean, optional):``** Enables database indexing for the field.
-* **``unique (boolean, optional):``** Ensures the field has unique values.
-* **``exclude (boolean, optional):``** Excludes the field from the generated contract.
-* **``nullable (boolean, optional):``** Allows null values.
-toClassOnly (boolean, optional): Restricts field mapping to the class, excluding database/entity.
-* **``transform (Function, optional):``** A custom transformation function for field values.
-* **``validations (ValidationOption[], optional):``** Defines validation rules, such as type checks or custom validation logic.
-
+* **``protoType (string):``** Define o tipo de dado no buffer de protocolo (por exemplo, ``string``, ``int32``).
+* **``protoRepeated (boolean, opcional):``** Indica se o campo é do tipo repetido (array).
+* **``defaultValue (any, opcional):``** Especifica o valor padrão para o campo.
+* **``index (boolean, opcional):``** Habilita indexação no banco de dados para o campo.
+* **``unique (boolean, opcional):``** Garante que o campo tenha valores únicos.
+* **``exclude (boolean, opcional):``** Exclui o campo do contrato gerado.
+* **``nullable (boolean, opcional):``** Permite valores nulos.
+* **``toClassOnly (boolean, opcional):``** Restringe o mapeamento do campo apenas para a classe, excluindo banco de dados/entidade.
+* **``transform (Function, opcional):``** Uma função de transformação personalizada para valores de campo.
+* **``validations (ValidationOption[], opcional):``** Define regras de validação, como verificações de tipo ou lógica de validação personalizada.

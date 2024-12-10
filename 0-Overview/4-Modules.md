@@ -1,17 +1,17 @@
-# Modules
+# Módulos
 
-The CMMV module system shares similarities with NestJS, providing a modular approach to application development. However, it differs in one key aspect: no dependency context control. This means that services are not injected or managed by a centralized dependency injection container. Instead, any provider (service, utility, etc.) can be created independently and added to modules where needed. For shared services across the system, such as the Repository or Config classes, it's recommended to use singleton registries, making these services globally accessible without the need for repeated instantiation.
+O sistema de módulos do CMMV compartilha semelhanças com o NestJS, proporcionando uma abordagem modular para o desenvolvimento de aplicações. No entanto, ele difere em um aspecto fundamental: não há controle de contexto de dependência. Isso significa que os serviços não são injetados ou gerenciados por um contêiner centralizado de injeção de dependência. Em vez disso, qualquer provedor (serviço, utilitário, etc.) pode ser criado de forma independente e adicionado aos módulos conforme necessário. Para serviços compartilhados em todo o sistema, como as classes `Repository` ou `Config`, é recomendável usar registros singleton, tornando esses serviços acessíveis globalmente sem a necessidade de instanciá-los repetidamente.
 
-## Key Features
+## Principais Recursos
 
-* **No Dependency Context Control:** Services are not automatically injected. Instead, they can be created and indexed within the module system.
-* **Singleton Registries:** Shared services can be registered as singletons to avoid duplication and make them accessible across the entire system.
-* **Module Composition:** Modules in CMMV are flexible, allowing you to define controllers, services (providers), transpilers, contracts, and submodules within a single module.
-* **Automatic Module Generation:** The system generates the main module (e.g., ``app.module.ts``) based on contracts, controllers, and gateways defined within the application.
+* **Sem Controle de Contexto de Dependência:** Os serviços não são injetados automaticamente. Em vez disso, podem ser criados e indexados dentro do sistema de módulos.
+* **Registros Singleton:** Serviços compartilhados podem ser registrados como singletons para evitar duplicação e torná-los acessíveis em todo o sistema.
+* **Composição de Módulos:** Os módulos no CMMV são flexíveis, permitindo que você defina controladores, serviços (provedores), transpiladores, contratos e submódulos dentro de um único módulo.
+* **Geração Automática de Módulos:** O sistema gera o módulo principal (por exemplo, `app.module.ts`) com base nos contratos, controladores e gateways definidos na aplicação.
 
-## Example
+## Exemplo
 
-Here’s an example of a full-featured module with all possible properties in CMMV:
+Aqui está um exemplo de um módulo completo com todas as propriedades possíveis no CMMV:
 
 ```typescript
 import { Module } from '@cmmv/core';
@@ -30,24 +30,22 @@ export let DocsModule = new Module({
 });
 ```
 
-<br/>
+* **controllers:** Um array de controladores que gerenciam requisições HTTP e retornam respostas. Eles administram as rotas da aplicação e são responsáveis por interagir com os serviços.
+* **providers:** Uma lista de serviços ou classes que contêm a lógica de negócios do seu módulo. Esses provedores são instanciados manualmente e indexados quando necessário.
+* **transpilers:** Responsáveis por gerar arquivos necessários, como entidades de banco de dados, definições Protobuf ou outros artefatos de código com base em contratos.
+* **submodules:** Permite dividir sua aplicação em módulos menores e independentes que podem ser aninhados dentro de outros módulos.
+* **contracts:** Define os contratos associados a este módulo. Os contratos definem a estrutura e o comportamento das entidades, e os transpiladores geram os arquivos apropriados (por exemplo, modelos de banco de dados, endpoints de API).
 
-* **controllers:** An array of controllers that handle HTTP requests and return responses. They manage the application's routes and are responsible for interacting with services.
-* **providers:** A list of services or classes that contain the business logic for your module. These providers are manually instantiated and indexed when needed.
-* **transpilers:** These are responsible for generating necessary files, such as database entities, Protobuf definitions, or other code artifacts based on contracts.
-* **submodules:** Allows you to break your application into smaller, self-contained modules that can be nested within other modules.
-* **contracts:** Defines the contracts associated with this module. Contracts define the data structure and behavior of entities, and transpilers generate the appropriate files (e.g., database models, API endpoints).
+## Registros Singleton
 
-# Singleton Registries
+Em vez de injetar serviços compartilhados em vários módulos, registros singleton podem ser usados para serviços como `Repository` ou `Config`, que devem ser acessíveis globalmente. Isso reduz a necessidade de injeção de dependência e garante que esses serviços sejam instanciados apenas uma vez e compartilhados em todo o sistema.
 
-Instead of injecting shared services across multiple modules, singleton registries can be used for services like ``Repository`` or ``Config``, which are intended to be accessible globally. This reduces the need for dependency injection and ensures that these services are instantiated only once and shared throughout the system.
+## Aplicação
 
-# Application
-
-Whenever contracts are defined, the system will automatically create a module at ``/src/app.module.ts``. This module will include all contracts, controllers, and gateways automatically generated by the application. Here is an example of how the file might be generated:
+Sempre que contratos são definidos, o sistema cria automaticamente um módulo em `/src/app.module.ts`. Este módulo incluirá todos os contratos, controladores e gateways gerados automaticamente pela aplicação. Aqui está um exemplo de como o arquivo pode ser gerado:
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
     
 import { Module } from '@cmmv/core';
 import { TaskController } from './controllers/task.controller';
@@ -60,21 +58,21 @@ export let ApplicationModule = new Module({
 });
 ```
 
-It is important to note that the file ``/src/app.module.ts`` is automatically generated by the system and should not be manually modified, as it will be recreated every time the application is started. Any changes made directly to this file will be overwritten. If you need to add or modify modules, services, or controllers, it is recommended to do so in separate files and register them properly within the application to ensure your modifications are preserved.
+É importante observar que o arquivo `/src/app.module.ts` é gerado automaticamente pelo sistema e não deve ser modificado manualmente, pois será recriado toda vez que a aplicação for iniciada. Qualquer alteração feita diretamente neste arquivo será sobrescrita. Se você precisar adicionar ou modificar módulos, serviços ou controladores, é recomendado fazê-lo em arquivos separados e registrá-los adequadamente na aplicação para garantir que suas modificações sejam preservadas.
 
-## Modular Design
+## Design Modular
 
-CMMV follows a modular design, allowing you to break down your application into reusable and maintainable parts. Each module can focus on a specific domain or feature, which improves separation of concerns, maintainability, and scalability.
+O CMMV segue um design modular, permitindo que você divida sua aplicação em partes reutilizáveis e fáceis de manter. Cada módulo pode se concentrar em um domínio ou funcionalidade específica, o que melhora a separação de responsabilidades, a manutenibilidade e a escalabilidade.
 
-* **Feature-Oriented Structure:** Group controllers, services, and other components related to the same feature together in a module.
-* **Reusability:** Modules can be reused across different parts of the application, and submodules can help break down complex functionality into simpler units.
-* **Transpilers for Automation:** Transpilers automate repetitive tasks, like generating files based on contracts, minimizing manual coding and ensuring consistency.
+* **Estrutura Orientada a Funcionalidades:** Agrupe controladores, serviços e outros componentes relacionados à mesma funcionalidade em um módulo.
+* **Reutilizabilidade:** Os módulos podem ser reutilizados em diferentes partes da aplicação, e submódulos podem ajudar a dividir funcionalidades complexas em unidades mais simples.
+* **Transpiladores para Automação:** Os transpiladores automatizam tarefas repetitivas, como a geração de arquivos com base em contratos, minimizando o código manual e garantindo consistência.
 
-## Best Practices
+## Melhores Práticas
 
-* **Use Singleton Registries:** For shared services (e.g., configuration, repository), use singleton registries to avoid repeated instantiation and simplify access.
-* **Define Modules for Each Feature:** Organize your application by defining a separate module for each feature or domain, making it easier to manage and scale.
-* **Automatic Contracts and Services:** Let the CMMV framework handle the generation of services, controllers, and gateways based on contracts to reduce manual boilerplate code.
-* **Avoid Modifying Auto-Generated Files:** Files like ``app.module.ts`` are auto-generated and should not be manually edited. Always make your modifications in separate modules or services.
+* **Use Registros Singleton:** Para serviços compartilhados (por exemplo, configuração, repositório), use registros singleton para evitar instâncias repetidas e simplificar o acesso.
+* **Defina Módulos para Cada Funcionalidade:** Organize sua aplicação definindo um módulo separado para cada funcionalidade ou domínio, tornando mais fácil gerenciar e escalar.
+* **Contratos e Serviços Automáticos:** Permita que o framework CMMV cuide da geração de serviços, controladores e gateways com base em contratos para reduzir código boilerplate manual.
+* **Evite Modificar Arquivos Gerados Automaticamente:** Arquivos como `app.module.ts` são gerados automaticamente e não devem ser editados manualmente. Sempre faça suas modificações em módulos ou serviços separados.
 
-The CMMV module system provides a flexible and powerful way to structure your application, allowing for efficient handling of controllers, services, and transpilers. By leveraging features like singleton registries and automatic file generation through contracts, CMMV helps streamline the development process, reduce manual configuration, and ensure that the application remains scalable and maintainable.
+O sistema de módulos do CMMV fornece uma maneira flexível e poderosa de estruturar sua aplicação, permitindo o gerenciamento eficiente de controladores, serviços e transpiladores. Ao aproveitar recursos como registros singleton e geração automática de arquivos por meio de contratos, o CMMV ajuda a simplificar o processo de desenvolvimento, reduzir a configuração manual e garantir que a aplicação permaneça escalável e de fácil manutenção.

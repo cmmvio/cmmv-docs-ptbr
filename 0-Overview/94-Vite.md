@@ -1,24 +1,24 @@
 # Vite
 
-The CMMV Vite Plugin allows Vite to seamlessly handle ``.cmmv`` files in the same way it processes Vue Single File Components (SFCs). With this plugin, developers can write and use ``.cmmv`` files directly in their projects, leveraging Vite’s fast development environment.
+O Plugin CMMV para Vite permite que o Vite processe arquivos ``.cmmv`` de forma semelhante aos Componentes de Arquivo Único (SFCs) do Vue. Com este plugin, os desenvolvedores podem escrever e usar arquivos ``.cmmv`` diretamente em seus projetos, aproveitando o ambiente de desenvolvimento rápido do Vite.
 
 * **GitHub:** [https://github.com/andrehrferreira/vite-plugin-cmmv](https://github.com/andrehrferreira/vite-plugin-cmmv)
 
-## Installation
+## Instalação
 
-To use the CMMV Vite Plugin, you can install it via npm:
+Para usar o Plugin CMMV para Vite, você pode instalá-lo via npm:
 
 ```bash
 $ pnpm add -D @cmmv/plugin-vite vite @vitejs/plugin-vue vue
 ```
 
-## Configuration
+## Configuração
 
-To configure Vite to recognize and process ``.cmmv`` files, follow the simple steps below.
+Para configurar o Vite para reconhecer e processar arquivos ``.cmmv``, siga os passos simples abaixo.
 
-### Step 1: Add the plugin to your Vite configuration
+### Passo 1: Adicione o plugin à configuração do Vite
 
-In your ``vite.config.js``, import the plugin and add it to the ``plugins`` array:
+No seu arquivo ``vite.config.js``, importe o plugin e adicione-o ao array ``plugins``:
 
 ```javascript
 // vite.config.js
@@ -29,11 +29,11 @@ export default {
 };
 ```
 
-This is all you need to configure Vite to interpret ``.cmmv`` files!
+É tudo o que você precisa para configurar o Vite para interpretar arquivos ``.cmmv``!
 
-### Example Usage
+### Exemplo de Uso
 
-Here's an example ``.cmmv`` file structure. It works similarly to Vue’s Single File Component format:
+Aqui está um exemplo de estrutura de arquivo ``.cmmv``. Ele funciona de forma semelhante ao formato de Componentes de Arquivo Único do Vue:
 
 ```html
 <template>
@@ -44,7 +44,7 @@ Here's an example ``.cmmv`` file structure. It works similarly to Vue’s Single
 export default {
 	data() {
 		return {
-			message: 'Hello CMMV!'
+			message: 'Olá CMMV!'
 		};
 	}
 };
@@ -57,8 +57,8 @@ div {
 </style>
 ```
 
-The ``.cmmv`` file above consists of three sections: ``template``, ``script``, and ``style``, which are processed in the same way as Vue components.
+O arquivo ``.cmmv`` acima consiste em três seções: ``template``, ``script`` e ``style``, que são processadas da mesma forma que os componentes Vue.
 
-### Example Project
+### Projeto Exemplo
 
-For a working example of how to use the **CMMV Vite Plugin**, check out the [CMMV Reactivity Project](https://github.com/andrehrferreira/cmmv-reactivity). This project demonstrates how to set up and use the plugin in a real-world scenario, showcasing the power and simplicity of integrating CMMV files into your Vite-powered projects.
+Para um exemplo prático de como usar o **Plugin CMMV para Vite**, confira o [Projeto CMMV Reactivity](https://github.com/andrehrferreira/cmmv-reactivity). Este projeto demonstra como configurar e usar o plugin em um cenário real, mostrando o poder e a simplicidade de integrar arquivos CMMV em seus projetos baseados em Vite.

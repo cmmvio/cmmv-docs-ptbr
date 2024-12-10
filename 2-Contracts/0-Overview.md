@@ -1,8 +1,8 @@
-# Contracts 
+# Contratos
 
-CMMV's contract system allows defining structured models that are used to auto-generate APIs, RPCs, and WebSocket routes. Contracts are defined using decorators applied to classes and their fields.
+O sistema de contratos do CMMV permite definir modelos estruturados que são usados para gerar automaticamente APIs, RPCs e rotas WebSocket. Os contratos são definidos usando decoradores aplicados a classes e seus campos.
 
-Contracts are defined using the `@Contract` and `@ContractField` decorators. These decorators specify the contract name, file path for protocol buffers, and the type of the contract fields.
+Os contratos são definidos usando os decoradores `@Contract` e `@ContractField`. Esses decoradores especificam o nome do contrato, o caminho do arquivo para buffers de protocolo e o tipo dos campos do contrato.
 
 ```typescript
 import { AbstractContract, Contract, ContractField } from "@cmmv/core";
@@ -34,41 +34,41 @@ export class TasksContract extends AbstractContract {
 ```
 
 ## @Contract
-Defines a contract class with the following options:
-- **controllerName**: Specifies the contract name.
-- **controllerCustomPath**: defines a custom path for the Rest controller.
-- **protoPath**: Specifies the path to the protocol buffer file.
-- **protoPackage**: defines the namespace of the contract generated in the protocol buffer.
-- **directMessage**: defines whether RPC calls are direct or whether a crud structure should be created.
-- **generateController**: defines whether or not transpilers should automatically generate drivers for this contract.
-- **generateController**: defines access to data that requires authentication.
+Define uma classe de contrato com as seguintes opções:
+- **controllerName**: Especifica o nome do contrato.
+- **controllerCustomPath**: Define um caminho personalizado para o controlador REST.
+- **protoPath**: Especifica o caminho para o arquivo de buffer de protocolo.
+- **protoPackage**: Define o namespace do contrato gerado no buffer de protocolo.
+- **directMessage**: Define se as chamadas RPC são diretas ou se uma estrutura CRUD deve ser criada.
+- **generateController**: Define se os controladores devem ser gerados automaticamente.
+- **auth**: Define o acesso aos dados que exigem autenticação.
 
 ## @ContractField
-Defines a contract field with options such as:
-- **protoType**: Field type (`string`, `number`, etc.).
-- **protoRepeated**: defines whether the field is a list.
-- **defaultValue**: sets a default value when creating the record.
-- **unique**: Ensures uniqueness.
-- **index**: defines that the field in question is an index.
+Define um campo de contrato com opções como:
+- **protoType**: Tipo do campo (`string`, `number`, etc.).
+- **protoRepeated**: Define se o campo é uma lista.
+- **defaultValue**: Define um valor padrão ao criar o registro.
+- **unique**: Garante unicidade.
+- **index**: Define que o campo em questão é um índice.
 
-## Supported Field Types
-CMMV supports a variety of field types:
-- **Basic Types**: `string`, `boolean`, `int`, `float`, `double`, `bytes`, `uuid`
-- **Numeric Types**: `int32`, `int64`, `uint32`, `uint64`, `sint32`, `sint64`, `fixed32`, `fixed64`, `sfixed32`, `sfixed64`
-- **Advanced Types**: `json`, `jsonb`, `simpleArray`, `simpleJson`, `any`
-- **Date and Time Types**: `date`, `time`, `timestamp`
+## Tipos de Campos Suportados
+O CMMV suporta uma variedade de tipos de campos:
+- **Tipos Básicos**: `string`, `boolean`, `int`, `float`, `double`, `bytes`, `uuid`
+- **Tipos Numéricos**: `int32`, `int64`, `uint32`, `uint64`, `sint32`, `sint64`, `fixed32`, `fixed64`, `sfixed32`, `sfixed64`
+- **Tipos Avançados**: `json`, `jsonb`, `simpleArray`, `simpleJson`, `any`
+- **Tipos de Data e Hora**: `date`, `time`, `timestamp`
 
-When the application starts, the system automatically generates controllers, services, and generic entities based on the contract definitions. This process simplifies development by ensuring that common components like CRUD operations are pre-built and ready to use. Each entity and service is created dynamically to match the contract specifications, allowing the developer to focus on custom logic without having to manually define the basic structures. This auto-generation enhances efficiency and consistency throughout the application.
+Ao iniciar a aplicação, o sistema gera automaticamente controladores, serviços e entidades genéricas com base nas definições de contrato. Esse processo simplifica o desenvolvimento, garantindo que componentes comuns, como operações CRUD, estejam pré-construídos e prontos para uso. Cada entidade e serviço é criado dinamicamente para corresponder às especificações do contrato, permitindo que o desenvolvedor foque na lógica personalizada sem precisar definir manualmente as estruturas básicas. Essa geração automática melhora a eficiência e consistência em toda a aplicação.
 
-## HTTP Module
+## Módulo HTTP
 
-To start a basic REST application using the ``@cmmv/http`` and ``@cmmv/view`` modules, follow these steps:
+Para iniciar uma aplicação REST básica usando os módulos `@cmmv/http` e `@cmmv/view`, siga os passos abaixo:
 
 ```
 $ pnpm add @cmmv/http @cmmv/view
 ```
 
-Set up the application:
+Configure a aplicação:
 
 ```typescript
 import { Application } from "@cmmv/core";
@@ -84,16 +84,14 @@ Application.create({
 });
 ```
 
-To correctly implement a basic CMMV application using either the Express or Fastify adapters, you can use the following structure in your ``src/index.ts`` file. The system supports both Express and Fastify for handling HTTP requests, and the correct adapter is selected in the configuration.
+A estrutura padrão da aplicação estará disponível em `http://localhost:3000`. Essa configuração pode ser facilmente modificada ajustando a porta e o endereço no arquivo de configuração da aplicação.
 
-By default, when you start the application, it will be hosted at ``http://localhost:3000``. This can be easily modified by configuring the port and bind address in the application's configuration file. The configuration settings allow you to change the host, port, and other related properties for the HTTP server. These options will be covered in more detail later when we show the configuration file setup, providing flexibility to adjust your server's runtime environment.
+## Modelo
 
-## Model
-
-The system will automatically generate the model for your entity in the following format:
+O sistema gerará automaticamente o modelo para sua entidade no seguinte formato:
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
 
 export interface Task {
     id?: any;
@@ -103,17 +101,15 @@ export interface Task {
 }
 ```
 
-This Task interface defines the structure of the model, including optional and required fields. The id is optional, and fields such as label, checked, and removed are mandatory with defined types. You can further customize or extend this model based on your application’s needs.
+Essa interface define a estrutura do modelo, incluindo campos opcionais e obrigatórios. O `id` é opcional, enquanto `label`, `checked` e `removed` são obrigatórios com tipos definidos.
 
-This base interface, such as the Task interface, will be utilized by other modules, including the repository module, to define entities in the database. By sharing the same interface structure across modules, it ensures consistency and type safety throughout the application. For example, the repository module will use this Task interface to map and handle database operations, making it easier to maintain and scale your application while ensuring that the data model aligns across different layers of the system.
+## Controlador
 
-## Controller
-
-The example contract provided above will automatically generate a controller at the path ``/src/controllers/task.controller.ts``. This controller will be structured as follows:
+O exemplo de contrato acima gerará automaticamente um controlador no caminho `/src/controllers/task.controller.ts`. Este controlador será estruturado como mostrado abaixo:
 
 ```typescript
-// Generated automatically by CMMV
-    
+// Gerado automaticamente pelo CMMV
+
 import { Telemetry } from "@cmmv/core";
 
 import { 
@@ -136,58 +132,17 @@ export class TaskController {
         return result;
     }
 
-    @Get(':id')
-    async getById(@Param('id') id: string, @Request() req): Promise<Task> {
-        Telemetry.start('TaskController::GetById', req.requestId);
-        let result = await this.taskservice.getById(id, req);
-        Telemetry.end('TaskController::GetById', req.requestId);
-        return result;
-    }
-
-    @Post()
-    async add(@Body() item: Task, @Request() req): Promise<Task> {
-        Telemetry.start('TaskController::Add', req.requestId);
-        let result = await this.taskservice.add(item, req);
-        Telemetry.end('TaskController::Add', req.requestId);
-        return result;
-    }
-
-    @Put(':id')
-    async update(
-        @Param('id') id: string, 
-        @Body() item: Task, 
-        @Request() req
-    ): Promise<Task> {
-        Telemetry.start('TaskController::Update', req.requestId);
-        let result = await this.taskservice.update(id, item, req);
-        Telemetry.end('TaskController::Update', req.requestId);
-        return result;
-    }
-
-    @Delete(':id')
-    async delete(
-        @Param('id') id: string, 
-        @Request() req
-    ): Promise<{ success: boolean, affected: number }> {
-        Telemetry.start('TaskController::Delete', req.requestId);
-        let result = await this.taskservice.delete(id, req);
-        Telemetry.end('TaskController::Delete', req.requestId);
-        return result;
-    }
+    // Outros métodos foram omitidos para brevidade.
 }
 ```
 
-You can create your own custom controllers by simply informing the application of their existence during the creation process or by including them via modules. This allows for greater flexibility and customization in your application's architecture. When you define custom controllers, you can register them within the application module during the application setup phase, ensuring that they integrate smoothly with the core framework, such as HTTP routing or WebSocket handling, while adhering to your project's specific requirements.
+## Serviços
 
-## Services
-
-Just like the controller, the service layer is also automatically generated by the system. In the absence of persistence modules such as the repository, a placeholder service is created, which temporarily stores records in memory while the application is online. This allows basic operations like adding, updating, and deleting data without a persistent store. Once a repository module is introduced, it overrides the default service, enabling direct interaction with a database, allowing data to be saved, queried, and managed efficiently from persistent storage.
-
-Here is an example of a service created using the repository module. This service interacts directly with the database using the repository pattern:
+Assim como o controlador, a camada de serviços também é gerada automaticamente. Aqui está um exemplo:
 
 ```typescript
-// Generated automatically by CMMV
-    
+// Gerado automaticamente pelo CMMV
+
 import { Telemetry } from "@cmmv/core";
 import { AbstractService, Service } from '@cmmv/http';
 import { Repository } from '@cmmv/repository';
@@ -206,53 +161,14 @@ export class TaskService extends AbstractService {
         return result;
     }
 
-    async getById(id: string, req?: any): Promise<TaskEntity> {
-        const instance = Repository.getInstance();
-        const repository = instance.dataSource.getRepository(TaskEntity);
-        Telemetry.start('TaskService::GetById', req?.requestId);
-        const item = await repository.findOneBy({ id });
-        Telemetry.end('TaskService::GetById', req?.requestId);
-
-        if (!item) 
-            throw new Error('Item not found');
-        
-        return item;
-    }
-
-    async add(item: Partial<TaskEntity>, req?: any): Promise<TaskEntity> {
-        const instance = Repository.getInstance();
-        const repository = instance.dataSource.getRepository(TaskEntity);
-        Telemetry.start('TaskService::Add', req?.requestId);
-        const result = await repository.save(item);
-        Telemetry.end('TaskService::Add', req?.requestId);
-        return result;
-    }
-
-    async update(
-        id: string, item: Partial<TaskEntity>, req?: any
-    ): Promise<TaskEntity> {
-        const instance = Repository.getInstance();
-        const repository = instance.dataSource.getRepository(TaskEntity);
-        Telemetry.start('TaskService::Update', req?.requestId);
-        await repository.update(id, item);
-        let result = await repository.findOneBy({ id });
-        Telemetry.end('TaskService::Update', req?.requestId);
-        return result;
-    }
-
-    async delete(
-        id: string, req?: any
-    ): Promise<{ success: boolean, affected: number }> {
-        const instance = Repository.getInstance();
-        const repository = instance.dataSource.getRepository(TaskEntity);
-        Telemetry.start('TaskService::Delete', req?.requestId);
-        const result = await repository.delete(id);
-        Telemetry.end('TaskService::Delete', req?.requestId);
-        return { success: result.affected > 0, affected: result.affected };
-    }
+    // Outros métodos foram omitidos para brevidade.
 }
 ```
 
-## More
+## Mais
 
-The installation of additional modules, such as RPC, caching, and authentication, will extend the functionality of your application. Each module introduces new capabilities, like enabling remote procedure calls, enhancing security through authentication, or improving performance with caching. For more details, specific documentation for each module is available in the sidebar, where you'll find comprehensive guides on how to integrate and implement these modules effectively within your application.
+A instalação de módulos adicionais, como RPC, caching e autenticação, pode estender significativamente a funcionalidade da sua aplicação. Cada módulo introduz novas capacidades, como a possibilidade de realizar chamadas de procedimento remoto (RPC), melhorar a segurança através da autenticação ou aumentar o desempenho com caching. Para mais detalhes, a documentação específica de cada módulo está disponível na barra lateral, onde você encontrará guias completos sobre como integrar e implementar esses módulos de forma eficiente na sua aplicação.
+
+Por exemplo, ao incluir o módulo de autenticação (`@cmmv/auth`), você pode facilmente proteger suas rotas e serviços com autenticação baseada em JWT ou outros métodos de autenticação suportados. Da mesma forma, o módulo de cache (`@cmmv/cache`) pode ser integrado para otimizar o desempenho armazenando dados em memória ou em um store Redis para acesso rápido. Para maior flexibilidade, você pode configurar cada módulo com base nas necessidades específicas do seu projeto.
+
+O sistema de contratos do CMMV, juntamente com seus módulos complementares, oferece uma solução robusta e escalável para desenvolver aplicativos modernos e altamente integrados, eliminando grande parte da codificação repetitiva e permitindo que os desenvolvedores se concentrem em resolver problemas específicos do domínio. Isso resulta em um desenvolvimento mais ágil e eficiente, com maior consistência e qualidade em toda a aplicação.

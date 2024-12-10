@@ -1,168 +1,327 @@
-# Changelog
+# Registro de Alterações
 
-## Version 0.7.5 (December 10, 2024)
+## 0.7.5 (10 de Dezembro de 2024)
 
-### Additions
+### Adições
 
-- **`@cmmv/testing` Module**:  
-  Introduced a new module to simplify testing CMMV applications, providing utilities for mocking modules, services, and contracts.
+- **Módulo `@cmmv/testing`:**  
+  Introduzido um novo módulo para simplificar o teste de aplicações CMMV, fornecendo utilitários para simular módulos, serviços e contratos.
 
-- **Configuration Validator**:  
-  Added a validation system for application configurations, ensuring correctness and consistency across environments.
+- **Validador de Configuração:**  
+  Adicionado um sistema de validação para configurações da aplicação, garantindo consistência e correção em todos os ambientes.
 
-- **Schema for Configurations**:  
-  Introduced schema definitions for validating and structuring configurations in a standardized format.
+- **Esquema para Configurações:**  
+  Introduzidas definições de esquema para validar e estruturar configurações de forma padronizada.
 
-### Improvements
+### Melhorias
 
-- **Refactored Core Modules**:  
-  Simplified core modules for improved maintainability, reducing complexity while retaining all essential functionality.
+- **Refatoração dos Módulos Centrais:**  
+  Simplificados os módulos centrais para melhorar a manutenibilidade, reduzindo a complexidade enquanto mantém todas as funcionalidades essenciais.
 
-- **Pagination, Sorting, and Ordering**:  
-  Added built-in support for pagination, ordering, and sorting to GET routes and gateways, streamlining data retrieval and API design.
+- **Paginação, Ordenação e Classificação:**  
+  Adicionado suporte nativo para paginação, ordenação e classificação em rotas GET e gateways, simplificando a recuperação de dados e o design da API.
 
-- **Dependency Cleanup**:  
-  Removed unused dependencies and legacy functions, reducing the framework's footprint and improving overall efficiency.
+- **Limpeza de Dependências:**  
+  Removidas dependências não utilizadas e funções legadas, reduzindo o impacto do framework e melhorando a eficiência geral.
 
-- **Modular HTTP Adapters**:  
-  The Express and Fastify modules, previously integrated into `@cmmv/http`, have been decoupled into standalone modules:  
+- **Adaptadores HTTP Modulares:**  
+  Os módulos Express e Fastify, anteriormente integrados ao `@cmmv/http`, foram desacoplados em módulos independentes:  
   - `@cmmv/express`  
   - `@cmmv/fastify`  
-  This change reduces the dependency footprint of the core, allowing developers to choose and install only the HTTP adapter they need.
+  Essa mudança reduz o impacto das dependências no núcleo, permitindo que os desenvolvedores escolham e instalem apenas o adaptador HTTP necessário.
 
-### Removals
+### Remoções
 
-- **Vue and TailwindCSS Integration**:  
-  Vue and TailwindCSS were removed from the core module. Use Vite for frontend asset management and the `@cmmv/vue` module for Vue-specific integrations.
+- **Integração com Vue e TailwindCSS:**  
+  Vue e TailwindCSS foram removidos do módulo central. Use o Vite para gerenciamento de ativos frontend e o módulo `@cmmv/vue` para integrações específicas do Vue.
 
-### Recommendations
+### Recomendações
 
-- **Vite Integration**:  
-  Leverage Vite for modern frontend development workflows, including Vue and TailwindCSS.
+- **Integração com Vite:**  
+  Utilize o Vite para fluxos de trabalho modernos de desenvolvimento frontend, incluindo Vue e TailwindCSS.
 
-- **`@cmmv/vue` Module**:  
-  Utilize the `@cmmv/vue` module to generate RPC mixins and composables for seamless Vue integration.
+- **Módulo `@cmmv/vue`:**  
+  Utilize o módulo `@cmmv/vue` para gerar mixins RPC e composables para uma integração perfeita com o Vue.
 
-### Updates
+### Atualizações
 
-- **Documentation**:  
-  Revised and expanded documentation to reflect the new features, removals, and recommended practices.
+- **Documentação:**  
+  Revisada e expandida a documentação para refletir os novos recursos, remoções e práticas recomendadas.
 
-## Version 0.6.0 (November 26, 2024)
+## 0.6.0 (26 de Novembro de 2024)
 
-### New Features
+### Novos Recursos
 
-- **Inspector Module**:  
-  Added the `@cmmv/inspector` module for debugging and monitoring CMMV applications. The module provides runtime insights, performance profiling, and analysis of critical bottlenecks.
+- **Módulo Inspector:**  
+  Adicionado o módulo `@cmmv/inspector` para depuração e monitoramento de aplicações CMMV. O módulo fornece informações em tempo de execução, perfis de desempenho e análise de gargalos críticos.
   
-### Improvements
+### Melhorias
 
-- **Performance Optimization**:  
-  Using insights from the Inspector module's profiling, critical server-side functions were optimized. This resulted in a performance increase from an average of 71.1k to 79k requests per second in benchmark tests, an improvement of approximately 8-10% in response times.
-- **Documentation Update**:  
-  Updated documentation to include the new Inspector module and its usage in the ecosystem.
-- **Benchmark Revamp**:  
-  Re-performed and documented benchmarks with the optimized server, reflecting the improved performance metrics.
+- **Otimização de Desempenho:**  
+  Usando insights do perfil do módulo Inspector, funções críticas do lado do servidor foram otimizadas. Isso resultou em um aumento de desempenho de uma média de 71.1k para 79k requisições por segundo em testes de benchmark, uma melhoria de aproximadamente 8-10% nos tempos de resposta.
+- **Atualização de Documentação:**  
+  Documentação atualizada para incluir o novo módulo Inspector e seu uso no ecossistema.
+- **Revisão de Benchmark:**  
+  Benchmarks refeitos e documentados com o servidor otimizado, refletindo as métricas de desempenho aprimoradas.
 
-### Changes
+### Alterações
 
-- **Removed Fast-JSON-Stringify from Samples**:  
-  Removed `fast-json-stringify` from samples as the schema needs to be processed during application startup. This feature will be revisited and potentially optimized in future releases.
+- **Remoção do `Fast-JSON-Stringify` dos Exemplos:**  
+  Removido `fast-json-stringify` dos exemplos, já que o esquema precisa ser processado durante o início da aplicação. Esse recurso será revisado e potencialmente otimizado em versões futuras.
 
-### Notes for Upcoming Versions
+### Notas para Versões Futuras
 
-- Plan to integrate schema processing during the application's startup to improve the usability of `fast-json-stringify` without performance degradation.
+- Planeja-se integrar o processamento de esquema durante o início da aplicação para melhorar a usabilidade do `fast-json-stringify` sem degradação de desempenho.
 
-## Version 0.5.5 (November 16, 2024)
+## 0.5.5 (16 de Novembro de 2024)
 
-### New Features
+### Novos Recursos
 
-- **Vite Middleware Integration**:  
-  Added Vite as a middleware to serve static files during development, improving Vue 3 integration and the development experience.
-- **RPC Mixins for Vue 3 and Nuxt**:  
-  Introduced RPC mixins generated from CMMV contracts for seamless Vue 3 and Nuxt integration.
-- **Complete RPC Implementation**:  
-  Implemented full RPC support for Vue and Nuxt, enabling dynamic contract-based client-server communication.
-- **Vue 3 + TailwindCSS Import Support**:  
-  Enhanced the `view` module to support Vue 3 and TailwindCSS imports for modern frontend development workflows.
+- **Integração com Middleware Vite:**  
+  Adicionado Vite como middleware para servir arquivos estáticos durante o desenvolvimento, melhorando a integração com Vue 3 e a experiência de desenvolvimento.
 
-### Improvements
+- **Mixins RPC para Vue 3 e Nuxt:**  
+  Introduzidos mixins RPC gerados a partir de contratos CMMV para integração perfeita com Vue 3 e Nuxt.
 
-- **Fast-JSON-Stringify**:  
-  Replaced standard JSON serialization with `fast-json-stringify`, significantly improving serialization performance.
-- **Switch to Vitest**:  
-  Migrated from Mocha to Vitest for faster, more modern testing and improved TypeScript integration.
-- **Sample To-Do List Application**:  
-  Added a fully functional To-Do List example showcasing Vue 3, Vite, and RPC mixins generated by CMMV.
+- **Implementação Completa de RPC:**  
+  Implementado suporte completo a RPC para Vue e Nuxt, permitindo comunicação dinâmica cliente-servidor baseada em contratos.
 
-### Bug Fixes
+- **Suporte a Importação de Vue 3 + TailwindCSS:**  
+  Aprimorado o módulo `view` para suportar importações de Vue 3 e TailwindCSS para fluxos de trabalho modernos de desenvolvimento frontend.
 
-- **MongoDB Repository Fixes**:  
-  Resolved critical bugs in the `repository` module for MongoDB, ensuring stable database interactions.
-- **Deprecated Dependency Updates**:  
-  Updated deprecated dependencies across the framework, improving compatibility and removing security warnings.
-- **View Module Enhancements**:  
-  Fixed issues with static imports in the `view` module to better handle Vue 3 and TailwindCSS assets.
+### Melhorias
 
-### Dependency Updates
-- Updated dependencies across the framework, ensuring compatibility with the latest ecosystem versions and tools.
+- **Fast-JSON-Stringify:**  
+  Substituída a serialização JSON padrão por `fast-json-stringify`, melhorando significativamente o desempenho da serialização.
 
+- **Mudança para Vitest:**  
+  Migrado de Mocha para Vitest para testes mais rápidos, modernos e com melhor integração ao TypeScript.
 
-## Version 0.5.0 (November 5, 2024)
+- **Exemplo de Aplicativo de Lista de Tarefas:**  
+  Adicionado um exemplo funcional de lista de tarefas mostrando Vue 3, Vite e mixins RPC gerados pelo CMMV.
 
-### **Added**
-- **Vue 3 Support**: Full implementation of Vue 3, configurable via `.cmmv.config.js`, enabling usage of Vue 3 syntax. Integrated SSR configurations for optimized performance.
-- **Dynamic Layout and View Loading**: Added support for dynamic loading of layouts and views, including integration with Vite to efficiently serve `.vue` files.
-- **Data Binding and Setup Configuration**: Introduced `s-setup` for configuring scripts and reactive data in views, with support for lifecycle hooks such as `mounted` and `created`.
-- **New Lifecycle Hooks**: Added `mounted` and `created` hooks in view setup scripts, providing flexibility for executing code when the view is loaded.
-- **Include Directive**: A new directive for modularly importing and reusing view components across different pages.
-- **Telemetry Service**: Added a `Telemetry` class to monitor performance and capture runtime metrics across the system.
-- **Method Injection**: RPC functions are now automatically injected as methods in Vue components, simplifying remote function calls in the frontend.
+### Correções de Bugs
 
-### **Changed**
-- **Improved View Rendering**: Optimized the view rendering system with HTML minification and inline script extraction to enhance performance.
-- **Enhanced Error Handling**: Improved error handling to ensure proper logging of failures with more informative error messages.
+- **Correções no Repositório MongoDB:**  
+  Resolvidos bugs críticos no módulo `repository` para MongoDB, garantindo interações estáveis com o banco de dados.
 
-## Version 0.4.0 (October 15, 2024)
+- **Atualizações de Dependências Obsoletas:**  
+  Atualizadas dependências obsoletas em todo o framework, melhorando a compatibilidade e removendo avisos de segurança.
 
-### **Added**
-- **RPC Support with Protobuf**: Introduced integration for Protobuf to enable binary communication through WebSocket, enhancing real-time capabilities.
-- **WebSocket Adapter**: Added WebSocket support with a dedicated adapter for real-time communication, including contract-based RPC generation.
-- **Caching Module**: Integrated the caching module (`@cmmv/cache`) for high-performance data storage, supporting Redis and in-memory options.
-- **Repository Module**: Added support for repository-based database management with integration for TypeORM and MongoDB.
-- **Contract-Based Auto-Generation**: Controllers, entities, and services are now automatically generated from TypeScript contracts, reducing boilerplate code.
-- **Dynamic Configuration**: Added support for dynamic configuration using `.cmmv.config.js`, allowing runtime adjustments without modifying source code.
+- **Aprimoramentos no Módulo View:**  
+  Corrigidos problemas com importações estáticas no módulo `view` para melhor manipulação de ativos Vue 3 e TailwindCSS.
 
-### **Changed**
-- **Improved CLI**: Enhanced the CLI to simplify project initialization, with customizable settings for RPC, caching, and repositories.
-- **Streamlined Directory Structure**: Revised the default project structure for better organization, separating public assets, views, and templates.
-- **Improved Module Integration**: Refined integration of modules like `@cmmv/repository` and `@cmmv/view` to ensure seamless compatibility with auto-generated components.
+### Atualizações de Dependências
+- Dependências atualizadas em todo o framework, garantindo compatibilidade com as versões mais recentes do ecossistema e ferramentas.
 
-### **Fixed**
-- Resolved issues with contract validation during application startup.
-- Fixed database synchronization bugs for SQLite and MongoDB configurations.
+## 0.5.0 (5 de Novembro de 2024)
 
-## Version 0.3.5 (September 28, 2024)
+### Adicionado
 
-### **Features**
-- **Contract Generator**: Automates the creation of contracts between server and client, ensuring consistent API interfaces and reducing manual coding efforts.
-- **Enhanced WebSocket Support**: Implemented WebSocket integration for real-time RPC communications using Protobuf, optimizing data transmission efficiency and reliability.
+- **Suporte ao Vue 3:**  
+  Implementação completa do Vue 3, configurável via `.cmmv.config.js`, permitindo o uso de sintaxe do Vue 3. Configurações de SSR integradas para desempenho otimizado.
 
-### **Improvements**
-- **Performance Optimization**: Significant improvements in processing time for contract generation and execution, reducing latency in high-load scenarios.
-- **Modular Design**: Restructured the core framework to support better module isolation, enabling easier extension or modification without impacting the entire system.
-- **Scalability Enhancements**: Fine-tuned the core system to handle increased traffic and larger data payloads with minimal performance impact.
+- **Carregamento Dinâmico de Layouts e Views:**  
+  Adicionado suporte ao carregamento dinâmico de layouts e views, incluindo integração com Vite para servir eficientemente arquivos `.vue`.
 
-### **Bug Fixes**
-- **Lint Corrections**: Addressed all linting issues across the codebase to ensure clean and maintainable code.
-- **Test Fixes**: Resolved various issues to improve the reliability of unit and integration tests.
-- **WebSocket Import Fix**: Corrected import issues in the WebSocket module to ensure proper initialization and functionality.
-- **CircleCI Configuration**: Integrated and fixed issues with CircleCI for continuous integration and deployment pipelines.
-- **Miscellaneous Fixes**: Various minor bug fixes and code improvements throughout the framework.
+- **Vinculação de Dados e Configuração de Setup:**  
+  Introduzido `s-setup` para configurar scripts e dados reativos em views, com suporte a hooks de ciclo de vida como `mounted` e `created`.
 
-### **Documentation and Examples**
-- **Advanced Contract Setup**: Updated documentation for advanced contract configuration and API generation, providing clearer and more detailed examples for developers.
+- **Novos Hooks de Ciclo de Vida:**  
+  Adicionados hooks `mounted` e `created` em scripts de configuração de views, proporcionando flexibilidade para executar código quando a view for carregada.
 
-### **Testing and Quality**
-- **Expanded Test Coverage**: Added unit tests for critical modules to improve the overall stability and reliability of the framework.
-- **Stress Testing**: Simulated high-traffic environments to validate the robustness of real-time communication and ensure scalability under load.
+- **Diretiva Include:**  
+  Uma nova diretiva para importar e reutilizar componentes de view modularmente em diferentes páginas.
+
+- **Serviço de Telemetria:**  
+  Adicionada a classe `Telemetry` para monitorar desempenho e capturar métricas de tempo de execução em todo o sistema.
+
+- **Injeção de Métodos:**  
+  Funções RPC agora são automaticamente injetadas como métodos em componentes Vue, simplificando chamadas de funções remotas no frontend.
+
+### Alterado
+
+- **Renderização de Views Aprimorada:**  
+  Sistema de renderização de views otimizado com minificação de HTML e extração de scripts inline para melhorar o desempenho.
+
+- **Manipulação de Erros Aprimorada:**  
+  Melhorada a manipulação de erros para garantir o registro adequado de falhas com mensagens de erro mais informativas.
+
+## 0.4.0 (15 de Outubro de 2024)
+
+### Adicionado
+
+- **Suporte a RPC com Protobuf:**  
+  Integração para Protobuf, permitindo comunicação binária via WebSocket, aprimorando as capacidades em tempo real.
+
+- **Adaptador WebSocket:**  
+  Adicionado suporte a WebSocket com um adaptador dedicado para comunicação em tempo real, incluindo geração de RPC baseada em contratos.
+
+- **Módulo de Cache:**  
+  Integrado o módulo de cache (`@cmmv/cache`) para armazenamento de dados de alto desempenho, com suporte a Redis e opções em memória.
+
+- **Módulo de Repositório:**  
+  Adicionado suporte para gerenciamento de banco de dados baseado em repositórios com integração para TypeORM e MongoDB.
+
+- **Geração Automática Baseada em Contratos:**  
+  Controladores, entidades e serviços agora são gerados automaticamente a partir de contratos TypeScript, reduzindo código repetitivo.
+
+- **Configuração Dinâmica:**  
+  Suporte adicionado para configuração dinâmica usando `.cmmv.config.js`, permitindo ajustes em tempo de execução sem modificar o código-fonte.
+
+### Alterado
+
+- **CLI Melhorada:**  
+  CLI aprimorada para simplificar a inicialização de projetos, com configurações personalizáveis para RPC, cache e repositórios.
+
+- **Estrutura de Diretórios Refinada:**  
+  Estrutura de projetos revisada para melhor organização, separando ativos públicos, views e templates.
+
+- **Integração de Módulos Aprimorada:**  
+  Integração refinada de módulos como `@cmmv/repository` e `@cmmv/view` para garantir compatibilidade perfeita com componentes gerados automaticamente.
+
+### Corrigido
+
+- Resolvemos problemas de validação de contratos durante a inicialização da aplicação.
+- Corrigidos bugs de sincronização de banco de dados para configurações SQLite e MongoDB.
+
+## 0.3.5 (28 de Setembro de 2024)
+
+### Recursos
+
+- **Gerador de Contratos:**  
+  Automatiza a criação de contratos entre servidor e cliente, garantindo interfaces de API consistentes e reduzindo esforços manuais.
+
+- **Suporte Aprimorado ao WebSocket:**  
+  Integração de WebSocket para comunicações RPC em tempo real usando Protobuf, otimizando a eficiência e confiabilidade da transmissão de dados.
+
+### Melhorias
+
+- **Otimização de Desempenho:**  
+  Melhorias significativas no tempo de processamento para geração e execução de contratos, reduzindo a latência em cenários de alta carga.
+
+- **Design Modular:**  
+  Reestruturado o framework principal para suportar melhor isolamento de módulos, permitindo extensões ou modificações mais fáceis sem impactar o sistema como um todo.
+
+- **Aprimoramentos de Escalabilidade:**  
+  Ajustes finos no sistema principal para lidar com maior tráfego e cargas de dados maiores com impacto mínimo no desempenho.
+
+### Correções de Bugs
+
+- **Correções de Lint:**  
+  Solucionados todos os problemas de linting em todo o código-base para garantir um código limpo e fácil de manter.
+
+- **Correções de Testes:**  
+  Resolvidos diversos problemas para melhorar a confiabilidade dos testes unitários e de integração.
+
+- **Correção de Importação de WebSocket:**  
+  Corrigidos problemas de importação no módulo de WebSocket para garantir inicialização e funcionalidade adequadas.
+
+- **Configuração do CircleCI:**  
+  Integrado e corrigido problemas no CircleCI para pipelines contínuos de integração e implantação.
+
+- **Correções Diversas:**  
+  Várias pequenas correções de bugs e melhorias no código em todo o framework.
+
+### Documentação e Exemplos
+
+- **Configuração Avançada de Contratos:**  
+  Documentação atualizada para configuração avançada de contratos e geração de APIs, fornecendo exemplos mais claros e detalhados para os desenvolvedores.
+
+### Testes e Qualidade
+
+- **Cobertura de Testes Expandida:**  
+  Adicionados testes unitários para módulos críticos, melhorando a estabilidade e confiabilidade geral do framework.
+
+- **Testes de Estresse:**  
+  Simulados ambientes de tráfego intenso para validar a robustez da comunicação em tempo real e garantir escalabilidade sob carga.
+
+## 0.3.0 (15 de Setembro de 2024)
+
+### Novos Recursos
+
+- **Integração Protobuf:**  
+  Adicionado suporte ao Protobuf para comunicação binária eficiente em contratos de RPC.
+
+- **Módulo de Autenticação:**  
+  Introduzido o módulo `@cmmv/auth` para autenticação e autorização, gerenciando acesso seguro a rotas e serviços.
+
+- **Geração de Controladores Automatizada:**  
+  Controladores agora são gerados automaticamente a partir de contratos, permitindo desenvolvimento mais rápido e consistente.
+
+### Melhorias
+
+- **Melhoria na Estrutura de Dados:**  
+  Otimizada a manipulação de estruturas de dados em cache para operações mais rápidas e maior eficiência.
+
+- **Integração WebSocket Refinada:**  
+  Suporte aprimorado para WebSockets, adicionando melhor tratamento de erros e reconexões automáticas.
+
+- **Templates SSR Aprimorados:**  
+  Melhorados os templates de renderização no servidor para suportar Vue 3 com maior eficiência.
+
+### Correções
+
+- Resolvemos problemas de configuração de cache em Redis e memória local.
+- Corrigidos problemas de compatibilidade de contratos em diferentes ambientes de execução.
+- Atualizados scripts de inicialização para evitar conflitos com dependências de terceiros.
+
+### Planejamento Futuro
+
+- Integração com ferramentas de análise para monitoramento de desempenho em tempo real.
+- Suporte adicional para bancos de dados não relacionais no módulo de repositório.
+
+## 0.2.5 (30 de Agosto de 2024)
+
+### Recursos
+
+- **Módulo de Cache:**  
+  Adicionado suporte a cache local e distribuído para melhorar o desempenho em cargas pesadas.
+
+- **Otimizações no CLI:**  
+  Melhorias significativas na CLI, adicionando suporte a mais opções de configuração.
+
+### Melhorias
+
+- **Melhorias de Desempenho:**  
+  Código refatorado para operações assíncronas mais rápidas, reduzindo a latência geral do sistema.
+
+- **Geração de Contratos:**  
+  Melhorados os mecanismos de geração automática de contratos, incluindo validação mais robusta.
+
+### Correções
+
+- Corrigidos problemas de inicialização em ambientes Docker.
+- Ajustados erros de validação de entrada em contratos.
+- Resolvidos bugs em transações simultâneas no MongoDB.
+
+## 0.2.0 (15 de Agosto de 2024)
+
+### Recursos
+
+- **Suporte a TypeScript Completo:**  
+  O framework agora oferece suporte completo ao TypeScript, com tipagem aprimorada e melhor integração com IDEs.
+
+- **CLI para Criação de Projetos:**  
+  Introduzido um CLI simples para inicializar projetos rapidamente com configurações padrão.
+
+### Melhorias
+
+- **Estrutura Modular:**  
+  Melhorias na modularidade do framework, permitindo a integração mais fácil de novos módulos.
+
+- **Documentação Atualizada:**  
+  Adicionados novos exemplos e tutoriais para iniciantes.
+
+### Correções
+
+- Corrigidos problemas de compatibilidade com Node.js versões mais antigas.
+- Resolvidos problemas de sincronização de threads em tarefas assíncronas.
+
+## 0.1.0 (1 de Agosto de 2024)
+
+### Primeira Versão Oficial
+
+- **Lançamento Inicial:**  
+  Introdução do framework CMMV, incluindo suporte básico a contratos, geração de controladores e renderização no servidor.
+
