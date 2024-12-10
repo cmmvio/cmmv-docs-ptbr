@@ -1,29 +1,29 @@
-# Request
+# Requisição (Request)
 
-The ``req`` object represents the incoming HTTP request and provides access to various properties and methods, such as the request's query string, parameters, body, HTTP headers, and more. In this documentation, as well as by common convention, this object is referred to as req (with the HTTP response object being res). However, the actual names used for these objects can be defined by the parameters in the callback function you're working within.
+O objeto `req` representa a requisição HTTP recebida e fornece acesso a várias propriedades e métodos, como a string de consulta (query string), parâmetros, corpo da requisição, cabeçalhos HTTP, entre outros. Nesta documentação, assim como em convenções comuns, este objeto é referido como `req` (enquanto o objeto de resposta HTTP é `res`). No entanto, os nomes reais usados para esses objetos podem ser definidos pelos parâmetros na função callback em que você está trabalhando.
 
-**Example:**
+**Exemplo:**
 ```typescript
 app.get('/user/:id', function (req, res) {
-  res.send('User: ' + req.params.id);
+  res.send('Usuário: ' + req.params.id);
 });
 ```
 
-Alternatively, you could name the parameters differently, like this:
+Alternativamente, você pode nomear os parâmetros de forma diferente, como neste exemplo:
 
 ```typescript
 app.get('/user/:id', function (request, response) {
-  response.send('User: ' + request.params.id);
+  response.send('Usuário: ' + request.params.id);
 });
 ```
 
-The ``req`` object extends Node.js’s core ``http.IncomingMessage`` object, which means it inherits all the built-in properties and methods of Node's request object. In addition, the ``req`` object includes a number of added functionalities specific to HTTP request handling in your application, making it more powerful and easier to work with.
+O objeto `req` estende o objeto `http.IncomingMessage` do Node.js, o que significa que ele herda todas as propriedades e métodos integrados do objeto de requisição do Node. Além disso, o objeto `req` inclui várias funcionalidades adicionais específicas para o manuseio de requisições HTTP em sua aplicação, tornando-o mais poderoso e fácil de usar.
 
-## Properties
+## Propriedades
 
 ## req.query
 
-Returns the parsed query string as an object. The query string is automatically parsed using the query parser (e.g., qs library).
+Retorna a string de consulta analisada como um objeto. A string de consulta é automaticamente analisada usando o parser de consulta (por exemplo, a biblioteca `qs`).
 
 ```typescript
 // URL: /search?name=John&age=30
@@ -32,7 +32,7 @@ console.log(req.query);  // { name: 'John', age: '30' }
 
 ## req.querystring
 
-Returns the raw query string from the URL.
+Retorna a string de consulta bruta da URL.
 
 ```typescript
 // URL: /search?name=John&age=30
@@ -41,7 +41,7 @@ console.log(req.querystring);  // "name=John&age=30"
 
 ## req.search
 
-Returns the search string, which is the query string prefixed with a question mark (``?``).
+Retorna a string de busca, que é a string de consulta prefixada com um ponto de interrogação (`?`).
 
 ```typescript
 // URL: /search?name=John&age=30
@@ -50,11 +50,11 @@ console.log(req.search);  // "?name=John&age=30"
 
 ## req.socket
 
-Returns the request socket object, which represents the underlying connection.
+Retorna o objeto de socket da requisição, que representa a conexão subjacente.
 
 ## req.protocol
 
-Returns the protocol used in the request (``http`` or ``https``). If the application is behind a proxy, it will also check the ``X-Forwarded-Proto`` header if the ``trust proxy`` setting is enabled.
+Retorna o protocolo usado na requisição (`http` ou `https`). Se a aplicação estiver atrás de um proxy, também verificará o cabeçalho `X-Forwarded-Proto` se a configuração `trust proxy` estiver habilitada.
 
 ```typescript
 console.log(req.protocol);  // "https"
@@ -62,7 +62,7 @@ console.log(req.protocol);  // "https"
 
 ## req.headers
 
-Returns the request headers as an object.
+Retorna os cabeçalhos da requisição como um objeto.
 
 ```typescript
 console.log(req.headers['content-type']);  // "application/json"
@@ -70,7 +70,7 @@ console.log(req.headers['content-type']);  // "application/json"
 
 ## req.url
 
-Returns the request URL.
+Retorna a URL da requisição.
 
 ```typescript
 console.log(req.url);  // "/search?name=John&age=30"
@@ -78,7 +78,7 @@ console.log(req.url);  // "/search?name=John&age=30"
 
 ## req.origin
 
-Returns the origin of the request, including the protocol and host.
+Retorna a origem da requisição, incluindo o protocolo e o host.
 
 ```typescript
 console.log(req.origin);  // "https://example.com"
@@ -86,7 +86,7 @@ console.log(req.origin);  // "https://example.com"
 
 ## req.href
 
-Returns the full request URL, including the origin and original URL.
+Retorna a URL completa da requisição, incluindo a origem e a URL original.
 
 ```typescript
 console.log(req.href);  // "https://example.com/search?name=John&age=30"
@@ -94,7 +94,11 @@ console.log(req.href);  // "https://example.com/search?name=John&age=30"
 
 ## req.secure
 
-Returns the HTTP method of the request (e.g., ``GET``, ``POST``, etc.).
+Retorna `true` se a conexão for segura (HTTPS).
+
+## req.method
+
+Retorna o método HTTP da requisição (por exemplo, `GET`, `POST`, etc.).
 
 ```typescript
 console.log(req.method);  // "GET"
@@ -102,7 +106,7 @@ console.log(req.method);  // "GET"
 
 ## req.path
 
-Returns the path of the request URL without the query string.
+Retorna o caminho da URL da requisição sem a string de consulta.
 
 ```typescript
 // URL: /search?name=John
@@ -111,7 +115,7 @@ console.log(req.path);  // "/search"
 
 ## req.host
 
-Returns the host name from the request, considering the ``X-Forwarded-Host`` header if the ``trust proxy`` setting is enabled.
+Retorna o nome do host da requisição, considerando o cabeçalho `X-Forwarded-Host` se a configuração `trust proxy` estiver habilitada.
 
 ```typescript
 console.log(req.host);  // "example.com"
@@ -119,7 +123,7 @@ console.log(req.host);  // "example.com"
 
 ## req.hostname
 
-Returns the hostname from the ``Host`` header, excluding the port number.
+Retorna o nome do host do cabeçalho `Host`, excluindo o número da porta.
 
 ```typescript
 console.log(req.hostname);  // "example.com"
@@ -127,53 +131,53 @@ console.log(req.hostname);  // "example.com"
 
 ## req.URL
 
-Returns a parsed URL object from the WHATWG URL API.
+Retorna um objeto URL analisado da API WHATWG URL.
 
 ## req.fresh
 
-Returns ``true`` if the request is considered "fresh", meaning the response has not changed since the last request (based on ``Last-Modified`` and/or ``ETag`` headers).
+Retorna `true` se a requisição for considerada "nova", ou seja, a resposta não mudou desde a última requisição (com base nos cabeçalhos `Last-Modified` e/ou `ETag`).
 
 ## req.stale
 
-Returns ``true`` if the request is considered "stale", meaning the resource has changed since the last request.
+Retorna `true` se a requisição for considerada "antiga", ou seja, o recurso mudou desde a última requisição.
 
 ## req.idempotent
 
-Returns ``true`` if the request method is idempotent (``GET``, ``HEAD``, ``PUT``, ``DELETE``, etc.).
+Retorna `true` se o método da requisição for idempotente (`GET`, `HEAD`, `PUT`, `DELETE`, etc.).
 
 ## req.ip
 
-Returns the remote IP address of the request, considering the ``trust proxy`` setting.
+Retorna o endereço IP remoto da requisição, considerando a configuração `trust proxy`.
 
 ## req.ips
 
-Returns an array of IP addresses, with the client IP first, followed by any proxy addresses (when ``trust proxy`` is enabled).
+Retorna um array de endereços IP, com o IP do cliente em primeiro lugar, seguido pelos endereços de proxy (quando `trust proxy` está habilitado).
 
 ## req.length
 
-Returns the ``Content-Length`` header value as a number if present.
+Retorna o valor do cabeçalho `Content-Length` como um número, se presente.
 
 ## req.subdomains
 
-Returns an array of subdomains from the request's hostname. The subdomains are determined by the ``subdomain offset`` setting.
+Retorna um array de subdomínios do hostname da requisição. Os subdomínios são determinados pela configuração `subdomain offset`.
 
 ## req.xhr
 
-Returns ``true`` if the request was made using an XMLHttpRequest (i.e., an Ajax request).
+Retorna `true` se a requisição foi feita usando um XMLHttpRequest (ou seja, uma requisição Ajax).
 
 ## req.cookies
 
-Returns the cookies sent by the client.
+Retorna os cookies enviados pelo cliente.
 
 ## req.signedCookies
 
-Returns the signed cookies sent by the client.
+Retorna os cookies assinados enviados pelo cliente.
 
-## Methods
+## Métodos
 
 ## req.header()
 
-Alias for ``req.get()``. Returns the value of the specified request header field.
+Alias para `req.get()`. Retorna o valor do campo de cabeçalho da requisição especificado.
 
 ```typescript
 req.header('Content-Type');  // "application/json"
@@ -181,7 +185,7 @@ req.header('Content-Type');  // "application/json"
 
 ## req.get()
 
-Returns the value of the specified request header field.
+Retorna o valor do campo de cabeçalho da requisição especificado.
 
 ```typescript
 req.get('Content-Type');  // "application/json"
@@ -189,7 +193,7 @@ req.get('Content-Type');  // "application/json"
 
 ## req.accepts()
 
-Checks if the specified MIME types are acceptable based on the Accept header. Returns the best match or ``undefined``.
+Verifica se os tipos MIME especificados são aceitáveis com base no cabeçalho `Accept`. Retorna a melhor correspondência ou `undefined`.
 
 ```typescript
 req.accepts('html');  // "html"
@@ -197,7 +201,7 @@ req.accepts('html');  // "html"
 
 ## req.acceptsEncodings()
 
-Checks if the specified encodings are acceptable based on the ``Accept-Encoding`` header.
+Verifica se as codificações especificadas são aceitáveis com base no cabeçalho `Accept-Encoding`.
 
 ```typescript
 req.acceptsEncodings('gzip');  // "gzip"
@@ -205,7 +209,7 @@ req.acceptsEncodings('gzip');  // "gzip"
 
 ## req.acceptsCharsets()
 
-Checks if the specified charsets are acceptable based on the ``Accept-Charset`` header.
+Verifica se os conjuntos de caracteres especificados são aceitáveis com base no cabeçalho `Accept-Charset`.
 
 ```typescript
 req.acceptsCharsets('utf-8');  // "utf-8"
@@ -213,7 +217,7 @@ req.acceptsCharsets('utf-8');  // "utf-8"
 
 ## req.acceptsLanguages()
 
-Checks if the specified languages are acceptable based on the ``Accept-Language`` header.
+Verifica se os idiomas especificados são aceitáveis com base no cabeçalho `Accept-Language`.
 
 ```typescript
 req.acceptsLanguages('en');  // "en"
@@ -221,7 +225,7 @@ req.acceptsLanguages('en');  // "en"
 
 ## req.range()
 
-Parses the Range header and returns an array of ranges, or ``-1`` if unsatisfiable, or ``-2`` if invalid.
+Analisa o cabeçalho Range e retorna um array de intervalos, ou `-1` se não for satisfatório, ou `-2` se for inválido.
 
 ```typescript
 req.range(1000);  // [{ start: 0, end: 999 }]
@@ -229,7 +233,7 @@ req.range(1000);  // [{ start: 0, end: 999 }]
 
 ## req\.is()
 
-Checks if the request's ``Content-Type`` matches the specified MIME type.
+Verifica se o `Content-Type` da requisição corresponde ao tipo MIME especificado.
 
 ```typescript
 req.is('json');  // "json"

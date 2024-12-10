@@ -1,76 +1,76 @@
-# Content Type Parser
+# Parser de Tipo de Conteúdo
 
-One of the powerful features of the ``@cmmv/server`` framework is its ability to create and register middleware parsers that handle specific content types. Unlike traditional middleware systems (such as in Express), the middleware designed for parsing is only executed if the request's ``Content-Type`` matches the specific type you have registered. This ensures that your application processes the request body efficiently and only when required.
+Uma das funcionalidades mais poderosas do framework `@cmmv/server` é a sua capacidade de criar e registrar parsers de middleware que lidam com tipos de conteúdo específicos. Diferente de sistemas tradicionais de middleware (como no Express), os middlewares projetados para parsing são executados apenas se o `Content-Type` da requisição corresponder ao tipo específico que você registrou. Isso garante que sua aplicação processe o corpo da requisição de maneira eficiente e somente quando necessário.
 
-In this documentation, we will cover how to create generic middleware for parsing specific data types, focusing on the use of the ``addContentTypeParser`` function. This function allows you to register custom parsers for different content types.
+Nesta documentação, abordaremos como criar middlewares genéricos para analisar tipos de dados específicos, com foco no uso da função `addContentTypeParser`. Essa função permite registrar parsers personalizados para diferentes tipos de conteúdo.
 
-In web applications, different content types often require different parsing strategies. For example:
+Em aplicações web, diferentes tipos de conteúdo frequentemente exigem estratégias de parsing distintas. Por exemplo:
 
-* JSON data should be parsed into JavaScript objects.
-* XML or CSV may need special handling to parse correctly.
-* Multipart form data may require a different strategy to extract files and fields.
+- Dados JSON devem ser analisados para objetos JavaScript.
+- XML ou CSV podem precisar de tratamento especial para serem analisados corretamente.
+- Dados de formulários multipart podem requerer uma estratégia diferente para extrair arquivos e campos.
 
-The ``addContentTypeParser`` function lets you register middleware to handle specific content types. This ensures that your parser is executed only when the content type matches what you defined.
+A função `addContentTypeParser` permite registrar middlewares para lidar com tipos de conteúdo específicos. Isso garante que seu parser seja executado apenas quando o tipo de conteúdo corresponder ao que você definiu.
 
-## Steps to Create 
+## Etapas para Criar
 
-**1. Using ``addContentTypeParser`` to Register the Parser**
+**1. Usando `addContentTypeParser` para Registrar o Parser**
 
-To create a custom parser, you need to call the ``addContentTypeParser`` function within your application. This function accepts the content type(s) to be parsed and the handler function that defines the parsing behavior.
+Para criar um parser personalizado, você precisa chamar a função `addContentTypeParser` dentro da sua aplicação. Essa função aceita o(s) tipo(s) de conteúdo a ser(em) analisado(s) e a função handler que define o comportamento do parsing.
 
-The handler function should always be asynchronous, as it will typically perform I/O operations like reading the request body or processing files.
+A função handler deve ser sempre assíncrona, pois geralmente realizará operações de I/O, como leitura do corpo da requisição ou processamento de arquivos.
 
-**2. Defining the Asynchronous Handler Function**
+**2. Definindo a Função Handler Assíncrona**
 
-The handler function is where the actual parsing takes place. This function receives the request (``req``), response (``res``), and the raw body payload, which it processes and attaches to the req.body object.
+A função handler é onde ocorre o parsing real. Essa função recebe a requisição (`req`), resposta (`res`) e o payload bruto, que ela processa e anexa ao objeto `req.body`.
 
-Here's an example of how to create and register a custom parser for application/json content type using ``addContentTypeParser``.
+Aqui está um exemplo de como criar e registrar um parser personalizado para o tipo de conteúdo `application/json` usando `addContentTypeParser`.
 
 ```typescript
 const app = cmmv();
 
-// Register a custom content type parser for 'application/json'
+// Registra um parser personalizado para 'application/json'
 app.addContentTypeParser('application/json', async (req, res, payload) => {
-    // Convert the raw payload (buffer) into a string
+    // Converte o payload bruto (buffer) em uma string
     const bodyString = payload.toString('utf-8');
 
-    // Parse the string into a JavaScript object
+    // Analisa a string em um objeto JavaScript
     try {
         req.body = JSON.parse(bodyString);
     } catch (err) {
-        throw new Error('Invalid JSON payload');
+        throw new Error('Payload JSON inválido');
     }
 });
 ```
 
-## Registering Multiple Parsers
+## Registrando Múltiplos Parsers
 
-You can register multiple parsers for different content types in your application. Here’s an example that registers parsers for both ``application/json`` and ``text/xml`` content types.
+Você pode registrar múltiplos parsers para diferentes tipos de conteúdo na sua aplicação. Aqui está um exemplo que registra parsers para os tipos `application/json` e `text/xml`.
 
 ```typescript
 import xml2js from 'xml2js';
 
-// Register a JSON parser
+// Registra um parser para JSON
 app.addContentTypeParser('application/json', async (req, res, payload) => {
     const jsonData = payload.toString('utf-8');
     try {
         req.body = JSON.parse(jsonData);
     } catch (err) {
-        throw new Error('Invalid JSON payload');
+        throw new Error('Payload JSON inválido');
     }
 });
 
-// Register an XML parser
+// Registra um parser para XML
 app.addContentTypeParser('text/xml', async (req, res, payload) => {
     const xmlData = payload.toString('utf-8');
     try {
         req.body = await xml2js.parseStringPromise(xmlData);
     } catch (err) {
-        throw new Error('Invalid XML payload');
+        throw new Error('Payload XML inválido');
     }
 });
 ```
 
-The ``addContentTypeParser`` method in ``@cmmv/server`` provides a powerful way to create middleware that handles specific content types, allowing for flexible and efficient request body parsing. By registering custom parsers that only trigger for their respective content types, you can improve the performance and security of your application.
+O método `addContentTypeParser` no `@cmmv/server` fornece uma maneira poderosa de criar middlewares que lidam com tipos de conteúdo específicos, permitindo um parsing eficiente e flexível do corpo da requisição. Ao registrar parsers personalizados que são acionados apenas para seus respectivos tipos de conteúdo, você pode melhorar o desempenho e a segurança da sua aplicação.
 
-With asynchronous handler functions, your middleware can handle complex data parsing, such as JSON, XML, or CSV, while maintaining non-blocking operations, making the framework ideal for high-performance server applications.
+Com funções handler assíncronas, seu middleware pode lidar com parsing de dados complexos, como JSON, XML ou CSV, enquanto mantém operações não bloqueantes, tornando o framework ideal para aplicações de servidor de alto desempenho.

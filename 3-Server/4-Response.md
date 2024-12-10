@@ -1,120 +1,120 @@
-# Response
+# Resposta (Response)
 
-The ``res`` object represents the HTTP response in a server-side application and is responsible for managing and sending responses back to the client. This object allows you to set status codes, headers, cookies, and more. It is an enhanced version of the standard Node.js ``ServerResponse`` object, providing additional features for greater control over the response.  ``res`` object is commonly used to send various types of responses—such as HTML, JSON, or files—to the client. By convention, the ``res`` object refers to the response (and req refers to the request), but its name can be different depending on the parameters used in your callback function.
+O objeto `res` representa a resposta HTTP em uma aplicação no servidor e é responsável por gerenciar e enviar respostas de volta ao cliente. Este objeto permite definir códigos de status, cabeçalhos, cookies, entre outros. É uma versão aprimorada do objeto padrão `ServerResponse` do Node.js, oferecendo recursos adicionais para maior controle sobre a resposta. O objeto `res` é comumente usado para enviar vários tipos de respostas—como HTML, JSON ou arquivos—ao cliente. Por convenção, o objeto `res` refere-se à resposta (e `req` refere-se à requisição), mas seu nome pode ser diferente dependendo dos parâmetros usados na função de callback.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.get('/user/:id', function (req, res) {
-  res.send('user ' + req.params.id);
+  res.send('usuário ' + req.params.id);
 });
 ```
 
-You can also name the parameters differently, like this:
+Você também pode nomear os parâmetros de forma diferente, como neste exemplo:
 
 ```typescript
 app.get('/user/:id', function (request, response) {
-  response.send('user ' + request.params.id);
+  response.send('usuário ' + request.params.id);
 });
 ```
 
-The res object not only supports all built-in methods and properties of Node’s core ``ServerResponse`` but also offers additional capabilities, making it easier to manage the HTTP lifecycle in modern applications.
+O objeto `res` não apenas suporta todos os métodos e propriedades integrados do `ServerResponse` do Node, mas também oferece capacidades adicionais, facilitando o gerenciamento do ciclo de vida HTTP em aplicações modernas.
 
-## Properties
+## Propriedades
 
-### res.socket
+## res.socket
 
-Returns the request socket.
+Retorna o socket da requisição.
 
 ```typescript
 console.log(res.socket);
 ```
 
-### res.status
+## res.status
 
-Retrieves the HTTP status code of the response.
-
-```typescript
-console.log(res.status); // Outputs the status code
-```
-
-### res.now
-
-Returns the current timestamp in milliseconds.
+Recupera o código de status HTTP da resposta.
 
 ```typescript
-console.log(res.now); // Outputs the current timestamp
+console.log(res.status); // Exibe o código de status
 ```
 
-### res.elapsedTime
+## res.now
 
-Returns the elapsed time in milliseconds since the response started.
+Retorna o timestamp atual em milissegundos.
 
 ```typescript
-console.log(res.elapsedTime); // Outputs the time elapsed
+console.log(res.now); // Exibe o timestamp atual
 ```
 
-### res.sent
+## res.elapsedTime
 
-Checks if the response has already been sent.
+Retorna o tempo decorrido em milissegundos desde que a resposta começou.
+
+```typescript
+console.log(res.elapsedTime); // Exibe o tempo decorrido
+```
+
+## res.sent
+
+Verifica se a resposta já foi enviada.
 
 ```typescript
 if (res.sent) {
-  console.log('Response already sent');
+  console.log('Resposta já enviada');
 }
 ```
 
-### res.headerSent
+## res.headerSent
 
-Returns ``true`` if the headers have already been sent.
+Retorna `true` se os cabeçalhos já foram enviados.
 
-### res.writable
+## res.writable
 
-Returns ``true`` if the response is still writable (not ended).
+Retorna `true` se a resposta ainda pode ser gravada (não finalizada).
 
-### res.message (get/set)
+## res.message (get/set)
 
-Retrieves the HTTP status message of the response.
+Recupera ou define a mensagem de status HTTP da resposta.
 
-### res.body (get/set)
+## res.body (get/set)
 
-Returns/set the response body, Can accept different types such as string, Buffer, Object, Stream.
+Recupera ou define o corpo da resposta. Pode aceitar diferentes tipos, como `string`, `Buffer`, `Object` ou `Stream`.
 
-### res.length (get/set)
+## res.length (get/set)
 
-Returns the length of the response content. / Sets the Content-Length header to n.
+Recupera o tamanho do conteúdo da resposta ou define o cabeçalho `Content-Length`.
 
-### res.status (get/set)
+## res.status (get/set)
 
-Sets the HTTP status code for the response.
+Define o código de status HTTP para a resposta.
 
 ```typescript
 res.status = 404;
 ```
 
-### res.lastModified (get/set)
+## res.lastModified (get/set)
 
-Sets the ``Last-Modified`` header using a string or a ``Date``.
+Define o cabeçalho `Last-Modified` usando uma `string` ou um objeto `Date`.
 
 ```typescript
 res.lastModified = new Date();
 ```
 
-## Methods
+## Métodos
 
 ## res.has(field)
 
-Checks if a specific header is present in the response.
+Verifica se um cabeçalho específico está presente na resposta.
 
 ```typescript
 if (res.has('Content-Type')) {
-  console.log('Content-Type header is set');
+  console.log('O cabeçalho Content-Type está definido');
 }
 ```
 
 ## res.remove(field)
 
-Removes a specific header from the response.
+Remove um cabeçalho específico da resposta.
 
 ```typescript
 res.remove('Content-Type');
@@ -122,11 +122,11 @@ res.remove('Content-Type');
 
 ## res.hijack()
 
-Marks the response as hijacked.
+Marca a resposta como sequestrada (`hijacked`).
 
 ## res.code(code)
 
-Sets the HTTP status code and returns the response for chaining.
+Define o código de status HTTP e retorna a resposta para encadeamento (`chaining`).
 
 ```typescript
 res.code(200);
@@ -134,7 +134,7 @@ res.code(200);
 
 ## res.links(links)
 
-Sets the ``Link`` header field with the given ``links`` object.
+Define o campo de cabeçalho `Link` com o objeto `links` fornecido.
 
 ```typescript
 res.links({
@@ -145,7 +145,7 @@ res.links({
 
 ## res.header(field, val)
 
-Sets a header field to a specific value.
+Define um campo de cabeçalho com um valor específico.
 
 ```typescript
 res.header('Content-Type', 'application/json');
@@ -153,7 +153,7 @@ res.header('Content-Type', 'application/json');
 
 ## res.get(field)
 
-Retrieves the value of a specific header.
+Recupera o valor de um cabeçalho específico.
 
 ```typescript
 console.log(res.get('Content-Type'));
@@ -161,7 +161,7 @@ console.log(res.get('Content-Type'));
 
 ## res.type(type)
 
-Sets the ``Content-Type`` based on the provided type.
+Define o tipo de conteúdo (`Content-Type`) com base no tipo fornecido.
 
 ```typescript
 res.type('json');
@@ -169,7 +169,7 @@ res.type('json');
 
 ## res.sendStatus(statusCode)
 
-Sends the HTTP status code with the standard message.
+Envia o código de status HTTP com a mensagem padrão.
 
 ```typescript
 res.sendStatus(404);
@@ -177,111 +177,76 @@ res.sendStatus(404);
 
 ## res.send(payload)
 
-Sends the response with the provided payload.
+Envia a resposta com o payload fornecido.
 
 ```typescript
-res.send({ message: 'Hello World' });
+res.send({ message: 'Olá Mundo' });
 ```
 
 ## res.json(obj)
 
-Sends a JSON response.
+Envia uma resposta no formato JSON.
 
 ```typescript
-res.json({ user: 'John' });
+res.json({ user: 'João' });
 ```
 
 ## res.jsonp(obj)
 
-Sends a JSONP response with callback support.
+Envia uma resposta JSONP com suporte a callback.
 
 ## res.sendFile(path, opt, cb)
 
-The ``res.sendFile()`` function is used to transfer the file located at a given ``path`` to the client. It automatically sets the ``Content-Type`` response header based on the file extension and triggers a callback when the file transfer is complete or if an error occurs. This method is particularly useful for serving static files or dynamically serving files in response to requests.
+A função `res.sendFile()` é usada para transferir o arquivo localizado no caminho (`path`) especificado para o cliente. Ela configura automaticamente o cabeçalho `Content-Type` com base na extensão do arquivo e dispara um callback quando a transferência do arquivo é concluída ou ocorre um erro.
 
-Here’s an overview of how ``res.sendFile()`` works, along with additional options that can be used to control file serving behavior.
+Veja algumas opções suportadas:
 
-| Option          | Type           | Default     | Description                                                                                                                                     |
-|-----------------|----------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `maxAge`        | number/string  | `0`         | Specifies the `Cache-Control` max-age property in milliseconds or a string (converted by `ms`). Used to set how long the file is cached by clients. |
-| `root`          | string         | `undefined` | The root directory from which relative file paths are resolved. Without `root`, the `path` must be an absolute path.                               |
-| `headers`       | object         | `{}`        | Object containing custom headers that will be added to the response when the file is served.                                                     |
-| `dotfiles`      | string         | `'ignore'`  | Determines how dotfiles (files or directories starting with a dot, like `.gitignore`) are handled. Can be set to `'allow'`, `'deny'`, or `'ignore'`. |
-| `etag`          | boolean        | `true`      | Whether to generate an `ETag` header for the file.                                                                                               |
-| `lastModified`  | boolean        | `true`      | Whether to set the `Last-Modified` header for the file.                                                                                          |
-| `cacheControl`  | boolean        | `true`      | Enables or disables setting the `Cache-Control` header in the response.                                                                          |
-| `acceptRanges`  | boolean        | `true`      | Allows partial content (via the `Range` header). This enables clients to request parts of the file, especially for video and audio streaming.     |
-| `immutable`     | boolean        | `false`     | When set to `true`, adds `Cache-Control: immutable` to the response, indicating the file will never change and can be cached indefinitely.       |
-
-## res.download(path, filename, opt, cb)
-
-The ``res.download()`` method is used to transfer the file located at the specified ``path`` as an attachment. This prompts the client to download the file. You can optionally provide a different filename for the downloaded file, and a callback function to handle any errors that may occur during the transfer.
-
-This method also accepts an ``options`` object similar to the one used with ``res.sendFile()``. The ``Content-Disposition`` header is automatically set to signal that the file should be downloaded as an attachment, overriding any previously set ``Content-Disposition`` headers.
-
-Internally, this method uses ``res.sendFile()`` to handle the file transfer.
+| Opção          | Tipo            | Padrão      | Descrição                                                                                                     |
+|----------------|-----------------|-------------|---------------------------------------------------------------------------------------------------------------|
+| `maxAge`      | número/string   | `0`        | Especifica o tempo de cache no cliente em milissegundos ou string.                                            |
+| `root`        | string          | `undefined`| Define o diretório raiz para resolução de caminhos relativos.                                                 |
+| `headers`     | objeto          | `{}`       | Cabeçalhos personalizados que serão adicionados na resposta.                                                  |
+| `dotfiles`    | string          | `ignore`   | Determina como lidar com arquivos ocultos (ex.: `.gitignore`). Pode ser `allow`, `deny`, ou `ignore`. |
+| `etag`        | boolean         | `true`     | Gera um cabeçalho `ETag` para o arquivo.                                                                     |
+| `lastModified`| boolean         | `true`     | Configura o cabeçalho `Last-Modified` para o arquivo.                                                        |
 
 ## res.end(payload, encoding, cb)
 
-Ends the response process.
+Finaliza o processo de resposta.
 
-## res.format(obj)
+## res.render(view, opt, cb)
 
-Responds to the request by calling the appropriate callback from the object ``obj`` based on the ``Accept`` header.
+Renderiza um template de visualização com as opções fornecidas e, opcionalmente, um callback.
 
 ```typescript
-res.format({
-  'text/plain': () => res.send('Plain text'),
-  'application/json': () => res.json({ message: 'JSON' })
+app.get('/sobre', (req, res) => {
+    res.render('sobre', { titulo: 'Sobre Nós', empresa: 'MinhaEmpresa' });
 });
 ```
 
-## res.vary(field)
+Este método é ideal para aplicações que usam engines de template como Pug ou EJS.
 
-Adds the given field to the ``Vary`` header.
-
-```typescript
-res.vary('Accept-Encoding');
-```
-
-## res.attachment(filename)
-
-Sets the ``Content-Disposition`` header to attachment and sets the file name.
+## Compatibilidade de Resposta
 
 ## res.append(field, val)
 
-Appends a value to a specific header.
+Adiciona um valor a um cabeçalho específico.
 
 ```typescript
 res.append('Link', ['<http://localhost/>', '<http://localhost:3000/>']);
-res.append('Set-Cookie', 'foo=bar; Path=/; HttpOnly');
-res.append('Warning', '199 Miscellaneous warning');
-```
-
-## res.location(url)
-
-Sets the ``Location`` header to the given URL.
-
-```typescript
-res.location('/foo/bar').;
-res.location('http://example.com');
-res.location('../login');
 ```
 
 ## res.redirect(url, alt)
 
-Performs a 302 redirect to the specified URL.
+Realiza um redirecionamento (302) para a URL especificada.
 
 ```typescript
-this.redirect('back');
-this.redirect('back', '/index.html');
-this.redirect('/login');
-this.redirect('http://google.com');
+res.redirect('/login');
 ```
 
 ## res.clearCookie(name, options)
 
-Clears the cookie with the given name.
+Remove o cookie com o nome especificado.
 
 ```typescript
 res.clearCookie('session_id');
@@ -289,94 +254,141 @@ res.clearCookie('session_id');
 
 ## res.cookie(name, value, options)
 
-The ``res.cookie()`` method is used to set a cookie with a specified name and value. It allows you to define additional options to control the behavior of the cookie, such as its expiration time, security flags, and more. The method is chainable, meaning you can call it multiple times in a single response.
+Define um cookie com nome e valor especificados, podendo incluir opções adicionais, como tempo de expiração, flags de segurança e mais.
 
 ```typescript
-// Set a cookie that expires in 15 minutes
-res.cookie('rememberme', '1', { 
-    expires: new Date(Date.now() + 900000), 
-    httpOnly: true 
-});
-
-// Set a cookie with max-age of 15 minutes (in milliseconds)
-res.cookie('rememberme', '1', { 
+res.cookie('lembrar', '1', { 
     maxAge: 900000, 
     httpOnly: true 
 });
 ```
 
-| Option     | Type            | Default     | Description                                                                                                    |
-|------------|-----------------|-------------|----------------------------------------------------------------------------------------------------------------|
-| `maxAge`   | number           | `undefined` | Specifies the cookie's `max-age` in milliseconds. If set, it overrides the `expires` option.                   |
-| `expires`  | Date             | `undefined` | Sets the cookie's expiration date. Use `maxAge` as an alternative for setting relative expiration time.         |
-| `path`     | string           | `'/'`       | Defines the URL path for which the cookie is valid. Defaults to the root path `/`.                             |
-| `domain`   | string           | `undefined` | Specifies the domain for which the cookie is valid.                                                            |
-| `secure`   | boolean          | `false`     | Marks the cookie as secure, ensuring it is only sent over HTTPS.                                                |
-| `httpOnly` | boolean          | `false`     | Marks the cookie as HTTP-only, meaning it can't be accessed via JavaScript in the browser.                       |
-| `signed`   | boolean          | `false`     | Indicates whether the cookie should be signed. Requires a secret to be set in `cookieParser()`.                  |
-| `sameSite` | boolean/string   | `false`     | Restricts how the cookie is sent across sites. Can be `'strict'`, `'lax'`, or `true` (which sets to `'strict'`). |
+Essas propriedades e métodos tornam o `res` um objeto poderoso para gerenciar respostas HTTP em aplicações modernas.
+
+| Opção       | Tipo            | Padrão      | Descrição                                                                                                     |
+|-------------|-----------------|-------------|---------------------------------------------------------------------------------------------------------------|
+| `maxAge`   | número          | `undefined` | Especifica o `max-age` do cookie em milissegundos. Se definido, substitui a opção `expires`.                 |
+| `expires`  | Date             | `undefined` | Define a data de expiração do cookie. Use `maxAge` como alternativa para definir o tempo de expiração relativo. |
+| `path`     | string           | `'/'`       | Define o caminho URL no qual o cookie é válido. O padrão é o caminho raiz `/`.                                |
+| `domain`   | string           | `undefined` | Especifica o domínio no qual o cookie é válido.                                                                |
+| `secure`   | boolean          | `false`     | Marca o cookie como seguro, garantindo que seja enviado apenas via HTTPS.                                       |
+| `httpOnly` | boolean          | `false`     | Marca o cookie como HTTP-only, o que significa que ele não pode ser acessado via JavaScript no navegador.        |
+| `signed`   | boolean          | `false`     | Indica se o cookie deve ser assinado. Requer um segredo definido no `cookieParser()`.                          |
+| `sameSite` | boolean/string   | `false`     | Restringe como o cookie é enviado entre sites. Pode ser `'strict'`, `'lax'` ou `true` (o que define como `'strict'`). |
 
 ## res.render(view, opt, cb)
 
-Renders a view template with the provided options and an optional callback function. If a callback is provided, it is executed once the view has been rendered, and no automatic response is sent. If no callback is provided, the method sends a default response with a status code of ``200`` and content type ``text/html``.
+Renderiza um modelo de visualização com as opções fornecidas e uma função de callback opcional. Se um callback for fornecido, ele será executado assim que a visualização for renderizada, e nenhuma resposta automática será enviada. Se nenhum callback for fornecido, o método envia uma resposta padrão com o status `200` e o tipo de conteúdo `text/html`.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
-app.get('/about', (req, res) => {
-    res.render('about', { title: 'About Us', company: 'MyCompany' });
+app.get('/sobre', (req, res) => {
+    res.render('sobre', { title: 'Sobre Nós', company: 'MinhaEmpresa' });
 });
 ```
 
-**Callback Example:**
+**Exemplo com Callback:**
 
 ```typescript
-app.get('/custom-view', (req, res) => {
-    res.render('custom', { title: 'Custom Page' }, (err, html) => {
+app.get('/visualizacao-personalizada', (req, res) => {
+    res.render('personalizado', { title: 'Página Personalizada' }, (err, html) => {
         if (err) 
-            return res.status(500).send('Error rendering the page.');
+            return res.status(500).send('Erro ao renderizar a página.');
         
         res.send(html);
     });
 });
 ```
 
-In this example, a custom callback function is provided. If an error occurs during rendering, the callback handles it by sending a ``500`` status code and error message to the client.
+Neste exemplo, uma função de callback personalizada é fornecida. Se ocorrer um erro durante a renderização, o callback lida com ele enviando um status `500` e uma mensagem de erro ao cliente.
 
-## Response Compatibility 
+## Compatibilidade de Resposta
 
-### res.trailer(key, fn)
+## res.trailer(key, fn)
 
-Sets a trailer header with the provided key and function.
+Define um cabeçalho de trailer com a chave e função fornecidas.
+
+```typescript
+res.trailer('X-Custom-Trailer', () => 'Valor do Trailer');
+```
 
 ### res.flushHeaders()
 
-Flushes the response headers.
+Envia imediatamente os cabeçalhos acumulados para o cliente, sem esperar que o corpo da resposta seja enviado.
+
+```typescript
+res.flushHeaders();
+```
 
 ### res.getHeaderNames()
 
-Returns an array of the names of the headers currently set in the response.
+Retorna um array com os nomes dos cabeçalhos atualmente definidos na resposta.
+
+```typescript
+console.log(res.getHeaderNames());
+```
 
 ### res.getHeaders()
 
-Returns the response headers object.
+Retorna um objeto contendo todos os cabeçalhos definidos na resposta.
+
+```typescript
+console.log(res.getHeaders());
+```
 
 ### res.hasHeader(name)
 
-Checks if a specific header is present in the response.
+Verifica se um cabeçalho específico está presente na resposta.
+
+```typescript
+if (res.hasHeader('Content-Type')) {
+    console.log('O cabeçalho Content-Type está definido');
+}
+```
 
 ### res.removeHeader(name)
 
-Removes a specific header from the response.
+Remove um cabeçalho específico da resposta.
+
+```typescript
+res.removeHeader('Content-Type');
+```
 
 ### res.setTimeout(msecs, cb)
 
-Sets a timeout for the response.
+Define um tempo limite para a resposta. O callback `cb` será executado se o tempo limite for alcançado.
+
+```typescript
+res.setTimeout(5000, () => {
+    console.log('A resposta atingiu o tempo limite');
+});
+```
 
 ### res.uncork()
 
-Uncorks the response stream.
+Desbloqueia o fluxo de escrita na resposta, enviando qualquer conteúdo armazenado em buffer.
 
 ### res.writeEarlyHints(hints, callback)
 
-Writes HTTP/1.1 103 Early Hints with the provided hints object.
+Escreve cabeçalhos HTTP/1.1 103 Early Hints, que podem ser usados para sugerir ao navegador que carregue recursos antes de receber a resposta final.
+
+**Exemplo:**
+
+```typescript
+res.writeEarlyHints({
+    'Link': '</style.css>; rel=preload; as=style'
+}, () => {
+    console.log('Hints enviados ao cliente');
+});
+```
+
+### res.trailer(key, fn)
+
+Define um cabeçalho de trailer com a chave e função fornecidas.
+
+```typescript
+res.trailer('X-Custom-Trailer', () => 'Valor do Trailer');
+```
+
+Esses métodos adicionais fornecem maior flexibilidade no controle de respostas HTTP, permitindo otimizações e personalizações no comportamento do servidor. O objeto `res` é projetado para atender a uma ampla gama de casos de uso em aplicações modernas, garantindo compatibilidade com os padrões HTTP e melhores práticas.

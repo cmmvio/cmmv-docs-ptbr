@@ -1,14 +1,14 @@
-# Application
+# Aplicação
 
-The ``Application`` class is the core component that manages the server's lifecycle, routes, and middleware. It acts as the entry point for configuring routes, applying middleware, and handling HTTP requests and responses. This class is designed to be flexible, allowing developers to define various route-handling mechanisms and middleware functions that enhance the server's capabilities.
+A classe `Application` é o componente central que gerencia o ciclo de vida do servidor, rotas e middleware. Ela atua como o ponto de entrada para configurar rotas, aplicar middleware e lidar com requisições e respostas HTTP. Essa classe foi projetada para ser flexível, permitindo que os desenvolvedores definam vários mecanismos de manipulação de rotas e funções de middleware que aprimoram as capacidades do servidor.
 
-The ``Application`` class in this system is heavily inspired by frameworks like Express, but it is designed to improve performance and add support for modern HTTP features like HTTP2. It also integrates additional middleware and optimizations such as compression and caching mechanisms.
+A classe `Application` neste sistema é fortemente inspirada por frameworks como o Express, mas foi projetada para melhorar o desempenho e adicionar suporte a recursos modernos do HTTP, como HTTP2. Ela também integra middleware adicional e otimizações, como mecanismos de compressão e cache.
 
 ## app.addRoute()
 
-The ``addRoute`` method allows the application to register specific routes with corresponding handlers. This method takes a configuration object as its parameter, which includes the HTTP method, the route path, and the handler function. The addRoute method ensures that each route is mapped properly within the internal router and can handle requests accordingly.
+O método `addRoute` permite que a aplicação registre rotas específicas com seus respectivos manipuladores. Este método recebe um objeto de configuração como parâmetro, que inclui o método HTTP, o caminho da rota e a função manipuladora. O método `addRoute` garante que cada rota seja devidamente mapeada dentro do roteador interno e possa lidar com as requisições adequadamente.
 
-Exemple:
+Exemplo:
 
 ```typescript
 app.addRoute({
@@ -20,30 +20,30 @@ app.addRoute({
 });
 ```
 
-This example registers a GET route at the /users URL, with a handler that responds with a JSON object.
+Este exemplo registra uma rota GET no URL /users, com um manipulador que responde com um objeto JSON.
 
 ## app.use()
 
-The ``use`` method is used to apply middleware functions to the application. Middleware functions are executed in the order they are registered, allowing for various operations such as request validation, logging, and response modifications.
+O método `use` é usado para aplicar funções de middleware na aplicação. As funções de middleware são executadas na ordem em que são registradas, permitindo várias operações, como validação de requisições, registro de logs e modificações na resposta.
 
-``use`` can also handle sub-applications or routers, making it a powerful tool for structuring large applications into smaller components.
+O `use` também pode lidar com subaplicações ou roteadores, tornando-se uma ferramenta poderosa para estruturar grandes aplicações em componentes menores.
 
-Exemple:
+Exemplo:
 
 ```typescript
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next(); // Pass control to the next middleware/route
+  console.log(`\${req.method} \${req.url}`);
+  next(); // Passa o controle para o próximo middleware/rota
 });
 ```
 
-In this example, every incoming request is logged before passing control to the next middleware or route handler.
+Neste exemplo, cada requisição recebida é registrada antes de passar o controle para o próximo middleware ou manipulador de rota.
 
 ## app.render()
 
-The ``render`` method is responsible for rendering views in the application. It allows dynamic HTML templates to be rendered with data passed in by the application. This method typically works with template engines like Pug, which are registered via the ``app.set()`` method.
+O método `render` é responsável por renderizar views na aplicação. Ele permite que templates HTML dinâmicos sejam renderizados com dados passados pela aplicação. Este método normalmente funciona com engines de template como Pug, que são registradas via o método `app.set()`.
 
-Exemple:
+Exemplo:
 
 ```typescript
 app.render('email', function (err, html) {
@@ -57,30 +57,30 @@ app.render('email', { name: 'Tobi' }, function (err, html) {
 
 ## app.route()
 
-The ``route`` method provides a mechanism to define a route handler for a specific HTTP method and path. Unlike ``addRoute``, which directly registers the handler, ``route`` returns an object where you can chain methods for configuring the route further.
+O método `route` fornece um mecanismo para definir um manipulador de rota para um método HTTP e caminho específicos. Diferente do `addRoute`, que registra diretamente o manipulador, `route` retorna um objeto onde você pode encadear métodos para configurar ainda mais a rota.
 
-Exemple:
+Exemplo:
 
 ```typescript
 const userRoute = app.route('GET', '/user/:id');
 
 userRoute.stack.push((req, res) => {
-  res.send(`User ID: ${req.params.id}`);
+  res.send(`User ID: \${req.params.id}`);
 });
 ```
 
-This example creates a ``GET`` route for ``/user/:id`` and registers a handler that responds with the user ID provided in the URL. The ``route`` method is especially useful when you need more control over how the route is handled, allowing for greater flexibility.
+Este exemplo cria uma rota `GET` para `/user/:id` e registra um manipulador que responde com o ID do usuário fornecido na URL. O método `route` é especialmente útil quando você precisa de mais controle sobre como a rota é manipulada, permitindo maior flexibilidade.
 
 ## app.engine()
 
-The ``engine`` method is used to register a template engine with the application for rendering dynamic views. Template engines allow HTML files to be dynamically populated with data before being served to the client.
+O método `engine` é usado para registrar uma engine de template com a aplicação para renderizar views dinâmicas. As engines de template permitem que arquivos HTML sejam dinamicamente preenchidos com dados antes de serem enviados para o cliente.
 
-**Parameters:**
+**Parâmetros:**
 
-* ``ext:`` The file extension for which the engine should be registered. It can be a string representing the extension (e.g., ``'ejs'`` or ``'pug'``).
-* ``fn:`` The callback function responsible for rendering the template. This function typically accepts the file path, options, and a callback to render the view.
+* `ext:` A extensão de arquivo para a qual a engine deve ser registrada. Pode ser uma string representando a extensão (ex.: `'ejs'` ou `'pug'`).
+* `fn:` A função de callback responsável por renderizar o template. Essa função normalmente aceita o caminho do arquivo, opções e um callback para renderizar a view.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.engine('pug', require('pug').__express);
@@ -89,180 +89,180 @@ app.set('view engine', 'pug');
 
 ## app.set()
 
-The ``set`` method is used to configure application settings. It can be used to either assign a value to a setting or retrieve the current value of a setting.
+O método `set` é usado para configurar as definições da aplicação. Ele pode ser usado para atribuir um valor a uma configuração ou recuperar o valor atual de uma configuração.
 
-**Parameters:**
+**Parâmetros:**
 
-* **setting:** The name of the setting (e.g., ``'view engine'``, ``'env'``, ``'etag'``).
-* **val:** The value to assign to the setting.
+* **setting:** O nome da configuração (ex.: `'view engine'`, `'env'`, `'etag'`).
+* **val:** O valor a ser atribuído à configuração.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.set('env', 'production');
 app.set('view engine', 'pug');
 ```
 
-In this example, the environment is set to ``'production'``, and the view engine is set to ``'pug'``.
+Neste exemplo, o ambiente é definido como `'production'` e a engine de view é configurada como `'pug'`.
 
-**Special Settings:**
+**Configurações Especiais:**
 
-* ``'etag':`` Configures the ETag generation mechanism for caching.
-* ``'query parser':`` Sets how the query string should be parsed.
-* ``'trust proxy':`` Determines if the app should trust reverse proxies.
+* `'etag':` Configura o mecanismo de geração de ETag para cache.
+* `'query parser':` Define como a query string deve ser analisada.
+* `'trust proxy':` Determina se o app deve confiar em proxies reversos.
 
 ## app.param()
 
-The ``param`` method is used to define route parameter preprocessing. This is useful for middleware that performs actions on specific route parameters before the request is processed.
+O método `param` é usado para definir o pré-processamento de parâmetros de rota. Isso é útil para middleware que realiza ações em parâmetros de rota específicos antes que a requisição seja processada.
 
-**Parameters:**
+**Parâmetros:**
 
-* ``name:`` The name of the route parameter, or an array of parameter names.
-* ``fn:`` A callback function to handle the route parameter. The callback receives ``(req, res, next, value)``.
+* `name:` O nome do parâmetro da rota ou um array de nomes de parâmetros.
+* `fn:` Uma função de callback para lidar com o parâmetro da rota. O callback recebe `(req, res, next, value)`.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.param('id', (req, res, next, id) => {
-  console.log(`Received ID: ${id}`);
+  console.log(`ID recebido: \${id}`);
   next();
 });
 ```
 
-This example logs the ``id`` parameter whenever a route that includes ``:id`` is hit.
+Este exemplo registra o parâmetro `id` sempre que uma rota que inclui `:id` for acessada.
 
 ## app.path()
 
-The ``path`` method returns the application's absolute pathname. If the application is mounted at a specific path (e.g., ``/admin``), it will return the full mount path, including any parent application mounts.
+O método `path` retorna o caminho absoluto da aplicação. Se a aplicação estiver montada em um caminho específico (ex.: `/admin`), ele retornará o caminho completo de montagem, incluindo qualquer montagem pai.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 const admin = express();
 app.use('/admin', admin);
-console.log(admin.path());  // Outputs: '/admin'
+console.log(admin.path());  // Exibe: '/admin'
 ```
 
 ## app.enabled()
 
-The ``enabled`` method checks if a specific setting is enabled (i.e., truthy). It returns ``true`` if the setting is enabled, and ``false`` if it is not.
+O método `enabled` verifica se uma configuração específica está ativada (ou seja, com valor truthy). Ele retorna `true` se a configuração estiver ativada, e `false` caso contrário.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.set('view cache', true);
-console.log(app.enabled('view cache'));  // Outputs: true
+console.log(app.enabled('view cache'));  // Exibe: true
 ```
 
 ## app.disabled()
 
-The ``disabled`` method checks if a specific setting is disabled (i.e., falsy). It returns ``true`` if the setting is disabled, and ``false`` if it is not.
+O método `disabled` verifica se uma configuração específica está desativada (ou seja, com valor falsy). Ele retorna `true` se a configuração estiver desativada, e `false` caso contrário.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.set('view cache', false);
-console.log(app.disabled('view cache'));  // Outputs: true
+console.log(app.disabled('view cache'));  // Exibe: true
 ```
 
 ## app.enable()
 
-The ``enable`` method enables a specific setting, making it truthy.
+O método `enable` ativa uma configuração específica, tornando-a truthy.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.enable('view cache');
-console.log(app.enabled('view cache'));  // Outputs: true
+console.log(app.enabled('view cache'));  // Exibe: true
 ```
 
 ## app.disable()
 
-The ``disable`` method disables a specific setting, making it falsy.
+O método `disable` desativa uma configuração específica, tornando-a falsy.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.disable('view cache');
-console.log(app.disabled('view cache'));  // Outputs: true
+console.log(app.disabled('view cache'));  // Exibe: true
 ```
 
 ## app.setErrorHandler()
 
-The ``setErrorHandler`` method sets a global error handler for the application. This handler will be invoked whenever an error occurs during request processing. The default error handler will be overridden by the one provided in this method.
+O método `setErrorHandler` define um manipulador de erros global para a aplicação. Este manipulador será invocado sempre que ocorrer um erro durante o processamento da requisição. O manipulador de erros padrão será substituído pelo fornecido neste método.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.setErrorHandler((error, req, res) => {
-  console.error('Error occurred:', error);
-  res.status(500).send({ error: 'Internal Server Error' });
+  console.error('Erro ocorrido:', error);
+  res.status(500).send({ error: 'Erro Interno do Servidor' });
 });
 ```
 
 ## app.addHook()
 
-The ``addHook`` method allows you to attach hooks to specific lifecycle events during the request-response cycle. You can add hooks for events such as ``onSend``, ``preSerialization``, ``onError``, and more.
+O método `addHook` permite anexar hooks a eventos específicos do ciclo de vida durante o ciclo de requisição-resposta. Você pode adicionar hooks para eventos como `onSend`, `preSerialization`, `onError` e outros.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onSend', async (request, response, payload) => {
-  console.log('Response being sent for URL:', request.url);
+  console.log('Resposta sendo enviada para a URL:', request.url);
 });
 ```
 
-This example adds a hook for the onSend event that logs a message just before the response is sent to the client.
+Este exemplo adiciona um hook para o evento onSend que registra uma mensagem antes de a resposta ser enviada ao cliente.
 
 ## app.addContentTypeParser()
 
-The ``addContentTypeParser`` method registers a custom content-type parser for handling different types of request bodies. It allows the application to parse specific content types such as XML, YAML, etc.
+O método `addContentTypeParser` registra um parser de tipo de conteúdo personalizado para lidar com diferentes tipos de corpos de requisição. Ele permite que a aplicação analise tipos de conteúdo específicos, como XML, YAML, etc.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addContentTypeParser('application/xml', (req, res, body, done) => {
-  const parsed = parseXml(body); // Custom XML parsing logic
+  const parsed = parseXml(body); // Lógica de análise de XML personalizada
   done(null, parsed);
 });
 ```
 
-This example registers a custom parser for application/xml content type that converts XML into a usable JavaScript object.
+Este exemplo registra um parser personalizado para o tipo de conteúdo `application/xml` que converte XML em um objeto JavaScript utilizável.
 
 ## app.contentTypeParser()
 
-The ``contentTypeParser`` method is used internally to process incoming request bodies based on the registered content-type parsers. It finds the parser for the given content type and applies it to the request body.
+O método `contentTypeParser` é usado internamente para processar os corpos das requisições com base nos parsers de tipo de conteúdo registrados. Ele encontra o parser para o tipo de conteúdo dado e aplica-o ao corpo da requisição.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.contentTypeParser('application/json', (req, res, next) => {
-  console.log(req.body); // Process parsed JSON body
+  console.log(req.body); // Processa o corpo JSON analisado
   next();
 }, req, res);
 ```
 
-This example processes requests with a content type of application/json and logs the parsed body.
+Este exemplo processa requisições com um tipo de conteúdo `application/json` e registra o corpo analisado.
 
 ## app.METHOD
 
-The ``app.METHOD()`` functions in the framework allow you to define routes based on specific HTTP methods, such as ``GET``, ``PUT``, ``POST``, and ``DELETE``. Each HTTP method corresponds to a method call on the application object, for example, ``app.get()``, ``app.post()``, ``app.put()``, etc. These methods handle incoming requests by routing them to the appropriate callback based on the HTTP method and URL.
+As funções `app.METHOD()` no framework permitem que você defina rotas com base em métodos HTTP específicos, como `GET`, `PUT`, `POST` e `DELETE`. Cada método HTTP corresponde a uma chamada de método no objeto de aplicação, por exemplo, `app.get()`, `app.post()`, `app.put()`, etc. Esses métodos lidam com requisições roteando-as para o callback apropriado com base no método HTTP e na URL.
 
-While the documentation focuses primarily on the most common methods (``GET``, ``POST``, ``PUT``, ``DELETE``), other HTTP methods like ``PATCH``, ``OPTIONS``, and ``HEAD`` are supported in the same way. You can define routes using any standard HTTP method by using the corresponding function on the app object.
+Enquanto a documentação foca principalmente nos métodos mais comuns (`GET`, `POST`, `PUT`, `DELETE`), outros métodos HTTP como `PATCH`, `OPTIONS` e `HEAD` também são suportados da mesma forma. Você pode definir rotas usando qualquer método HTTP padrão utilizando a função correspondente no objeto da aplicação.
 
-For HTTP methods that are not valid JavaScript variable names (e.g., ``M-SEARCH``), you can use bracket notation to define the route. For example:
+Para métodos HTTP que não são nomes de variáveis JavaScript válidos (ex.: `M-SEARCH`), você pode usar notação de colchetes para definir a rota. Por exemplo:
 
 ```typescript
 app['m-search']('/', function(req, res) {
-    res.send('M-SEARCH request');
+    res.send('Requisição M-SEARCH');
 });
 ```
 
-Additionally, when defining a route with ``app.get()``, the framework automatically handles ``HEAD`` requests for the same path, unless you explicitly define ``app.head()`` for that path.
+Além disso, ao definir uma rota com `app.get()`, o framework lida automaticamente com requisições `HEAD` para o mesmo caminho, a menos que você defina explicitamente `app.head()` para aquele caminho.
 
-The ``app.all()`` function is special in that it routes requests of all HTTP methods to a specific path. This is not derived from any one HTTP method, making it useful for middleware or handling any type of request at a given route.
+A função `app.all()` é especial, pois roteia requisições de todos os métodos HTTP para um caminho específico. Isso não deriva de nenhum método HTTP específico, tornando-o útil para middleware ou manipulação de qualquer tipo de requisição em uma determinada rota.
 
-For more detailed information on routing and the various HTTP methods supported, see the routing guide in the documentation.
+Para informações mais detalhadas sobre roteamento e os vários métodos HTTP suportados, consulte o guia de roteamento na documentação.
 
 <table style="border: 0px; background: none">
 <tbody><tr>
@@ -306,9 +306,9 @@ For more detailed information on routing and the various HTTP methods supported,
 
 ## app.listen
 
-The ``listen()`` method starts the server on the specified host and port, returning a Promise that resolves when the server successfully starts listening for incoming connections, or rejects if an error occurs.
+O método `listen()` inicia o servidor no host e porta especificados, retornando uma `Promise` que é resolvida quando o servidor começa a escutar conexões de entrada com sucesso, ou rejeitada se ocorrer um erro.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 const listenOptions = { host: '0.0.0.0', port: 3000 };
@@ -316,9 +316,9 @@ const listenOptions = { host: '0.0.0.0', port: 3000 };
 app.listen(listenOptions)
 .then(server => {
     const attr = server.address();
-    console.log(`Server is listening at ${attr.address}:${attr.port}`);
+    console.log(`Servidor está escutando em \${attr.address}:\${attr.port}`);
 })
 .catch(err => {
-    console.error('Failed to start the server:', err);
+    console.error('Falha ao iniciar o servidor:', err);
 });
 ```

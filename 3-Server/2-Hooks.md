@@ -1,14 +1,14 @@
 # Hooks
 
-The hook system in this server framework is designed to follow a similar lifecycle as that of [Fastify](https://fastify.dev/docs/latest/Reference/Hooks/) but with hooks attached to the application. Hooks are functions that are executed at specific points in the request lifecycle, allowing for customizable behavior during the handling of a request. This system enables you to intercept and manipulate requests, responses, or errors at key points during the lifecycle.
+O sistema de hooks foi projetado para seguir um ciclo de vida semelhante ao do [Fastify](https://fastify.dev/docs/latest/Reference/Hooks/), mas com hooks anexados à aplicação. Hooks são funções executadas em pontos específicos no ciclo de vida de uma requisição, permitindo comportamentos personalizados durante o manuseio de uma requisição. Esse sistema possibilita interceptar e manipular requisições, respostas ou erros em pontos-chave do ciclo de vida.
 
-Each hook is attached to the application and can be defined using the ``addHook()`` method. The order in which hooks are called depends on the hook type. Below, we'll cover three specific hooks: ``onRequest``, ``preParsing``, and ``onRequestAbort``.
+Cada hook é anexado à aplicação e pode ser definido usando o método `addHook()`. A ordem em que os hooks são chamados depende do tipo de hook. Abaixo, abordaremos três hooks específicos: `onRequest`, `preParsing` e `onRequestAbort`.
 
 ## onRequest
 
-The ``onRequest`` hook is executed right at the beginning of the request lifecycle, before any parsing of the request. This is the ideal place to perform operations such as authentication, logging, or setting up required request data.
+O hook `onRequest` é executado logo no início do ciclo de vida da requisição, antes de qualquer análise da requisição. Este é o local ideal para realizar operações como autenticação, registro de logs ou configuração de dados necessários da requisição.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onRequest', (req, res, done) => {
@@ -16,7 +16,7 @@ app.addHook('onRequest', (req, res, done) => {
 });
 ```
 
-Or ``async/await``:
+Ou `async/await`:
 
 ```typescript
 app.addHook('onRequest', async (req, res) => {
@@ -26,118 +26,118 @@ app.addHook('onRequest', async (req, res) => {
 
 ## preParsing
 
-The ``preParsing`` hook is called after the ``onRequest`` hook, but before the request body or query parameters are parsed. It is ideal for cases where you need to manipulate or validate the raw request stream before parsing it (e.g., custom decompression or encryption).
+O hook `preParsing` é chamado após o hook `onRequest`, mas antes que o corpo da requisição ou os parâmetros de consulta sejam analisados. É ideal para casos onde é necessário manipular ou validar o fluxo bruto da requisição antes de analisá-lo (por exemplo, descompressão ou criptografia personalizada).
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('preParsing', async (req, res) => {
-    console.log('Request is about to be parsed');
-    // Modify or inspect the raw request stream here
+    console.log('A requisição está prestes a ser analisada');
+    // Modificar ou inspecionar o fluxo bruto da requisição aqui
 });
 ```
 
 ## onRequestAbort
 
-The ``onRequestAbort`` hook is triggered when the client aborts the request, typically due to a timeout or the client closing the connection before the server sends the response. This is useful for cleanup operations, such as canceling database queries or logging aborted requests.
+O hook `onRequestAbort` é acionado quando o cliente aborta a requisição, geralmente devido a um timeout ou ao cliente fechar a conexão antes que o servidor envie a resposta. Isso é útil para operações de limpeza, como cancelar consultas ao banco de dados ou registrar requisições abortadas.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onRequestAbort', async (req) => {
-    console.log(`Request aborted: ${req.id}`);
-    // Perform any cleanup tasks here
+    console.log(`Requisição abortada: \${req.id}`);
+    // Realizar tarefas de limpeza aqui
 });
 ```
 
 ## onError
 
-The ``onError`` hook is triggered whenever an error occurs during the processing of a request. This hook provides an opportunity to log the error, transform it into a more meaningful response, or handle different types of errors in a custom way.
+O hook `onError` é acionado sempre que ocorre um erro durante o processamento de uma requisição. Este hook oferece uma oportunidade para registrar o erro, transformá-lo em uma resposta mais significativa ou lidar com diferentes tipos de erros de forma personalizada.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onError', async (error, req, res, done) => {
-    console.error('Error occurred:', error);
-    res.status(500).send({ message: 'An internal error occurred' });
+    console.error('Ocorreu um erro:', error);
+    res.status(500).send({ message: 'Ocorreu um erro interno' });
     done();
 });
 ```
 
 ## onSend
 
-The ``onSend`` hook is triggered just before the response is sent to the client, after the request has been processed. This is useful for modifying the response body, headers, or performing final checks before sending the response.
+O hook `onSend` é acionado pouco antes de a resposta ser enviada ao cliente, após a requisição ter sido processada. Isso é útil para modificar o corpo da resposta, cabeçalhos ou realizar verificações finais antes de enviar a resposta.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onSend', async (req, res, payload) => {
-    console.log('Response is about to be sent');
-    // Modify the payload or headers
-    res.setHeader('X-Custom-Header', 'CustomValue');
-    return payload;  // The modified or original payload to send
+    console.log('A resposta está prestes a ser enviada');
+    // Modificar o payload ou os cabeçalhos
+    res.setHeader('X-Custom-Header', 'ValorPersonalizado');
+    return payload;  // O payload modificado ou original a ser enviado
 });
 ```
 
 ## onResponse
 
-The ``onResponse`` hook is executed after the response has been fully sent to the client. This is useful for logging request and response information, performing cleanup tasks, or triggering analytics.
+O hook `onResponse` é executado após a resposta ter sido completamente enviada ao cliente. Isso é útil para registrar informações de requisição e resposta, realizar tarefas de limpeza ou acionar análises.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onResponse', async (req, res) => {
-    console.log(`Response sent for request ${req.id}`);
-    // Perform any post-response tasks such as logging
+    console.log(`Resposta enviada para a requisição \${req.id}`);
+    // Realizar tarefas pós-resposta, como registrar logs
 });
 ```
 
 ## onTimeout
 
-The ``onTimeout`` hook is called when the request times out due to exceeding the allowed time for processing. This can happen when the server takes too long to respond. The hook is useful for logging timeout events or triggering alternative behavior when timeouts occur.
+O hook `onTimeout` é chamado quando a requisição excede o tempo permitido para processamento, resultando em um timeout. Isso pode ocorrer quando o servidor demora muito para responder. O hook é útil para registrar eventos de timeout ou acionar comportamentos alternativos quando ocorrências de timeout acontecem.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onTimeout', async (req, res) => {
-    console.log(`Request timed out: ${req.id}`);
-    res.status(408).send({ message: 'Request Timeout' });
+    console.log(`Requisição com timeout: \${req.id}`);
+    res.status(408).send({ message: 'Tempo limite da requisição' });
 });
 ```
 
 ## onListen
 
-The ``onListen`` hook is triggered when the server starts listening for requests on the specified port and host. It provides an opportunity to perform tasks like logging that the server has started or performing any post-startup operations.
+O hook `onListen` é acionado quando o servidor começa a escutar requisições na porta e host especificados. Ele fornece uma oportunidade para realizar tarefas como registrar que o servidor foi iniciado ou executar quaisquer operações pós-inicialização.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onListen', async (server) => {
-    console.log(`Server is now listening on ${server.address().port}`);
+    console.log(`O servidor está agora escutando na porta \${server.address().port}`);
 });
 ```
 
 ## onReady
 
-The ``onReady`` hook is called when the application is fully initialized and ready to handle incoming requests. This is useful for performing any operations that need to occur once the server is completely prepared, such as preloading data, checking system health, or logging a readiness event.
+O hook `onReady` é chamado quando a aplicação está totalmente inicializada e pronta para lidar com requisições. Isso é útil para realizar quaisquer operações que precisam ocorrer uma vez que o servidor esteja completamente preparado, como pré-carregar dados, verificar a saúde do sistema ou registrar um evento de prontidão.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onReady', async () => {
-    console.log('Application is ready to accept requests');
+    console.log('A aplicação está pronta para aceitar requisições');
 });
 ```
 
 ## onClose
 
-The ``onClose`` hook is triggered when the server is about to close or shut down. This is useful for cleanup tasks, such as closing database connections, releasing resources, or logging shutdown events.
+O hook `onClose` é acionado quando o servidor está prestes a ser fechado ou encerrado. Isso é útil para tarefas de limpeza, como fechar conexões com bancos de dados, liberar recursos ou registrar eventos de desligamento.
 
-**Example:**
+**Exemplo:**
 
 ```typescript
 app.addHook('onClose', async (server) => {
-    console.log('Server is shutting down');
-    // Perform cleanup tasks
+    console.log('O servidor está sendo encerrado');
+    // Realizar tarefas de limpeza
 });
 ```

@@ -1,22 +1,21 @@
 # HTTP2
 
-The ``@cmmv/server`` framework natively supports HTTP/2, which offers significant performance improvements over HTTP/1.1 by allowing multiplexed streams, header compression, and server push. These features are ideal for applications that need faster page load times and better resource utilization, especially in modern web applications.
+O framework `@cmmv/server` suporta nativamente HTTP/2, oferecendo melhorias significativas de desempenho em relação ao HTTP/1.1, permitindo streams multiplexados, compressão de cabeçalhos e server push. Esses recursos são ideais para aplicações que precisam de tempos de carregamento mais rápidos e melhor utilização de recursos, especialmente em aplicações web modernas.
 
-HTTP/2 is particularly useful for reducing latency, improving page load performance, and enhancing the overall efficiency of the client-server communication.
+O HTTP/2 é particularmente útil para reduzir a latência, melhorar o desempenho de carregamento de páginas e aumentar a eficiência geral da comunicação cliente-servidor.
 
-Enabling HTTP/2 in @cmmv/server
-To enable HTTP/2, you simply need to configure the server with the http2 option set to true. Additionally, you will need to provide SSL certificates since HTTP/2 requires HTTPS for browser support.
+## Habilitando HTTP/2
 
-Here's an example of how to implement HTTP/2 support in @cmmv/server:
+Para habilitar o HTTP/2, basta configurar o servidor com a opção `http2` definida como `true`. Além disso, será necessário fornecer certificados SSL, pois o HTTP/2 exige HTTPS para suporte em navegadores.
 
-**Example with HTTP/2**
+### Exemplo com HTTP/2
 
 ```typescript
 import { readFileSync } from 'node:fs';
 import cmmv from '@cmmv/server';
 
 const app = cmmv({
-    http2: true, // Enable HTTP/2
+    http2: true, // Habilita HTTP/2
     https: {
         key: readFileSync('./cert/private-key.pem'),  
         cert: readFileSync('./cert/certificate.pem'), 
@@ -34,7 +33,7 @@ app.get('/', (req, res) => {
 app.listen({ host, port })
 .then(server => {
     console.log(
-        `HTTP/2 server running on https://${server.address().address}:${server.address().port}`
+        `Servidor HTTP/2 rodando em https://\${server.address().address}:\${server.address().port}`
     );
 })
 .catch(err => {
@@ -42,13 +41,13 @@ app.listen({ host, port })
 });
 ```
 
-[ALPN negotiation](https://datatracker.ietf.org/doc/html/rfc7301) allows support for both HTTPS and HTTP/2 over the same socket. Node core req and res objects can be either HTTP/1 or HTTP/2:
+A negociação [ALPN](https://datatracker.ietf.org/doc/html/rfc7301) permite suporte para HTTPS e HTTP/2 no mesmo socket. Os objetos `req` e `res` do Node podem ser tanto HTTP/1 quanto HTTP/2:
 
 ```typescript
 const app = cmmv({
-    http2: true, // Enable HTTP/2
+    http2: true, // Habilita HTTP/2
     https: {
-        allowHTTP1: true, // fallback support for HTTP1
+        allowHTTP1: true, // Suporte fallback para HTTP1
         key: readFileSync('./cert/private-key.pem'),  
         cert: readFileSync('./cert/certificate.pem'), 
         passphrase: '1234'                           
@@ -56,62 +55,64 @@ const app = cmmv({
 });
 ```
 
-You can test your new server with:
+Você pode testar seu novo servidor com:
 
 ```bash
 $ npx h2url https://localhost:3000
 ```
 
-## Self-Signed SSL Certificate
+## Certificado SSL Autoassinado
 
-To test HTTP/2 locally with ``@cmmv/server``, you need an SSL certificate because browsers require HTTPS to support HTTP/2. Here's how to generate a self-signed certificate for your localhost environment.
+Para testar HTTP/2 localmente com `@cmmv/server`, é necessário um certificado SSL, já que navegadores exigem HTTPS para suporte ao HTTP/2. Veja como gerar um certificado autoassinado para o seu ambiente localhost.
 
-Steps to Create a Self-Signed SSL Certificate
-You can use OpenSSL, which is a free and open-source tool, to generate the necessary SSL files (private key and certificate) for local development. Follow the steps below:
+### Passos para Criar um Certificado SSL Autoassinado
 
-**1. Install OpenSSL**
-If you don't already have OpenSSL installed, you can download and install it from here or through a package manager like ``brew`` on macOS or ``apt-get`` on Linux.
+Você pode usar o OpenSSL, uma ferramenta gratuita e open-source, para gerar os arquivos SSL necessários (chave privada e certificado) para desenvolvimento local. Siga os passos abaixo:
 
-For macOS:
+#### **1. Instale o OpenSSL**
+
+Caso não tenha o OpenSSL instalado, você pode baixá-lo aqui ou instalá-lo via gerenciador de pacotes como `brew` no macOS ou `apt-get` no Linux.
+
+No macOS:
 
 ```bash
 brew install openssl
 ```
 
-For Linux (Ubuntu/Debian):
+No Linux (Ubuntu/Debian):
 
 ```bash
 sudo apt-get install openssl
 ```
 
-**2. Generate a Private Key**
+#### **2. Gere uma Chave Privada**
 
-First, you need to create a private key that will be used to sign the SSL certificate.
+Primeiro, crie uma chave privada que será usada para assinar o certificado SSL.
 
 ```bash
 openssl genpkey -algorithm RSA -out private-key.pem -aes256
 ```
 
-**3. Create a Self-Signed Certificate**
+#### **3. Crie um Certificado Autoassinado**
 
-Now that you have a private key, you can create the SSL certificate.
+Agora que você tem a chave privada, pode criar o certificado SSL.
 
 ```bash
 openssl req -new -x509 -key private-key.pem -out certificate.pem -days 365
 ```
 
-This command will generate a self-signed certificate named ``certificate.pem`` that's valid for 365 days. The ``-subj`` parameter provides the necessary certificate information, such as the Common Name (``CN``), which should be ``localhost``.
+Esse comando gerará um certificado autoassinado chamado `certificate.pem`, válido por 365 dias.
 
-**4. Bypass Browser Warnings (Optional)**
+#### **4. Ignorar Avisos do Navegador (Opcional)**
 
-Since the certificate is self-signed, most browsers will display a security warning. To bypass this:
+Como o certificado é autoassinado, a maioria dos navegadores exibirá um aviso de segurança. Para ignorar isso:
 
-* **Chrome:** Navigate to ``chrome://flags/#allow-insecure-localhost`` and enable the flag that allows insecure localhost.
-* **Firefox:** Click "Advanced" and then "Add Exception" when the warning appears.
+- **Chrome:** Navegue para `chrome://flags/#allow-insecure-localhost` e habilite a flag que permite localhost inseguro.
+- **Firefox:** Clique em "Avançado" e depois em "Adicionar Exceção" quando o aviso aparecer.
 
-**5. Use the Certificate in ``@cmmv/server``**
+#### **5. Use o Certificado no `@cmmv/server`**
 
-Now, you can use the generated ``private-key.pem`` and certificate.pem files in your ``@cmmv/server`` configuration as shown below:
+Agora, você pode usar os arquivos gerados `private-key.pem` e `certificate.pem` na configuração do `@cmmv/server`, conforme mostrado abaixo:
 
 ```typescript
 import { readFileSync } from 'node:fs';
@@ -122,7 +123,7 @@ const app = cmmv({
     https: {
         key: readFileSync('./cert/private-key.pem'),
         cert: readFileSync('./cert/certificate.pem'),
-        passphrase: 'your-passphrase'
+        passphrase: 'sua-senha'
     }
 });
 
@@ -132,21 +133,20 @@ app.get('/', (req, res) => {
 
 app.listen({ host: '0.0.0.0', port: 3000 })
 .then(server => {
-    console.log(`HTTP/2 server running on https://localhost:3000`);
+    console.log('Servidor HTTP/2 rodando em https://localhost:3000');
 })
 .catch(err => {
-    console.error('Error starting the server:', err);
+    console.error('Erro ao iniciar o servidor:', err);
 });
 ```
 
-Now your local server will run with HTTP/2 and SSL encryption!
+Agora seu servidor local estará rodando com HTTP/2 e criptografia SSL!
 
-## Plain or insecure
+## HTTP2 em Texto Simples ou Inseguro
 
-If you are building microservices, you can connect to HTTP2 in plain text, however, this is not supported by browsers.
+Se você estiver criando microsserviços, pode se conectar ao HTTP2 em texto simples. No entanto, isso não é suportado por navegadores.
 
 ```typescript
-import { readFileSync } from 'node:fs';
 import cmmv from '@cmmv/server';
 
 const app = cmmv({ http2: true });
@@ -157,14 +157,14 @@ app.get('/', (req, res) => {
 
 app.listen({ host: '0.0.0.0', port: 3000 })
 .then(server => {
-    console.log(`HTTP/2 server running on https://localhost:3000`);
+    console.log('Servidor HTTP/2 rodando em http://localhost:3000');
 })
 .catch(err => {
-    console.error('Error starting the server:', err);
+    console.error('Erro ao iniciar o servidor:', err);
 });
 ```
 
-You can test your new server with:
+Você pode testar seu novo servidor com:
 
 ```bash
 $ npx h2url http://localhost:3000
