@@ -1,0 +1,47 @@
+# Introdução
+
+CMMV (Contract-Model-Model-View) é um framework minimalista projetado para simplificar o desenvolvimento de aplicações escaláveis e modulares utilizando TypeScript. Combinando o poder de contratos com uma arquitetura modular, o CMMV permite que os desenvolvedores definam toda a estrutura de sua aplicação, desde entidades ORM até controladores REST e endpoints WebSocket, de forma clara e fácil de manter.
+
+O projeto é dividido em três componentes principais:
+
+1. **Sistema Core**: O coração do CMMV, escrito em TypeScript e executado em Node.js, é responsável por gerenciar contratos, gerar código, integrar com bancos de dados e lidar com operações no lado do servidor. Este componente cuida de tudo, desde o parsing e geração de código até a integração com serviços externos, como servidores em nuvem e bancos de dados.
+
+2. **Backend**: O backend do CMMV é inspirado no [NestJS](https://nestjs.com/) em termos de estrutura e organização, utilizando um formato semelhante de decoradores, serviços, controladores e outros padrões arquiteturais. Isso proporciona uma experiência de desenvolvimento familiar para aqueles que já usam o ``NestJS``, facilitando a criação de aplicações escaláveis e organizadas com uma abordagem modular e orientada a objetos. Algumas implementações diferem bastante, especialmente no que diz respeito ao contexto e à necessidade de injeção de dependência.
+
+3. **Frontend**: O CMMV utiliza seu próprio sistema de reatividade, inspirado pelo [Vue 3](https://vuejs.org/) como framework base, com suporte ao Vue 3 já disponível. O suporte para outros frameworks, como React e Angular, será introduzido em breve. No entanto, o uso desses frameworks não é recomendado em cenários onde desempenho máximo e otimização de SEO são essenciais. Essa abordagem simplifica o processo de criação, gerenciamento e implantação de aplicações, oferecendo desempenho otimizado.
+
+O CMMV é inspirado por uma ampla gama de tecnologias e conceitos, mesclando ideias do desenvolvimento de jogos (por exemplo, Blueprints do Unreal Engine), arquiteturas baseadas em componentes (por exemplo, Delphi) e práticas modernas de desenvolvimento web. Ele desafia paradigmas tradicionais de desenvolvimento web e de aplicações, com o objetivo de tornar a criação de sistemas complexos o mais intuitiva possível.
+
+Este projeto reflete mais de 20 anos de experiência em diferentes linguagens e frameworks, com influências de Delphi, Unity, Unreal, C#, C++, JavaScript, Node.js, TypeScript e VSCode.
+
+Esperamos que você ache o CMMV tão empolgante e poderoso quanto nós. Ele é o resultado de quase uma década de trabalho e paixão por simplificar e melhorar o processo de desenvolvimento.
+
+## Por que o CMMV?
+
+Com mais de 20 anos de experiência na indústria de tecnologia como programador, desenvolvi diversos sistemas e projetos usados por milhões de usuários. Em 2020, estava trabalhando no meu maior projeto até então, que foi construído com o seguinte stack: backend usando Node.js, TypeScript, NestJS, Nuxt.js, Redis, MongoDB, Elasticsearch e RabbitMQ; frontend com Vue.js e Tailwind CSS; testes com Mocha, ESLint e GitLab CI; infraestrutura gerenciada com Kubernetes e Nginx; e inteligência de negócios com Grafana, Kafka e IndexDB; além de um aplicativo mobile baseado em Flutter. Vamos analisar os problemas enfrentados nesse setup.
+
+Primeiro, a API do NestJS, à medida que mais controladores e gateways eram adicionados, tornou-se cada vez mais difícil de gerenciar e desacelerava significativamente, principalmente devido à injeção de dependência. O gerenciamento de módulos tornou-se um pesadelo burocrático. Embora a aplicação final tivesse um bom desempenho, o desenvolvimento tornou-se trabalhoso. Além disso, o SSR (renderização do lado do servidor) do Nuxt exigia integração, o que frequentemente causava problemas devido a políticas de CORS. A comunicação entre as aplicações ocorria via HTTP e, embora o NestJS suportasse RPC, o Nuxt.js precisava de proxies customizados para implementar WebSockets. O uso do Protobuf no frontend apresentava desafios adicionais, e a geração de controladores RPC com o Protoc resultava em uma base de código inchada, tornando a aplicação ainda mais pesada.
+
+Segundo, o Nuxt.js, embora capaz de SSR, ainda dependia de proxies com APIs para carregar dados, já que era executado em uma implementação baseada no Vite. A geração de páginas estáticas em escala, com milhares de páginas, tornou-se uma tarefa inatingível. Tentamos, mas o tempo necessário para a geração de páginas era proibitivo. Usar SSR padrão, com a API de proxy e comunicação HTTP+JSON, aumentava significativamente o TTFB (Tempo para o Primeiro Byte), tornando a otimização desafiadora. Apenas ao entregar conteúdo diretamente por meio de um CDN conseguimos mitigar esses atrasos, mas, mesmo assim, o carregamento da página era muito lento para SEO ideal. Além disso, o Nuxt.js gerava inúmeros bundles JavaScript e arquivos de dados para complementar o data binding no frontend, aumentando o carregamento da página e tornando a otimização de SEO uma batalha constante.
+
+Pode parecer contraintuitivo combinar API e SSR na mesma aplicação devido a processos concorrentes, mas considere que é muito mais simples criar um balanceador de carga único que sirva tanto o frontend quanto o backend. Com integração direta, o SSR elimina a latência ao buscar dados—excelente para reduzir os tempos de carregamento de páginas e gerar páginas estáticas. Quando bem integrado com cache Redis e consultas eficientes ao banco de dados, o SSR pode ser quase tão rápido quanto páginas estáticas pré-renderizadas. Além disso, essa arquitetura simplifica integrações como internacionalização, dados estruturados e sitemaps, tornando-as muito mais fáceis de gerenciar e servir.
+
+Finalmente, a redução no tempo de carregamento da página, que também é considerada pelos motores de busca, é crucial. Embora o Vue seja uma excelente ferramenta, a componentização no frontend apresenta desafios de desempenho devido ao potencial de acoplamento profundo entre componentes. Mesmo com gerenciamento de estado, problemas críticos relacionados à reatividade de elementos podem levar a fluxos de atualização em cascata, que podem congelar o aplicativo ou causar loops infinitos. Evitar esses problemas exige um sólido entendimento do framework subjacente.
+
+Considerando todos esses fatores, criei o CMMV (Contract-Model-Model-View). Inicialmente, o objetivo era desenvolver uma solução completa que atendesse às minhas necessidades de desenvolvimento, mantendo a sintaxe familiar do NestJS, Vue, etc., mas resolvendo os problemas que me atormentaram ao longo dos anos e dificultaram o desenvolvimento.
+
+Meu objetivo não era competir com ou substituir nenhuma das ferramentas mencionadas. Todas as tecnologias citadas são de excelente qualidade e altamente recomendadas. Elas têm grandes comunidades e são adequadas para a maioria dos projetos. No entanto, enfrentei desafios únicos em meus projetos, particularmente em lidar com grandes volumes de tráfego e a necessidade de obter o melhor desempenho possível em SEO. Apesar dos meus melhores esforços com meu stack anterior, os resultados ainda não eram satisfatórios para minhas necessidades específicas. O CMMV nasceu dessa necessidade de atender a esses requisitos excepcionais.
+
+André Ferreira (CEO)
+
+## Leia antes de usar
+
+O framework CMMV é lançado sob a licença MIT, permitindo que qualquer pessoa o utilize e modifique livremente. No entanto, é importante notar que o objetivo principal deste projeto é atender às minhas necessidades pessoais para um projeto específico em que estou trabalhando. Ele não foi projetado para ser um framework de propósito geral para a comunidade de desenvolvedores em geral ou para atender às necessidades da maioria dos desenvolvedores. Como resultado, alguns módulos ou funcionalidades que você pode precisar podem não ter implementações nativas ou suporte oficial no CMMV.
+
+Se você precisar usar serviços como Memcache, Kafka ou qualquer outro serviço que não seja nativamente suportado pelo CMMV, será necessário criar uma interface de comunicação para esses serviços. O projeto é flexível o suficiente para permitir tais integrações, mas lembre-se de que o design é adaptado às minhas necessidades específicas.
+
+Se você gosta do projeto e desenvolve soluções para outros serviços, encorajo você a liberar sua solução no NPM, atualizar a documentação e enviar um pull request. No entanto, qualquer adição de novos módulos ao core do projeto deve ser discutida com os moderadores para garantir que a implementação esteja alinhada com os objetivos gerais do projeto. Caso contrário, seu pull request será negado.
+
+Não estou aqui para engajar em debates sobre escolhas arquiteturais ou preferências pessoais. Por exemplo, se você prefere a sintaxe do React em vez do Vue, você é livre para fazer um fork do projeto e modificá-lo para atender à sua stack ou tecnologia preferida. No entanto, não espere que o CMMV seja alterado para atender às suas necessidades individuais. O projeto é focado em resolver meu fluxo de trabalho e casos de uso específicos.
+
+Embora o CMMV forneça flexibilidade para personalização, quaisquer mudanças que afetem o core do projeto serão cuidadosamente revisadas. O princípio orientador principal é que este projeto foi construído para atender às minhas próprias necessidades, não às suas.
