@@ -1,14 +1,14 @@
 # Gateway
 
-When the ``@cmmv/ws`` module is present in the project, it automatically creates WebSocket (WS) gateways based on the defined contracts. These gateways handle **Remote Procedure Call (RPC)** interactions in a binary format, optimizing both the size of the transmitted data and the process of identifying the correct handlers for the messages.
+Quando o módulo `@cmmv/ws` está presente no projeto, ele cria automaticamente gateways WebSocket (WS) com base nos contratos definidos. Esses gateways gerenciam interações de **Remote Procedure Call (RPC)** em um formato binário, otimizando tanto o tamanho dos dados transmitidos quanto o processo de identificação dos handlers corretos para as mensagens.
 
-* **RPC Gateways:** Each contract generates a WebSocket gateway that allows interaction between clients and the server using efficient binary communication.
+* **Gateways RPC:** Cada contrato gera um gateway WebSocket que permite interação entre clientes e o servidor utilizando comunicação binária eficiente.
 
-* **Automatic Request Packaging:** The ``@cmmv/ws`` module automatically packages responses and parses incoming requests using the contract definitions, ensuring that all messages conform to the expected structure.
+* **Empacotamento Automático de Solicitações:** O módulo `@cmmv/ws` empacota automaticamente as respostas e analisa as solicitações recebidas usando as definições dos contratos, garantindo que todas as mensagens estejam em conformidade com a estrutura esperada.
 
-* **WsCall Contract:** The ``WsCall`` contract is a crucial component that serves as an index for system packets and defines the available messages in each contract. It helps minimize the number of bytes sent during interactions and allows easy identification of which handler should process each message.
+* **Contrato WsCall:** O contrato `WsCall` é um componente crucial que serve como índice para pacotes do sistema e define as mensagens disponíveis em cada contrato. Ele minimiza a quantidade de bytes enviados durante as interações e permite fácil identificação do handler responsável pelo processamento de cada mensagem.
 
-Here is an example of the ``WsCall`` contract that serves as the foundation for these interactions:
+Aqui está um exemplo do contrato `WsCall`, que serve como base para essas interações:
 
 ```typescript
 import { AbstractContract, Contract, ContractField } from "@cmmv/core";
@@ -32,22 +32,22 @@ export class WSContract extends AbstractContract {
 }
 ```
 
-**Client Sends a Request:** When the client sends a request, it is formatted according to the ``WsCall`` contract, containing:
+**Cliente Envia uma Solicitação:** Quando o cliente envia uma solicitação, ela é formatada de acordo com o contrato `WsCall`, contendo:
 
-* **contract:** A number identifying which contract the message belongs to.
-* **message:** A number identifying the specific message or action.
-* **data:** A binary payload (usually a serialized object) containing the actual data of the request.
+* **contract:** Um número identificando a qual contrato a mensagem pertence.
+* **message:** Um número identificando a mensagem ou ação específica.
+* **data:** Um payload binário (geralmente um objeto serializado) contendo os dados reais da solicitação.
 
-**Parsing the Request:** Upon receiving the request, the system parses the contract and message fields to determine:
+**Analisando a Solicitação:** Ao receber a solicitação, o sistema analisa os campos `contract` e `message` para determinar:
 
-* Which contract the request corresponds to.
-* Which handler in the gateway should process the message.
+* A qual contrato a solicitação corresponde.
+* Qual handler no gateway deve processar a mensagem.
 
-* **Calling the Correct Handler:** Once the system identifies the contract and message, it routes the request to the appropriate handler in the WebSocket gateway. The handler then processes the request and sends back a response in the same efficient binary format.
+**Chamando o Handler Correto:** Depois de identificar o contrato e a mensagem, o sistema encaminha a solicitação para o handler apropriado no gateway WebSocket. O handler processa a solicitação e envia uma resposta no mesmo formato binário eficiente.
 
-## Example Gateway
+## Exemplo de Gateway
 
-When a contract is created, the WebSocket gateway might look like this:
+Quando um contrato é criado, o gateway WebSocket pode ser assim:
 
 ```typescript
 import { Rpc, Message, Data, Socket, RpcUtils } from "@cmmv/ws";
@@ -81,18 +81,19 @@ export class TaskGateway {
 }
 ```
 
-**Binary Communication:** Uses binary data (via Uint8Array) for fast and compact message exchanges.
-**Efficient Message Handling:** The contract and message fields allow quick identification of the correct handler, minimizing overhead.
-**Custom Gateways:** Developers can extend or customize gateways by creating specific handlers for different contract messages.
-This approach ensures that communication between clients and the server is not only efficient but also structured and easy to manage.
+* **Comunicação Binária:** Usa dados binários (via `Uint8Array`) para trocas rápidas e compactas de mensagens.
+* **Manuseio Eficiente de Mensagens:** Os campos `contract` e `message` permitem rápida identificação do handler correto, minimizando sobrecarga.
+* **Gateways Personalizados:** Desenvolvedores podem estender ou personalizar gateways criando handlers específicos para diferentes mensagens de contrato.
 
-## WebSocket Interceptor
+Essa abordagem garante que a comunicação entre clientes e o servidor seja não apenas eficiente, mas também estruturada e fácil de gerenciar.
 
-The interceptor is a key component in the ``@cmmv/ws`` system that handles the parsing and routing of incoming WebSocket messages. When a WebSocket packet is received from the client, the interceptor processes the data, decodes it according to the defined protocol, and dispatches it to the appropriate handler.
+## Interceptor WebSocket
 
-Below is an explanation of how the WebSocket interceptor works step-by-step:
+O interceptor é um componente chave no sistema `@cmmv/ws` que gerencia a análise e roteamento das mensagens WebSocket recebidas. Quando um pacote WebSocket é recebido do cliente, o interceptor processa os dados, decodifica-os de acordo com o protocolo definido e os despacha para o handler apropriado.
 
-The interceptor receives a ``socket`` and the binary ``data``. The first step is to decode the binary data into a structured message using the ``WSCall`` contract:
+Abaixo está uma explicação de como o interceptor WebSocket funciona, passo a passo:
+
+O interceptor recebe um `socket` e os dados binários `data`. O primeiro passo é decodificar os dados binários em uma mensagem estruturada usando o contrato `WsCall`:
 
 ```typescript
 const message = plainToClass(WSCall, ProtoRegistry.
@@ -102,7 +103,7 @@ const message = plainToClass(WSCall, ProtoRegistry.
 );
 ```
 
-Next, the system retrieves the contract and message type from the ``ProtoRegistry``:
+Em seguida, o sistema recupera o contrato e o tipo de mensagem do `ProtoRegistry`:
 
 ```typescript
 const contract = ProtoRegistry.retrieveByIndex(message.contract);
@@ -110,12 +111,11 @@ const typeName = ProtoRegistry.retrieveTypes(
     message.contract, message.message
 );
 ```
-<br/>
 
-* **retrieveByIndex(message.contract):** Retrieves the contract by its index in the registry.
-* **retrieveTypes(message.contract, message.message):** Determines the specific type of message based on the contract and message identifiers. This will be used to find the correct handler.
+* **`retrieveByIndex(message.contract):`** Recupera o contrato pelo índice no registro.
+* **`retrieveTypes(message.contract, message.message):`** Determina o tipo específico da mensagem com base nos identificadores de contrato e mensagem. Isso será usado para encontrar o handler correto.
 
-Once the contract and message type are identified, the interceptor checks if the message type has a registered handler:
+Depois que o contrato e o tipo de mensagem são identificados, o interceptor verifica se o tipo de mensagem tem um handler registrado:
 
 ```typescript
 if (contract && this.registeredMessages.has(typeName)) {
@@ -129,7 +129,7 @@ if (contract && this.registeredMessages.has(typeName)) {
 }
 ```
 
-Finally, the handler is executed with the mapped arguments:
+Finalmente, o handler é executado com os argumentos mapeados:
 
 ```typescript
 const args = params
@@ -149,28 +149,28 @@ try {
 }
 ```
 
-This process ensures that all WebSocket messages are efficiently routed to the appropriate handler based on the contract and message type.
+Esse processo garante que todas as mensagens WebSocket sejam roteadas de forma eficiente para o handler apropriado com base no contrato e tipo de mensagem.
 
 ## Utils
 
-The ``RpcUtils`` class provides utility methods to work with Protobuf serialization and message packaging for RPC communication. It is primarily used to convert JavaScript objects into Protobuf-encoded binary buffers, as well as to pack RPC messages for transmission over WebSocket or other binary protocols.
+A classe `RpcUtils` fornece métodos utilitários para trabalhar com a serialização Protobuf e empacotamento de mensagens para comunicação RPC. Ela é usada principalmente para converter objetos JavaScript em buffers binários codificados em Protobuf e empacotar mensagens RPC para transmissão via WebSocket ou outros protocolos binários.
 
-| Method                             | Description                                                                                               |
+| Método                             | Descrição                                                                                               |
 |------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| `generateBuffer(protoFile, namespace, data)` | Converts a JavaScript object into a Protobuf-encoded buffer using the specified proto file and message type. |
-| `pack(contractName, messageName, data)`       | Packs a message into a Protobuf-encoded buffer for RPC communication, including contract and message metadata. |
+| `generateBuffer(protoFile, namespace, data)` | Converte um objeto JavaScript em um buffer codificado em Protobuf usando o arquivo proto e o tipo de mensagem especificado. |
+| `pack(contractName, messageName, data)`       | Empacota uma mensagem em um buffer codificado em Protobuf para comunicação RPC, incluindo metadados de contrato e mensagem. |
 
-``generateBuffer(protoFile: string, namespace: string, data: any): Promise<Uint8Array>``
+`generateBuffer(protoFile: string, namespace: string, data: any): Promise<Uint8Array>`
 
-This method generates a Protobuf-encoded buffer from a JavaScript object using a specific proto file and message type.
+Este método gera um buffer codificado em Protobuf a partir de um objeto JavaScript usando um arquivo proto específico e tipo de mensagem.
 
-**Parameters:**
-* **protoFile (``string``):** The name of the proto file that defines the message structure.
-* **namespace (``string``):** The name of the message type (namespace) within the proto file.
-* **data (``any``):** The JavaScript object containing the data to be encoded into Protobuf format.
+**Parâmetros:**
+* **protoFile (`string`):** O nome do arquivo proto que define a estrutura da mensagem.
+* **namespace (`string`):** O nome do tipo de mensagem (namespace) dentro do arquivo proto.
+* **data (`any`):** O objeto JavaScript contendo os dados a serem codificados no formato Protobuf.
 
-**Returns:**
-* **``Promise<Uint8Array | null>:``** A promise that resolves to a ``Uint8Array`` representing the encoded Protobuf message, or null if an error occurs.
+**Retorna:**
+* **`Promise<Uint8Array | null>`:** Uma promise que resolve para um `Uint8Array` representando a mensagem codificada em Protobuf, ou null se ocorrer um erro.
 
 ```typescript
 const buffer = await RpcUtils.generateBuffer(
@@ -178,25 +178,25 @@ const buffer = await RpcUtils.generateBuffer(
 );
 
 if (buffer) {
-    // buffer is ready to be sent via WebSocket or saved
+    // buffer pronto para envio via WebSocket ou armazenamento
 } else {
-    // handle error
+    // tratar erro
 }
 ```
 
 ## Pack
 
-``pack(contractName: string, messageName: string, data?: any): Promise<Uint8Array | null>``
+`pack(contractName: string, messageName: string, data?: any): Promise<Uint8Array | null>`
 
-The ``pack`` method prepares a Protobuf-encoded message for RPC communication. It includes metadata such as the contract and message indices, along with the actual message data.
+O método `pack` prepara uma mensagem codificada em Protobuf para comunicação RPC. Inclui metadados como os índices de contrato e mensagem, junto com os dados reais da mensagem.
 
-**Parameters:**
-* **contractName (``string``):** The name of the contract associated with the message.
-* **messageName (``string``):** The name of the message within the contract.
-* **data (``any``, optional):** The data to be included in the message, which will be encoded as Protobuf.
+**Parâmetros:**
+* **contractName (`string`):** O nome do contrato associado à mensagem.
+* **messageName (`string`):** O nome da mensagem dentro do contrato.
+* **data (`any`, opcional):** Os dados a serem incluídos na mensagem, que serão codificados em Protobuf.
 
-**Returns:**
-* **``Promise<Uint8Array | null>``:** A promise that resolves to a ``Uint8Array`` representing the packed message, or ``null`` if an error occurs.
+**Retorna:**
+* **`Promise<Uint8Array | null>`:** Uma promise que resolve para um `Uint8Array` representando a mensagem empacotada, ou `null` se ocorrer um erro.
 
 ```typescript
 const packedMessage = await RpcUtils.pack(
@@ -204,8 +204,8 @@ const packedMessage = await RpcUtils.pack(
 );
 
 if (packedMessage) {
-    // ready to send packed message via WebSocket or other binary protocol
+    // mensagem empacotada pronta para envio via WebSocket ou outro protocolo binário
 } else {
-    // handle error
+    // tratar erro
 }
 ```

@@ -1,71 +1,87 @@
-# Directives
+# Diretrizes
 
-Preloading data that will be sent directly in HTML is a crucial factor for SEO (Search Engine Optimization). When a search engine analyzes a page, it searches for content that is already rendered in HTML. By ensuring that the essential data of the page is already loaded in HTML, rendering time is reduced and the content is immediately accessible for indexing, improving visibility in search results.
+<div style="
+    background-color: #DBEAFE; 
+    border-left: 4px solid #3B82F6; 
+    color: #1E40AF; 
+    padding: 1rem; 
+    border-radius: 0.375rem; 
+    margin: 1.5rem 0;
+">
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso Importante</p>
+    <p>
+        As diretivas de SSR (renderização do lado do servidor) estão disponíveis exclusivamente para implementações que utilizam o <strong>@cmmv/view</strong> como template de renderização. 
+        Para aplicações em <strong>Vue</strong> servidas pelo <strong>Vite</strong> ou arquivos estáticos, os templates não passam pelas funções de SSR, e as diretivas não serão processadas durante o build ou em tempo de execução.
+    </p>
+</div>
 
-CMMV (Contract-Model-Model-View) was designed with this need in mind, optimizing content delivery in a way that prioritizes SEO. The system emulates the traditional MVC (Model-View-Controller) model, widely used by well-known frameworks such as Ruby on Rails, Laravel, or Spring. This is done through SSR (Server-Side Rendering) directives, which allow data to be processed on the server and inserted directly into HTML, without the need for another application or overloading the frontend with complex frameworks.
+Pré-carregar dados que serão enviados diretamente no HTML é um fator crucial para SEO (Search Engine Optimization). Quando um mecanismo de busca analisa uma página, ele procura por conteúdo que já esteja renderizado no HTML. Ao garantir que os dados essenciais da página já estejam carregados no HTML, o tempo de renderização é reduzido e o conteúdo fica imediatamente acessível para indexação, melhorando a visibilidade nos resultados de busca.
 
-By using SSR directives such as ``s-data``, CMMV ensures that dynamic data is sent in the HTML itself, without relying on AJAX calls or asynchronous loading via JavaScript, which can delay the display of critical content and negatively impact page performance. This makes content instantly available to search engines, improving load time (TTFB) and maximizing the chances of good indexing.
+O CMMV (Contract-Model-Model-View) foi projetado com essa necessidade em mente, otimizando a entrega de conteúdo de uma maneira que prioriza SEO. O sistema emula o modelo tradicional MVC (Model-View-Controller), amplamente utilizado por frameworks conhecidos como Ruby on Rails, Laravel ou Spring. Isso é feito por meio de diretrizes de renderização do lado do servidor (SSR - Server-Side Rendering), que permitem que os dados sejam processados no servidor e inseridos diretamente no HTML, sem a necessidade de outra aplicação ou de sobrecarregar o frontend com frameworks complexos.
 
-This model not only ensures faster loading, but also improves the end-user experience. The user receives a complete page almost instantly, without the need to wait for additional loading or content updates. By centralizing data processing in the backend, CMMV reduces complexity and frontend overhead, eliminating the need for additional configuration or running multiple applications to render and serve dynamic content.
+Usando diretrizes de SSR como `s-data`, o CMMV garante que os dados dinâmicos sejam enviados no próprio HTML, sem depender de chamadas AJAX ou carregamento assíncrono via JavaScript, o que pode atrasar a exibição de conteúdo crítico e impactar negativamente o desempenho da página. Isso torna o conteúdo instantaneamente acessível para mecanismos de busca, melhorando o tempo de carregamento (TTFB) e maximizando as chances de boa indexação.
 
-In short, CMMV is a modern solution that reuses the best of the traditional MVC model, adapting it to the current scenario of SEO and performance optimization, with a focus on simplicity and efficiency.
+Esse modelo não apenas garante carregamento mais rápido, mas também melhora a experiência do usuário final. O usuário recebe uma página completa quase instantaneamente, sem a necessidade de esperar por carregamentos adicionais ou atualizações de conteúdo. Ao centralizar o processamento de dados no backend, o CMMV reduz a complexidade e a sobrecarga do frontend, eliminando a necessidade de configurações adicionais ou de executar várias aplicações para renderizar e servir conteúdo dinâmico.
+
+Em resumo, o CMMV é uma solução moderna que reutiliza o melhor do modelo MVC tradicional, adaptando-o ao cenário atual de otimização para SEO e desempenho, com foco na simplicidade e eficiência.
 
 ## s-data
 
-The ``s-data`` directive allows you to directly render server-side data into your HTML templates. This is particularly useful for embedding server-side variables in your HTML without needing additional frontend frameworks or JavaScript.
+A diretiva `s-data` permite renderizar diretamente dados do lado do servidor em seus templates HTML. Isso é particularmente útil para inserir variáveis do servidor diretamente no HTML, sem precisar de frameworks adicionais ou JavaScript no frontend.
 
-How it Works
-You declare a variable in the server-side controller and pass it to the view. The ``s-data`` directive is responsible for injecting this variable directly into the corresponding HTML element during server-side rendering (SSR). This ensures that the content is pre-rendered, optimizing the page for performance and SEO.
+### Como funciona
 
-View (HTML Template)
+Você declara uma variável no controlador do lado do servidor e a passa para a visualização. A diretiva `s-data` é responsável por injetar essa variável diretamente no elemento HTML correspondente durante a renderização do lado do servidor (SSR). Isso garante que o conteúdo seja pré-renderizado, otimizando o desempenho da página e o SEO.
+
+#### Visualização (Template HTML)
 ```html
 <div s-data="datetime"></div>
 ```
 
-In this example, the ``s-data`` directive is used on a ``<div>`` element to render the ``datetime`` variable, which will be provided by the server.
+Nesse exemplo, a diretiva `s-data` é usada em um elemento `<div>` para renderizar a variável `datetime`, que será fornecida pelo servidor.
 
-Controller
+#### Controlador
 ```typescript
 res.render("template", { datetime: new Date().getTime() });
 ```
 
-In the controller, you pass the datetime variable (the current timestamp) as part of the data rendered into the template.
+No controlador, você passa a variável `datetime` (o timestamp atual) como parte dos dados renderizados no template.
 
-Result (Rendered HTML)
+#### Resultado (HTML Renderizado)
 ```html
 <div>1725568913552</div>
 ```
 
 ## s-attr
 
-The ``s-attr`` directive in CMMV allows you to dynamically assign attributes to HTML elements from server-rendered data, similar to how the ``s-data`` directive works. However, instead of filling in the content of a tag, it adds or updates an attribute of the element. This is particularly useful for adding security attributes like ``nonce`` in ``<script>`` or ``<link>`` tags, often required by strict Content Security Policies (CSP).
+A diretiva `s-attr` no CMMV permite atribuir dinamicamente atributos a elementos HTML a partir de dados renderizados no servidor, de forma semelhante à diretiva `s-data`. No entanto, em vez de preencher o conteúdo de uma tag, ela adiciona ou atualiza um atributo do elemento. Isso é particularmente útil para adicionar atributos de segurança como `nonce` em tags `<script>` ou `<link>`, frequentemente exigidos por Políticas de Segurança de Conteúdo (CSP).
 
-View (HTML Template)
+Visualização (Template HTML)
 ```html
-<div s-attr="ref">Content</div>
+<div s-attr="ref">Conteúdo</div>
 ```
 
-Controller
+Controlador
 ```typescript
 res.render("template", { ref: "ABC" });
 ```
 
-Result (Rendered HTML)
+Resultado (HTML Renderizado)
 ```html
-<div ref="ABC">Content</div>
+<div ref="ABC">Conteúdo</div>
 ```
 
-In this case, the ``s-attr="ref"`` directive tells the server to create a ref attribute on the ``<div>`` element with the value "ABC", which is passed from the server-side controller.
+Nesse caso, a diretiva `s-attr="ref"` instrui o servidor a criar um atributo `ref` no elemento `<div>` com o valor "ABC", que é passado pelo controlador do lado do servidor.
 
 ## s-i18n
 
-The ``s-i18n`` directive is the native internationalization module of the CMMV system. It allows developers to manage and display multilingual content by utilizing locale files. These locale files are stored in the ``/src/locale`` directory and should be in JSON format.
+A diretiva `s-i18n` é o módulo de internacionalização nativo do sistema CMMV. Ela permite que os desenvolvedores gerenciem e exibam conteúdo multilíngue utilizando arquivos de localidade. Esses arquivos de localidade são armazenados no diretório `/src/locale` e devem estar no formato JSON.
 
-CMMV provides the ability to define a default language, and it allows for dynamic language switching based on the user session. This is ideal for websites and applications that need to cater to multiple languages.
+O CMMV permite definir um idioma padrão e possibilita a troca dinâmica de idioma com base na sessão do usuário. Isso é ideal para sites e aplicações que precisam atender a vários idiomas.
 
-The locale files contain key-value pairs, where the key represents the string identifier and the value is the localized string. For example:
+Os arquivos de localidade contêm pares de chave-valor, onde a chave representa o identificador da string e o valor é a string localizada. Por exemplo:
 
-``/src/locale/en.json``
+`/src/locale/en.json`
 ```json
 {
     "welcome": "Welcome to CMMV",
@@ -73,7 +89,7 @@ The locale files contain key-value pairs, where the key represents the string id
 }
 ```
 
-``/src/locale/pt-br.json``
+`/src/locale/pt-br.json`
 ```json
 {
     "welcome": "Bem-vindo ao CMMV",
@@ -81,61 +97,61 @@ The locale files contain key-value pairs, where the key represents the string id
 }
 ```
 
-You can use the ``s-i18n`` directive in your view templates to render localized strings based on the current language.
+Você pode usar a diretiva `s-i18n` em seus templates de visualização para renderizar strings localizadas com base no idioma atual.
 
-View (HTML Template)
+Visualização (Template HTML)
 ```html
 <div s-i18n="welcome"></div>
 <p s-i18n="description"></p>
 ```
 
-Result (For English Locale)
+Resultado (Para o idioma inglês)
 ```html
 <div>Welcome to CMMV</div>
 <p>CMMV makes development faster and easier.</p>
 ```
 
-**Configuration**
+**Configuração**
 
-In the ``.cmmv.config.js`` file, you can configure the i18n settings to define the locale file path and the default language for your application:
+No arquivo `.cmmv.config.js`, você pode configurar as definições de i18n para definir o caminho do arquivo de localidade e o idioma padrão para sua aplicação:
 
 ```typescript
 module.exports = {
     i18n: {
-        localeFiles: "./src/locale",  // Path to the locale files
-        default: "en"  // Default language
+        localeFiles: "./src/locale",  // Caminho para os arquivos de localidade
+        default: "en"  // Idioma padrão
     },
-    // Other configurations...
+    // Outras configurações...
 }
 ```
 
 ## s-if
 
-The ``s-if`` directive is used to conditionally render a block of content based on the evaluation of an expression. If the provided expression evaluates to true, the content within the ``s-if`` directive will be rendered. Otherwise, the content will not be displayed.
+A diretiva `s-if` é usada para renderizar condicionalmente um bloco de conteúdo com base na avaliação de uma expressão. Se a expressão fornecida for avaliada como verdadeira, o conteúdo dentro da diretiva `s-if` será renderizado. Caso contrário, o conteúdo não será exibido.
 
 ```html
 <s-if exp="todolist.length > 0">
-    <div>Total Record Loaded SSR: {{ todolist.length }}</div>
+    <div>Total de Registros Carregados SSR: {{ todolist.length }}</div>
     <s-else>
-        <div>No records were loaded via SSR</div>
+        <div>Nenhum registro foi carregado via SSR</div>
     </s-else>
 </s-if> 
 ```
 
-* ``exp:`` The boolean expression to evaluate. The expression can use variables and logical operators to determine if the block should be displayed.
+* `exp:` A expressão booleana a ser avaliada. A expressão pode usar variáveis e operadores lógicos para determinar se o bloco deve ser exibido.
 
-While the ``s-if`` directive provides a powerful way to conditionally render content, it should be used with caution due to its potential impact on client-side updates. The content inside an s-if block is removed from the DOM if the expression evaluates to false, and this removal is not automatically updated or re-rendered on the client side after the initial server-side rendering (SSR).
+Embora a diretiva `s-if` forneça uma maneira poderosa de renderizar condicionalmente conteúdo, ela deve ser usada com cautela devido ao seu impacto potencial em atualizações no lado do cliente. O conteúdo dentro de um bloco `s-if` é removido do DOM se a expressão for avaliada como falsa, e essa remoção não é automaticamente atualizada ou re-renderizada no lado do cliente após a renderização inicial no servidor (SSR).
 
-**Recommendations:**
-* **Use Case:** It is recommended to use s-if primarily for scenarios where server-side conditions determine the content that should be included in the initial HTML. For instance, you might use ``s-if`` to load and display data that is available at the time of server rendering, such as user authentication data or initial configuration settings.
+**Recomendações:**
+* **Caso de Uso:** Recomenda-se usar `s-if` principalmente para cenários onde as condições do lado do servidor determinam o conteúdo que deve ser incluído no HTML inicial. Por exemplo, você pode usar `s-if` para carregar e exibir dados que estão disponíveis no momento da renderização do servidor, como dados de autenticação do usuário ou configurações iniciais.
 
-* **Avoid Frequent Client-Side Updates:** Since ``s-if`` removes the content from the DOM based on the initial evaluation, it is not suitable for dynamic client-side content that might change frequently or be updated after the initial load. For content that may need to be dynamically updated based on client-side interactions or data changes, consider using other methods such as client-side rendering techniques or reactive frameworks.
+* **Evitar Atualizações Frequentes no Cliente:** Como `s-if` remove o conteúdo do DOM com base na avaliação inicial, não é adequado para conteúdo dinâmico no lado do cliente que pode mudar frequentemente ou ser atualizado após o carregamento inicial. Para conteúdo que pode precisar ser atualizado dinamicamente com base em interações no lado do cliente ou mudanças de dados, considere usar outros métodos, como técnicas de renderização do lado do cliente ou frameworks reativos.
 
-By adhering to these recommendations, you can ensure that your use of the ``s-if`` directive enhances both the performance and maintainability of your application without unintended side effects.
+Seguindo essas recomendações, você pode garantir que o uso da diretiva `s-if` melhore tanto o desempenho quanto a manutenibilidade de sua aplicação sem efeitos colaterais indesejados.
 
 ## s-for
 
-The ``s-for`` directive is designed to handle server-side rendering (SSR) of lists and ensure that dynamic data is pre-rendered for improved SEO. This directive, used in conjunction with the ``c-for`` directive, allows you to define how data should be rendered on the server and how it should be updated on the client side. It supports pre-rendering content that will be displayed immediately to users and search engines, while also allowing for client-side updates.
+A diretiva `s-for` é projetada para lidar com a renderização no lado do servidor (SSR) de listas e garantir que os dados dinâmicos sejam pré-renderizados para melhorar o SEO. Essa diretiva, usada em conjunto com a diretiva `c-for`, permite definir como os dados devem ser renderizados no servidor e como devem ser atualizados no cliente. Ela suporta a pré-renderização de conteúdo que será exibido imediatamente para os usuários e motores de busca, permitindo também atualizações no lado do cliente.
 
 ```html
 <s-for
@@ -143,17 +159,17 @@ The ``s-for`` directive is designed to handle server-side rendering (SSR) of lis
     c-for="(item, key) in collection"
     render-tag="tag-name"
 >
-    <!-- Content to render -->
+    <!-- Conteúdo a ser renderizado -->
 </s-for>
 ```
 
-**How It Works**
+**Como Funciona**
 
-* The ``s-for`` directive pre-renders the list items on the server based on the data provided. This includes evaluating expressions and injecting static content directly into the HTML.
-* The directive ensures that content defined within the ``s-for`` block, including variables rendered using ``{{}}``, ``c-text``, ``c-html``, and ``:``, is pre-rendered.
-* On the client side, the ``c-for`` directive will take over and handle dynamic updates. This allows the list to be reactive and updated as needed.
+* A diretiva `s-for` pré-renderiza os itens da lista no servidor com base nos dados fornecidos. Isso inclui avaliar expressões e injetar conteúdo estático diretamente no HTML.
+* A diretiva garante que o conteúdo definido dentro do bloco `s-for`, incluindo variáveis renderizadas usando `{{}}`, `c-text`, `c-html` e `:`, seja pré-renderizado.
+* No lado do cliente, a diretiva `c-for` assume o controle e lida com atualizações dinâmicas. Isso permite que a lista seja reativa e atualizada conforme necessário.
 
-**Input Template:**
+**Template de Entrada:**
 ```html
 <s-for 
     c-show="todolist"
@@ -181,7 +197,7 @@ The ``s-for`` directive is designed to handle server-side rendering (SSR) of lis
 </s-for> 
 ```
 
-**Final Rendered Output:**
+**Saída Renderizada Final:**
 ```html
 <div c-if="!loaded && !todolist">
     <div c-show="todolist" class="todo-item">
@@ -223,43 +239,40 @@ The ``s-for`` directive is designed to handle server-side rendering (SSR) of lis
 </div>
 ```
 
-<br/>
+* **Pré-Renderização:** A diretiva `s-for` é crucial para SEO, pois pré-renderiza itens de lista com dados reais, tornando o conteúdo imediatamente disponível para indexação pelos motores de busca.
+* **Atualização no Lado do Cliente:** No lado do cliente, a diretiva `c-for` garante que o conteúdo seja reativo e possa ser atualizado dinamicamente.
+* **Uso com Cautela:** Como `s-for` realiza renderização no lado do servidor, garanta que a lista e seus conteúdos sejam adequados para pré-renderização estática. Evite usá-la para dados altamente dinâmicos que mudam frequentemente no lado do cliente.
 
-* **Pre-Rendering:** The ``s-for`` directive is crucial for SEO as it pre-renders list items with actual data, making the content immediately available for indexing by search engines.
-* **Client-Side Update:** On the client side, the ``c-for`` directive ensures that the content is reactive and can be updated dynamically.
-* **Use with Caution:** As ``s-for`` performs server-side rendering, ensure that the list and its contents are suitable for static pre-rendering. Avoid using it for highly dynamic data that changes frequently on the client side.
-By combining ``s-for`` with ``c-for``, you can leverage server-side rendering for SEO benefits while maintaining dynamic client-side updates.
+Ao combinar `s-for` com `c-for`, você pode aproveitar os benefícios de renderização no servidor para SEO, mantendo atualizações dinâmicas no lado do cliente.
 
 ## Include 
 
-The ``include`` directive allows the insertion of components or templates from other files into the main layout. This feature is useful for building modular pages, enabling the division of the layout into small, reusable blocks, which optimizes both loading performance and code maintenance.
+A diretiva `include` permite a inserção de componentes ou templates de outros arquivos no layout principal. Esse recurso é útil para construir páginas modulares, permitindo a divisão do layout em pequenos blocos reutilizáveis, o que otimiza tanto o desempenho de carregamento quanto a manutenção do código.
 
-### How It Works
+### Como Funciona
 
-The ``include`` directive is responsible for preloading components on the server side before sending the page to the client. These components are treated as templates, and their inclusion can occur in a cascading manner, meaning that a template can include other templates. However, this behavior is influenced by the caching strategy, ensuring optimal performance by preventing repeated loading of already processed components.
+A diretiva `include` é responsável por pré-carregar componentes no lado do servidor antes de enviar a página ao cliente. Esses componentes são tratados como templates, e sua inclusão pode ocorrer de maneira em cascata, o que significa que um template pode incluir outros templates. No entanto, esse comportamento é influenciado pela estratégia de cache, garantindo um desempenho ideal ao prevenir o carregamento repetido de componentes já processados.
 
 ```html
 <div>
-    <!-- Include the navbar -->
+    <!-- Inclui o navbar -->
     <!-- include('public/views/docs/navbar') -->
     
-    <!-- Include the footer -->
+    <!-- Inclui o footer -->
     <!-- include('public/views/docs/footer') -->
 </div>
 ```
 
-When using the ``include`` directive, it’s important to consider how data or behavior for each template will be managed. The directive is designed to pre-process components on the server side, so any setup logic needs to be carefully planned. The recommended approach is to execute the setup logic in the main template and avoid cascading setups in included templates. This prevents unnecessary multiple setup executions that could negatively impact performance.
+Ao usar a diretiva `include`, é importante considerar como os dados ou o comportamento de cada template serão gerenciados. A diretiva é projetada para pré-processar componentes no lado do servidor, portanto, qualquer lógica de configuração precisa ser planejada cuidadosamente. A abordagem recomendada é executar a lógica de configuração no template principal e evitar configurações em cascata nos templates incluídos. Isso previne execuções múltiplas desnecessárias que poderiam impactar negativamente o desempenho.
 
-To optimize template injection and improve performance, the include directive uses a caching strategy. This means that after the initial loading of a template, its content is cached, and subsequent inclusions will use the already-loaded template. However, if the content needs to be dynamically updated, it’s recommended that the setup be managed in the main template rather than relying on individual setups in each included template. This ensures that changes are centralized and easily managed.
-
-**Complete Example**
+### Exemplo Completo
 
 ```html
 <div id="app">
     <!-- include('public/views/docs/navbar') -->
 
     <div class="content">
-        <p>Welcome to our site!</p>
+        <p>Bem-vindo ao nosso site!</p>
     </div>
 
     <!-- include('public/views/docs/footer') -->
@@ -283,7 +296,7 @@ export default {
             ) || {};
 
             this.contentData = { 
-                message: 'Dynamically loaded content.' 
+                message: 'Conteúdo carregado dinamicamente.' 
             };
         }
     }
@@ -291,22 +304,23 @@ export default {
 </script>
 ```
 
-## Call Services
+## Serviços de Chamada
 
-In this implementation, you have a combination of server-side directives for data preloading and the use of the ``include`` directive to incorporate reusable components, such as the navbar and other layout elements, into the page. While this pattern works efficiently, it currently lacks support for component-specific setups as seen in frameworks like Nuxt.js. Let's break down how this approach works and the potential for future enhancements.
+Nesta implementação, você tem uma combinação de diretivas no lado do servidor para pré-carregamento de dados e o uso da diretiva `include` para incorporar componentes reutilizáveis, como a barra de navegação e outros elementos de layout, na página. Embora esse padrão funcione de maneira eficiente, atualmente ele não suporta configurações específicas de componentes, como visto em frameworks como Nuxt.js. Vamos detalhar como essa abordagem funciona e o potencial para melhorias futuras.
 
-**Server-Side Directive (s:docs)**
+**Diretiva no Lado do Servidor (`s:docs`)**
 
-In the main HTML file (index.hhtml), you are using a directive (s:docs="docs") to bind server-preloaded data (in this case, docs) to the client-side rendering. This allows the initial data, such as the navigation structure (docs.navbar), to be fetched server-side and passed to the client before the page is rendered.
+No arquivo HTML principal (`index.html`), você está usando uma diretiva (`s:docs="docs"`) para vincular dados pré-carregados no servidor (neste caso, `docs`) ao renderizador no lado do cliente. Isso permite que os dados iniciais, como a estrutura de navegação (`docs.navbar`), sejam buscados no servidor e passados ao cliente antes que a página seja renderizada.
 
 ```html
 <div id="app" s:docs="docs" c-cloak>
 ```
 
-The ``docs`` object is populated on the server, likely from a backend data source or file, and it is injected into the template. This enables the use of this data immediately upon loading without additional client-side API calls, improving the initial loading performance.
+O objeto `docs` é populado no servidor, provavelmente de uma fonte de dados backend ou arquivo, e injetado no template. Isso permite o uso desses dados imediatamente após o carregamento, sem chamadas adicionais de API no lado do cliente, melhorando o desempenho do carregamento inicial.
 
-**Using the include Directive for Templates**
-You are including reusable components, such as the navbar, breadcrumbs, and footer, with the ``include`` directive. These templates are preloaded on the server, enhancing modularity and maintainability:
+**Usando a Diretiva Include para Templates**
+
+Você está incluindo componentes reutilizáveis, como a barra de navegação, breadcrumb e rodapé, com a diretiva `include`. Esses templates são pré-carregados no servidor, melhorando a modularidade e a manutenção:
 
 ```html
 <!-- include('public/views/docs/navbar') -->
@@ -314,11 +328,11 @@ You are including reusable components, such as the navbar, breadcrumbs, and foot
 <!-- include('public/views/docs/footer'); -->
 ```
 
-By loading these components server-side, you avoid multiple HTTP requests to fetch the template separately and enable the server to handle the logic related to content inclusion. However, as you noted, this approach currently processes only the main setup logic, and any additional setup logic within included templates (like navbar.html) is not supported.
+Ao carregar esses componentes no lado do servidor, você evita múltiplas solicitações HTTP para buscar os templates separadamente e permite que o servidor lide com a lógica relacionada à inclusão de conteúdo. No entanto, como observado, essa abordagem atualmente processa apenas a lógica de configuração principal, e qualquer lógica adicional dentro dos templates incluídos (como `navbar.html`) não é suportada.
 
-### Client-Side State Updates
+### Atualizações de Estado no Lado do Cliente
 
-Once the data and templates are preloaded on the server, the client-side JavaScript is responsible for handling state updates. For example, in your main component, you load the saved state of the navbar from localStorage and provide methods to toggle the state:
+Depois que os dados e templates são pré-carregados no servidor, o JavaScript no lado do cliente é responsável por lidar com as atualizações de estado. Por exemplo, no seu componente principal, você carrega o estado salvo da barra de navegação do `localStorage` e fornece métodos para alternar o estado:
 
 ```javascript
 export default {
@@ -354,13 +368,13 @@ export default {
 };
 ```
 
-This ensures that interactions on the page, such as expanding or collapsing navbar sections, persist between sessions, as the state is stored in localStorage and reloaded when the page is mounted.
+Isso garante que interações na página, como expandir ou recolher seções da barra de navegação, sejam persistentes entre sessões, já que o estado é armazenado no `localStorage` e recarregado quando a página é montada.
 
-### The Limitation
+### A Limitação
 
-As noted in the provided comment, there is no current support for individual setup logic within included templates (like ``navbar.html``). This differs from frameworks like Nuxt.js, where each component can have its own setup function. In your current implementation, adding a ``script setup`` block inside an included template would cause issues, as only the setup logic from the main template (``index.html``) is processed.
+Como observado no comentário fornecido, atualmente não há suporte para lógica de configuração individual dentro de templates incluídos (como `navbar.html`). Isso difere de frameworks como Nuxt.js, onde cada componente pode ter sua própria função `setup`. Na implementação atual, adicionar um bloco `script setup` dentro de um template incluído causaria problemas, pois apenas a lógica de configuração do template principal (`index.html`) é processada.
 
-For example, adding a ``setup`` block in the ``navbar.html`` would not work as expected:
+Por exemplo, adicionar um bloco `setup` no `navbar.html` não funcionaria como esperado:
 
 ```html
 <!-- navbar.html -->
@@ -378,19 +392,19 @@ export default {
 </script>
 ```
 
-This would break the application because only the first setup is processed, and additional setups are ignored.
+Isso quebraria a aplicação porque apenas a primeira configuração seria processada, e configurações adicionais seriam ignoradas.
 
-### Future Enhancements
+### Melhorias Futuras
 
-The idea of allowing component-specific setups, similar to Nuxt.js, is a potential enhancement that could improve the flexibility of the system. However, this needs to be handled carefully to avoid performance issues like infinite loading loops. When each component has its own setup logic, the application might end up in a continuous loop of re-rendering if not properly managed.
+A ideia de permitir configurações específicas de componentes, semelhante ao Nuxt.js, é uma melhoria potencial que poderia aumentar a flexibilidade do sistema. No entanto, isso precisa ser tratado com cuidado para evitar problemas de desempenho, como loops infinitos de carregamento. Quando cada componente tem sua própria lógica de configuração, a aplicação pode acabar em um loop contínuo de re-renderização, se não for gerenciada corretamente.
 
-To safely implement component-specific setup:
+Para implementar configurações específicas de componentes de maneira segura:
 
-* **Careful Dependency Management:** Ensure that each component’s setup logic is independent and doesn't trigger unnecessary re-renders of the parent component.
-* **Lazy Loading:** Consider lazy loading for templates or components that don’t need to be preloaded on the server, reducing the initial load and avoiding potential issues with large applications.
-* **Optimized State Sharing:** Provide mechanisms to share state across components without requiring full re-execution of setup logic when components are dynamically included.
+* **Gerenciamento Cuidadoso de Dependências:** Garanta que a lógica de configuração de cada componente seja independente e não acione re-renderizações desnecessárias do componente pai.
+* **Carregamento Sob Demanda:** Considere o carregamento sob demanda para templates ou componentes que não precisam ser pré-carregados no servidor, reduzindo o carregamento inicial e evitando possíveis problemas em aplicações grandes.
+* **Compartilhamento de Estado Otimizado:** Forneça mecanismos para compartilhar estado entre componentes sem exigir a reexecução completa da lógica de configuração quando componentes são incluídos dinamicamente.
 
-Here’s how individual setups could work in the future, following a model like Nuxt.js:
+Aqui está como configurações específicas de componentes poderiam funcionar no futuro, seguindo um modelo semelhante ao Nuxt.js:
 
 ```html
 <!-- index.html -->
@@ -422,14 +436,15 @@ export default {
     <li @click="toggleNavbar">Menu Item</li>
 </ul>
 ```
-In this future scenario, each component or template could handle its own state and methods without conflicting with the main template setup.
 
-## Full implementation
+Nesse cenário futuro, cada componente ou template poderia gerenciar seu próprio estado e métodos sem conflito com a configuração do template principal.
 
-Below is an example of implementation of practically all the directives that were used to create the system in this documentation.
+## Implementação Completa
 
-``/public/templates/default.html``
+Abaixo está um exemplo de implementação de praticamente todas as diretivas que foram usadas para criar o sistema nesta documentação.
+
 ```html
+<!-- /public/templates/default.html -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -442,8 +457,10 @@ Below is an example of implementation of practically all the directives that wer
 </html>
 ```
 
-``/public/views/docs/index.html``
+<br/>
+
 ```html
+<!-- /public/views/docs/index.html -->
 <div id="app" s:docs="docs" c-cloak>
     <nav class="navbar bg-neutral-800 h-16 top-0 w-full fixed flex z-50 shadow-lg">
         <div class="max-w-8xl mx-auto flex container">
@@ -460,7 +477,7 @@ Below is an example of implementation of practically all the directives that wer
                     </div>
                     <div>
                         <input 
-                        type="text" 
+                            type="text" 
                             class="p-1.5 pl-10 text-white bg-transparent" 
                             placeholder="Search" 
                         />
@@ -472,10 +489,6 @@ Below is an example of implementation of practically all the directives that wer
                 <a href="https://github.com/andrehrferreira/cmmv" title="Github" target="_blank" class="text-2xl p-2 mt-2 hover:text-neutral-300">
                     <i class="fa-brands fa-github"></i>
                 </a>
-
-                <!--<a href="https://discord.gg/XtUH9sJP" title="Discord" target="_blank" class="text-2xl p-2 mt-2 hover:text-neutral-300">
-                    <i class="fa-brands fa-discord"></i>
-                </a>-->
             </div>
         </div>
     </nav>
@@ -504,7 +517,7 @@ Below is an example of implementation of practically all the directives that wer
                         <a 
                             :href="`https://github.com/andrehrferreira/docs.cmmv.io/tree/main${docs.link?.replace('.html', '.md')}?plain=1`" 
                             target="_blank" 
-                            title="Suggest change"
+                            title="Sugerir mudança"
                         >
                             <i class="fa-solid fa-pen-to-square fa-lg"></i>
                         </a>
@@ -599,16 +612,18 @@ export default {
 </script>
 ```
 
-``/public/views/docs/navbar.html``
+<br/>
+
 ```html
+<!-- /public/views/docs/navbar.html -->
 <ul class="p-4 select-none top-16" c-cloak c-show="docs">
     <li c-for="(item, key) in docs.navbar">
         <div 
             c-show="item"
             class="flex hover:text-blue-700 itemRoot text-white" 
-            :id="item?.name.replace(/\s/,'_')" 
+            :id="item?.name.replace(/\\s/,'_')" 
             :data-opened="false" 
-            @click.stop="navbar[item?.name.replace(/\s/, `_`)] = toggle(navbar[item?.name.replace(/\s/, `_`)], item.name?.replace(/\s/, `_`))"
+            @click.stop="navbar[item?.name.replace(/\\s/, `_`)] = toggle(navbar[item?.name.replace(/\\s/, `_`)], item.name?.replace(/\\s/, `_`))"
         >
             <div class="flex flex-1 font-bold text-md cursor-pointer navbar-item">
                 <h3 c-if="item && item?.isDir" class="text-white">{{ item?.name }}</h3>
@@ -616,16 +631,16 @@ export default {
             </div>
 
             <div class="justify-between cursor-pointer" c-if="item?.isDir">
-                <i class="fa-solid fa-angle-down" c-show="!navbar[item?.name.replace(/\s/, `_`)]"></i>
-                <i class="fa-solid fa-angle-up" c-show="navbar[item?.name.replace(/\s/, `_`)]"></i>
+                <i class="fa-solid fa-angle-down" c-show="!navbar[item?.name.replace(/\\s/, `_`)]"></i>
+                <i class="fa-solid fa-angle-up" c-show="navbar[item?.name.replace(/\\s/, `_`)]"></i>
             </div>
         </div>
 
         <ul 
             c-if="item && item.children && item.children.length > 0"
-            :id="`${item?.name.replace(/\s/, `_`)}_contents`" 
+            :id="`\${item?.name.replace(/\\s/, `_`)}_contents`" 
             class="p-4 py-1 text-md mb-4"
-            :style="(navbar[item?.name.replace(/\s/, `_`)]) ? '' : 'display: none;'"
+            :style="(navbar[item?.name.replace(/\\s/, `_`)]) ? '' : 'display: none;'"
         >
             <li c-for="(child) in item.children">
                 <div class="hover:text-gray-800 text-white text-base p-1" style="font-size: 12px">
@@ -637,8 +652,10 @@ export default {
 </ul>
 ```
 
-``/src/docs.controller.ts``
+<br/>
+
 ```typescript
+// /src/docs.controller.ts
 import * as fs from 'fs';
 import * as path from "path";
 
@@ -680,7 +697,7 @@ export class DocsController {
         @Param("item") item: string, 
         @Response() res
     ) {
-		const fullPath = `${dir}/${item}`;
+		const fullPath = `\${dir}/\${item}`;
 
 		if(index[fullPath])
 			this.getDoc(index[fullPath], res)
@@ -700,4 +717,4 @@ export class DocsController {
 }
 ```
 
-To have full access to the code, access [Github](https://github.com/andrehrferreira/docs.cmmv.io)
+Para acessar o código completo, visite [Github](https://github.com/andrehrferreira/docs.cmmv.io).

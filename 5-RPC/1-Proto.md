@@ -1,10 +1,10 @@
 # Proto
 
-The CMMV framework provides seamless integration between server-side contracts and frontend applications using Protobuf as the communication protocol. By defining contracts in a structured way, CMMV automatically generates [Protobuf](https://protobuf.dev/) files and TypeScript types, allowing for a smooth and efficient integration of RPC-based communication.
+O framework CMMV oferece integração perfeita entre contratos do lado do servidor e aplicações frontend utilizando o Protobuf como protocolo de comunicação. Ao definir contratos de forma estruturada, o CMMV gera automaticamente arquivos [Protobuf](https://protobuf.dev/) e tipos TypeScript, permitindo uma integração eficiente de comunicação baseada em RPC.
 
-In this section, we'll walk through how the contract definition in the backend is transformed into [Protobuf schema](https://protobuf.dev/programming-guides/proto3/), TypeScript types, and integrated into the frontend for real-time binary communication.
+Nesta seção, veremos como a definição de contratos no backend é transformada em [esquemas Protobuf](https://protobuf.dev/programming-guides/proto3/), tipos TypeScript e integrada ao frontend para comunicação binária em tempo real.
 
-In CMMV, contracts are defined using the ``@Contract`` and ``@ContractField`` decorators. Below is an example contract for managing tasks:
+No CMMV, os contratos são definidos utilizando os decoradores `@Contract` e `@ContractField`. Abaixo está um exemplo de contrato para gerenciar tarefas:
 
 ```typescript
 import { 
@@ -40,15 +40,15 @@ export class TasksContract extends AbstractContract {
 
 <br/>
 
-* **@Contract:** Defines the metadata for the contract, including the name of the controller, the database type (mongodb), the path to the Protobuf file, and the Protobuf package name.
-* **@ContractField:** Defines individual fields of the contract, specifying their Protobuf type and any additional constraints (e.g., unique values, default values).
+* **@Contract:** Define os metadados para o contrato, incluindo o nome do controlador, o tipo de banco de dados (mongodb), o caminho para o arquivo Protobuf e o nome do pacote Protobuf.
+* **@ContractField:** Define os campos individuais do contrato, especificando seu tipo Protobuf e quaisquer restrições adicionais (ex.: valores únicos, valores padrão).
 
 ## .proto
 
-Based on the contract above, CMMV will automatically generate the corresponding .proto file and associated TypeScript types. This generated Protobuf file allows for binary communication between the server and client.
+Com base no contrato acima, o CMMV gerará automaticamente o arquivo .proto correspondente e os tipos TypeScript associados. Este arquivo Protobuf gerado permite comunicação binária entre o servidor e o cliente.
 
 ```protobuf
-// Proto generated automatically by CMMV
+// Proto gerado automaticamente pelo CMMV
 
 syntax = "proto3";
 
@@ -92,12 +92,12 @@ message GetAllTaskResponse {
 }
 ```
 
-## Types 
+## Tipos
 
-CMMV also generates TypeScript types for the Protobuf messages, ensuring strong typing across the entire application. These types are generated alongside the Protobuf files, and look like the following:
+O CMMV também gera tipos TypeScript para as mensagens Protobuf, garantindo tipagem forte em toda a aplicação. Esses tipos são gerados junto com os arquivos Protobuf e se parecem com o seguinte:
 
 ```typescript
-// Types generated automatically by CMMV
+// Tipos gerados automaticamente pelo CMMV
 
 export namespace Task {
   export type label = string;
@@ -136,15 +136,13 @@ export interface GetAllTaskResponse {
 }
 ```
 
-On the frontend, CMMV automatically integrates the Protobuf schema for seamless communication. With WebSocket support and binary communication through Protobuf, the frontend can make RPC (Remote Procedure Call) requests to the server using the defined contract methods.
+No frontend, o CMMV integra automaticamente o esquema Protobuf para comunicação perfeita. Com suporte a WebSocket e comunicação binária via Protobuf, o frontend pode fazer chamadas RPC (Remote Procedure Call) ao servidor utilizando os métodos de contrato definidos.
 
-By using CMMV's auto-generated functions, such as ``AddTaskRequest``, ``UpdateTaskRequest``, etc., developers can interact with the backend contract without writing additional code for parsing and validation. The functions are available directly in the context of the view, enabling effortless interaction from the UI.
+Ao usar as funções geradas automaticamente pelo CMMV, como `AddTaskRequest` e `UpdateTaskRequest`, os desenvolvedores podem interagir com o contrato do backend sem escrever código adicional para parsing e validação. As funções estão disponíveis diretamente no contexto da view, permitindo uma interação sem esforço na UI.
 
 ## Frontend
 
-On the frontend, CMMV automatically integrates the Protobuf schema for seamless communication. With WebSocket support and binary communication through Protobuf, the frontend can make RPC (Remote Procedure Call) requests to the server using the defined contract methods.
-
-By using CMMV's auto-generated functions, such as ``AddTaskRequest``, ``UpdateTaskRequest``, etc., developers can interact with the backend contract without writing additional code for parsing and validation. The functions are available directly in the context of the view, enabling effortless interaction from the UI.
+No frontend, o CMMV integra automaticamente o esquema Protobuf para comunicação perfeita. Com suporte a WebSocket e comunicação binária via Protobuf, o frontend pode fazer chamadas RPC utilizando os métodos de contrato definidos.
 
 ```html
 <div class="todo-box" scope>
@@ -191,57 +189,11 @@ By using CMMV's auto-generated functions, such as ``AddTaskRequest``, ``UpdateTa
 
     <pre>{{ todolist }}</pre>
 </div>
-
-<script s-setup>
-export default {
-    layout: "default",
-
-    data(){
-        return {
-            todolist: [],
-            label: ""
-        }
-    },
-
-    methods: {
-        addTask(){
-            this.AddTaskRequest({ label: this.label });
-            this.label = '';
-        },
-
-        DeleteTaskResponse(data){
-            if (data.success) {
-                const index = this.todolist.findIndex(
-                  item => item.id === data.id
-                );
-
-                if (index !== -1) 
-                    this.todolist.splice(index, 1);
-            }
-        },
-
-        AddTaskResponse(data) { 
-          this.UpdateTaskResponse(data); 
-        },
-
-        UpdateTaskResponse(data) {
-            const index = this.todolist.findIndex(
-              item => item.id === data.id
-            );
-            
-            if (index !== -1) 
-                this.todolist[index] = { ...data.item, id: data.id };
-            else 
-                this.todolist.push({ ...data.item, id: data.id });
-        } 
-    }
-}
-</script>
 ```
 
-CMMV provides flexibility in loading the Protobuf contracts:
+O CMMV fornece flexibilidade no carregamento dos contratos Protobuf:
 
-* **PreLoad Contracts:** By default, all contracts are pre-processed, converted into JSON, and included in the main JavaScript bundle. This allows for faster execution at runtime since the contracts are already available, and the frontend can immediately start making RPC calls.
-* **On-Demand Loading:** In cases where there are many contracts, or if you want to optimize the initial page load, you can set preLoadContracts = false. This way, contracts are fetched on-demand when they are needed, caching them locally to avoid multiple network requests.
+* **Contratos Pré-Carregados:** Por padrão, todos os contratos são pré-processados, convertidos em JSON e incluídos no bundle principal do JavaScript. Isso permite execução mais rápida em tempo de execução, pois os contratos já estão disponíveis, e o frontend pode iniciar imediatamente as chamadas RPC.
+* **Carregamento Sob Demanda:** Em casos onde há muitos contratos ou para otimizar o carregamento inicial da página, você pode definir `preLoadContracts = false`. Assim, os contratos são buscados sob demanda quando necessários, sendo armazenados em cache localmente para evitar múltiplas requisições de rede.
 
-By automatically generating Protobuf contracts, TypeScript types, and integrating them into the frontend, CMMV simplifies communication between the server and client. The use of WebSocket and Protobuf ensures fast, efficient, and type-safe communication, reducing the overhead associated with traditional HTTP/JSON-based systems.
+Ao gerar automaticamente contratos Protobuf, tipos TypeScript e integrá-los ao frontend, o CMMV simplifica a comunicação entre o servidor e o cliente. O uso de WebSocket e Protobuf garante comunicação rápida, eficiente e segura, reduzindo a sobrecarga associada a sistemas baseados em HTTP/JSON.

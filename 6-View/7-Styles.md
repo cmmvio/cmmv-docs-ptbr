@@ -1,8 +1,8 @@
-# Styles
+# Estilos
 
-The new styling feature in ``@cmmv/view`` allows developers to define theme-specific styles that can be dynamically switched on the frontend. The system maps JSON files from the /public/styles directory, which contain the style rules, and makes them accessible in the frontend for easy theme management.
+O novo recurso de estilização no ``@cmmv/view`` permite que os desenvolvedores definam estilos específicos para temas que podem ser alternados dinamicamente no frontend. O sistema mapeia arquivos JSON do diretório `/public/styles`, que contêm as regras de estilo, tornando-os acessíveis no frontend para facilitar o gerenciamento de temas.
 
-To create a custom style, define a ``.style.json`` file in ``/public/styles``. Each key-value pair represents a style class, and you can create multiple themes by appending a suffix (e.g., .dark) to the keys.
+Para criar um estilo personalizado, defina um arquivo `.style.json` em `/public/styles`. Cada par chave-valor representa uma classe de estilo, e você pode criar múltiplos temas adicionando um sufixo (por exemplo, `.dark`) às chaves.
 
 ``docs.style.json``
 
@@ -19,9 +19,9 @@ To create a custom style, define a ``.style.json`` file in ``/public/styles``. E
 }
 ```
 
-## Accessing
+## Acessando
 
-In your HTML, you can access the defined styles by referencing the style file and keys. The styles object is automatically made available, and the theme-specific classes are applied based on the current theme.
+No seu HTML, você pode acessar os estilos definidos referenciando o arquivo de estilo e as chaves. O objeto de estilos é automaticamente disponibilizado, e as classes específicas do tema são aplicadas com base no tema atual.
 
 ```html
 <div class="w-60">
@@ -39,9 +39,9 @@ In your HTML, you can access the defined styles by referencing the style file an
 </div>
 ```
 
-## Switching
+## Alternando
 
-The system allows switching between themes (e.g., ``default``, ``dark``). When a theme is changed, all relevant classes with the suffix (e.g., ``.dark``) are applied automatically.
+O sistema permite alternar entre temas (por exemplo, ``default``, ``dark``). Quando um tema é alterado, todas as classes relevantes com o sufixo (por exemplo, ``.dark``) são aplicadas automaticamente.
 
 ```javascript
 toggleTheme() {
@@ -54,16 +54,16 @@ toggleTheme() {
 
 <br/>
 
-* **JSON File Structure:** The JSON defines style classes for different components. Theme-specific classes are suffixed with ``.dark``, ``.light``, etc.
-* **Frontend Access:** Styles are accessed through ``styles.[filename].[key]`` in the frontend.
-* **Dynamic Switching:** Theme switching is done programmatically, and the system handles the replacement of style classes based on the active theme.
-* **No Subindices Support:** Nested JSON subindices are not supported, meaning that each key-value pair must be a flat entry.
+* **Estrutura do Arquivo JSON:** O JSON define classes de estilo para diferentes componentes. Classes específicas de tema recebem sufixos como ``.dark``, ``.light``, etc.
+* **Acesso no Frontend:** Os estilos são acessados através de ``styles.[arquivo].[chave]`` no frontend.
+* **Alternância Dinâmica:** A troca de tema é feita programaticamente, e o sistema lida com a substituição de classes de estilo com base no tema ativo.
+* **Sem Suporte a Subíndices:** Subíndices aninhados em JSON não são suportados, o que significa que cada par chave-valor deve ser uma entrada plana.
 
-## Management
+## Gerenciamento
 
-The theme selection in ``@cmmv/view`` is handled automatically by the framework, saving the user's preference in ``localStorage`` and retrieving it upon page load. This enables the system to maintain consistent styling based on the user's previous choice, without manual intervention.
+A seleção de tema no ``@cmmv/view`` é gerenciada automaticamente pelo framework, salvando a preferência do usuário no ``localStorage`` e recuperando-a ao carregar a página. Isso permite que o sistema mantenha uma estilização consistente com base na escolha anterior do usuário, sem intervenção manual.
 
-You can check the current theme directly in your template using ``$style.theme``. For example, to integrate with a component like DocSearch that requires a theme setting, you can update the HTML tag with the ``data-theme`` attribute:
+Você pode verificar o tema atual diretamente no seu template usando ``$style.theme``. Por exemplo, para integrar com um componente como DocSearch que requer configuração de tema, você pode atualizar a tag HTML com o atributo ``data-theme``:
 
 ```html
 <!DOCTYPE html>
@@ -74,20 +74,20 @@ You can check the current theme directly in your template using ``$style.theme``
 </html>
 ```
 
-This ensures that the correct theme is applied across components like search bars and other elements that require theme awareness.
+Isso garante que o tema correto seja aplicado em componentes como barras de pesquisa e outros elementos que necessitem de reconhecimento de tema.
 
-This implementation of dynamic themes in ``@cmmv/view`` provides a streamlined approach to managing multiple themes without needing additional plugins, Tailwind extensions, or complex CSS rules. By utilizing ``.style.json`` files, developers can easily define theme-specific styles, reducing the amount of code and ensuring consistent theme switching. While it’s possible to achieve similar results using CSS variables, this method simplifies the process, eliminating the need for custom view logic or CSS management for theme switching, making it intuitive and efficient.
+Esta implementação de temas dinâmicos no ``@cmmv/view`` oferece uma abordagem simplificada para gerenciar múltiplos temas sem necessidade de plugins adicionais, extensões do Tailwind ou regras CSS complexas. Ao utilizar arquivos `.style.json`, os desenvolvedores podem facilmente definir estilos específicos para temas, reduzindo a quantidade de código e garantindo alternância consistente de temas. Embora seja possível alcançar resultados semelhantes usando variáveis CSS, este método simplifica o processo, eliminando a necessidade de lógica personalizada na view ou gerenciamento CSS para alternância de tema, tornando-o intuitivo e eficiente.
 
-* **Support for Nested Styles:** Introducing support for nested JSON indices could allow for more complex style structures and better organization.
-* **CSS Variable Integration:** An option to integrate with CSS variables can complement the theme system, offering finer control over dynamic theming.
-* **Theme Preloading:** Allow theme preloading based on system preferences (e.g., dark mode based on OS settings) to enhance user experience.
-* **Advanced Animations:** Adding built-in transitions for theme switching could improve UX when toggling between light and dark modes.
+* **Suporte para Estilos Aninhados:** Introduzir suporte para índices JSON aninhados poderia permitir estruturas de estilo mais complexas e melhor organização.
+* **Integração com Variáveis CSS:** Uma opção para integrar com variáveis CSS pode complementar o sistema de temas, oferecendo controle mais refinado sobre a personalização dinâmica de temas.
+* **Pré-carregamento de Temas:** Permitir o pré-carregamento de temas com base nas preferências do sistema (por exemplo, modo escuro baseado nas configurações do sistema operacional) para melhorar a experiência do usuário.
+* **Animações Avançadas:** Adicionar transições embutidas para alternância de temas poderia melhorar a experiência do usuário ao alternar entre modos claro e escuro.
 
-## Component 
+## Componente
 
-In addition to the previously discussed style system, CMMV introduces the ``$style`` property within components, allowing scoped styles to be accessed directly.
+Além do sistema de estilos discutido anteriormente, o CMMV introduz a propriedade ``$style`` dentro de componentes, permitindo que estilos com escopo sejam acessados diretamente.
 
-This feature enables developers to define and reference styles within the component’s data model, facilitating style management within templates.
+Esse recurso permite que os desenvolvedores definam e referenciem estilos dentro do modelo de dados do componente, facilitando o gerenciamento de estilos dentro dos templates.
 
 ```html
 <template>
@@ -106,4 +106,4 @@ export default {
 </script>
 ```
 
-This allows more intuitive style handling, making styles accessible directly within the component context.
+Isso permite um gerenciamento de estilo mais intuitivo, tornando os estilos acessíveis diretamente dentro do contexto do componente.

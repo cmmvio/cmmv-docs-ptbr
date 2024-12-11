@@ -1,10 +1,10 @@
-# Headers
+# Cabeçalhos
 
-In CMMV, you can configure response headers to enhance security, define metadata, or customize the behavior of your web application. This can be achieved in two ways: using the ``.cmmv.config.js`` file located in the root of your project or by adding specific configurations directly into the template files for more granular control.
+No CMMV, você pode configurar os cabeçalhos de resposta para aumentar a segurança, definir metadados ou personalizar o comportamento do seu aplicativo web. Isso pode ser feito de duas maneiras: usando o arquivo `.cmmv.config.js` localizado na raiz do seu projeto ou adicionando configurações específicas diretamente nos arquivos de template para controle mais granular.
 
-The ``.cmmv.config.js`` file serves as the global configuration file for your CMMV project. You can set default headers that will apply to all responses from your application by defining the headers object in this file.
+O arquivo `.cmmv.config.js` serve como o arquivo de configuração global para o seu projeto CMMV. Você pode definir cabeçalhos padrão que serão aplicados a todas as respostas da sua aplicação definindo o objeto de cabeçalhos neste arquivo.
 
-For example, to configure a Content-Security-Policy and other security-related headers, your ``.cmmv.config.js`` might look like this:
+Por exemplo, para configurar uma Content-Security-Policy e outros cabeçalhos relacionados à segurança, seu `.cmmv.config.js` pode ser assim:
 
 ```typescript
 module.exports = {
@@ -25,9 +25,9 @@ module.exports = {
 }
 ```
 
-For more specific configurations, such as adding metadata or setting headers that only apply to a particular route, you can define these directly in your Vue-style template files.
+Para configurações mais específicas, como adicionar metadados ou definir cabeçalhos que se aplicam apenas a uma rota específica, você pode defini-los diretamente nos arquivos de template no estilo Vue.
 
-In the template's ``<script>`` block, under head, you can configure meta tags, link tags, and other headers:
+No bloco `<script>` do template, em `head`, você pode configurar metatags, links e outros cabeçalhos:
 
 ```html
 <script s-setup>
@@ -36,7 +36,7 @@ export default {
 
     head: {
         meta: [
-            { name: "description", content: "CMMV Todolist sample" },
+            { name: "description", content: "Exemplo de Todolist no CMMV" },
             { name: "keywords", content: "cmmv, contract model, websocket" }
         ],
         link: [
@@ -53,15 +53,15 @@ export default {
 </script>
 ```
 
-* **meta:** Adds or overrides meta tags in the page's head, including those for description, keywords, and Content-Security-Policy.
-* **link:** Used to include external resources like stylesheets or canonical URLs for SEO.
-* **script:** Enables you to include additional scripts with custom attributes like async or defer.
+* **meta:** Adiciona ou sobrescreve metatags no `head` da página, incluindo aquelas para descrição, palavras-chave e Content-Security-Policy.
+* **link:** Usado para incluir recursos externos, como folhas de estilo ou URLs canônicas para SEO.
+* **script:** Permite incluir scripts adicionais com atributos personalizados, como `async` ou `defer`.
 
-By configuring headers both globally and at the template level, you have full control over the behavior, security, and SEO optimization of your CMMV application.
+Ao configurar cabeçalhos globalmente e no nível do template, você tem controle total sobre o comportamento, segurança e otimização de SEO do seu aplicativo CMMV.
 
-# HTTP Module
+# Módulo HTTP
 
-The ``@cmmv/http`` module provides an automatic way to manage and optimize the headers that are sent with HTTP responses, reducing the size of unnecessary headers based on the request type (e.g., ``GET``, ``POST``, ``PUT``, or ``DELETE`` requests). This built-in functionality ensures that only relevant headers are included, minimizing overhead and improving performance.
+O módulo `@cmmv/http` fornece uma maneira automática de gerenciar e otimizar os cabeçalhos enviados com as respostas HTTP, reduzindo o tamanho de cabeçalhos desnecessários com base no tipo de solicitação (por exemplo, `GET`, `POST`, `PUT` ou `DELETE`). Essa funcionalidade embutida garante que apenas os cabeçalhos relevantes sejam incluídos, minimizando a sobrecarga e melhorando o desempenho.
 
 ```javascript
 if (req.method === 'GET') {
@@ -75,15 +75,16 @@ if (req.method === 'GET') {
 }
 ```
 
-* **Strict-Transport-Security:** Ensures that the browser only communicates with the server over HTTPS for the next 180 days (15552000 seconds) and applies this policy to all subdomains.
+* **Strict-Transport-Security:** Garante que o navegador só se comunique com o servidor por HTTPS nos próximos 180 dias (15552000 segundos) e aplica essa política a todos os subdomínios.
 
-* **X-Content-Type-Options:** Prevents browsers from interpreting files as a different MIME type, which can help prevent attacks.
+* **X-Content-Type-Options:** Impede que os navegadores interpretem arquivos como um tipo MIME diferente, ajudando a prevenir ataques.
 
-* **X-Frame-Options:** Protects the site from clickjacking attacks by only allowing it to be displayed in a frame of the same origin.
+* **X-Frame-Options:** Protege o site contra ataques de clickjacking, permitindo que ele seja exibido em um frame apenas da mesma origem.
 
-* **X-XSS-Protection:** Disables XSS filtering to avoid potential browser-level issues.
+* **X-XSS-Protection:** Desativa o filtro de XSS para evitar possíveis problemas no nível do navegador.
 
-POST, PUT, DELETE Requests: For these types of requests, the module removes specific headers that are not necessary for write operations, ensuring smaller and more efficient responses.
+### Solicitações POST, PUT, DELETE: 
+Para esses tipos de solicitações, o módulo remove cabeçalhos específicos que não são necessários para operações de escrita, garantindo respostas menores e mais eficientes.
 
 ```javascript
 if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
@@ -99,111 +100,67 @@ if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
 }
 ```
 
-* **X-DNS-Prefetch-Control:** Reduces DNS prefetching, which is not needed in POST requests.
-* **X-Download-Options:** Typically used for file downloads; unnecessary for most write operations.
-* **X-Permitted-Cross-Domain-Policies:** Restricts which domain policies are sent, but not required for write operations.
-* **Strict-Transport-Security:** Removed in write requests to allow more flexibility in transport for sensitive operations.
-* **Content-Security-Policy:** Temporarily disabled for certain write requests.
-* **Cross-Origin-Opener-Policy:** Removed to allow more flexibility when interacting with cross-origin content.
-* **Cross-Origin-Resource-Policy:** Ensures more open policies for resource sharing during POST, PUT, or DELETE requests.
-* **Origin-Agent-Cluster:** Removes restrictions on the agent's ability to share resources across origins.
-* **Referrer-Policy:** Not needed for write operations, removed to reduce header size.
+* **X-DNS-Prefetch-Control:** Reduz o pré-busca de DNS, desnecessário em solicitações POST.
+* **X-Download-Options:** Normalmente usado para downloads de arquivos; desnecessário para operações de escrita.
+* **X-Permitted-Cross-Domain-Policies:** Restringe quais políticas de domínio são enviadas, mas não é necessário para operações de escrita.
+* **Strict-Transport-Security:** Removido em solicitações de escrita para permitir mais flexibilidade no transporte para operações sensíveis.
+* **Content-Security-Policy:** Temporariamente desativado para certas solicitações de escrita.
+* **Cross-Origin-Opener-Policy:** Removido para permitir mais flexibilidade ao interagir com conteúdo de origem cruzada.
+* **Cross-Origin-Resource-Policy:** Garante políticas mais abertas para compartilhamento de recursos durante POST, PUT ou DELETE.
+* **Origin-Agent-Cluster:** Remove restrições na capacidade do agente de compartilhar recursos entre origens.
+* **Referrer-Policy:** Não é necessário para operações de escrita, removido para reduzir o tamanho do cabeçalho.
 
-The ``@cmmv/http`` module intelligently manages headers to optimize performance, especially for write operations (``POST``, ``PUT``, ``DELETE``). For read-only operations (``GET``), it ensures strong security by setting appropriate headers. This approach reduces the amount of unnecessary data sent with each request, while still adhering to best practices in web security.
+O módulo `@cmmv/http` gerencia inteligentemente os cabeçalhos para otimizar o desempenho, especialmente para operações de escrita (`POST`, `PUT`, `DELETE`). Para operações somente leitura (`GET`), garante forte segurança configurando cabeçalhos apropriados. Essa abordagem reduz a quantidade de dados desnecessários enviados com cada solicitação, ao mesmo tempo que adere às melhores práticas de segurança na web.
 
-# Additional Modules
+# Módulos Adicionais
 
-The ``@cmmv/http`` module integrates several essential middleware components to further enhance security, session management, and overall performance. These include ``cors``, ``helmet``, ``session``, and ``compression``, which modify headers and handle certain aspects of HTTP communication.
+O módulo `@cmmv/http` integra vários componentes de middleware essenciais para melhorar a segurança, o gerenciamento de sessões e o desempenho geral. Esses incluem `cors`, `helmet`, `session` e `compression`, que modificam os cabeçalhos e lidam com certos aspectos da comunicação HTTP.
 
 ## CORS
 
-Controls access to resources from different origins by setting appropriate CORS (Cross-Origin Resource Sharing) headers.
+Controla o acesso a recursos de diferentes origens configurando os cabeçalhos apropriados de CORS (Cross-Origin Resource Sharing).
 
-**Effect on Headers:**
+**Efeito nos Cabeçalhos:**
 
-* **Access-Control-Allow-Origin:** Specifies which origins can access the server.
-* **Access-Control-Allow-Methods:** Lists allowed HTTP methods (e.g., GET, POST).
-* **Access-Control-Allow-Headers:** Indicates which headers can be used during the actual request.
-* **Access-Control-Allow-Credentials:** Indicates whether the response to the request can be exposed to the client.
+* **Access-Control-Allow-Origin:** Especifica quais origens podem acessar o servidor.
+* **Access-Control-Allow-Methods:** Lista os métodos HTTP permitidos (por exemplo, GET, POST).
+* **Access-Control-Allow-Headers:** Indica quais cabeçalhos podem ser usados durante a solicitação real.
+* **Access-Control-Allow-Credentials:** Indica se a resposta à solicitação pode ser exposta ao cliente.
 
 ## Helmet
 
-Helmet helps secure the application by setting various HTTP headers that protect against common attacks.
+Helmet ajuda a proteger a aplicação configurando vários cabeçalhos HTTP que protegem contra ataques comuns.
 
-**Effect on Headers:**
+**Efeito nos Cabeçalhos:**
 
-* **Content-Security-Policy:** Restricts the sources from which the browser can load resources.
-* **X-DNS-Prefetch-Control:** Disables DNS prefetching to reduce privacy leakage.
-* **X-Frame-Options:** Protects against clickjacking by controlling whether the page can be embedded in a frame.
-* **X-Permitted-Cross-Domain-Policies:** Controls Adobe Flash and PDF cross-domain policies.
-* **Strict-Transport-Security:** Forces secure (HTTPS) connections.
-* **X-Download-Options:** Prevents browsers from downloading files from your website without authorization.
-* **Referrer-Policy:** Controls how much referrer information is included with requests.
+* **Content-Security-Policy:** Restringe as fontes de onde o navegador pode carregar recursos.
+* **X-DNS-Prefetch-Control:** Desativa o pré-busca de DNS para reduzir vazamentos de privacidade.
+* **X-Frame-Options:** Protege contra clickjacking controlando se a página pode ser embutida em um frame.
+* **X-Permitted-Cross-Domain-Policies:** Controla políticas de domínio cruzado para Adobe Flash e PDF.
+* **Strict-Transport-Security:** Força conexões seguras (HTTPS).
+* **X-Download-Options:** Evita que navegadores baixem arquivos do seu site sem autorização.
+* **Referrer-Policy:** Controla quanta informação de referência é incluída nas solicitações.
 
 ## Session
 
-Manages user sessions via cookies, storing user authentication state and other session data.
+Gerencia sessões de usuário via cookies, armazenando o estado de autenticação do usuário e outros dados de sessão.
 
-* **Set-Cookie:** Sets the session cookie with attributes like HttpOnly, Secure, SameSite, etc.
+* **Set-Cookie:** Define o cookie de sessão com atributos como HttpOnly, Secure, SameSite, etc.
 
 ## Compression
 
-Compresses the HTTP responses using Gzip or Brotli to reduce the size of the response body, speeding up the transmission.
+Comprime as respostas HTTP usando Gzip ou Brotli para reduzir o tamanho do corpo da resposta, acelerando a transmissão.
 
-**Effect on Headers:**
+**Efeito nos Cabeçalhos:**
 
-* **Content-Encoding:** Specifies the type of compression used (e.g., gzip, br).
-* **Vary:** Instructs the browser to vary the response based on the Accept-Encoding header, which allows the server to return different content based on the client's compression capabilities.
+* **Content-Encoding:** Especifica o tipo de compressão usada (por exemplo, gzip, br).
+* **Vary:** Instrui o navegador a variar a resposta com base no cabeçalho Accept-Encoding, permitindo que o servidor retorne conteúdo diferente com base nas capacidades de compressão do cliente.
 
-The ``.cmmv.config.js`` file in the root of the project allows developers to define and customize security policies, session management, CORS settings, and compression options. These configurations will automatically modify the response headers to meet security and performance requirements.
+O arquivo `.cmmv.config.js` na raiz do projeto permite que os desenvolvedores definam e personalizem políticas de segurança, gerenciamento de sessões, configurações de CORS e opções de compressão. Essas configurações modificam automaticamente os cabeçalhos de resposta para atender aos requisitos de segurança e desempenho.
 
-Example ``.cmmv.config.js`` Configuration:
-```javascript
-module.exports = {
-    headers: {
-        "Content-Security-Policy": [
-            "default-src 'self'",
-            "script-src 'self' 'unsafe-eval'",
-            "style-src 'self' 'unsafe-inline'",
-            "font-src 'self'",
-            "connect-src 'self'",
-            "img-src 'self' data:"
-        ]
-    },
-    cors: {
-        origin: "https://example.com",
-        methods: ["GET", "POST"],
-        credentials: true
-    },
-    helmet: {
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
-                styleSrc: ["'self'", "'unsafe-inline'"]
-            }
-        }
-    },
-    session: {
-        secret: "my-secret-key",
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: true,
-            httpOnly: true,
-            sameSite: 'lax'
-        }
-    },
-    compression: {
-        level: 6,
-        threshold: 1024
-    }
-};
-```
+### Personalização de Cabeçalhos
 
-### Header Customization
-
-The headers can also be set or modified directly within the template setup using the ``head`` property. This provides flexibility to add meta tags, canonical links, and other SEO-related settings dynamically per page.
+Os cabeçalhos também podem ser configurados ou modificados diretamente dentro do setup do template usando a propriedade `head`. Isso oferece flexibilidade para adicionar metatags, links canônicos e outras configurações relacionadas ao SEO dinamicamente por página.
 
 ```html
 <script s-setup>
@@ -212,7 +169,7 @@ export default {
 
     head: {
         meta: [
-            { name: "description", content: "CMMV Todolist sample" },
+            { name: "description", content: "Exemplo de Todolist no CMMV" },
             { name: "keywords", content: "cmmv, contract model, websocket" }
         ],
         link: [
@@ -224,4 +181,4 @@ export default {
 </script>
 ```
 
-The ``@cmmv/http`` module automates essential optimizations to HTTP headers, ensuring security and performance through compression, session management, and protection against common web attacks via middleware like ``cors``, ``helmet``, and ``compression``. This is supplemented by custom configurations defined in the ``.cmmv.config.js`` file and template-specific header controls, making the CMMV platform a secure and efficient foundation for web applications.
+O módulo `@cmmv/http` automatiza otimizações essenciais para os cabeçalhos HTTP, garantindo segurança e desempenho por meio de compressão, gerenciamento de sessões e proteção contra ataques comuns na web via middleware como `cors`, `helmet` e `compression`. Isso é complementado por configurações personalizadas definidas no arquivo `.cmmv.config.js` e controles de cabeçalho específicos por template, tornando a plataforma CMMV uma base segura e eficiente para aplicativos web.

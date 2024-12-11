@@ -1,48 +1,43 @@
 # View
 
-The ``@cmmv/view`` module in CMMV is a custom view engine designed to optimize SEO and performance by incorporating server-side rendering (SSR) with seamless integration into modern frontend frameworks. Built on top of EJS (Embedded JavaScript), it serves as a middleware for Express and Fastify, processing views in real-time and injecting pre-loaded data into the HTML before it reaches the browser. This approach enables search engines to index content that has already been processed, while still offering flexibility to use popular frontend frameworks like Vue.js, React, or Angular for additional client-side interaction.
+O módulo `@cmmv/view` no CMMV é um motor de visualização personalizado projetado para otimizar SEO e desempenho, incorporando renderização no lado do servidor (SSR) com integração perfeita a frameworks frontend modernos. Construído sobre o EJS (Embedded JavaScript), ele funciona como um middleware para Express e Fastify, processando visualizações em tempo real e injetando dados pré-carregados no HTML antes que ele chegue ao navegador. Essa abordagem permite que os mecanismos de busca indexem conteúdo já processado, enquanto ainda oferece flexibilidade para usar frameworks frontend como Vue.js, React ou Angular para interatividade no lado do cliente.
 
-Traditional client-side rendering (CSR) frameworks, such as Vue.js and React, generate content dynamically in the browser. While these frameworks provide rich interactivity, they can negatively impact SEO due to the delayed rendering of content—search engines may not fully index dynamic content that relies on JavaScript execution.
+Os frameworks tradicionais de renderização no lado do cliente (CSR), como Vue.js e React, geram conteúdo dinamicamente no navegador. Embora esses frameworks proporcionem interatividade rica, podem impactar negativamente o SEO devido ao atraso na renderização do conteúdo—os mecanismos de busca podem não indexar totalmente o conteúdo dinâmico que depende da execução de JavaScript.
 
-By incorporating SSR through ``@cmmv/view``, the critical content of your web application is rendered on the server, allowing it to be immediately visible to both users and search engines. This significantly enhances the SEO of your site because the content is presented in the initial HTML response, allowing for better crawlability and faster page loads.
+Ao incorporar SSR com o `@cmmv/view`, o conteúdo crítico da sua aplicação web é renderizado no servidor, permitindo que ele seja imediatamente visível tanto para usuários quanto para mecanismos de busca. Isso melhora significativamente o SEO do seu site, pois o conteúdo é apresentado na resposta inicial do HTML, facilitando a indexação e proporcionando carregamentos mais rápidos.
 
-## Key Features of @cmmv/view
+## Principais Recursos
 
-1. **Server-Side Rendering (SSR)**
-The ``@cmmv/view`` module processes views and injects dynamic data server-side before the HTML is sent to the browser. This means that any service calls, database queries, or API requests required to generate content are completed on the server, so the user and search engines receive fully rendered HTML.
+### 1. **Renderização no Lado do Servidor (SSR)**
+O módulo `@cmmv/view` processa visualizações e injeta dados dinâmicos no servidor antes que o HTML seja enviado ao navegador. Isso significa que qualquer chamada de serviço, consulta ao banco de dados ou solicitação à API necessária para gerar o conteúdo é completada no servidor, permitindo que o usuário e os mecanismos de busca recebam um HTML totalmente renderizado.
 
-2. **Optimized JavaScript Bundle**
-In addition to rendering views, the ``@cmmv/view`` module creates an optimized JavaScript bundle that includes the core libraries required by the application, such as ``@cmmv/reactivity`` (a component that handles real-time updates via RPC). This bundle ensures that the frontend is prepared for fast and efficient interaction once it reaches the client.
+### 2. **Bundle de JavaScript Otimizado**
+Além de renderizar visualizações, o módulo `@cmmv/view` cria um bundle de JavaScript otimizado que inclui as bibliotecas principais necessárias para a aplicação, como `@cmmv/reactivity` (um componente que gerencia atualizações em tempo real via RPC). Esse bundle garante que o frontend esteja preparado para interações rápidas e eficientes assim que atinge o cliente.
 
-3. **Seamless Integration with JavaScript Frameworks**
-While ``@cmmv/view`` focuses on SSR, it doesn't prevent the use of modern frontend frameworks like Vue.js, React, or Angular. It provides a way to hydrate the server-rendered HTML with these frameworks, so developers can benefit from both SSR and client-side interactivity. In future versions, there will be streamlined support for these frameworks, allowing them to work effortlessly with the existing CMMV infrastructure.
+### 3. **Integração com Frameworks JavaScript**
+Embora `@cmmv/view` foque em SSR, ele não impede o uso de frameworks modernos como Vue.js, React ou Angular. Ele fornece uma maneira de hidratar o HTML renderizado no servidor com esses frameworks, permitindo que os desenvolvedores se beneficiem tanto de SSR quanto da interatividade no lado do cliente.
 
-4. **Pre-Loaded Data for SEO**
-One of the most significant SEO advantages of ``@cmmv/view`` is its ability to inject pre-loaded data directly into the HTML template. This data is often gathered from services such as APIs, databases, or repositories, making it available for search engine crawlers before any JavaScript needs to be executed. This feature ensures that essential content is available upfront, improving SEO rankings, as search engines can see the full context of the page without relying on client-side scripts.
+### 4. **Dados Pré-Carregados para SEO**
+Uma das maiores vantagens para SEO é a capacidade de injetar dados diretamente no template HTML. Esses dados são frequentemente obtidos de serviços como APIs, bancos de dados ou repositórios, tornando-os disponíveis para os crawlers antes que qualquer JavaScript seja executado. Isso garante que o conteúdo essencial esteja disponível imediatamente, melhorando os rankings nos mecanismos de busca.
 
-5. **Dynamic JavaScript Inclusion**
-In addition to handling SSR, ``@cmmv/view`` dynamically includes any additional JavaScript files necessary for the page. Whether it’s a custom script or a framework like React, these files are bundled and served in a single request, reducing network overhead and speeding up initial load times.
+### 5. **Inclusão Dinâmica de JavaScript**
+Além de lidar com SSR, `@cmmv/view` inclui dinamicamente qualquer arquivo JavaScript adicional necessário para a página. Seja um script personalizado ou um framework como React, esses arquivos são empacotados e servidos em uma única solicitação, reduzindo a sobrecarga da rede e acelerando os tempos de carregamento iniciais.
 
-6. **Custom Directives for SSR**
-The ``@cmmv/view`` module also supports custom directives that process HTML and data on the server-side. These directives handle pre-loading data, managing conditional content, looping over datasets, and handling i18n translations—all of which are rendered as static HTML, further improving SEO.
+### 6. **Diretivas Personalizadas para SSR**
+O módulo suporta diretivas personalizadas que processam HTML e dados no lado do servidor. Essas diretivas gerenciam pré-carregamento de dados, conteúdo condicional, loops sobre conjuntos de dados e traduções i18n—todos renderizados como HTML estático, melhorando ainda mais o SEO.
 
 ## SEO
 
-**Improved Crawlability**
-When search engines crawl your site, they rely on HTML to extract key information for indexing. In a typical CSR application, much of the content is loaded asynchronously via JavaScript, which search engines may not execute fully, or at all. This results in poor visibility for crawlers, reducing the discoverability of critical content.
+### Melhor Crawlability
+Com `@cmmv/view`, o conteúdo já está pré-renderizado ao atingir o navegador. O servidor processa todas as solicitações de serviço, chamadas à API e consultas dinâmicas de dados, entregando um HTML totalmente renderizado. Isso permite que os mecanismos de busca identifiquem imediatamente o conteúdo principal das páginas, levando a classificações mais altas nos resultados de pesquisa.
 
-With ``@cmmv/view``, the content is already pre-rendered by the time it reaches the browser. The server completes the processing of all service requests, API calls, and dynamic data queries, delivering fully rendered HTML. As a result, search engines can immediately identify the core content of your pages, leading to higher rankings in search results.
+### Carregamentos de Página Mais Rápidos
+Como `@cmmv/view` processa os dados no servidor e os envia com o HTML inicial, os usuários experimentam carregamentos de página mais rápidos. O tempo gasto renderizando o conteúdo no navegador é minimizado, melhorando tanto a experiência do usuário quanto o desempenho SEO da página.
 
-**Faster Page Load Times**
-Since ``@cmmv/view`` processes data on the server and sends it along with the initial HTML, users experience faster page loads. The time spent rendering content in the browser is minimized, which not only improves the user experience but also enhances the page's SEO performance.
+### Redução de Sobrecarga de JavaScript
+Frameworks de renderização no lado do cliente frequentemente envolvem grandes bundles de JavaScript e execução significativa no runtime. Com `@cmmv/view`, grande parte do trabalho é transferida para o servidor, reduzindo a quantidade de JavaScript necessária para processar a página no lado do cliente.
 
-**JavaScript Overhead Reduction**
-Client-side rendering frameworks often involve large JavaScript bundles and significant runtime execution. With ``@cmmv/view``, much of the work is offloaded to the server, reducing the amount of JavaScript required to process the page on the client-side. This results in reduced network load, quicker time-to-interactive (TTI), and a smoother overall experience for the user.
-
-**Pre-Loaded Data for SEO and UX**
-By pre-fetching data and injecting it into the HTML, ``@cmmv/view`` ensures that users and search engines see the most relevant content immediately. Whether it’s product information, blog content, or news articles, everything is available as soon as the page loads, improving both SEO and user engagement.
-
-## Exemple
+## Exemplo
 
 ```html
 <div 
@@ -85,26 +80,26 @@ export default {
 </script>
 ```
 
-By using ``@cmmv/view``, developers can leverage the advantages of SSR to significantly boost their SEO performance and reduce load times. By pre-loading content, optimizing JavaScript bundles, and offering seamless integration with modern frontend frameworks, ``@cmmv/view`` provides a comprehensive solution for building scalable, SEO-friendly web applications.
+Com o `@cmmv/view`, os desenvolvedores podem aproveitar as vantagens do SSR para impulsionar significativamente o desempenho SEO e reduzir os tempos de carregamento. Com conteúdo pré-carregado, bundles de JavaScript otimizados e integração perfeita com frameworks frontend modernos, `@cmmv/view` oferece uma solução abrangente para construir aplicações web escaláveis e otimizadas para SEO.
 
-The ability to serve pre-rendered content, while maintaining the flexibility of client-side interactivity, ensures that CMMV applications can deliver the best of both worlds: high SEO performance and rich, responsive user experiences.
+## Configurações
 
-## Settings
+O módulo `@cmmv/view` permite personalização flexível através do arquivo `.cmmv.config.js`. Abaixo estão as configurações disponíveis para ajustar o comportamento do motor de visualização, internacionalização (i18n), metadados para SEO, cabeçalhos de segurança e recursos JavaScript.
 
-The ``@cmmv/view`` module in CMMV allows for flexible customization through the ``.cmmv.config.js`` file. Below are the available configurations that you can use to fine-tune the behavior of the view engine, internationalization (i18n), meta tags for SEO, security headers, and JavaScript resources.
+### Configurações Disponíveis:
 
 ```typescript
 module.exports = {
     ...
 
     i18n: {
-        localeFiles: "./src/locale",
-        default: "en"
+        localeFiles: "./src/locale", 
+        default: "en" 
     },
 
     view: {
-        extractInlineScript: true,
-        minifyHTML: true
+        extractInlineScript: true, 
+        minifyHTML: true  
     },
 
     head: {
@@ -118,7 +113,7 @@ module.exports = {
             ...
         ],
         link: [
-            { rel: 'icon', href: 'assets/favicon/favicon.ico' }, 
+            { rel: 'icon', href: 'assets/favicon/favicon.ico' },
             ...
         ]
     },
@@ -134,14 +129,14 @@ module.exports = {
     },
 
     scripts: [
-        { type: "text/javascript", src: '/assets/bundle.min.js' }
+        { type: "text/javascript", src: '/assets/bundle.min.js', defer: "defer" }
     ]
 }
 ```
 
-## I18n Configuration
+### Configuração de i18n
 
-The i18n configuration allows you to manage internationalization (i18n) in your CMMV application by defining the directory for locale files and setting a default language.
+Gerencie internacionalização (i18n) na sua aplicação CMMV definindo o diretório de arquivos de localização e configurando um idioma padrão.
 
 ```typescript
 i18n: {
@@ -150,12 +145,14 @@ i18n: {
 }
 ```
 
-**localeFiles:** Directory where the translation files for different languages are stored.
-**default:** The default language to be used when no specific locale is selected.
+<br/>
 
-## View Configuration
+* **localeFiles:** Diretório onde os arquivos de tradução para diferentes idiomas são armazenados.
+* **default:** O idioma padrão usado quando nenhum outro idioma específico é selecionado.
 
-The view configuration lets you control how the HTML output is processed. It includes options for extracting inline scripts and minifying HTML for optimized performance.
+### Configuração de View
+
+Controle como a saída HTML é processada, incluindo opções para extrair scripts inline e minificar o HTML para desempenho otimizado.
 
 ```typescript
 view: {
@@ -164,47 +161,72 @@ view: {
 }
 ```
 
-## Head Configuration
+<br/>
 
-The head configuration controls the ``<head>`` section of your HTML document, allowing you to define meta tags, attributes for the ``<html>`` tag, and links such as favicons.
+* **extractInlineScript:** Extrai scripts inline do HTML para arquivos separados.
+* **minifyHTML:** Minifica o HTML antes de enviá-lo para o navegador.
+
+### Configuração de Head
+
+Controle a seção `<head>` do seu documento HTML, definindo tags meta, atributos para a tag `<html>`, e links como favicons.
 
 ```typescript
 head: {
-    title: "CMMV",  
+    title: "CMMV",
     htmlAttrs: { lang: "pt-br" },
     meta: [
         { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width' }
+        { name: 'viewport', content: 'width=device-width' },
         ...
     ],
     link: [
-        { rel: 'icon', href: 'assets/favicon/favicon.ico' }
+        { rel: 'icon', href: 'assets/favicon/favicon.ico' },
         ...
     ]
 }
 ```
 
-## Headers Configuration
+<br/>
 
-The ``headers`` configuration allows you to define HTTP headers such as ``Content-Security-Policy`` (CSP), which help secure your application.
+* **title:** O título padrão da página.
+* **htmlAttrs:** Atributos para a tag `<html>`, como o idioma.
+* **meta:** Metatags personalizadas.
+* **link:** Links externos como favicons ou folhas de estilo.
+
+### Configuração de Headers
+
+Defina cabeçalhos HTTP como `Content-Security-Policy` (CSP) para proteger sua aplicação.
 
 ```typescript
 headers: {
     "Content-Security-Policy": [
-        "default-src 'self'", 
-        "script-src 'self' 'unsafe-eval'",  
-        "style-src 'self' 'unsafe-inline'",  
-        "font-src 'self'" 
-    ]
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-eval'",
+        "style-src 'self' 'unsafe-inline'",
+        "font-src 'self'"
+    ],
+    ...
 }
 ```
 
-### Scripts Configuration
+### Configuração de Scripts
 
-The ``scripts`` configuration specifies external or internal JavaScript files that should be included in the HTML output.
+Especifique arquivos JavaScript externos ou internos que devem ser incluídos na saída HTML.
 
 ```typescript
 scripts: [
     { type: "text/javascript", src: '/assets/bundle.min.js', defer: "defer" }
 ]
 ```
+
+<br/>
+
+* **type:** Define o tipo do arquivo (geralmente `text/javascript`).
+* **src:** O caminho do arquivo JavaScript.
+* **defer:** Adia a execução do script até que o HTML tenha sido totalmente analisado.
+
+## Conclusão
+
+O módulo `@cmmv/view` oferece uma solução completa para otimizar aplicações web, combinando a eficiência da renderização no lado do servidor (SSR) com a flexibilidade de frameworks modernos. Suas funcionalidades, como injeção de dados pré-carregados, bundles de JavaScript otimizados e suporte a internacionalização, tornam o desenvolvimento mais ágil e o desempenho superior.
+
+Com configurações personalizáveis, o `@cmmv/view` capacita os desenvolvedores a criar aplicações escaláveis e amigáveis para SEO, mantendo uma experiência de usuário rica e interativa.

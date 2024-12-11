@@ -8,37 +8,37 @@
     border-radius: 0.375rem; 
     margin: 1.5rem 0;
 ">
-    <p style="font-weight: bold; margin-bottom: 0.5rem;">Notice</p>
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
     <p>
-        Support for <code>TailwindCSS</code> integration was removed from the core module in version <strong>0.7.5</strong>. 
-        It is now recommended to use <code>Vite</code> for managing frontend assets and bundling. Follow the steps below 
-        to configure TailwindCSS with Vite in your CMMV project.
+        O suporte para integração com <strong>TailwindCSS</strong> foi removido do módulo principal na versão <strong>0.7.5</strong>. 
+        Agora é recomendado usar o <strong>Vite</strong> para gerenciar os assets do frontend e realizar o bundling. Siga os passos abaixo 
+        para configurar o TailwindCSS com Vite no seu projeto CMMV.
     </p>
 </div>
 
-Follow these steps to integrate [TailwindCSS](https://tailwindcss.com/) into your CMMV project using Vite for modern and optimized development workflows:
+Siga estas etapas para integrar o [TailwindCSS](https://tailwindcss.com/) ao seu projeto CMMV usando o Vite para fluxos de trabalho modernos e otimizados de desenvolvimento:
 
-## Install TailwindCSS
+## Instale o TailwindCSS
 
-Run the following command to add TailwindCSS as a development dependency:
+Execute o seguinte comando para adicionar o TailwindCSS como dependência de desenvolvimento:
 
 ```bash
 pnpm add -D tailwindcss postcss autoprefixer
 ```
 
-## Initialize TailwindCSS
+## Inicialize o TailwindCSS
 
-Generate the TailwindCSS configuration files by running:
+Gere os arquivos de configuração do TailwindCSS executando:
 
 ```bash
 npx tailwindcss init
 ```
 
-This will create a `tailwind.config.js` file at the root of your project.
+Isso criará um arquivo `tailwind.config.js` na raiz do seu projeto.
 
-## Configure TailwindCSS
+## Configure o TailwindCSS
 
-Update your `tailwind.config.js` file to include the paths for your Vue or other frontend components:
+Atualize o arquivo `tailwind.config.js` para incluir os caminhos para seus componentes Vue ou outros arquivos de frontend:
 
 ```javascript
 /** @type {import('tailwindcss').Config} */
@@ -47,7 +47,7 @@ module.exports = {
         './index.html',
         './src/**/*.{vue,js,ts,jsx,tsx}',
     ],
-    darkMode: 'class', // Enable class-based dark mode
+    darkMode: 'class', // Habilitar dark mode baseado em classes
     theme: {
         extend: {},
     },
@@ -55,9 +55,9 @@ module.exports = {
 };
 ```
 
-## Create Entry CSS File
+## Crie o Arquivo CSS de Entrada
 
-Create a `src/tailwind.css` file in your project and include the TailwindCSS directives:
+Crie um arquivo `src/tailwind.css` no seu projeto e inclua as diretivas do TailwindCSS:
 
 ```css
 @tailwind base;
@@ -65,9 +65,9 @@ Create a `src/tailwind.css` file in your project and include the TailwindCSS dir
 @tailwind utilities;
 ```
 
-## Configure Vite
+## Configure o Vite
 
-Modify your `vite.config.js` to ensure that TailwindCSS is processed correctly:
+Modifique seu `vite.config.js` para garantir que o TailwindCSS seja processado corretamente:
 
 ```javascript
 import { defineConfig } from 'vite';
@@ -93,25 +93,25 @@ export default defineConfig({
 });
 ```
 
-## Use TailwindCSS in Your Project
+## Use o TailwindCSS no Seu Projeto
 
-Ensure the entry CSS file (`tailwind.css`) is imported into your application. You can do this by importing it in your `main.js`:
+Certifique-se de importar o arquivo CSS de entrada (`tailwind.css`) na sua aplicação. Você pode fazer isso importando-o no seu `main.js`:
 
 ```javascript
 import { createApp } from 'vue';
 import App from './App.vue';
-import './tailwind.css'; // Import TailwindCSS
+import './tailwind.css'; // Importa o TailwindCSS
 
 createApp(App).mount('#app');
 ```
 
-## HTML Template
+## Template HTML
 
-Ensure your `index.html` is configured to include the `#app` element where Vue will mount:
+Certifique-se de que seu `index.html` está configurado para incluir o elemento `#app`, onde o Vue será montado:
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -124,10 +124,10 @@ Ensure your `index.html` is configured to include the `#app` element where Vue w
 </html>
 ```
 
-## Recommendations
+## Recomendações
 
-- Use the `@cmmv/vue` module for generating RPC mixins and composables for Vue integration.
-- Configure Vite as your primary build tool to handle modern frontend workflows.
-- Follow TailwindCSS best practices for creating reusable and scalable styles.
+- Use o módulo `@cmmv/vue` para gerar mixins e composables RPC para integração com o Vue.
+- Configure o Vite como sua principal ferramenta de build para gerenciar fluxos de trabalho modernos de frontend.
+- Siga as melhores práticas do TailwindCSS para criar estilos reutilizáveis e escaláveis.
 
-This setup ensures a clean separation of concerns, allowing CMMV to focus on backend operations while Vite handles the frontend assets. 
+Essa configuração garante uma separação clara de responsabilidades, permitindo que o CMMV se concentre em operações de backend enquanto o Vite gerencia os assets do frontend. 

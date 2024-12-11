@@ -1,26 +1,26 @@
-# Request
+# Requisições
 
-The ``HttpService`` class in the ``@cmmv/http`` package provides a convenient way to make HTTP requests to external APIs using the ``Axios`` [NPM](https://www.npmjs.com/package/axios) library. It extends the ``AbstractService`` and is registered as a service with the name ``'http'``. The service wraps common HTTP request methods such as ``GET``, ``POST``, ``DELETE``, ``PUT``, ``PATCH``, and ``HEAD`` while using Axios for handling requests and responses.
+A classe ``HttpService`` no pacote ``@cmmv/http`` fornece uma maneira conveniente de fazer requisições HTTP para APIs externas utilizando a biblioteca ``Axios`` [NPM](https://www.npmjs.com/package/axios). Ela estende a ``AbstractService`` e é registrada como um serviço com o nome ``'http'``. O serviço encapsula métodos comuns de requisição HTTP como ``GET``, ``POST``, ``DELETE``, ``PUT``, ``PATCH`` e ``HEAD``, enquanto utiliza o Axios para lidar com as requisições e respostas.
 
-To use the ``HttpService`` in your project, make sure to import it from the ``@cmmv/http`` package:
+Para utilizar o ``HttpService`` em seu projeto, certifique-se de importá-lo do pacote ``@cmmv/http``:
 
 ```typescript
 import { HttpService } from '@cmmv/http';
 ```
 
-The ``HttpService`` provides several HTTP methods for interacting with external APIs. These methods support custom configurations through ``AxiosRequestConfig`` and return a ``Promise`` that resolves with an ``AxiosResponse``.
+O ``HttpService`` fornece vários métodos HTTP para interagir com APIs externas. Esses métodos suportam configurações personalizadas através do ``AxiosRequestConfig`` e retornam uma ``Promise`` que resolve com um ``AxiosResponse``.
 
-## Methods
+## Métodos
 
-``request<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```request<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Performs a generic HTTP request based on the given Axios configuration.
+* **Descrição:** Realiza uma requisição HTTP genérica com base na configuração fornecida para o Axios.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``config:``** An AxiosRequestConfig object that defines the HTTP method, headers, and other request configurations.
+* **``config:``** Um objeto ``AxiosRequestConfig`` que define o método HTTP, cabeçalhos e outras configurações da requisição.
 
-* **Returns:** A Promise that resolves with an AxiosResponse.
+* **Retorno:** Uma Promise que resolve com um AxiosResponse.
 
 ```typescript
 const response = await this.httpService.request({
@@ -31,17 +31,17 @@ const response = await this.httpService.request({
 
 ## Get
 
-``get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Sends an HTTP ``GET`` request to the specified URL.
+* **Descrição:** Envia uma requisição HTTP ``GET`` para a URL especificada.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``url:``** The URL to send the GET request to.
+* **``url:``** A URL para enviar a requisição GET.
 
-* **``config:``** An AxiosRequestConfig object that defines the HTTP method, headers, and other request configurations.
+* **``config:``** Um objeto ``AxiosRequestConfig`` que define o método HTTP, cabeçalhos e outras configurações da requisição.
 
-* **Returns:** A Promise that resolves with an AxiosResponse.
+* **Retorno:** Uma Promise que resolve com um AxiosResponse.
 
 ```typescript
 const response = await this.httpService.get('https://api.example.com/data');
@@ -49,35 +49,17 @@ const response = await this.httpService.get('https://api.example.com/data');
 
 ## Delete
 
-``delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Sends an HTTP ``DELETE`` request to the specified URL.
+* **Descrição:** Envia uma requisição HTTP ``DELETE`` para a URL especificada.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``url:``** The URL to send the DELETE request to.
+* **``url:``** A URL para enviar a requisição DELETE.
 
-* **``config:``** Optional Axios configuration options.
+* **``config:``** Configurações opcionais para o Axios.
 
-* **Returns:** A Promise that resolves with an AxiosResponse.
-
-```typescript
-const response = await httpService.delete('https://api.example.com/data/1');
-```
-
-## Delete
-
-``delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
-
-* **Description:** Sends an HTTP ``DELETE`` request to the specified URL.
-
-**Parameters:**
-
-* **``url:``** The URL to send the DELETE request to.
-
-* **``config:``** Optional Axios configuration options.
-
-* **Returns:** A Promise that resolves with an AxiosResponse.
+* **Retorno:** Uma Promise que resolve com um AxiosResponse.
 
 ```typescript
 const response = await httpService.delete('https://api.example.com/data/1');
@@ -85,17 +67,17 @@ const response = await httpService.delete('https://api.example.com/data/1');
 
 ## Head
 
-``head<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```head<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Sends an HTTP ``HEAD`` request to the specified URL to fetch only headers without the response body.
+* **Descrição:** Envia uma requisição HTTP ``HEAD`` para a URL especificada para buscar apenas os cabeçalhos sem o corpo da resposta.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``url:``** The URL to send the ``HEAD`` request to.
+* **``url:``** A URL para enviar a requisição HEAD.
 
-* **``config:``** Optional Axios configuration options.
+* **``config:``** Configurações opcionais para o Axios.
 
-* **Returns:** A ``Promise`` that resolves with an ``AxiosResponse``.
+* **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
 const response = await this.httpService.head('https://api.example.com/data');
@@ -103,19 +85,19 @@ const response = await this.httpService.head('https://api.example.com/data');
 
 ## Post
 
-``post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Sends an HTTP ``POST`` request to the specified URL with the given data.
+* **Descrição:** Envia uma requisição HTTP ``POST`` para a URL especificada com os dados fornecidos.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``url:``** The URL to send the POST request to.
+* **``url:``** A URL para enviar a requisição POST.
 
-* **``data:``** The data to be sent in the request body.
+* **``data:``** Os dados a serem enviados no corpo da requisição.
 
-* **``config:``** Optional Axios configuration options.
+* **``config:``** Configurações opcionais para o Axios.
 
-* **Returns:** A ``Promise`` that resolves with an ``AxiosResponse``.
+* **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
 const response = await httpService.post('https://api.example.com/data', { 
@@ -125,19 +107,19 @@ const response = await httpService.post('https://api.example.com/data', {
 
 ## Put
 
-``put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Sends an HTTP ``PUT`` request to the specified URL with the given data.
+* **Descrição:** Envia uma requisição HTTP ``PUT`` para a URL especificada com os dados fornecidos.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``url:``** The URL to send the PUT request to.
+* **``url:``** A URL para enviar a requisição PUT.
 
-* **``data:``** The data to be sent in the request body.
+* **``data:``** Os dados a serem enviados no corpo da requisição.
 
-* **``config:``** Optional Axios configuration options.
+* **``config:``** Configurações opcionais para o Axios.
 
-* **Returns:** A ``Promise`` that resolves with an ``AxiosResponse``.
+* **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
 const response = await httpService.put('https://api.example.com/data/1', { 
@@ -147,19 +129,19 @@ const response = await httpService.put('https://api.example.com/data/1', {
 
 ## Patch
 
-``patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>``
+```patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>```
 
-* **Description:** Sends an HTTP ``PATCH`` request to the specified URL with the given data.
+* **Descrição:** Envia uma requisição HTTP ``PATCH`` para a URL especificada com os dados fornecidos.
 
-**Parameters:**
+**Parâmetros:**
 
-* **``url:``** The URL to send the PATCH request to.
+* **``url:``** A URL para enviar a requisição PATCH.
 
-* **``data:``** The data to be sent in the request body.
+* **``data:``** Os dados a serem enviados no corpo da requisição.
 
-* **``config:``** Optional Axios configuration options.
+* **``config:``** Configurações opcionais para o Axios.
 
-* **Returns:** A ``Promise`` that resolves with an ``AxiosResponse``.
+* **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
 const response = await httpService.patch('https://api.example.com/data/1', { 
@@ -167,7 +149,7 @@ const response = await httpService.patch('https://api.example.com/data/1', {
 });
 ```
 
-# Usage 
+# Uso 
 
 ```typescript
 import { Service } from "@cmmv/core";
@@ -211,4 +193,4 @@ export class CryptoPriceService {
 }
 ```
 
-The ``HttpService`` is a powerful and flexible tool for making HTTP requests within the ``@cmmv/http`` framework. It leverages the popular ``Axios`` library to handle HTTP operations, providing an easy way to interact with external APIs from your CMMV-based application. Each method corresponds to a standard HTTP request type, and additional configurations can be applied using ``AxiosRequestConfig`` to customize behavior like headers, timeouts, and more.
+O ``HttpService`` é uma ferramenta poderosa e flexível para fazer requisições HTTP dentro do framework ``@cmmv/http``. Ele utiliza a popular biblioteca ``Axios`` para lidar com operações HTTP, proporcionando uma maneira fácil de interagir com APIs externas em sua aplicação baseada no ``CMMV``. Cada método corresponde a um tipo padrão de requisição HTTP, e configurações adicionais podem ser aplicadas usando ``AxiosRequestConfig`` para personalizar comportamentos como cabeçalhos, timeouts e muito mais.

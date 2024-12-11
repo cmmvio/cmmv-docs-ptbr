@@ -1,49 +1,67 @@
 # Reactivity
 
-The `@cmmv/reactivity` module was created based on the core ideas of [Petite Vue](https://github.com/vuejs/petite-vue), a simplified version of Vue.js. Petite Vue, developed by Evan You, the creator of Vue.js, offers a lightweight alternative to the full Vue framework, providing only the essential reactivity and templating features needed for smaller or simpler projects. Petite Vue is just ``6KB`` in size and implements basic directives, making it an excellent foundation for building minimal reactive systems.
+<div style="
+    background-color: #FEF3C7; 
+    border-left: 4px solid #F59E0B; 
+    color: #92400E; 
+    padding: 1rem; 
+    border-radius: 0.375rem; 
+    margin: 1.5rem 0;
+">
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
+    <p>
+        A partir da versão <strong>0.7.5</strong>, o módulo <strong>@cmmv/reactivity</strong> está sendo substituído pela integração nativa do <strong>Vue 3</strong> com <strong>Vite</strong>, que será a pipeline recomendada para versões futuras. 
+        Embora o <strong>@cmmv/reactivity</strong> continue sendo suportado, nenhuma funcionalidade adicional será adicionada ao script além das já existentes.
+    </p>
+    <p>
+        Além disso, o módulo <strong>@cmmv/view</strong> terá suporte ao <strong>Angular</strong> e <strong>React</strong> em versões futuras, oferecendo uma solução mais versátil para renderização no lado do servidor e integração com o frontend.
+    </p>
+</div>
 
-Inspired by Petite Vue's design philosophy, `@cmmv/reactivity` integrates this lightweight, reactive approach into the CMMV framework. By doing so, it offers developers the ability to use two-way data binding and efficient UI updates with minimal overhead. The core reactivity engine from Petite Vue has been adapted to fit seamlessly into the CMMV ecosystem, allowing for easy integration with server-side rendering, WebSockets, Protobuf, and other key modules of CMMV.
+O módulo `@cmmv/reactivity` foi criado com base nas ideias centrais do [Petite Vue](https://github.com/vuejs/petite-vue), uma versão simplificada do Vue.js. O Petite Vue, desenvolvido por Evan You, criador do Vue.js, oferece uma alternativa leve ao framework completo do Vue, fornecendo apenas os recursos essenciais de reatividade e templating necessários para projetos menores ou mais simples. O Petite Vue tem apenas `6KB` e implementa diretivas básicas, tornando-se uma excelente base para construir sistemas reativos mínimos.
 
-With this combination, `@cmmv/reactivity` provides an optimal balance of simplicity and performance, making it ideal for building dynamic user interfaces while keeping the overall bundle size minimal. It is well-suited for developers who prefer a lightweight, Vue-inspired reactivity system without the complexity of a full-featured framework.
+Inspirado pela filosofia de design do Petite Vue, o `@cmmv/reactivity` integra essa abordagem reativa leve ao framework CMMV. Com isso, ele oferece aos desenvolvedores a capacidade de usar binding bidirecional de dados e atualizações eficientes de UI com overhead mínimo. O núcleo reativo do Petite Vue foi adaptado para se integrar perfeitamente ao ecossistema CMMV, permitindo integração fácil com renderização no lado do servidor, WebSockets, Protobuf e outros módulos principais do CMMV.
 
-For more information on Petite Vue, you can visit the official [Petite Vue repository](https://github.com/vuejs/petite-vue).
+Com essa combinação, o `@cmmv/reactivity` proporciona um equilíbrio ideal entre simplicidade e desempenho, sendo perfeito para construir interfaces de usuário dinâmicas enquanto mantém o tamanho do bundle geral mínimo. Ele é adequado para desenvolvedores que preferem um sistema reativo inspirado no Vue, mas sem a complexidade de um framework completo.
 
-## Limitations
+Para mais informações sobre o Petite Vue, visite o [repositório oficial do Petite Vue](https://github.com/vuejs/petite-vue).
 
-The primary goal of the CMMV framework is to build high-performance applications with a strong focus on speed, efficiency, and SEO optimization. To achieve this, we highly recommend using ``@cmmv/reactivity`` as the frontend framework rather than incorporating heavier frameworks like Vue, React, or Angular. @cmmv/reactivity is designed to handle most of the common challenges faced in web applications, providing essential reactivity features in a lightweight package that minimizes the impact on your application's load times and performance.
+## Limitações
 
-By choosing ``@cmmv/reactivity``, you can ensure that your application remains fast and optimized for both users and search engines. Adding larger frameworks such as Vue, React, or Angular introduces additional layers of JavaScript that can increase the page's initial load time, potentially harming your PageSpeed score and overall performance. This goes against the core principles of CMMV, which aims to reduce unnecessary overhead.
+O objetivo principal do framework CMMV é construir aplicações de alto desempenho com forte foco em velocidade, eficiência e otimização para SEO. Para alcançar isso, recomendamos fortemente o uso do `@cmmv/reactivity` como o framework frontend em vez de incorporar frameworks mais pesados como Vue, React ou Angular. O `@cmmv/reactivity` é projetado para lidar com a maioria dos desafios comuns enfrentados em aplicações web, fornecendo recursos essenciais de reatividade em um pacote leve que minimiza o impacto nos tempos de carregamento e no desempenho da aplicação.
 
-If you find that certain critical features are missing from ``@cmmv/reactivity``, we encourage you to submit a pull request to the repository. We're open to suggestions and contributions that improve the framework while keeping it aligned with CMMV's performance goals.
+Ao escolher o `@cmmv/reactivity`, você garante que sua aplicação permaneça rápida e otimizada tanto para os usuários quanto para os mecanismos de busca. A adição de frameworks maiores, como Vue, React ou Angular, introduz camadas adicionais de JavaScript que podem aumentar o tempo de carregamento inicial da página, prejudicando a pontuação do PageSpeed e o desempenho geral. Isso vai contra os princípios centrais do CMMV, que visam reduzir overheads desnecessários.
 
-In extreme cases where heavier frameworks like Vue, React, or Angular are necessary, we will eventually provide native support for their integration. However, we strongly advise against this approach due to the performance trade-offs. Any implementation of these frameworks will be at your own risk, and we will not offer official support for such setups—our focus will remain exclusively on optimizing ``@cmmv/reactivity`` for the best possible user experience and SEO results.
+Se você identificar que determinados recursos críticos estão faltando no `@cmmv/reactivity`, incentivamos você a enviar um pull request para o repositório. Estamos abertos a sugestões e contribuições que melhorem o framework, mantendo-o alinhado aos objetivos de desempenho do CMMV.
 
-## Installation
+Em casos extremos em que frameworks mais pesados como Vue, React ou Angular sejam necessários, eventualmente forneceremos suporte nativo para a integração desses frameworks. No entanto, aconselhamos fortemente contra essa abordagem devido aos compromissos de desempenho envolvidos. Qualquer implementação desses frameworks será por sua conta e risco, e não ofereceremos suporte oficial para tais configurações—nosso foco permanecerá exclusivamente na otimização do `@cmmv/reactivity` para proporcionar a melhor experiência do usuário e resultados de SEO possíveis.
 
-To install the ``@cmmv/reactivity`` package, simply run the following command:
+## Instalação
+
+Para instalar o pacote `@cmmv/reactivity`, basta executar o seguinte comando:
 
 ```bash
 $ pnpm add @cmmv/reactivity
 ```
 
-Alternatively, you can visit the [GitHub repository](https://github.com/andrehrferreira/cmmv-reactivity) for more details.
+Alternativamente, você pode visitar o [repositório no GitHub](https://github.com/andrehrferreira/cmmv-reactivity) para mais detalhes.
 
-The ``@cmmv/view`` module already integrates reactivity natively, so it does not need to be installed separately.
+O módulo `@cmmv/view` já integra reatividade nativamente, então não precisa ser instalado separadamente.
 
-## Usage
+## Uso
 
-Below is the documentation for all directives supported by ``@cmmv/reactivity`` based on the samples provided in the CMMV Reactivity GitHub repository.
+Abaixo está a documentação de todas as diretivas suportadas pelo `@cmmv/reactivity` com base nos exemplos fornecidos no repositório do CMMV Reactivity no GitHub.
 
 ## c-model 
 
-Binds the value of an input element to the application's data and enables two-way data binding. This is useful for dynamically updating the UI as users input data.
+Vincula o valor de um elemento de entrada ao modelo de dados da aplicação e permite o binding bidirecional. Isso é útil para atualizar dinamicamente a UI conforme os usuários inserem dados.
 
 ```html
 <input c-model="username">
-<p>Username: {{ username }}</p>
+<p>Usuário: {{ username }}</p>
 ```
 
-[Sample](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/model.html) : 
+[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/model.html): 
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -65,11 +83,11 @@ Binds the value of an input element to the application's data and enables two-wa
   }"
 >
   <pre>{{ $data }}</pre>
-  <h2>Text Input</h2>
+  <h2>Entrada de Texto</h2>
   {{ text }}
   <input v-model.trim="text" />
 
-  <h2>TextArea</h2>
+  <h2>Área de Texto</h2>
   {{ text }}
   <textarea v-model.trim="text"></textarea>
 
@@ -77,15 +95,15 @@ Binds the value of an input element to the application's data and enables two-wa
   <input type="checkbox" id="checkbox" v-model="checked" />
   <label for="checkbox">{{ checked }}</label>
 
-  <h2>Checkbox w/ Array</h2>
-  <label><input type="checkbox" v-model="arr" value="one" /> one</label>
-  <label><input type="checkbox" v-model="arr" value="two" /> two</label>
+  <h2>Checkbox com Array</h2>
+  <label><input type="checkbox" v-model="arr" value="one" /> um</label>
+  <label><input type="checkbox" v-model="arr" value="two" /> dois</label>
   <label
-    ><input type="checkbox" v-model="arr" :value="123" /> actual number</label
+    ><input type="checkbox" v-model="arr" :value="123" /> número real</label
   >
   <div>{{ arr }}</div>
 
-  <h2>Checkbox w/ true-value / false-value</h2>
+  <h2>Checkbox com true-value / false-value</h2>
   <input
     type="checkbox"
     v-model="checkToggle"
@@ -95,42 +113,42 @@ Binds the value of an input element to the application's data and enables two-wa
   <div>{{ checkToggle }}</div>
 
   <h2>Radio</h2>
-  <label><input type="radio" v-model="radioSelected" value="one" /> one</label>
-  <label><input type="radio" v-model="radioSelected" value="two" /> two</label>
+  <label><input type="radio" v-model="radioSelected" value="one" /> um</label>
+  <label><input type="radio" v-model="radioSelected" value="two" /> dois</label>
   <label
-    ><input type="radio" v-model="radioSelected" value="three" /> three</label
+    ><input type="radio" v-model="radioSelected" value="three" /> três</label
   >
   <div>{{ radioSelected }}</div>
 
-  <h2>Select</h2>
+  <h2>Seleção</h2>
   <select v-model="selected" @change="console.log(selected, $event.target.value)">
-    <option>one</option>
-    <option>two</option>
-    <option>three</option>
+    <option>um</option>
+    <option>dois</option>
+    <option>três</option>
   </select>
   <div>{{ selected }}</div>
 </div>
 ```
 
-In this example, the input's value is bound to the username field in the data model. Changes in the input will be reflected in the username property.
+Neste exemplo, o valor do input é vinculado ao campo username no modelo de dados. Alterações no input serão refletidas na propriedade username.
 
 ## c-show
 
-Controls the visibility of elements based on a condition. If the condition evaluates to false, the element will be hidden.
+Controla a visibilidade de elementos com base em uma condição. Se a condição for avaliada como falsa, o elemento será ocultado.
 
 ```html
-<p c-show="isLoggedIn">Welcome back, user!</p>
+<p c-show="isLoggedIn">Bem-vindo de volta, usuário!</p>
 ```
 
 ## c-if
 
-Conditionally renders an element only if the specified expression is true. Unlike c-show, this directive removes the element from the DOM if the condition is false.
+Renderiza condicionalmente um elemento apenas se a expressão especificada for verdadeira. Diferentemente de `c-show`, esta diretiva remove o elemento do DOM se a condição for falsa.
 
 ```html
-<p c-if="showMessage">This message is shown only if showMessage is true.</p>
+<p c-if="showMessage">Esta mensagem será exibida apenas se showMessage for verdadeiro.</p>
 ```
 
-[Sample](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/if.html):
+[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/if.html):
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -138,17 +156,17 @@ Conditionally renders an element only if the specified expression is true. Unlik
 </script>
 
 <div id="app" scope="{ open: true, elseOpen: true }">
-  <button @click="open = !open">toggle</button>
-  <button @click="elseOpen = !elseOpen">toggle else</button>
-  <div c-if="open">ok</div>
-  <div c-else-if="elseOpen">else if</div>
-  <template c-else>else</template>
+  <button @click="open = !open">Alternar</button>
+  <button @click="elseOpen = !elseOpen">Alternar Else</button>
+  <div c-if="open">Ok</div>
+  <div c-else-if="elseOpen">Else If</div>
+  <template c-else>Else</template>
 </div>
 ```
 
 ## c-for
 
-Loops through an array or object and repeats the associated element for each item.
+Faz um loop em um array ou objeto e repete o elemento associado para cada item.
 
 ```html
 <ul>
@@ -156,7 +174,7 @@ Loops through an array or object and repeats the associated element for each ite
 </ul>
 ```
 
-[Sample](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/for.html): 
+[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/for.html): 
 ```html
 <script type="module">
     import { createApp } from '../src'
@@ -170,19 +188,19 @@ Loops through an array or object and repeats the associated element for each ite
         { id: 4, text: 'bazz' }
       ],
       add() {
-        this.list.push({ id: ++id, text: 'new item' });
+        this.list.push({ id: ++id, text: 'novo item' });
       },
       splice() {
-        this.list.splice(1, 0, { id: ++id, text: 'new item' })
+        this.list.splice(1, 0, { id: ++id, text: 'novo item' })
       }
     }).mount('#app')
 </script>
   
 <div id="app" scope>
-    <button @click="add">add</button>
-    <button @click="list.reverse()">reverse</button>
-    <button @click="list.pop()">pop</button>
-    <button @click="splice">splice</button>
+    <button @click="add">Adicionar</button>
+    <button @click="list.reverse()">Reverter</button>
+    <button @click="list.pop()">Remover último</button>
+    <button @click="splice">Adicionar no meio</button>
     <ul>
       <li c-for="({ id, text }, index) in list" :key="id">
         <div>{{ index }} {{ { id, text } }}</div>
@@ -199,14 +217,14 @@ Loops through an array or object and repeats the associated element for each ite
 
 ## c-on
 
-Attaches an event listener to an element. Commonly used for handling click events, form submissions, or other user interactions.
+Anexa um listener de eventos a um elemento. Comumente usado para lidar com eventos de clique, envios de formulário ou outras interações do usuário.
 
 ```html
-<button c-on:click="incrementCounter">Click me!</button>
-<button @click="incrementCounter">Click me!</button>
+<button c-on:click="incrementCounter">Clique aqui!</button>
+<button @click="incrementCounter">Clique aqui!</button>
 ```
 
-[Sample](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/on.html): 
+[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/on.html): 
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -217,26 +235,26 @@ Attaches an event listener to an element. Commonly used for handling click event
 	<input
 		type="text"
 		@keyup.x="alert('yo')"
-		placeholder="type x to test key modifier"
+		placeholder="digite x para testar o modificador de tecla"
 	/>
 	<form>
-		<button type="submit" @click.prevent.stop>submit (prevented)</button>
+		<button type="submit" @click.prevent.stop>Enviar (prevenido)</button>
 	</form>
-	<button @click.right="alert('clicked')">right click</button>
-	<button @click.middle="alert('clicked')">middle click</button>
-	<button @click.once="alert('clicked')">click once</button>
+	<button @click.right="alert('clique direito')">Clique direito</button>
+	<button @click.middle="alert('clique meio')">Clique botão do meio</button>
+	<button @click.once="alert('clicado')">Clique uma vez</button>
 </div>
 ```
 
 ## c-bind
 
-Dynamically binds an attribute to an expression. This is often used to modify attributes like src, href, or class.
+Vincula dinamicamente um atributo a uma expressão. Comumente usado para modificar atributos como `src`, `href` ou `class`.
 
 ```html
 <img :src="imageSource">
 ```
 
-[Sample](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/bind.html):
+[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/bind.html):
 ```html
 <style>
     #green {
@@ -270,34 +288,34 @@ Dynamically binds an attribute to an expression. This is often used to modify at
 </script>
   
 <div scope>
-    <div :id="id">simple binding - this should be green</div>
+    <div :id="id">Binding simples - deve ser verde</div>
 
     <div class="static" :class="classes">
-        class binding - this should be red and bold
+        Binding de classe - deve ser vermelho e negrito
     </div>
 
     <div style="font-weight: bold" :style="style">
-        style binding - this should be blue and bold
+        Binding de estilo - deve ser azul e negrito
     </div>
 
-    <div c-bind="obj">object binding - this should be orange</div>
+    <div c-bind="obj">Binding de objeto - deve ser laranja</div>
 </div>
 ```
 
 ## c-text
 
-Dynamically sets the text content of an element.
+Define dinamicamente o conteúdo de texto de um elemento.
 
 ```html
 <div scope="{ count: 1 }">
 	<p c-text="count"></p>
-	<button @click="count++">increase</button>
+	<button @click="count++">Aumentar</button>
 </div>
 ```
 
 ## c-html
 
-Inserts raw HTML content into an element.
+Insere conteúdo HTML bruto dentro de um elemento.
 
 ```html
 <div c-html="htmlContent"></div>
@@ -305,15 +323,17 @@ Inserts raw HTML content into an element.
 
 ## c-class
 
-Dynamically binds one or more CSS classes to an element.
+Vincula dinamicamente uma ou mais classes CSS a um elemento.
 
 ```html
 <div c-class="{ active: isActive, disabled: isDisabled }"></div>
 ```
 
-In this example, if isActive is true, the active class is added, and if isDisabled is true, the disabled class is added.
+Neste exemplo, se `isActive` for verdadeiro, a classe `active` será adicionada. Se `isDisabled` for verdadeiro, a classe `disabled` será adicionada.
 
 ## c-once
+
+Renderiza o conteúdo uma única vez e não reage a mudanças posteriores nos dados.
 
 ```html
 <script type="module">
@@ -324,7 +344,7 @@ In this example, if isActive is true, the active class is added, and if isDisabl
 <div scope="{ count: 5 }">
     {{ count }}
     <div c-once>
-      <h2>Once</h2>
+      <h2>Uma vez</h2>
       {{ count }}
       <span c-text="count"></span>
       <span v-for="i in count">{{ i }}</span>
@@ -336,12 +356,12 @@ In this example, if isActive is true, the active class is added, and if isDisabl
 
 ## ref
 
-In the @cmmv/reactivity framework, the ref system allows you to easily reference DOM elements within the template and manipulate them in your JavaScript logic. This concept is crucial for managing DOM elements directly when reactive bindings alone are not enough. By associating a ref with an element, you can interact with the DOM directly from the reactive context of your application.
+No `@cmmv/reactivity`, o sistema `ref` permite referenciar facilmente elementos do DOM dentro do template e manipulá-los na lógica JavaScript. Esse conceito é crucial para gerenciar elementos DOM diretamente quando as ligações reativas não são suficientes.
 
-Key Benefits of Using ref:
-Direct DOM Access: It allows you to interact directly with DOM elements, which is sometimes necessary for operations that cannot be purely reactive.
-Dynamic Ref Assignment: You can dynamically change the target element assigned to a ref at runtime.
-Scoped Refs: The system supports nested scopes, meaning you can define refs within a specific context without affecting the global references.
+Benefícios chave do uso de `ref`:
+- **Acesso direto ao DOM:** Permite interagir diretamente com elementos DOM, necessário para operações que não podem ser puramente reativas.
+- **Atribuição dinâmica de ref:** Altere dinamicamente o elemento alvo atribuído a um `ref` em tempo de execução.
+- **Refs escopados:** Suporte a escopos aninhados, permitindo que `refs` sejam definidos dentro de um contexto específico sem afetar referências globais.
 
 ```html
 <script type="module">
@@ -355,44 +375,34 @@ Scoped Refs: The system supports nested scopes, meaning you can define refs with
   scope="{ dynamicRef: 'x', show: true }"
   c-effect="console.log({ x: $refs.x, y: $refs.y, input: $refs.input })"
 >
-	<p>Accessing root el: id is {{ $refs.root.id }}</p>
+	<p>Acessando elemento root: id é {{ $refs.root.id }}</p>
 
 	<input ref="input" />
 
-	<span v-show="show" :ref="dynamicRef">Span with dynamic ref</span>
+	<span v-show="show" :ref="dynamicRef">Span com ref dinâmico</span>
 
-	<p>dynamicRef is {{ dynamicRef }}</p>
+	<p>dynamicRef é {{ dynamicRef }}</p>
 
 	<button @click="dynamicRef = dynamicRef === 'x' ? 'y' : 'x'">
-		change dynamicRef
+		Alterar dynamicRef
 	</button>
 
-	<button @click="show = !show">toggle</button>
+	<button @click="show = !show">Alternar</button>
 
 	<div scope>
-		<p ref="x">nested scope ref</p>
+		<p ref="x">Ref de escopo aninhado</p>
 		<button
 		@click="console.log({ x: $refs.x, y: $refs.y, input: $refs.input })"
 		>
-		log nested scope refs
+		Log refs do escopo aninhado
 		</button>
 	</div>
 </div>
 ```
 
-* **Static Ref Assignment:** The ref attribute binds an element to a key in the $refs object. In the example above, the element ``input ref="input"`` is now accessible via $refs.input in your JavaScript code.
-
-* **Accessing Ref Values:** The c-effect directive is used to log the values of the refs whenever the component is re-rendered or when its state changes. For example, c-effect="console.log({ x: $refs.x, y: $refs.y, input: $refs.input })" logs the current values of x, y, and input.
-
-* **Dynamic Ref Assignment:** You can dynamically change which element is referenced by using a reactive variable. For example, the <span> element uses :ref="dynamicRef", which means the ref value can change based on the value of dynamicRef. The button with the text "change dynamicRef" toggles the reference between x and y.
-
-* **Scoped Refs:** The <div scope> element defines a nested scope, which means the ref="x" inside it refers to a local element. The $refs object will adjust to the scope context, providing an isolated reference within that scope.
-
-* **Toggling Visibility:** The c-show="show" directive toggles the visibility of the <span>, but the ref still holds the reference to the element, even when it is hidden.
-
 ## Components
 
-The @cmmv/reactivity framework allows you to create lightweight and reactive components in your application without the overhead of traditional frameworks. The example provided demonstrates how you can define and use a simple component using createApp, reactive, and templates.
+O `@cmmv/reactivity` permite criar componentes leves e reativos sem o overhead de frameworks tradicionais. O exemplo a seguir demonstra como definir e usar um componente simples com `createApp`, `reactive` e templates.
 
 ```html
 <script type="module">
@@ -419,21 +429,20 @@ The @cmmv/reactivity framework allows you to create lightweight and reactive com
 <div scope="MyComp()"></div>
 ```
 
-**Component Setup:**
+### Configuração do Componente
 
-* The ``MyComp`` function returns the component's data and computed properties.
-* The ``$template`` points to the HTML template that will render this component.
+- **Setup do Componente:** A função `MyComp` retorna os dados e propriedades computadas do componente.
+- **Template:** O `$template` aponta para o HTML que renderizará o componente.
 
-**Reactive Data:**
+### Reatividade
 
-* ``count`` is a reactive property. Changing its value updates the UI automatically.
-* ``plusOne`` is a computed property that reacts to count and displays count + 1.
+- `count` é uma propriedade reativa. Alterar seu valor atualiza automaticamente a UI.
+- `plusOne` é uma propriedade computada que reage a `count` e exibe `count + 1`.
 
-**Template:**
+### Montagem
 
-* The template uses ``{{ count }}`` and ``{{ plusOne }}`` to display the reactive data.
-* Clicking the button increments count and updates the displayed value.
+O `createApp` registra o componente e o monta dentro da tag `div scope="MyComp()"`, que define onde o componente aparecerá.
 
-**Mounting:**
+---
 
-The ``createApp`` function registers the component and mounts it inside the ``div scope="MyComp()"`` tag, which defines where the component will appear.
+Com isso, o `@cmmv/reactivity` se consolida como uma solução eficiente para desenvolver interfaces dinâmicas, leves e reativas, alinhadas aos objetivos de alto desempenho do CMMV.

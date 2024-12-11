@@ -1,10 +1,10 @@
 # Views
 
-Views in CMMV are HTML files located in the ``/public/views/`` directory, typically with the .html extension. They can either be rendered by controllers or accessed directly based on the URL path. For example, a request to ``http://localhost:3000/docs`` will automatically map to ``/public/views/docs/index.html``. The ``index.html`` file can also include other views through the include directive, allowing for modular view components.
+As views no CMMV são arquivos HTML localizados no diretório `/public/views/`, geralmente com a extensão .html. Elas podem ser renderizadas por controladores ou acessadas diretamente com base no caminho da URL. Por exemplo, uma requisição para `http://localhost:3000/docs` será automaticamente mapeada para `/public/views/docs/index.html`. O arquivo `index.html` também pode incluir outras views por meio da diretiva `include`, permitindo componentes de view modulares.
 
-Here is an example of a view structure using the ``docs`` section of the application.
+Aqui está um exemplo de estrutura de uma view usando a seção `docs` da aplicação.
 
-**``docs/index.html``** [Code](https://github.com/andrehrferreira/docs.cmmv.io/blob/main/public/views/docs/index.html)
+**`docs/index.html`** [Código](https://github.com/andrehrferreira/docs.cmmv.io/blob/main/public/views/docs/index.html)
 
 ```html
 <div id="app" s:docs="docs" c-cloak>
@@ -76,7 +76,7 @@ Here is an example of a view structure using the ``docs`` section of the applica
                     <div class="absolute top-0 right-0">
                         <a :href="`https://github.com/...`" 
                            target="_blank" 
-                           title="Suggest change"
+                           title="Sugira alterações"
                         >
                             <i class="fa-solid fa-pen-to-square fa-lg"></i>
                         </a>
@@ -88,7 +88,7 @@ Here is an example of a view structure using the ``docs`` section of the applica
 </div>
 ```
 
-**``docs/navbar.html``** [Code](https://github.com/andrehrferreira/docs.cmmv.io/blob/main/public/views/docs/navbar.html)
+**`docs/navbar.html`** [Código](https://github.com/andrehrferreira/docs.cmmv.io/blob/main/public/views/docs/navbar.html)
 ```html
 <ul class="p-4 select-none top-16" c-cloak c-show="docs">
     <s-for c-for="(item, key) in docs.navbar" render-tag="li">
@@ -122,23 +122,23 @@ Here is an example of a view structure using the ``docs`` section of the applica
 </ul>
 ```
 
-Views are mapped based on the URL path. When a request is made to a specific path like /docs, the system automatically looks for ``/public/views/docs/index.html``. If found, it is rendered; otherwise, a 404 error is returned.
+As views são mapeadas com base no caminho da URL. Quando uma requisição é feita para um caminho específico como /docs, o sistema automaticamente procura por `/public/views/docs/index.html`. Se encontrado, é renderizado; caso contrário, um erro 404 é retornado.
 
-## Include Directive
+## Diretiva Include
 
-The ``include`` directive allows the inclusion of other view files, enabling modularity in views. For example, ``docs/index.html`` includes ``docs/navbar.html`` using:
+A diretiva `include` permite a inclusão de outros arquivos de view, possibilitando modularidade nas views. Por exemplo, `docs/index.html` inclui `docs/navbar.html` usando:
 
 ```html
 <!-- include('public/views/docs/navbar') -->
 ```
 
-This approach lets you reuse components like headers, footers, and sidebars across different views.
+Essa abordagem permite reutilizar componentes como cabeçalhos, rodapés e barras laterais em diferentes views.
 
-## Setup and Data Binding
+## Configuração e Binding de Dados
 
-View components can be controlled using the ``s-setup`` directive. However, at the moment, only the ``index.html`` (or root view) can use the ``s-setup`` tag for setting up scripts, meta tags, or other configurations. Any setups added in subcomponents are ignored. This means that data or configurations must be passed from the top-level view.
+Os componentes das views podem ser controlados usando a diretiva `s-setup`. No entanto, no momento, apenas o `index.html` (ou view raiz) pode usar a tag `s-setup` para configurar scripts, metatags ou outras configurações. Qualquer configuração adicionada em subcomponentes será ignorada. Isso significa que dados ou configurações precisam ser passados da view de nível superior.
 
-**Exemple:**
+**Exemplo:**
 
 ```javascript
 <script s-setup>
@@ -180,22 +180,22 @@ export default {
 </script>
 ```
 
-CMMV introduces a concept of setup scripts in the views, similar to what you may find in frameworks like [Vue.js](https://vuejs.org/) and [Nuxt.js](https://nuxt.com/). This concept allows dynamic configuration of headers, structured data, and enables binding data to the frontend. Additionally, setup scripts provide lifecycle hooks, such as ``mounted`` and ``created``, which are executed when the frontend is loaded.
+CMMV introduz um conceito de scripts de configuração nas views, semelhante ao que você encontra em frameworks como [Vue.js](https://vuejs.org/) e [Nuxt.js](https://nuxt.com/). Esse conceito permite configurar cabeçalhos dinamicamente, dados estruturados e habilita o binding de dados ao frontend. Além disso, os scripts de configuração fornecem hooks de ciclo de vida, como `mounted` e `created`, que são executados quando o frontend é carregado.
 
-## Dynamic Layout 
+## Layout Dinâmico 
 
-The ``layout`` property allows you to specify the layout that the view will use. In this example, the layout is set to ``"default"``, meaning the view will inherit and render within a base layout, often defined in ``/public/templates``.
+A propriedade `layout` permite especificar o layout que a view usará. Neste exemplo, o layout é definido como `"default"`, o que significa que a view herdará e será renderizada dentro de um layout base, geralmente definido em `/public/templates`.
 
 ```javascript
 layout: "default"
 ```
 
-## Lifecycle Hooks
+## Hooks de Ciclo de Vida
 
-CMMV's setup scripts provide lifecycle hooks similar to Vue.js. These lifecycle hooks allow you to control code execution at different stages of the component's lifecycle:
+Os scripts de configuração do CMMV fornecem hooks de ciclo de vida semelhantes ao Vue.js. Esses hooks permitem controlar a execução do código em diferentes estágios do ciclo de vida do componente:
 
-* **mounted:** Runs when the view is fully mounted on the DOM. Typically used for tasks like DOM manipulation or API requests.
-* **created:** Can be used to execute code as soon as the view is created, before it is mounted to the DOM.
+* **mounted:** Executa quando a view está totalmente montada no DOM. Tipicamente usado para tarefas como manipulação do DOM ou requisições de API.
+* **created:** Pode ser usado para executar código assim que a view é criada, antes de ser montada no DOM.
 
 ```javascript
 async mounted() {
@@ -203,9 +203,9 @@ async mounted() {
 }
 ```
 
-## Data Property
+## Propriedade Data
 
-You can define the ``data()`` function to return an object that holds reactive data, which can be bound to the view. This data will be automatically updated when modified.
+Você pode definir a função `data()` para retornar um objeto que contém dados reativos, que podem ser vinculados à view. Esses dados serão automaticamente atualizados quando modificados.
 
 ```javascript
 data() {
@@ -213,11 +213,11 @@ data() {
 }
 ```
 
-In this example, navbar is initialized as an empty array and is later populated using the ``loadState()`` method.
+Neste exemplo, `navbar` é inicializado como um array vazio e é posteriormente preenchido usando o método `loadState()`.
 
-## Methods
+## Métodos
 
-Setup scripts allow the inclusion of methods that are accessible in the view's scope. These methods are incorporated into the framework’s context and can be used within the template or as event handlers for UI interactions.
+Os scripts de configuração permitem a inclusão de métodos que estão acessíveis no escopo da view. Esses métodos são incorporados ao contexto do framework e podem ser usados dentro do template ou como manipuladores de eventos para interações da interface.
 
 ```javascript
 methods: {
@@ -242,14 +242,14 @@ methods: {
 }
 ```
 
-## Headers
+## Cabeçalhos
 
-The setup script can also be used to dynamically configure headers and scripts for the view. By using properties like head, you can define meta tags, links (e.g., for stylesheets), and other elements dynamically:
+O script de configuração também pode ser usado para configurar dinamicamente cabeçalhos e scripts para a view. Usando propriedades como `head`, você pode definir metatags, links (por exemplo, para folhas de estilo) e outros elementos dinamicamente:
 
 ```javascript
 head: {
     meta: [
-        { name: "description", content: "CMMV Todolist sample" },
+        { name: "description", content: "Exemplo de Todolist CMMV" },
         { name: "keywords", content: "cmmv, contract model, websocket" }
     ],
     link: [
@@ -259,12 +259,12 @@ head: {
 }
 ```
 
-## Data Binding
+## Binding de Dados
 
-The setup provides data and methods that are directly accessible for data binding on the frontend. This allows seamless interaction with UI components and dynamic updates. For example:
+A configuração fornece dados e métodos que são diretamente acessíveis para binding de dados no frontend. Isso permite uma interação perfeita com os componentes da interface e atualizações dinâmicas. Por exemplo:
 
 ```html
 <div c-html="docs.index" s-data="docs.index"></div>
 ```
 
-This binds the ``docs.index`` content to the HTML, enabling dynamic rendering based on the state of docs.index.
+Isso vincula o conteúdo de `docs.index` ao HTML, permitindo uma renderização dinâmica com base no estado de `docs.index`.

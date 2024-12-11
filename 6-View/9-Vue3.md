@@ -8,54 +8,54 @@
     border-radius: 0.375rem; 
     margin: 1.5rem 0;
 ">
-    <p style="font-weight: bold; margin-bottom: 0.5rem;">Notice</p>
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
     <p>
-        The support for <code>Vue</code> and <code>TailwindCSS</code> was removed from the core module in version <strong>0.7.5</strong>. 
-        It is now recommended to use <code>Vite</code> for handling frontend assets and bundling. 
-        Additionally, you can use the <code>@cmmv/vue</code> module to transpile the RPC mixins and composables required for Vue integration.
+        O suporte para <strong>Vue</strong> e <strong>TailwindCSS</strong> foi removido do módulo principal na versão <strong>0.7.5</strong>. 
+        Agora é recomendado usar <strong>Vite</strong> para gerenciar os assets do frontend e realizar o bundling. 
+        Além disso, você pode usar o módulo <strong>@cmmv/vue</strong> para transpilação dos mixins e composables necessários para a integração com o Vue.
     </p>
 </div>
 
-The `@cmmv/vue` module provides seamless integration with [Vue 3](https://vuejs.org/) for building rich, reactive interfaces in your applications. This module enables you to leverage Vue's ecosystem while integrating deeply with CMMV's REST or RPC communication capabilities. The responsibility for generating and serving Vue 3 composables is fully handled by the `@cmmv/vue` module, promoting the use of modern frontend tooling like Vite for asset handling and efficient communication with the backend.
+O módulo `@cmmv/vue` fornece integração completa com o [Vue 3](https://vuejs.org/) para a construção de interfaces ricas e reativas em suas aplicações. Este módulo permite aproveitar o ecossistema do Vue enquanto se integra profundamente às capacidades de comunicação REST ou RPC do CMMV. A responsabilidade pela geração e fornecimento dos composables para o Vue 3 é totalmente gerenciada pelo módulo `@cmmv/vue`, promovendo o uso de ferramentas modernas de frontend como o Vite para gerenciar assets e comunicação eficiente com o backend.
 
-## Features
+## Funcionalidades
 
-- **Vue 3 Integration:** Full support for Vue 3, including its reactive system, composables, and templating syntax.
-- **Composable RPC API:** Automatically generate composables for seamless communication with CMMV backend via REST or RPC using the `useRPC` hook.
-- **Frontend-First Architecture:** Encourages modern tooling like Vite to handle assets and development workflows.
-- **Flexible Communication:** Use CMMV as a proxy to facilitate REST or RPC communication in Vue applications.
+- **Integração com Vue 3:** Suporte completo para Vue 3, incluindo seu sistema reativo, composables e sintaxe de templates.
+- **API Composable RPC:** Geração automática de composables para comunicação simplificada com o backend do CMMV via REST ou RPC usando o hook `useRPC`.
+- **Arquitetura Frontend-First:** Incentiva o uso de ferramentas modernas como o Vite para gerenciar assets e fluxos de desenvolvimento.
+- **Comunicação Flexível:** Use o CMMV como um proxy para facilitar a comunicação REST ou RPC em aplicações Vue.
 
-## Installation
+## Instalação
 
-To install the `@cmmv/vue` module:
+Para instalar o módulo `@cmmv/vue`:
 
 ```bash
 $ pnpm add @cmmv/vue vue
 ```
 
-Ensure you have `vite` installed for asset management:
+Certifique-se de ter o `vite` instalado para o gerenciamento de assets:
 
 ```bash
 $ pnpm add -D vite
 ```
 
-## Configuration
+## Configuração
 
-Update your `.cmmv.config.js` to include the `@cmmv/vue` module. Remove any direct Vue 3 or TailwindCSS configurations from the `view` section, as those responsibilities now lie with the frontend tooling.
+Atualize seu arquivo `.cmmv.config.js` para incluir o módulo `@cmmv/vue`. Remova quaisquer configurações diretas do Vue 3 ou TailwindCSS da seção `view`, pois essas responsabilidades agora pertencem ao gerenciamento de frontend.
 
 ```javascript
 module.exports = {
     env: process.env.NODE_ENV,
 
     vue: {
-        composableEndpoint: '/assets/rpc-composable.min.js', // Endpoint for generated composables
+        composableEndpoint: '/assets/rpc-composable.min.js', // Endpoint para os composables gerados
     },
 };
 ```
 
-## Setting Up Your Application
+## Configurando sua Aplicação
 
-Include the `VueModule` in your application configuration. The module will handle generating composables for communication with the backend.
+Inclua o `VueModule` na configuração da sua aplicação. O módulo cuidará da geração dos composables para comunicação com o backend.
 
 ```typescript
 import { Application } from '@cmmv/core';
@@ -73,25 +73,25 @@ Application.create({
 
 ## Vue 2
 
-The `@cmmv/vue` module also supports Vue 2 through the use of mixins, enabling smooth integration with CMMV's backend services. For applications still using Vue 2, mixins are automatically generated and accessible via the `rpc-mixins.min.js` file.
+O módulo `@cmmv/vue` também suporta Vue 2 através do uso de mixins, permitindo integração suave com os serviços de backend do CMMV. Para aplicações que ainda usam Vue 2, os mixins são gerados automaticamente e acessíveis via o arquivo `rpc-mixins.min.js`.
 
-### Using Mixins in Vue 2
+### Usando Mixins no Vue 2
 
-To integrate with Vue 2, dynamically import the mixins and include them in your Vue instance.
+Para integrar com o Vue 2, importe dinamicamente os mixins e inclua-os na instância do Vue.
 
-**HTML Template**
+**Template HTML**
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
-        <title>Vue 2 RPC Integration</title>
+        <title>Integração Vue 2 RPC</title>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
     </head>
     <body>
         <div id="app">
             <h1>{{ example }}</h1>
-            <button @click="fetchData">Fetch Data</button>
+            <button @click="fetchData">Buscar Dados</button>
         </div>
         <script type="module" src="/main.js"></script>
     </body>
@@ -111,16 +111,16 @@ const initApp = async () => {
         el: '#app',
         mixins: [CMMVMixin],
         data: {
-            example: "Hello, Vue 2 with RPC!",
+            example: "Olá, Vue 2 com RPC!",
         },
         methods: {
             async fetchData() {
                 const data = await this.GetAllTaskRequest();
-                console.log("Fetched data:", data);
+                console.log("Dados buscados:", data);
             },
         },
         mounted() {
-            console.log("App mounted with example:", this.example);
+            console.log("Aplicação montada com exemplo:", this.example);
         },
     });
 };
@@ -128,24 +128,23 @@ const initApp = async () => {
 initApp();
 ```
 
-- **Mixins**: Vue 2 relies on mixins instead of composables for injecting RPC methods into components.
-- **Lifecycle Hooks**: Vue 2 uses `mounted` and other instance-based lifecycle hooks to manage initialization and state updates.
-- **Reactive Data**: Data is managed through the `data` function and is bound to the DOM through Vue 2's reactivity system.
+- **Mixins:** O Vue 2 usa mixins em vez de composables para injetar métodos RPC nos componentes.
+- **Hooks de Ciclo de Vida:** O Vue 2 utiliza hooks baseados em instâncias como `mounted` para gerenciar inicialização e atualizações de estado.
+- **Dados Reativos:** Os dados são gerenciados pela função `data` e vinculados ao DOM através do sistema de reatividade do Vue 2.
 
-### Recommendations for Vue 2 Users
-<br/>
+### Recomendações para Usuários do Vue 2
 
-- Leverage mixins for seamless integration with CMMV backend services.
-- Use `rpc-mixins.min.js` to simplify backend communication without requiring manual RPC configuration.
-- Consider migrating to Vue 3 for access to the latest features, including composables and improved reactivity.
+- Aproveite os mixins para integração simplificada com os serviços de backend do CMMV.
+- Use o arquivo `rpc-mixins.min.js` para simplificar a comunicação com o backend sem precisar configurar RPC manualmente.
+- Considere migrar para o Vue 3 para aproveitar os recursos mais recentes, incluindo composables e reatividade aprimorada.
 
 ## Vue 3
 
-The `@cmmv/vue` module generates an `rpc-composable.min.js` file that can be used in your Vue application to integrate backend RPC calls via the `useRPC` composable.
+O módulo `@cmmv/vue` gera um arquivo `rpc-composable.min.js` que pode ser usado em sua aplicação Vue para integrar chamadas RPC ao backend através do composable `useRPC`.
 
-### Example Vue 3 Application
+### Exemplo de Aplicação Vue 3
 
-Install Vue:
+Instale o Vue:
 
 ```bash
 $ pnpm add vue
@@ -163,11 +162,11 @@ const initApp = async () => {
     const app = createApp({
         setup() {
             const rpc = useRPC();
-            const example = ref("Hello, Vue with RPC!");
+            const example = ref("Olá, Vue com RPC!");
 
             const fetchData = async () => {
                 const data = await rpc.GetAllTaskRequest();
-                console.log("Fetched data:", data);
+                console.log("Dados buscados:", data);
             };
 
             return {
@@ -183,19 +182,19 @@ const initApp = async () => {
 initApp();
 ```
 
-**HTML Template**
+**Template HTML**
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
-        <title>Vue RPC Integration</title>
+        <title>Integração Vue RPC</title>
         <script src="https://unpkg.com/vue@3.5.12/dist/vue.global.prod.js"></script>
     </head>
     <body>
         <div id="app">
             <h1>{{ example }}</h1>
-            <button @click="fetchData">Fetch Data</button>
+            <button @click="fetchData">Buscar Dados</button>
         </div>
         <script type="module" src="/main.js"></script>
     </body>
@@ -204,9 +203,9 @@ initApp();
 
 ## Nuxt
 
-For Nuxt applications, dynamically import the composables into your client-side plugins.
+Para aplicações Nuxt, importe dinamicamente os composables em seus plugins no lado do cliente.
 
-### Installing Nuxt
+### Instalando o Nuxt
 
 ```bash
 npx nuxi init nuxt-rpc
@@ -214,7 +213,7 @@ cd nuxt-rpc
 pnpm install
 ```
 
-### Adding CMMV Composables Plugin
+### Adicionando Plugin de Composables CMMV
 
 **plugins/cmmv-composables.client.ts**
 
@@ -231,7 +230,7 @@ export default defineNuxtPlugin(async () => {
 });
 ```
 
-### Using Composables in a Page
+### Usando Composables em uma Página
 
 **pages/index.vue**
 
@@ -239,7 +238,7 @@ export default defineNuxtPlugin(async () => {
 <template>
     <div>
         <h1>{{ example }}</h1>
-        <button @click="fetchData">Fetch Data</button>
+        <button @click="fetchData">Buscar Dados</button>
     </div>
 </template>
 
@@ -249,17 +248,17 @@ import { useNuxtApp } from '#app';
 const { useRPC } = useNuxtApp();
 const rpc = useRPC();
 
-const example = ref("Hello, Nuxt with RPC!");
+const example = ref("Olá, Nuxt com RPC!");
 
 const fetchData = async () => {
     const data = await rpc.GetAllTaskRequest();
-    console.log("Fetched data:", data);
+    console.log("Dados buscados:", data);
 };
 </script>
 ```
 
-## Recommendations
+## Recomendações
 
-- Use `vite` for development and production builds.
-- Utilize `@cmmv/vue` composables for efficient communication with CMMV backend services.
-- Follow best practices for Vue 3 development, leveraging reactivity and composables to simplify your application architecture.
+- Use `vite` para builds de desenvolvimento e produção.
+- Utilize os composables `@cmmv/vue` para comunicação eficiente com os serviços de backend do CMMV.
+- Siga as boas práticas de desenvolvimento Vue 3, aproveitando a reatividade e os composables para simplificar a arquitetura de sua aplicação.

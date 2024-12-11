@@ -1,10 +1,10 @@
-# Components
+# Componentes
 
-The CMMV framework introduces a simple yet powerful way to integrate server-side rendered (SSR) components, leveraging a syntax similar to Vue.js. With the ``@cmmv/view`` module, components can be created in the ``/public`` directory and dynamically imported and used in views.
+O framework CMMV apresenta uma maneira simples, mas poderosa, de integrar componentes renderizados no servidor (SSR), utilizando uma sintaxe semelhante ao Vue.js. Com o módulo ``@cmmv/view``, os componentes podem ser criados no diretório ``/public`` e importados dinamicamente para serem usados nas views.
 
-This document outlines the full process of setting up SSR components using CMMV, with examples of how to structure templates, styles, scripts, and integration with views.
+Este documento descreve o processo completo de configuração de componentes SSR usando CMMV, com exemplos de como estruturar templates, estilos, scripts e integração com as views.
 
-## Example
+## Exemplo
 
 ```html
 <div scope>
@@ -49,19 +49,19 @@ export default {
     },
 
     mounted() { 
-        console.log("Component mounted"); 
+        console.log("Componente montado"); 
     }
 }
 </script>
 ```
 
-The component syntax is based on Vue.js, supporting lifecycle methods (``created``, ``mounted``), reactive ``data``, ``props``, and ``methods``. The component can also use scoped styles with SSR capabilities.
+A sintaxe do componente é baseada no Vue.js, suportando métodos de ciclo de vida (``created``, ``mounted``), dados reativos (``data``), ``props`` e ``methods``. O componente também pode usar estilos com escopo com capacidades SSR.
 
-For a complete example, see [CMMV Reactivity Samples](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv).
+Para um exemplo completo, veja [CMMV Reactivity Samples](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv).
 
-## Data 
+## Dados
 
-In CMMV components, ``data`` is a key feature used to define reactive state within the component. The ``data`` function returns an object that holds reactive properties, allowing the component to dynamically update the DOM when the data changes.
+Nos componentes CMMV, ``data`` é um recurso chave usado para definir estados reativos dentro do componente. A função ``data`` retorna um objeto que contém propriedades reativas, permitindo que o componente atualize dinamicamente o DOM quando os dados mudam.
 
 ```html
 <template>
@@ -72,20 +72,18 @@ In CMMV components, ``data`` is a key feature used to define reactive state with
 export default {
     data() {
         return {
-            message: "Hello, World!"
+            message: "Olá, Mundo!"
         };
     }
 };
 </script>
 ```
 
-<br/>
+Quando as propriedades definidas no ``data`` são modificadas, o DOM é automaticamente atualizado para refletir essas mudanças. Isso proporciona uma experiência de usuário reativa e contínua, semelhante ao Vue.js.
 
-When properties defined in data are modified, the DOM updates to reflect those changes automatically. This provides a seamless, reactive user experience similar to Vue.js.
+## Propriedades (Props)
 
-## Props
-
-Components can accept ``props`` to make them reusable and flexible:
+Os componentes podem aceitar ``props`` para torná-los reutilizáveis e flexíveis:
 
 ```html
 <div scope>
@@ -94,8 +92,8 @@ Components can accept ``props`` to make them reusable and flexible:
     <hr/>
     
     <div>
-        Root: {{ test }}<br/>
-        Component Ctx: {{ $refs.comp.count }}
+        Raiz: {{ test }}<br/>
+        Contexto do Componente: {{ $refs.comp.count }}
     </div>
 </div>
 
@@ -115,15 +113,13 @@ createApp({
 </script>
 ```
 
-<br/>
-
 ``/samples/componentTemplate.cmmv`` [Github](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv)
 
 ```html
 <template>
     <div>{{ count }}</div>
 
-    <button @click="addCount()" class="btnAdd">Add</button>
+    <button @click="addCount()" class="btnAdd">Adicionar</button>
 </template>
 
 <style scoped>
@@ -165,19 +161,17 @@ export default {
 </script>
 ```
 
-<br/>
+## Métodos
 
-## Methods
+Nos componentes CMMV, métodos são essenciais para lidar com interações do usuário e realizar lógica dinâmica. Os métodos são definidos no bloco ``script`` de um componente e podem ser usados para uma variedade de finalidades, como atualizar dados, fazer requisições HTTP e acionar outras ações de componentes.
 
-In CMMV components, methods are essential for handling user interactions and performing dynamic logic. Methods are defined in the ``script`` block of a component and can be used for a wide variety of purposes, such as updating data, making HTTP requests, and triggering other component actions.
-
-To define a method in a CMMV component, you include a ``methods`` property in the default export. Methods can be directly called from the template using event bindings (e.g., ``@click``).
+Para definir um método em um componente CMMV, inclua uma propriedade ``methods`` na exportação padrão. Os métodos podem ser chamados diretamente no template usando bindings de eventos (por exemplo, ``@click``).
 
 ```html
 <template>
   <div>
-    <button @click="incrementCount">Add</button>
-    <p>Count: {{ count }}</p>
+    <button @click="incrementCount">Adicionar</button>
+    <p>Contagem: {{ count }}</p>
   </div>
 </template>
 
@@ -197,34 +191,34 @@ export default {
 </script>
 ```
 
-## Created
+## Criado (Created)
 
-The ``created`` lifecycle hook in CMMV is executed after the component's instance is created but before it is mounted to the DOM. This is a useful hook for performing logic such as data fetching, initializing variables, or triggering certain actions before the template is rendered.
+O hook de ciclo de vida ``created`` no CMMV é executado após a instância do componente ser criada, mas antes de ser montada no DOM. Este hook é útil para realizar lógicas como busca de dados, inicialização de variáveis ou disparo de certas ações antes do template ser renderizado.
 
 ```typescript
 export default {
   data() {
     return {
-      message: "Initial Message"
+      message: "Mensagem Inicial"
     };
   },
   created() {
-    console.log("Component has been created!");
+    console.log("O componente foi criado!");
     this.fetchData();
   },
   methods: {
     fetchData() {
-      this.message = "Updated Message!";
+      this.message = "Mensagem Atualizada!";
     }
   }
 }
 ```
 
-The ``created`` hook provides an early entry point to execute logic before the template is rendered, making it useful for initializing data or state in a component.
+O hook ``created`` fornece um ponto de entrada inicial para executar lógica antes do template ser renderizado, tornando-o útil para inicializar dados ou estados em um componente.
 
-## Mounted
+## Montado (Mounted)
 
-The ``mounted`` lifecycle hook is executed after the component has been inserted into the DOM. This hook is ideal for actions that require direct interaction with the rendered DOM or for starting processes that rely on the component being present in the document.
+O hook de ciclo de vida ``mounted`` é executado após o componente ter sido inserido no DOM. Este hook é ideal para ações que exigem interação direta com o DOM renderizado ou para iniciar processos que dependem da presença do componente no documento.
 
 ```typescript
 export default {
@@ -234,12 +228,12 @@ export default {
     };
   },
   mounted() {
-    console.log("Component has been mounted!");
+    console.log("O componente foi montado!");
     this.initializeCounter();
   },
   methods: {
     initializeCounter() {
-      // Interact with DOM or start operations
+      // Interagir com o DOM ou iniciar operações
       setInterval(() => {
         this.count++;
       }, 1000);
@@ -248,38 +242,36 @@ export default {
 }
 ```
 
-The ``mounted`` hook is essential when you need to ensure that your component is fully loaded into the DOM before interacting with it, making it useful for DOM manipulations, setting up event listeners, or initializing components that rely on third-party libraries or services.
+O hook ``mounted`` é essencial quando você precisa garantir que seu componente esteja totalmente carregado no DOM antes de interagir com ele, tornando-o útil para manipulações no DOM, configuração de ouvintes de eventos ou inicialização de componentes que dependem de bibliotecas ou serviços de terceiros.
 
 # Slot
 
-Slots in CMMV allow you to pass custom content from the parent scope into the child component. They can be dynamically updated using data from the parent component.
+Os slots no CMMV permitem passar conteúdo personalizado do escopo pai para o componente filho. Eles podem ser atualizados dinamicamente usando dados do componente pai.
 
 ```html
 <ComponentTemplate ref="comp" :count="test">
     <template c-slot="{ count }">
-        Component value: {{ count }}
+        Valor do componente: {{ count }}
     </template>
 </ComponentTemplate>
 ```
 
-In this example, the ``c-slot`` directive is used to pass the slot content, making the parent’s ``count`` data available inside the ``ComponentTemplate``. The parent scope can dynamically change the slot content, reflecting the updated values inside the child component.
+Neste exemplo, a diretiva ``c-slot`` é usada para passar o conteúdo do slot, tornando os dados ``count`` do pai disponíveis dentro do ``ComponentTemplate``. O escopo pai pode alterar dinamicamente o conteúdo do slot, refletindo os valores atualizados dentro do componente filho.
 
-The slot in the component is rendered like this:
+O slot no componente é renderizado assim:
 
 ```html
 <slot :count="count"></slot>
 ```
 
-**Rendering**
+**Renderização**
 
 ```html
 <div ref="comp" count="123">
-  Component value: 123
+  Valor do componente: 123
 </div>
 ```
 
-<br/>
-
-* **Named Slots:** Slots can be given names for better organization.
-* **Reactivity:** Slots update reactively with changes in parent data.
-* **Scoped Slots:** Scoped slots provide the ability to pass data from the child component to the parent for rendering custom content.
+* **Slots Nomeados:** Slots podem ter nomes para melhor organização.
+* **Reatividade:** Slots atualizam-se reativamente com mudanças nos dados do pai.
+* **Slots Escopados:** Slots escopados fornecem a capacidade de passar dados do componente filho para o pai para renderizar conteúdo personalizado.

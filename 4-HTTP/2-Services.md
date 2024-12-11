@@ -1,26 +1,25 @@
-# Services
+# Serviços
 
-In ``@cmmv/core``, services play a crucial role in managing business logic, serving as a bridge between the data repositories, cache, and external communication layers like HTTP or RPC. Services are responsible for handling data transformations and ensuring that external communication is model-agnostic, meaning the service works with models and automatically converts them as necessary.
+No ``@cmmv/core``, os serviços desempenham um papel crucial na gestão da lógica de negócios, servindo como uma ponte entre os repositórios de dados, cache e camadas de comunicação externa, como HTTP ou RPC. Os serviços são responsáveis por realizar transformações de dados e garantir que a comunicação externa seja independente do modelo, ou seja, o serviço trabalha com modelos e os converte automaticamente conforme necessário.
 
-To create a service, use the ``@Service`` decorator. This decorator allows the service to be recognized by the framework and utilized throughout the application.
+Para criar um serviço, utilize o decorador ``@Service``. Este decorador permite que o serviço seja reconhecido pelo framework e utilizado em toda a aplicação.
 
 ```typescript
 @Service('task')
 export class TaskService extends AbstractService {
-    public override name = 'task';
-    // Service methods and logic
+    // Métodos e lógica do serviço
 }
 ```
 
-## How Services Work
+## Como os Serviços Funcionam
 
-* **Input and Output Models:** Services use models (e.g., Task, ITask) to define their input and output. These models are automatically transformed when interacting with repositories or external communication layers.
-* **Data Handling:** Services interface with the Repository to handle data persistence and retrieval. They are also responsible for validation, caching, and error handling.
-* **Telemetry:** The service includes telemetry for performance tracking and logging, helping monitor execution times and request identifiers.
+* **Modelos de Entrada e Saída:** Os serviços utilizam modelos (por exemplo, Task, ITask) para definir sua entrada e saída. Esses modelos são automaticamente transformados ao interagir com repositórios ou camadas de comunicação externa.
+* **Manipulação de Dados:** Os serviços interagem com o Repositório para lidar com persistência e recuperação de dados. Eles também são responsáveis pela validação, cache e tratamento de erros.
+* **Telemetria:** O serviço inclui telemetria para rastreamento de desempenho e registro, ajudando a monitorar tempos de execução e identificadores de solicitações.
 
-## Using Services
+## Utilizando Serviços
 
-In ``@cmmv``, since the system doesn't implement traditional dependency injection, you can easily register services as providers in any module and access them via the constructor of a class. This simplifies the service usage across controllers, gateways, or other components.
+No ``@cmmv``, como o sistema não implementa injeção de dependência tradicional, você pode registrar facilmente serviços como provedores em qualquer módulo e acessá-los via construtor de uma classe. Isso simplifica o uso de serviços em controladores, gateways ou outros componentes.
 
 ```typescript
 import { TaskService } from '../services/task.service';
@@ -40,10 +39,10 @@ export class TaskController {
 }
 ```
 
-## Agnostic 
+## Agnóstico
 
-In the ``@cmmv`` framework, services are agnostic to the type of controller that invokes them, ensuring they can be used across HTTP controllers, RPC gateways, or other components. Services are automatically generated based on contract configurations and can be extended with the ``@cmmv/repository`` module to support database entities or ``@cmmv/cache`` for managing and retrieving cached data. While services handle business logic, authentication directives (``@cmmv/auth``) are applied at the controller or gateway level to ensure secure access. This modular approach allows for flexible and scalable service management.
+No framework ``@cmmv``, os serviços são agnósticos ao tipo de controlador que os invoca, garantindo que possam ser utilizados em controladores HTTP, gateways RPC ou outros componentes. Os serviços são gerados automaticamente com base nas configurações de contrato e podem ser estendidos com o módulo ``@cmmv/repository`` para suportar entidades de banco de dados ou com o ``@cmmv/cache`` para gerenciar e recuperar dados em cache. Enquanto os serviços lidam com a lógica de negócios, as diretivas de autenticação (``@cmmv/auth``) são aplicadas no nível do controlador ou gateway para garantir acesso seguro. Essa abordagem modular permite uma gestão flexível e escalável dos serviços.
 
 ## Singleton
 
-Global access services in ``@cmmv`` should be implemented as singletons to ensure consistent behavior and efficient resource usage across the application. Singletons prevent the creation of multiple instances of a service, centralizing operations such as caching and database management. To learn more about the implementation and benefits of singletons in ``@cmmv``, please refer to the documentation available at [CMMV Singleton Documentation](https://cmmv.io/docs/overview/singleton). This documentation provides detailed guidance on how to implement and manage singleton services effectively.
+Os serviços de acesso global no ``@cmmv`` devem ser implementados como singletons para garantir comportamento consistente e uso eficiente de recursos em toda a aplicação. Singletons evitam a criação de múltiplas instâncias de um serviço, centralizando operações como cache e gerenciamento de banco de dados. Para saber mais sobre a implementação e os benefícios de singletons no ``@cmmv``, consulte a documentação disponível em [CMMV Singleton Documentation](https://cmmv.io/docs/overview/singleton). Esta documentação fornece orientações detalhadas sobre como implementar e gerenciar serviços singleton de forma eficaz.

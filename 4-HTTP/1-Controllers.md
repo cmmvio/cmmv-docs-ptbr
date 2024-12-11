@@ -1,8 +1,8 @@
-# Controllers
+# Controladores
 
-The ``@cmmv/http`` module automatically generates REST controllers with standard CRUD operations based on defined contracts. However, you can create custom controllers using a syntax similar to NestJS, with decorators for defining routes and methods. Unlike NestJS, CMMV does not use complex dependency injection. Instead, services like databases, queues, and cache must be implemented as singletons.
+O módulo ``@cmmv/http`` gera automaticamente controladores REST com operações CRUD padrão com base nos contratos definidos. No entanto, você pode criar controladores personalizados usando uma sintaxe semelhante ao NestJS, com decoradores para definir rotas e métodos. Diferentemente do NestJS, o CMMV não utiliza injeção de dependências complexa. Em vez disso, serviços como bancos de dados, filas e cache devem ser implementados como singletons.
 
-Here’s an example of a custom controller:
+Aqui está um exemplo de um controlador personalizado:
 
 ```typescript
 import * as fs from 'fs';
@@ -42,7 +42,7 @@ export class DocsController {
 
 ## @Controller(prefix: string)
 
-Defines the controller and the route prefix for all its methods. The prefix parameter is optional, but it defines a base URL for the controller's routes.
+Define o controlador e o prefixo de rota para todos os seus métodos. O parâmetro `prefix` é opcional, mas define uma URL base para as rotas do controlador.
 
 ```typescript
 @Controller('tasks')
@@ -51,7 +51,7 @@ export class TaskController { ... }
 
 ## @Request() / @Req()
 
-Binds the entire request object to the method parameter.
+Vincula o objeto de solicitação inteiro ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -62,18 +62,18 @@ async getRequestData(@Request() req: any): Promise<any> {
 
 ## @Response() / @Res()
 
-Binds the entire response object to the method parameter, useful for handling custom responses.
+Vincula o objeto de resposta inteiro ao parâmetro do método, útil para manipular respostas personalizadas.
 
 ```typescript
 @Get()
 async customResponse(@Response() res: any): Promise<void> {
-    res.send('Custom Response');
+    res.send('Resposta Personalizada');
 }
 ```
 
 ## @Next()
 
-Binds the next function in middleware to the method parameter, useful for middleware chaining.
+Vincula a função `next` do middleware ao parâmetro do método, útil para encadeamento de middlewares.
 
 ```typescript
 @Get()
@@ -84,7 +84,7 @@ async handleRequest(@Next() next: Function): Promise<void> {
 
 ## @Get(path?: string)
 
-Maps an HTTP GET request to a specific method. The optional path argument can define the route, or it will default to the controller's base route.
+Mapeia uma solicitação HTTP GET para um método específico. O argumento opcional `path` pode definir a rota ou será padrão para a rota base do controlador.
 
 ```typescript
 @Get(':id')
@@ -95,7 +95,7 @@ getTaskById(@Param('id') id: string) {
 
 ## @Post(path?: string)
 
-Handles HTTP POST requests. The @Body decorator can be used to access the request body and pass it to the method.
+Lida com solicitações HTTP POST. O decorador `@Body` pode ser usado para acessar o corpo da solicitação e passá-lo para o método.
 
 ```typescript
 @Post()
@@ -106,7 +106,7 @@ addTask(@Body() task: any) {
 
 ## @Put(path?: string)
 
-Maps an HTTP PUT request to update existing resources. Like @Post, it can accept data through the request body.
+Mapeia uma solicitação HTTP PUT para atualizar recursos existentes. Assim como `@Post`, pode aceitar dados através do corpo da solicitação.
 
 ```typescript
 @Put(':id')
@@ -117,7 +117,7 @@ updateTask(@Param('id') id: string, @Body() task: any) {
 
 ## @Delete(path?: string)
 
-Handles DELETE requests for removing resources by ID.
+Lida com solicitações DELETE para remover recursos por ID.
 
 ```typescript
 @Delete(':id')
@@ -128,7 +128,7 @@ deleteTask(@Param('id') id: string) {
 
 ## @Param(param: string)
 
-Used to extract parameters from the route. In the example, @Param('id') extracts the id from the request's route.
+Usado para extrair parâmetros da rota. No exemplo, `@Param('id')` extrai o ID da rota da solicitação.
 
 ```typescript
 @Get(':id')
@@ -139,11 +139,11 @@ getTaskById(@Param('id') id: string) {
 
 ## @Body()
 
-This decorator extracts the request body and makes it available in the method. It's commonly used with @Post and @Put for creating and updating data.
+Este decorador extrai o corpo da solicitação e o torna disponível no método. É comumente usado com `@Post` e `@Put` para criar e atualizar dados.
 
 ## @Query()
 
-Extracts query parameters from the request.
+Extrai parâmetros de consulta da solicitação.
 
 ```typescript
 @Get()
@@ -153,7 +153,8 @@ getTasks(@Query('status') status: string) {
 ```
 
 ## @Queries()
-Binds all query parameters to the method parameter.
+
+Vincula todos os parâmetros de consulta ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -164,7 +165,7 @@ async getAll(@Queries() queries: any): Promise<Task[]> {
 
 ## @Header(headerName: string)
 
-Binds a specific header value to the method parameter.
+Vincula um valor de cabeçalho específico ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -175,7 +176,7 @@ async checkHeader(@Header('Authorization') auth: string): Promise<boolean> {
 
 ## @Headers()
 
-Binds all headers to the method parameter.
+Vincula todos os cabeçalhos ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -186,7 +187,7 @@ async getHeaders(@Headers() headers: any): Promise<any> {
 
 ## @Session()
 
-Extracts session data and binds it to the method parameter.
+Extrai os dados da sessão e os vincula ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -197,7 +198,7 @@ async getSessionData(@Session() session: any): Promise<any> {
 
 ## @Ip()
 
-Binds the client's IP address to the method parameter.
+Vincula o endereço IP do cliente ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -208,7 +209,7 @@ async getClientIp(@Ip() ip: string): Promise<string> {
 
 ## @HostParam()
 
-Extracts the host information from the request.
+Extrai as informações do host da solicitação.
 
 ```typescript
 @Get()
@@ -217,11 +218,11 @@ async getHost(@HostParam() host: string): Promise<string> {
 }
 ```
 
-# Getting up and running
+# Inicializando
 
-To make the controller functional, it needs to be added to a module and called in the application. The process involves creating a module, registering the controller, and ensuring the module is used during application initialization.
+Para que o controlador seja funcional, ele precisa ser adicionado a um módulo e chamado na aplicação. O processo envolve criar um módulo, registrar o controlador e garantir que o módulo seja usado durante a inicialização da aplicação.
 
-Here is an example of registering a controller inside a module:
+Aqui está um exemplo de registro de um controlador dentro de um módulo:
 
 ```typescript   
 import { Module } from '@cmmv/core';
@@ -233,6 +234,6 @@ export let TaskModule = new Module({
 });
 ```
 
-Once the module is created, you can import and load it into the main application configuration, ensuring the controller is properly initialized and accessible for handling requests.
+Depois que o módulo é criado, você pode importá-lo e carregá-lo na configuração principal da aplicação, garantindo que o controlador seja inicializado corretamente e acessível para lidar com as solicitações.
 
-The module will automatically handle routing and the controller logic when linked to the application setup. This modular design enables the clean separation of concerns and simplifies adding and managing controllers in the CMMV framework.
+O módulo gerenciará automaticamente o roteamento e a lógica do controlador quando vinculado à configuração da aplicação. Esse design modular permite uma separação clara de responsabilidades e simplifica a adição e gerenciamento de controladores no framework CMMV.

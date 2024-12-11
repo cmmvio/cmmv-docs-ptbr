@@ -1,34 +1,32 @@
-# Queries
+# Consultas
 
-The ``findAll`` function in the repository layer has been enhanced to support dynamic query filtering and is compatible with both SQL and MongoDB databases. The caching system provided by ``@cmmv/cache`` has also been updated to support multiple filters, improving flexibility and performance.
+A função ``findAll`` na camada de repositório foi aprimorada para suportar filtros dinâmicos de consulta e é compatível com bancos de dados SQL e MongoDB. O sistema de cache fornecido por ``@cmmv/cache`` também foi atualizado para suportar múltiplos filtros, melhorando a flexibilidade e o desempenho.
 
-Fetches all records of a specified entity, applying filters, pagination, and sorting dynamically based on the provided ``queries``. This method is compatible with both SQL and MongoDB, adapting its behavior based on the database type.
+Busca todos os registros de uma entidade especificada, aplicando filtros, paginação e ordenação dinamicamente com base nas ``queries`` fornecidas. Este método é compatível com SQL e MongoDB, adaptando seu comportamento com base no tipo de banco de dados.
 
-| **Parameter**      | **Type**   | **Description**                                                                                  | **Default** |
-|---------------------|------------|--------------------------------------------------------------------------------------------------|-------------|
-| `limit`            | *(number)* | Specifies the maximum number of results to return.                                              | `10`        |
-| `offset`           | *(number)* | Specifies the number of results to skip.                                                        | `0`         |
-| `sortBy`           | *(string)* | Specifies the field by which to sort the results.                                               | `'id'`      |
-| `sort`             | *(string)* | Specifies the sort order. Possible values are `'asc'` and `'desc'`.                             | `'asc'`     |
-| `search`           | *(string)* | Performs a case-insensitive search on the specified field.                                       | -           |
-| `searchField`      | *(string)* | Specifies the field to perform the search operation on.                                          | -           |
-| **Additional Filters** | *(varied)* | Any additional query parameters are dynamically applied as filters based on the entity's field names. | -           |
+| **Parâmetro**       | **Tipo**    | **Descrição**                                                                                   | **Padrão**  |
+|---------------------|-------------|--------------------------------------------------------------------------------------------------|-------------|
+| `limit`           | *(número)*  | Especifica o número máximo de resultados a serem retornados.                                    | `10`      |
+| `offset`          | *(número)*  | Especifica o número de resultados a serem ignorados.                                            | `0`       |
+| `sortBy`          | *(string)*  | Especifica o campo pelo qual os resultados devem ser ordenados.                                 | `'id'`    |
+| `sort`            | *(string)*  | Especifica a ordem de classificação. Valores possíveis são `'asc'` e `'desc'`.              | `'asc'`   |
+| `search`          | *(string)*  | Realiza uma pesquisa case-insensitive no campo especificado.                                    | -           |
+| `searchField`     | *(string)*  | Especifica o campo onde a pesquisa deve ser realizada.                                          | -           |
+| **Filtros Adicionais** | *(variado)* | Quaisquer parâmetros adicionais de consulta são aplicados dinamicamente como filtros baseados nos nomes dos campos da entidade. | -           |
 
-1. SQL Query Handling:
+1. Manipulação de Consultas SQL:
 
-    * Converts ``search`` and ``searchField`` into ``LIKE`` conditions.
-    * Dynamically builds the ``WHERE`` clause based on ``filters``.
-    * Uses ``LIMIT``, ``OFFSET``, and ``ORDER BY`` for pagination and sorting.
+    * Converte ``search`` e ``searchField`` em condições ``LIKE``.
+    * Constrói dinamicamente a cláusula ``WHERE`` com base nos ``filters``.
+    * Utiliza ``LIMIT``, ``OFFSET`` e ``ORDER BY`` para paginação e ordenação.
 
-2. MongoDB Query Handling:
+2. Manipulação de Consultas MongoDB:
 
-    * Uses ``$regex`` for case-insensitive searches.
-    * Dynamically applies filters as part of the MongoDB ``find`` query.
-    * Supports ``skip``, ``limit``, and sorting using MongoDB-compatible syntax.
+    * Utiliza ``$regex`` para buscas case-insensitive.
+    * Aplica filtros dinamicamente como parte da consulta ``find`` do MongoDB.
+    * Suporta ``skip``, ``limit`` e ordenação utilizando a sintaxe compatível com o MongoDB.
 
-### Example 
-
-<br/>
+### Exemplo
 
 ```typescript
 const tasks = await Repository.findAll(TaskEntity, {
@@ -42,24 +40,24 @@ const tasks = await Repository.findAll(TaskEntity, {
 }); 
 ```
 
-## Caching 
+## Cache
 
-If the @cmmv/cache module is configured in the system, the caching mechanism dynamically adjusts the cache key to include query parameters such as search, ensuring that filtered results are cached under unique keys. This allows the system to cache and retrieve results efficiently, even when queries involve dynamic filters like limit, offset, or searchField.
+Se o módulo ``@cmmv/cache`` estiver configurado no sistema, o mecanismo de cache ajusta dinamicamente a chave de cache para incluir os parâmetros de consulta, como ``search``, garantindo que os resultados filtrados sejam armazenados em cache sob chaves únicas. Isso permite que o sistema armazene e recupere resultados de maneira eficiente, mesmo quando as consultas envolvem filtros dinâmicos como ``limit``, ``offset`` ou ``searchField``.
 
-When a controller method is decorated with @Cache, the following steps occur:
+Quando um método do controlador é decorado com ``@Cache``, os seguintes passos ocorrem:
 
-1. Base Cache Key:
-The base key provided in the decorator (e.g., ``"task:getAll"``) is used.
+1. **Chave Base do Cache:**
+A chave base fornecida no decorador (por exemplo, ``"task:getAll"``) é utilizada.
 
-2. Query Parameters:
-If the request includes query parameters such as ``search`` or ``searchField``, these are appended to the cache key. For example:
+2. **Parâmetros de Consulta:**
+Se a requisição inclui parâmetros de consulta, como ``search`` ou ``searchField``, eles são adicionados à chave de cache. Por exemplo:
 
-* Request:
+* Requisição:
 ``GET /api/tasks?search=John&searchField=name&limit=10``
-* Cache Key:
+* Chave de Cache:
 ``task:getAll:search=John&searchField=name&limit=10``
 
-### Example 
+### Exemplo
 
 ```typescript
 @Get()
@@ -72,15 +70,15 @@ async getAll(@Queries() queries: any, @Request() req) {
 }
 ```
 
-## Example Workflow
+## Exemplo de Fluxo
 
-Client sends a GET request with query parameters:
+O cliente envia uma requisição GET com parâmetros de consulta:
 
 ```
 GET /api/tasks?search=John&searchField=name&limit=5
 ```
 
-**Controller**
+**Controlador**
 
 ```typescript
 @Get()
@@ -102,7 +100,7 @@ SELECT * FROM tasks WHERE LOWER(name) LIKE LOWER('%John%') LIMIT 5 OFFSET 0;
 { name: { $regex: /John/i } }
 ```
 
-**Cache Key**
+**Chave de Cache**
 
 ```
 task:getAll:search=John&searchField=name&limit=5

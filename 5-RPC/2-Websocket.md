@@ -1,15 +1,14 @@
-# Websocket
+# WebSocket
 
-The ``@cmmv/ws`` module is a key component responsible for handling WebSocket communication in the CMMV framework. It is crucial for the functioning of **Remote Procedure Calls (RPC)** in the system, allowing for seamless client-server interactions. This module automatically generates WebSocket gateways based on the contracts defined in your project, enabling binary RPC request and response handling.
+O módulo `@cmmv/ws` é um componente-chave responsável por gerenciar a comunicação WebSocket no framework CMMV. Ele é crucial para o funcionamento de **Remote Procedure Calls (RPC)** no sistema, permitindo interações cliente-servidor sem interrupções. Este módulo gera automaticamente gateways WebSocket com base nos contratos definidos no seu projeto, habilitando o manuseio eficiente de solicitações e respostas RPC binárias.
 
-* **Automatic Gateway Generation:** When the ``@cmmv/ws`` module is added, it automatically generates WebSocket gateways from the contracts defined in your project. These gateways serve as the communication endpoints for RPC requests and responses.
+* **Geração Automática de Gateways:** Ao adicionar o módulo `@cmmv/ws`, ele gera automaticamente gateways WebSocket a partir dos contratos definidos no seu projeto. Esses gateways atuam como endpoints de comunicação para solicitações e respostas RPC.
 
-* **Binary Protocol:** The module communicates using a binary format for all RPC requests and responses. This ensures efficient data transfer and supports complex data structures. It is important to note that simple text-based communication is not supported by this module.
+* **Protocolo Binário:** O módulo utiliza um formato binário para todas as solicitações e respostas RPC. Isso garante transferência de dados eficiente e suporte a estruturas de dados complexas. É importante observar que comunicação baseada em texto simples não é suportada por este módulo.
 
-* **Contract-based Communication:** The communication follows the structure defined in your contracts, ensuring type-safe, well-structured data handling. The contracts are written using the ``@Contract`` decorator from the ``@cmmv/core`` module.
+* **Comunicação Baseada em Contratos:** A comunicação segue a estrutura definida nos seus contratos, garantindo tratamento de dados bem estruturado e com tipagem segura. Os contratos são escritos utilizando o decorador `@Contract` do módulo `@cmmv/core`.
 
-Below is an example of a contract that defines the structure for task-related RPC operations. The contract is annotated with the @Contract and @ContractField decorators to specify the fields and types.
-
+Abaixo está um exemplo de contrato que define a estrutura para operações RPC relacionadas a tarefas. O contrato é anotado com os decoradores `@Contract` e `@ContractField` para especificar os campos e tipos.
 
 ```typescript
 import { AbstractContract, Contract, ContractField } from '@cmmv/core';
@@ -40,10 +39,10 @@ export class TasksContract extends AbstractContract {
 }
 ```
 
-The contract above will generate a WebSocket gateway, responsible for handling RPC operations like adding, updating, deleting, and retrieving tasks. Below is an example of a generated gateway:
+O contrato acima gerará um gateway WebSocket responsável por gerenciar operações RPC como adicionar, atualizar, deletar e recuperar tarefas. Abaixo está um exemplo de gateway gerado:
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
     
 import { Rpc, Message, Data, Socket, RpcUtils } from "@cmmv/ws";
 import { plainToClass } from 'class-transformer';
@@ -125,8 +124,8 @@ export class TaskGateway {
 }
 ```
 
-The gateway interacts with services (e.g., TaskService) to process the data. These services perform business logic and interact with the database or other back-end components.
+O gateway interage com serviços (ex.: `TaskService`) para processar os dados. Esses serviços realizam a lógica de negócio e interagem com o banco de dados ou outros componentes do backend.
 
-The ``@cmmv/ws`` module is a powerful tool for handling binary WebSocket communication in the CMMV framework. It automatically generates WebSocket gateways based on contracts, handling RPC requests and responses efficiently using binary data. This ensures secure, performant communication and seamless integration with the rest of the CMMV system.
+O módulo `@cmmv/ws` é uma ferramenta poderosa para gerenciar comunicação WebSocket binária no framework CMMV. Ele gera automaticamente gateways WebSocket com base nos contratos, lidando com solicitações e respostas RPC de forma eficiente usando dados binários. Isso garante uma comunicação segura, performática e integração fluida com o restante do sistema CMMV.
 
-By utilizing this module, developers can easily implement real-time functionality in their applications, leveraging the built-in RPC system for tasks such as data synchronization, real-time updates, and more.
+Ao utilizar este módulo, os desenvolvedores podem facilmente implementar funcionalidades em tempo real em suas aplicações, aproveitando o sistema RPC embutido para tarefas como sincronização de dados, atualizações em tempo real e muito mais.

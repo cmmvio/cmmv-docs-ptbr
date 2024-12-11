@@ -1,60 +1,60 @@
 # RPC
 
-In modern web applications, reducing overhead and increasing efficiency in communication is essential. A common approach in traditional systems is the use of HTTP/JSON, but this method introduces significant inefficiencies:
+Em aplicações web modernas, reduzir a sobrecarga e aumentar a eficiência na comunicação é essencial. Uma abordagem comum em sistemas tradicionais é o uso de HTTP/JSON, mas esse método introduz ineficiências significativas:
 
-HTTP Overhead: HTTP headers in both requests and responses are often larger than the payload itself, especially for small data exchanges. This leads to unnecessary bandwidth consumption, particularly in real-time applications where the overhead is repeatedly incurred.
+Sobrecarga do HTTP: Os cabeçalhos HTTP em solicitações e respostas são frequentemente maiores do que o próprio payload, especialmente para pequenas trocas de dados. Isso leva a um consumo desnecessário de largura de banda, particularmente em aplicações em tempo real, onde a sobrecarga é incorrida repetidamente.
 
-JSON's Inefficiencies: Although JSON is human-readable and widely used, it is verbose and lacks the performance needed for high-throughput systems. Parsing and serializing JSON adds extra computational overhead compared to binary formats, making it suboptimal for systems requiring quick response times and high concurrency.
+Ineficiências do JSON: Embora o JSON seja legível por humanos e amplamente utilizado, ele é verboso e carece de desempenho necessário para sistemas de alta taxa de transferência. Analisar e serializar JSON adiciona uma sobrecarga computacional extra em comparação com formatos binários, tornando-o subótimo para sistemas que exigem tempos de resposta rápidos e alta concorrência.
 
-Why CMMV Uses RPC and WebSocket/Protobuf
+Por que o CMMV usa RPC e WebSocket/Protobuf
 
-WebSocket provides persistent, full-duplex communication between the server and the client, reducing the need to repeatedly establish and tear down connections as seen in HTTP. This alone cuts down significant overhead by eliminating connection re-establishment, headers, and other metadata required by HTTP.
+O WebSocket fornece comunicação persistente e full-duplex entre o servidor e o cliente, reduzindo a necessidade de estabelecer e encerrar conexões repetidamente, como ocorre no HTTP. Isso, por si só, reduz significativamente a sobrecarga ao eliminar o reestabelecimento de conexões, cabeçalhos e outros metadados exigidos pelo HTTP.
 
-However, CMMV doesn't stop at WebSockets. It also leverages Protocol Buffers (Protobuf) for encoding data. Protobuf is a binary serialization format that significantly reduces the size of the messages exchanged, as it uses a compact binary representation, unlike the verbose text format of JSON. This leads to:
+No entanto, o CMMV não se limita ao uso de WebSockets. Ele também utiliza Protocol Buffers (Protobuf) para codificação de dados. Protobuf é um formato de serialização binário que reduz significativamente o tamanho das mensagens trocadas, pois utiliza uma representação binária compacta, ao contrário do formato de texto verboso do JSON. Isso leva a:
 
-* **Reduced Payload Sizes:** Protobuf is much more efficient at encoding data, reducing both the size of requests and responses, resulting in faster data transfer.
+* **Tamanhos de Payload Reduzidos:** Protobuf é muito mais eficiente na codificação de dados, reduzindo tanto o tamanho das solicitações quanto das respostas, resultando em transferências de dados mais rápidas.
 
-* **Improved Speed:** Binary formats like Protobuf are faster to serialize and deserialize compared to JSON. This improves both performance on the server side (processing multiple requests) and the client side (faster rendering or interaction).
+* **Velocidade Melhorada:** Formatos binários como Protobuf são mais rápidos para serializar e desserializar em comparação com JSON. Isso melhora o desempenho tanto no lado do servidor (processando múltiplas solicitações) quanto no lado do cliente (renderização ou interação mais rápidas).
 
-* **Schema Enforcement:** Unlike JSON, which is flexible but prone to errors, Protobuf enforces a structured schema. This ensures that the data being sent and received is well-defined and consistent, preventing mismatches and making it easier to maintain and extend over time.
+* **Aplicação de Esquema:** Diferente do JSON, que é flexível mas propenso a erros, o Protobuf aplica um esquema estruturado. Isso garante que os dados enviados e recebidos sejam bem definidos e consistentes, evitando incompatibilidades e tornando mais fácil a manutenção e expansão ao longo do tempo.
 
 **HTTP/JSON vs. WebSocket/Protobuf**
 
-* **Latency:** WebSocket/Protobuf reduces latency in client-server interactions, enabling near real-time responses. It avoids the overhead of stateless HTTP and the verbosity of JSON.
+* **Latência:** WebSocket/Protobuf reduz a latência nas interações cliente-servidor, permitindo respostas quase em tempo real. Ele evita a sobrecarga de HTTP sem estado e a verbosidade do JSON.
 
-* **Efficiency:** WebSocket connections remain open, allowing for continuous data exchange without re-establishing connections for each transaction. Protobuf further enhances this by ensuring the data exchanged is minimal, leading to better bandwidth utilization.
+* **Eficiência:** Conexões WebSocket permanecem abertas, permitindo troca contínua de dados sem reestabelecer conexões para cada transação. O Protobuf melhora ainda mais isso ao garantir que os dados trocados sejam mínimos, levando a uma melhor utilização da largura de banda.
 
-* **Scalability:** Systems using WebSocket/Protobuf scale more effectively because they reduce both network and computational overhead. This becomes critical in applications that need to handle many clients simultaneously, such as multiplayer games or real-time analytics platforms.
+* **Escalabilidade:** Sistemas que utilizam WebSocket/Protobuf escalam de maneira mais eficaz, pois reduzem a sobrecarga tanto de rede quanto computacional. Isso se torna crítico em aplicações que precisam lidar com muitos clientes simultaneamente, como jogos multiplayer ou plataformas de análises em tempo real.
 
-In scenarios where real-time communication, such as gaming, financial trading platforms, or IoT systems, is required, WebSocket/Protobuf excels over traditional HTTP/JSON due to its ability to handle many concurrent connections with lower latency and better data throughput.
+Em cenários onde a comunicação em tempo real, como jogos, plataformas de negociação financeira ou sistemas IoT, é necessária, WebSocket/Protobuf supera o HTTP/JSON tradicional devido à sua capacidade de lidar com muitas conexões simultâneas com menor latência e melhor taxa de transferência de dados.
 
-By choosing RPC via WebSocket/Protobuf as the default communication protocol, CMMV ensures that developers can build efficient, scalable applications without the burden of HTTP’s overhead or JSON’s inefficiency, leading to faster, more reliable systems.
+Ao escolher RPC via WebSocket/Protobuf como protocolo de comunicação padrão, o CMMV garante que os desenvolvedores possam construir aplicações eficientes e escaláveis sem o peso da sobrecarga do HTTP ou da ineficiência do JSON, resultando em sistemas mais rápidos e confiáveis.
 
-# Protobuf 
+# Protobuf
 
-Protocol Buffers (Protobuf) is a language-neutral, platform-neutral binary serialization format developed by Google. In CMMV, Protobuf was selected as the communication layer due to its efficiency, structure, and performance benefits over alternatives like JSON or XML.
+Protocol Buffers (Protobuf) é um formato de serialização binária neutro em linguagem e plataforma desenvolvido pelo Google. No CMMV, o Protobuf foi escolhido como camada de comunicação devido à sua eficiência, estrutura e benefícios de desempenho em relação a alternativas como JSON ou XML.
 
-* **Compact and Efficient:** Protobuf encodes data in a binary format, significantly reducing the size of transmitted data compared to text formats like JSON. This leads to faster transmission, crucial for real-time applications like gaming or financial systems.
+* **Compacto e Eficiente:** Protobuf codifica dados em um formato binário, reduzindo significativamente o tamanho dos dados transmitidos em comparação com formatos de texto como JSON. Isso resulta em transmissões mais rápidas, cruciais para aplicações em tempo real como jogos ou sistemas financeiros.
 
-* **Speed:** Binary serialization in Protobuf is far quicker than JSON serialization/deserialization, providing faster data processing and reducing computational load.
+* **Velocidade:** A serialização binária no Protobuf é muito mais rápida do que a serialização/desserialização em JSON, proporcionando um processamento de dados mais rápido e reduzindo a carga computacional.
 
-* **Schema Enforcement:** Protobuf requires a predefined schema for data, ensuring that data structures are strictly typed and versioned. This avoids inconsistencies during client-server communication, improving reliability in distributed systems.
+* **Aplicação de Esquema:** Protobuf exige um esquema pré-definido para os dados, garantindo que as estruturas de dados sejam estritamente tipadas e versionadas. Isso evita inconsistências durante a comunicação cliente-servidor, melhorando a confiabilidade em sistemas distribuídos.
 
-* **Language and Platform Agnostic:** Protobuf supports multiple programming languages and platforms, allowing CMMV applications to remain flexible across different environments.
+* **Agnóstico de Linguagem e Plataforma:** Protobuf suporta múltiplas linguagens de programação e plataformas, permitindo que aplicações CMMV permaneçam flexíveis em diferentes ambientes.
 
-* **Efficient Overhead Management:** Protobuf allows for more efficient use of bandwidth and lower CPU usage, making it ideal for systems requiring high throughput and low latency, like RPC-based communication in CMMV.
+* **Gestão Eficiente de Sobrecarga:** Protobuf permite um uso mais eficiente de largura de banda e menor uso de CPU, tornando-o ideal para sistemas que exigem alta taxa de transferência e baixa latência, como comunicação baseada em RPC no CMMV.
 
-By using Protobuf, CMMV ensures optimal performance in data serialization, making communication efficient, scalable, and reliable across a range of applications.
+Ao usar Protobuf, o CMMV assegura desempenho ideal na serialização de dados, tornando a comunicação eficiente, escalável e confiável em uma ampla gama de aplicações.
 
-## Instalation
+# Instalação
 
-To implement WebSocket communication using Protobuf in CMMV, follow these steps:
+Para implementar comunicação WebSocket utilizando Protobuf no CMMV, siga estes passos:
 
 ```bash
 $ pnpm add @cmmv/protobuf @cmmv/ws protobufjs 
 ```
 
-Application setup:
+Configuração da aplicação:
 
 ```typescript
 import { Application } from "@cmmv/core";
@@ -76,13 +76,11 @@ Application.create({
 });
 ```
 
-<br/>
+* **WSAdapter:** Gerencia as conexões WebSocket.
+* **ProtobufModule:** Define estruturas de mensagens com Protocol Buffers para comunicação.
+* **WSModule:** Gerencia conexões WebSocket, utilizando mensagens Protobuf para transmissão eficiente de dados.
 
-* **WSAdapter:** Handles WebSocket connections.
-* **ProtobufModule:** Defines message structures with Protocol Buffers for communication.
-* **WSModule:** Manages WebSocket connections, utilizing Protobuf messages for efficient data transmission.
-
-Settings ``.cmmv.config.js``
+Configuração no arquivo `.cmmv.config.js`:
 
 ```typescript
 module.exports = {
@@ -101,15 +99,15 @@ module.exports = {
 };
 ```
 
-In CMMV, contracts are processed in .proto format and stored in the /src/proto directory along with TypeScript types. These contracts are loaded into the frontend using protobufjs in two ways:
+No CMMV, contratos são processados no formato .proto e armazenados no diretório `/src/proto`, juntamente com tipos TypeScript. Estes contratos podem ser carregados no frontend de duas maneiras:
 
-**Preloading Contracts:** Setting preLoadContracts = true converts all contracts to JSON, which are then bundled with the application. This allows for efficient caching, especially through CDNs.
+* **Carregamento Antecipado de Contratos:** Definir `preLoadContracts = true` converte todos os contratos para JSON, que são então empacotados com a aplicação. Isso permite caching eficiente, especialmente por meio de CDNs.
 
-**On-Demand Loading:** Setting preLoadContracts = false loads .proto files as needed upon receiving the first message that requires the contract, caching them locally for future use. This approach is useful for applications with numerous contracts.
+* **Carregamento Sob Demanda:** Definir `preLoadContracts = false` carrega os arquivos .proto conforme necessário ao receber a primeira mensagem que exige o contrato, armazenando-os em cache local para uso futuro. Este método é útil para aplicações com inúmeros contratos.
 
-## Integration 
+# Integração
 
-The CMMV framework simplifies communication in the frontend by binding Protobuf methods directly to the view context. This allows developers to invoke RPC methods like AddTaskRequest and DeleteTaskRequest within their views seamlessly, as demonstrated in the example to-do list.
+O framework CMMV simplifica a comunicação no frontend ao vincular métodos Protobuf diretamente ao contexto da view. Isso permite que desenvolvedores invoquem métodos RPC como `AddTaskRequest` e `DeleteTaskRequest` dentro das views de forma fluida, como demonstrado no exemplo de lista de tarefas:
 
 ```html
 <div class="todo-box" scope>
@@ -156,63 +154,10 @@ The CMMV framework simplifies communication in the frontend by binding Protobuf 
 
     <pre>{{ todolist }}</pre>
 </div>
-
-<script s-setup>
-export default {
-    layout: "default",
-
-    head: {
-        meta: [
-            { name: "description", content: "CMMV Todolist sample" },
-            { name: "keywords", content: "cmmv, contract model, websocket" }
-        ],
-        link: [
-            { rel: "stylesheet", href: "/assets/styles/todo.css" },
-            { rel: "canonical", href: "https://cmmv.io" },
-        ]
-    },
-
-    data(){
-        return {
-            todolist: [],
-            label: ""
-        }
-    },
-
-    methods: {
-        addTask(){
-            this.AddTaskRequest({ label: this.label });
-            this.label = '';
-        },
-
-        DeleteTaskResponse(data){
-            if (data.success) {
-                const index = this.todolist.findIndex(
-                    item => item.id === data.id
-                );
-
-                if (index !== -1) 
-                    this.todolist.splice(index, 1);
-            }
-        },
-
-        AddTaskResponse(data) { this.UpdateTaskResponse(data); },
-
-        UpdateTaskResponse(data) {
-            const index = this.todolist.findIndex(
-                item => item.id === data.id
-            );
-            
-            if (index !== -1) 
-                this.todolist[index] = { ...data.item, id: data.id };
-            else 
-                this.todolist.push({ ...data.item, id: data.id });
-        } 
-    }
-}
-</script>
 ```
 
-The integration of Protobuf with CMMV’s transpiler offers significant advantages over traditional methods like protoc. While protoc generates a large volume of boilerplate code, much of it may be unnecessary depending on the project’s scope. CMMV automatically integrates contracts with services like repositories, caches, and other modules, simplifying the development process. Instead of manually invoking generated code, CMMV injects Protobuf functions directly into the view layer, reducing overhead and avoiding redundant code generation, making it more efficient for modern web applications.
+A integração do Protobuf com o transpiler do CMMV oferece vantagens significativas sobre métodos tradicionais, como o `protoc`. Enquanto o `protoc` gera um grande volume de código boilerplate, muitas vezes desnecessário dependendo do escopo do projeto, o CMMV integra automaticamente os contratos com serviços como repositórios, caches e outros módulos.
 
-This streamlined approach not only reduces complexity but also enhances performance by avoiding unnecessary intermediate files and services, focusing solely on the functional requirements.
+Em vez de invocar manualmente o código gerado, o CMMV injeta as funções Protobuf diretamente na camada de visualização, reduzindo a sobrecarga e evitando a geração de código redundante. Isso torna o processo mais eficiente para aplicações web modernas.
+
+Essa abordagem simplificada não só reduz a complexidade, mas também melhora o desempenho ao evitar arquivos intermediários e serviços desnecessários, concentrando-se exclusivamente nos requisitos funcionais.

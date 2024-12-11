@@ -1,21 +1,21 @@
-# Overview
+# Visão Geral (HTTP)
 
-The CMMV framework introduces its own default server implementation, ``@cmmv/server``, which offers superior performance and seamless integration with the overall CMMV ecosystem. This server is highly optimized and designed to provide built-in support for critical features such as compression, routing, request handling, static file serving, security, and middleware management. Because ``@cmmv/server`` is developed as a core part of CMMV, it allows for better control over feature enhancements, bug fixes, and performance improvements, making it the recommended option for most applications.
+O framework CMMV apresenta sua própria implementação de servidor padrão, ``@cmmv/server``, que oferece desempenho superior e integração perfeita com o ecossistema geral do CMMV. Este servidor é altamente otimizado e projetado para fornecer suporte integrado para recursos críticos, como compressão, roteamento, manipulação de solicitações, serviço de arquivos estáticos, segurança e gerenciamento de middlewares. Como ``@cmmv/server`` foi desenvolvido como parte essencial do CMMV, ele permite um melhor controle sobre melhorias de recursos, correções de bugs e melhorias de desempenho, tornando-o a opção recomendada para a maioria das aplicações.
 
-The server is flexible and shares many of the same APIs and capabilities as [Express](https://expressjs.com/) and [Fastify](https://fastify.dev/), which ensures an easy transition if you're familiar with those frameworks. However, ``@cmmv/server`` also includes enhanced integration with CMMV’s contracts, modules, and services, providing a more consistent developer experience across different layers of the application.
+O servidor é flexível e compartilha muitas das mesmas APIs e capacidades do [Express](https://expressjs.com/) e do [Fastify](https://fastify.dev/), o que garante uma transição fácil caso você esteja familiarizado com esses frameworks. No entanto, o ``@cmmv/server`` também inclui integração aprimorada com contratos, módulos e serviços do CMMV, proporcionando uma experiência de desenvolvedor mais consistente em diferentes camadas da aplicação.
 
-Key Features:
-* **HTTP and HTTPS Support:** The adapter can initialize servers using both HTTP and HTTPS based on configuration.
-* **Middleware Management:** Preconfigured middlewares such as compression, CORS, Helmet (security), and session handling are included.
-* **Static File Serving:** Automatically serves static files from the /public directory.
-* **View Engine:** Supports rendering HTML views using CMMVRenderer, a custom template engine with security options like CSP.
-* **Controller Registration:** Automatically registers controllers by scanning the ControllerRegistry and mapping HTTP methods (GET, POST, PUT, DELETE) to paths.
-* **Session and Security Headers:** Adds session management using express-session and security headers like Content Security Policy, XSS Protection, and HSTS.
-* **Request Tracking:** Each request is assigned a unique requestId for telemetry and monitoring.
-* **Open Connection Tracking:** Tracks and closes open connections when the server shuts down.
-* **Error Handling:** Captures and logs errors during request processing, providing detailed error messages.
+## Principais Recursos:
+* **Suporte HTTP e HTTPS:** O adaptador pode inicializar servidores usando HTTP e HTTPS com base na configuração.
+* **Gerenciamento de Middlewares:** Inclui middlewares pré-configurados, como compressão, CORS, Helmet (segurança) e gerenciamento de sessões.
+* **Serviço de Arquivos Estáticos:** Serve automaticamente arquivos estáticos do diretório /public.
+* **Engine de Visualização:** Suporta renderização de visualizações HTML usando o CMMVRenderer, uma engine de templates personalizada com opções de segurança como CSP.
+* **Registro de Controladores:** Registra automaticamente controladores ao escanear o `ControllerRegistry` e mapeia métodos HTTP (GET, POST, PUT, DELETE) para caminhos.
+* **Gerenciamento de Sessão e Cabeçalhos de Segurança:** Adiciona gerenciamento de sessão com `express-session` e cabeçalhos de segurança, como Política de Segurança de Conteúdo (CSP), Proteção contra XSS e HSTS.
+* **Rastreamento de Solicitações:** Cada solicitação recebe um `requestId` exclusivo para telemetria e monitoramento.
+* **Rastreamento de Conexões Abertas:** Acompanha e fecha conexões abertas quando o servidor é encerrado.
+* **Manipulação de Erros:** Captura e registra erros durante o processamento de solicitações, fornecendo mensagens detalhadas de erro.
 
-## Default Server
+## Servidor Padrão
 
 ```typescript
 import { Application } from '@cmmv/core';
@@ -32,31 +32,31 @@ Application.create({
 ## Benchmarks
 
 * [https://github.com/fastify/benchmarks](https://github.com/fastify/benchmarks)
-* Machine: linux x64 | 32 vCPUs | 128.0GB Mem
+* Máquina: linux x64 | 32 vCPUs | 128.0GB Mem
 * Node: v20.17.0
-* Run: Thu Nov 26 2024 15:23:41 GMT+0000 (Coordinated Universal Time)
-* Method: ``autocannon -c 100 -d 40 -p 10 localhost:3000``
+* Execução: Qui, 26 de Nov de 2024 15:23:41 GMT+0000 (Horário Universal Coordenado)
+* Método: ``autocannon -c 100 -d 40 -p 10 localhost:3000``
 
-| Framework                | Version  | Router | Requests/s | Latency (ms) | Throughput/Mb |
-|--------------------------|----------|--------|------------|--------------|---------------|
-| bare                     | v20.17.0 | ✗      | 88267.6    | 10.87        | 15.74         |
-| fastify                  | 5.1.0    | ✓      | 87846.6    | 10.91        | 15.75         |
-| cmmv                     | 0.6.2    | ✓      | 79041.6    | 12.16        | 14.17         |
-| koa                      | 2.15.3   | ✗      | 76639.6    | 12.54        | 13.67         |
-| express                  | 5.0.1    | ✓      | 21549.2    | 45.89        | 3.84          |
-| express-with-middlewares | 5.0.1    | ✓      | 18930.4    | 52.30        | 7.04          |
+| Framework                | Versão   | Router | Solicitações/s | Latência (ms) | Throughput/Mb |
+|--------------------------|----------|--------|----------------|---------------|---------------|
+| bare                     | v20.17.0 | ✗      | 88267.6        | 10.87         | 15.74         |
+| fastify                  | 5.1.0    | ✓      | 87846.6        | 10.91         | 15.75         |
+| cmmv                     | 0.6.2    | ✓      | 79041.6        | 12.16         | 14.17         |
+| koa                      | 2.15.3   | ✗      | 76639.6        | 12.54         | 13.67         |
+| express                  | 5.0.1    | ✓      | 21549.2        | 45.89         | 3.84          |
+| express-with-middlewares | 5.0.1    | ✓      | 18930.4        | 52.30         | 7.04          |
 
 ## Express
 
-In addition to the default server, CMMV also supports Express and Fastify as alternative HTTP adapters, providing flexibility for developers who prefer or need to use these popular frameworks. Both Express and Fastify adapters are fully integrated into the CMMV ecosystem and can be used by simply switching the adapter in the application configuration.
+Além do servidor padrão, o CMMV também suporta Express e Fastify como adaptadores HTTP alternativos, fornecendo flexibilidade para desenvolvedores que preferem ou precisam usar esses frameworks populares. Ambos os adaptadores são totalmente integrados ao ecossistema CMMV e podem ser usados simplesmente alterando o adaptador na configuração da aplicação.
 
 ```bash
 $ pnpm add @cmmv/express express body-parser cors express-session helmet uuid
 ```
 
-### Integration
+### Integração
 
-The ``@cmmv/express`` module provides an alternative HTTP adapter based on Express, allowing you to use Express middleware and features seamlessly with your CMMV application.
+O módulo ``@cmmv/express`` fornece um adaptador HTTP alternativo baseado no Express, permitindo que você use middlewares e recursos do Express de forma transparente com sua aplicação CMMV.
 
 ```typescript
 import { Application } from '@cmmv/core';
@@ -70,17 +70,17 @@ Application.create({
 });
 ```
 
-The adapter registers all controllers automatically from the ControllerRegistry. It matches the controller’s routes to the corresponding HTTP methods (GET, POST, etc.), and processes middleware defined at the controller level.
+O adaptador registra automaticamente todos os controladores do `ControllerRegistry`. Ele mapeia as rotas dos controladores para os métodos HTTP correspondentes (GET, POST, etc.) e processa os middlewares definidos no nível do controlador.
 
 ## Fastify
 
-The Fastify Adapter in CMMV provides an alternative to the Express Adapter, allowing for lightweight, high-performance HTTP handling using Fastify's framework. This adapter integrates key middleware like compression, CORS, helmet for security, and static file serving. It automatically registers controllers and manages the lifecycle of incoming requests. The Fastify Adapter follows the same structure as the Express Adapter, supporting session management and content rendering, while offering a faster, more optimized environment.
+O Adaptador Fastify no CMMV oferece uma alternativa ao Adaptador Express, permitindo manipulação HTTP leve e de alto desempenho usando o framework Fastify. Este adaptador integra middlewares importantes, como compressão, CORS, Helmet para segurança e serviço de arquivos estáticos. Ele registra automaticamente os controladores e gerencia o ciclo de vida das solicitações recebidas. O Adaptador Fastify segue a mesma estrutura do Adaptador Express, suportando gerenciamento de sessões e renderização de conteúdo, enquanto oferece um ambiente mais rápido e otimizado.
 
 ```bash
 $ pnpm add @cmmv/fastify @fastify/compress @fastify/cors @fastify/helmet @fastify/secure-session @fastify/static @fastify/view
 ```
 
-### Integration
+### Integração
 
 ```typescript
 import { Application } from '@cmmv/core';
@@ -96,11 +96,11 @@ Application.create({
 
 ## Middlewares
 
-The httpMiddlewares configuration allows you to inject custom middleware into the HTTP adapter (such as Express or Fastify) during the application's initialization. This provides additional flexibility by letting you apply any middleware functions to handle tasks like logging, request validation, or security checks.
+A configuração `httpMiddlewares` permite que você injete middlewares personalizados no adaptador HTTP (como Express ou Fastify) durante a inicialização da aplicação. Isso fornece flexibilidade adicional ao permitir que você aplique qualquer função middleware para lidar com tarefas como logging, validação de solicitações ou verificações de segurança.
 
-To use this feature, define an array of middleware functions in the httpMiddlewares property when creating the application.
+Para usar esse recurso, defina um array de funções middleware na propriedade `httpMiddlewares` ao criar a aplicação.
 
-Here’s an example where we add the morgan logging middleware to an Express-based CMMV application:
+Aqui está um exemplo onde adicionamos o middleware de logging Morgan a uma aplicação CMMV baseada no Express:
 
 ```typescript
 import { Application } from "@cmmv/core";
@@ -120,9 +120,9 @@ Application.create({
 });
 ```
 
-In this example, the morgan middleware is used to log incoming HTTP requests in the 'dev' format. This middleware is passed into the httpMiddlewares configuration, which applies it automatically during the application's initialization.
+Neste exemplo, o middleware Morgan é usado para registrar solicitações HTTP recebidas no formato 'dev'. Esse middleware é passado para a configuração `httpMiddlewares`, que o aplica automaticamente durante a inicialização da aplicação.
 
-* The httpMiddlewares array can include any number of middlewares, and each will be applied in the order they are provided.
-* Make sure to import any custom middleware before passing it into the configuration.
+* O array `httpMiddlewares` pode incluir qualquer número de middlewares, e cada um será aplicado na ordem em que são fornecidos.
+* Certifique-se de importar qualquer middleware personalizado antes de passá-lo para a configuração.
 
-This configuration helps expand the capabilities of your application by allowing you to use any custom or third-party middleware that your chosen HTTP adapter (like Express or Fastify) supports.
+Essa configuração ajuda a expandir as capacidades de sua aplicação ao permitir o uso de qualquer middleware personalizado ou de terceiros que o adaptador HTTP escolhido (como Express ou Fastify) suporte.

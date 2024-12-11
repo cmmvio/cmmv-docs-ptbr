@@ -1,12 +1,12 @@
 # Templates
 
-CMMV provides a flexible templating system, allowing you to configure master page templates for modular views. This setup helps create reusable layouts across your application, streamlining the structure and ensuring consistency in specific views.
+O CMMV oferece um sistema de templates flexível, permitindo configurar templates de página mestre para visões modulares. Essa configuração ajuda a criar layouts reutilizáveis em toda a sua aplicação, simplificando a estrutura e garantindo consistência em visões específicas.
 
-A master page template defines the base HTML layout of your views and is stored in the ``/public/templates`` directory. It serves as a foundation where dynamic content, headers, and scripts are injected. The structure follows a consistent format that looks like this:
+Um template de página mestre define o layout HTML base das suas visões e é armazenado no diretório `/public/templates`. Ele serve como uma fundação onde conteúdos dinâmicos, cabeçalhos e scripts são injetados. A estrutura segue um formato consistente, como este:
 
 ```html
 <!DOCTYPE html>
-<html lang="en" data-theme='dark' class="dark">
+<html lang="pt-BR" data-theme='dark' class="dark">
     <head>
         <headers/>
     </head>
@@ -17,29 +17,29 @@ A master page template defines the base HTML layout of your views and is stored 
 </html>
 ```
 
-## Key Elements
+## Elementos Chave
 
-* **``<headers/>`` Tag:**
+* **Tag `<headers/>`:**
 
-* This tag is used to inject all processed headers from the ``@cmmv/view`` module, which may include metadata, stylesheets, and other elements configured within your views or globally.
-* These headers come from your ``.cmmv.config.js`` or from custom settings defined in each view.
+    * Essa tag é usada para injetar todos os cabeçalhos processados pelo módulo `@cmmv/view`, que podem incluir metadados, folhas de estilo e outros elementos configurados dentro de suas visões ou globalmente.
+    * Esses cabeçalhos vêm do seu arquivo `.cmmv.config.js` ou de configurações personalizadas definidas em cada visão.
 
-* **``<slot/>`` Tag:**
+* **Tag `<slot/>`:**
 
-* The ``<slot/>`` element acts as a placeholder for the main content of your view.
-* When rendering a view, the content of that view is dynamically injected into the slot.
+    * O elemento `<slot/>` atua como um espaço reservado para o conteúdo principal da sua visão.
+    * Ao renderizar uma visão, o conteúdo dessa visão é dinamicamente injetado no slot.
 
-* **``<scripts/>`` Tag:**
+* **Tag `<scripts/>`:**
 
-This tag handles the inclusion of JavaScript files configured in your ``.cmmv.config.js`` or directly within the view itself.
-This ensures that all required client-side scripts are included in the final rendering of the page.
+    * Essa tag lida com a inclusão de arquivos JavaScript configurados no seu arquivo `.cmmv.config.js` ou diretamente dentro da própria visão.
+    * Isso garante que todos os scripts necessários no lado do cliente sejam incluídos na renderização final da página.
 
-* **Other Custom Tags:**
+* **Outras Tags Personalizadas:**
 
-Any additional tags or attributes you define in your template will be preserved during the rendering process.
-Ensure that all external resources (links, scripts) include the ``nonce="{ nonce }"`` attribute or ``s-attr="nonce"`` for security, as required by the Content Security Policy (CSP) settings in CMMV.
+    * Quaisquer tags ou atributos adicionais definidos no seu template serão preservados durante o processo de renderização.
+    * Certifique-se de que todos os recursos externos (links, scripts) incluam o atributo `nonce="{ nonce }"` ou `s-attr="nonce"` para segurança, conforme exigido pelas configurações de Content Security Policy (CSP) no CMMV.
 
-All master page templates are stored in the ``/public/templates`` directory. Here's an example of a possible directory structure:
+Todos os templates de página mestre são armazenados no diretório `/public/templates`. Aqui está um exemplo de estrutura de diretórios possível:
 
 ```bash
 /public
@@ -49,19 +49,19 @@ All master page templates are stored in the ``/public/templates`` directory. Her
         /dashboard.html
 ```
 
-## Defining a View
+## Definindo uma Visão
 
-In your view, you can configure which master template to use. This is done in the ``s-setup`` section of the view. Here's an example of a view configuration that uses a custom layout and injects scripts:
+Na sua visão, você pode configurar qual template mestre usar. Isso é feito na seção `s-setup` da visão. Aqui está um exemplo de configuração de visão que usa um layout personalizado e injeta scripts:
 
 ```html
 <script s-setup>
 export default {
-    layout: "admin",  // Reference to the /public/templates/admin.html file
+    layout: "admin",  // Referência ao arquivo /public/templates/admin.html
 
     head: {
         meta: [
-            { name: "description", content: "Admin Panel" },
-            { name: "keywords", content: "admin, cmmv, dashboard" }
+            { name: "description", content: "Painel Administrativo" },
+            { name: "keywords", content: "admin, cmmv, painel" }
         ],
         link: [
             { rel: "stylesheet", href: "/assets/styles/admin.css" },
@@ -76,9 +76,9 @@ export default {
 </script>
 ```
 
-The ``.cmmv.config.js`` file allows you to manage global JavaScript and stylesheets that should be included in your views. These will be injected into the ``<scripts/>`` and ``<headers/>`` tags of your master templates.
+O arquivo `.cmmv.config.js` permite gerenciar globalmente JavaScript e folhas de estilo que devem ser incluídos em suas visões. Esses serão injetados nas tags `<scripts/>` e `<headers/>` dos seus templates mestre.
 
-**Example ``.cmmv.config.js:``**
+**Exemplo de `.cmmv.config.js:`**
 
 ```javascript
 module.exports = {
@@ -105,14 +105,14 @@ module.exports = {
 };
 ```
 
-After setting up a view with a master template, the rendered page might look like this:
+Após configurar uma visão com um template mestre, a página renderizada pode se parecer com isto:
 
 ```html
 <!DOCTYPE html>
-<html lang="en" data-theme='dark' class="dark">
+<html lang="pt-BR" data-theme='dark' class="dark">
     <head>
-        <meta name="description" content="Admin Panel">
-        <meta name="keywords" content="admin, cmmv, dashboard">
+        <meta name="description" content="Painel Administrativo">
+        <meta name="keywords" content="admin, cmmv, painel">
         <link 
             rel="stylesheet" 
             href="/assets/styles/admin.css" 
@@ -121,9 +121,9 @@ After setting up a view with a master template, the rendered page might look lik
         <link rel="canonical" href="https://admin.cmmv.io" />
     </head>
     <body scope> 
-        <!-- Main content of the view -->
+        <!-- Conteúdo principal da visão -->
         <div id="dashboard">
-            <h1>Welcome to the Admin Dashboard</h1>
+            <h1>Bem-vindo ao Painel Administrativo</h1>
         </div>
 
         <!-- Scripts -->
@@ -136,4 +136,4 @@ After setting up a view with a master template, the rendered page might look lik
 </html>
 ```
 
-In CMMV, you can modularize your views by defining master page templates located in ``/public/templates``. These templates handle the injection of headers, dynamic content, and scripts through the ``<headers/>``, ``<slot/>``, and ``<scripts/>`` tags, respectively. By ensuring that security protocols are maintained with attributes like ``nonce="{ nonce }"``, your application remains secure while serving assets efficiently. Through this approach, you can create reusable layouts and maintain consistency across different sections of your application, enhancing both development speed and maintainability.
+No CMMV, você pode modularizar suas views definindo templates de página mestre localizados em `/public/templates`. Esses templates lidam com a injeção de cabeçalhos, conteúdo dinâmico e scripts por meio das tags `<headers/>`, `<slot/>` e `<scripts/>`, respectivamente. Garantindo que protocolos de segurança sejam mantidos com atributos como `nonce="{ nonce }"`, sua aplicação permanece segura enquanto serve assets de maneira eficiente. Por meio dessa abordagem, você pode criar layouts reutilizáveis e manter a consistência em diferentes seções da sua aplicação, aumentando tanto a velocidade de desenvolvimento quanto a manutenção.
