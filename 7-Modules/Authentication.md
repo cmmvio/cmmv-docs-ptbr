@@ -1,18 +1,18 @@
-# Authentication
+# Autenticação
 
-The ``@cmmv/auth`` module provides a set of features to handle authentication in your application. It supports both HTTP and WebSocket-based authentication and can be easily integrated into any ``@cmmv`` based application.
+O módulo ``@cmmv/auth`` fornece um conjunto de funcionalidades para lidar com autenticação em sua aplicação. Ele suporta autenticação baseada em HTTP e WebSocket e pode ser facilmente integrado a qualquer aplicação baseada em ``@cmmv``.
 
-## Installation
+## Instalação
 
-To install the ``@cmmv/auth`` module, run the following command:
+Para instalar o módulo ``@cmmv/auth``, execute o seguinte comando:
 
 ```typescript
 $ pnpm add @cmmv/auth jsonwebtoken
 ```
 
-## Integrating 
+## Integração
 
-Once installed, you can integrate the ``@cmmv/auth`` module into your application as shown below. This example demonstrates the basic setup of a CMMV application that includes the ``@cmmv/auth`` module for handling authentication.
+Após instalar, você pode integrar o módulo ``@cmmv/auth`` em sua aplicação conforme mostrado abaixo. Este exemplo demonstra a configuração básica de uma aplicação CMMV que inclui o módulo ``@cmmv/auth`` para lidar com autenticação.
 
 ```typescript
 require('dotenv').config();
@@ -34,20 +34,20 @@ Application.create({
         WSModule,
         ViewModule,
         RepositoryModule,
-        AuthModule,  // Add the AuthModule 
+        AuthModule,  // Adicione o AuthModule
     ],
     services: [
-        // Add your custom services here
+        // Adicione seus serviços personalizados aqui
     ],
     contracts: [
-        // Add your contracts here
+        // Adicione seus contratos aqui
     ],
 });
 ```
 
-## Configuration 
+## Configuração
 
-The ``.cmmv.config.js`` file is the central configuration file for your CMMV application, which allows you to set up different settings related to the server, authentication, and other modules. Below is a detailed explanation of the configuration options relevant to the ``@cmmv/auth`` module:
+O arquivo ``.cmmv.config.js`` é o arquivo de configuração central da sua aplicação CMMV, permitindo configurar diferentes definições relacionadas ao servidor, autenticação e outros módulos. Abaixo está uma explicação detalhada das opções de configuração relevantes para o módulo ``@cmmv/auth``:
 
 ```javascript
 module.exports = {
@@ -55,60 +55,60 @@ module.exports = {
 
     server: {
         session: {
-            enabled: true,  // Enable session support
+            enabled: true,  // Habilitar suporte a sessão
             options: {
-                // Name of the session cookie
+                // Nome do cookie de sessão
                 sessionCookieName: 
                     process.env.SESSION_COOKIENAME || "cmmv-session", 
-                // Secret for signing the session ID cookie
+                // Chave secreta para assinar o ID do cookie de sessão
                 secret: process.env.SESSION_SECRET || "secret", 
-                // Prevents session being saved back to the session store
+                // Impede que a sessão seja salva novamente no armazenamento
                 resave: false, 
-                // Forces a session to be saved, even if it’s uninitialized
+                // Força salvar a sessão, mesmo que não esteja inicializada
                 saveUninitialized: false, 
                 cookie: { 
-                    // Ensures the browser only sends the cookie over HTTPS
+                    // Garante que o navegador envie o cookie apenas via HTTPS
                     secure: true,  
-                    // The max age (in milliseconds) for the session cookie
+                    // Tempo máximo (em milissegundos) para o cookie de sessão
                     maxAge: 60000  
                 }
             }
         }
     },
 
-    // Authentication settings for @cmmv/auth
+    // Configurações de autenticação para @cmmv/auth
     auth: {
-        // Enable local registration (email/password)
+        // Habilitar registro local (e-mail/senha)
         localRegister: true,  
-        // Enable local login (email/password)
+        // Habilitar login local (e-mail/senha)
         localLogin: true,     
-        // Secret key for signing JWT tokens
+        // Chave secreta para assinar tokens JWT
         jwtSecret: process.env.JWT_SECRET || "secret",  
-        // Token expiration time in seconds (1 hour)
+        // Tempo de expiração do token em segundos (1 hora)
         expiresIn: 60 * 60,  
         
         google: {
-            // Google OAuth client ID
+            // ID do cliente OAuth do Google
             clientID: process.env.GOOGLE_CLIENT_ID,  
-            // Google OAuth client secret
+            // Segredo do cliente OAuth do Google
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,  
-            // URL to redirect after Google login
+            // URL para redirecionamento após login no Google
             callbackURL: "http://localhost:3000/auth/google/callback"  
         }
     },
 };
 ```
 
-## Generated 
+## Gerados
 
-The ``@cmmv/auth`` module is responsible for generating the necessary files for authentication in a CMMV-based application. This includes protocol buffers (proto files), TypeScript definitions, service implementations, and controllers. If the ``@cmmv/ws`` module is installed, it will also generate the WebSocket gateway for handling authentication events. Below are the key components that are generated by this module:
+O módulo ``@cmmv/auth`` é responsável por gerar os arquivos necessários para autenticação em uma aplicação baseada no CMMV. Isso inclui arquivos ``.proto``, definições TypeScript, implementações de serviços e controladores. Caso o módulo ``@cmmv/ws`` esteja instalado, ele também gerará o gateway WebSocket para lidar com eventos de autenticação. Abaixo estão os principais componentes gerados por este módulo:
 
 **``src/protos/auth.proto``**
 
-This ``.proto`` file defines the ``User``, ``LoginRequest``, ``LoginResponse``, ``RegisterRequest``, ``RegisterResponse`` messages, and the ``AuthService`` service with two RPC methods, Login and Register.
+Este arquivo ``.proto`` define as mensagens ``User``, ``LoginRequest``, ``LoginResponse``, ``RegisterRequest``, ``RegisterResponse`` e o serviço ``AuthService`` com dois métodos RPC: Login e Register.
 
 ```proto
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
 
 syntax = "proto3";
 package auth;
@@ -152,10 +152,10 @@ service AuthService {
 
 **``src/protos/auth.d.ts``**
 
-This file provides TypeScript interfaces that mirror the ``.proto`` definitions, making it easier to work with the data structures in your application.
+Este arquivo fornece interfaces TypeScript que espelham as definições ``.proto``, facilitando o trabalho com as estruturas de dados na sua aplicação.
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
 
 export namespace User {
     export type username = string;
@@ -191,10 +191,10 @@ export interface RegisterResponse {
 
 **``src/services/auth.services.ts``**
 
-The service handles the core logic for user authentication, such as logging in and registering users. It makes use of class-validator for validation and class-transformer for transforming the incoming data into a User object.
+O serviço lida com a lógica central de autenticação do usuário, como login e registro. Ele utiliza `class-validator` para validação e `class-transformer` para transformar os dados recebidos em um objeto `User`.
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
     
 import * as jwt from 'jsonwebtoken';
 import { validate } from 'class-validator';
@@ -249,12 +249,12 @@ export class AuthService extends AbstractService {
             enableImplicitConversion: true
         }); 
 
-        const user = await Repository.findBy(UserEntity, userValidation);;
+        const user = await Repository.findBy(UserEntity, userValidation);
 
         if (!user) {
             return { result: { 
                 success: false, token: "", 
-                message: "Invalid credentials" 
+                message: "Credenciais inválidas" 
             }, user: null  };
         }
             
@@ -263,7 +263,7 @@ export class AuthService extends AbstractService {
             username: payload.username 
         }, jwtToken, { expiresIn });
 
-        res.cookie(cookieName, `Bearer ${token}`, {
+        res.cookie(cookieName, `Bearer \${token}`, {
             httpOnly: true,
             secure: cookieSecure,
             sameSite: 'strict',
@@ -282,7 +282,7 @@ export class AuthService extends AbstractService {
         Telemetry.end('AuthService::login', req?.requestId);        
         return { result: { 
             success: true, token, 
-            message: "Login successful" 
+            message: "Login realizado com sucesso" 
         }, user };
     }
 
@@ -320,11 +320,11 @@ export class AuthService extends AbstractService {
                 return (result) ? 
                     { 
                         success: true, 
-                        message: "User registered successfully!" 
+                        message: "Usuário registrado com sucesso!" 
                     } : 
                     { 
                         success: false, 
-                        message: "Error trying to register new user" 
+                        message: "Erro ao tentar registrar novo usuário" 
                     };
             }   
             catch(e){
@@ -341,10 +341,10 @@ export class AuthService extends AbstractService {
 
 **``src/controllers/auth.controller.ts``**
 
-This controller is responsible for handling authentication-related HTTP requests. It includes endpoints for logging in, registering, and retrieving the current user's information.
+Este controlador é responsável por lidar com requisições HTTP relacionadas à autenticação. Ele inclui endpoints para login, registro e obtenção das informações do usuário atual.
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
     
 import { Config } from "@cmmv/core";
 import { Auth } from "@cmmv/auth";
@@ -366,7 +366,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Get("user")
-    @Auth()  // Uses the Auth decorator for authorization
+    @Auth()  // Usa o decorator Auth para autorização
     async user(@Req() req) {
         return req.user;
     }
@@ -396,10 +396,10 @@ export class AuthController {
 
 **``src/gateways/auth.gateway.ts``**
 
-When ``@cmmv/ws`` is installed, a WebSocket gateway is generated to handle authentication events in real-time.
+Quando o módulo ``@cmmv/ws`` está instalado, um gateway WebSocket é gerado para lidar com eventos de autenticação em tempo real.
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
 
 import { Rpc, Message, Data, Socket, RpcUtils } from "@cmmv/ws";
 import { AuthService } from '../services/auth.service';
@@ -415,48 +415,46 @@ export class AuthGateway {
 
     @Message("LoginRequest")
     async login(@Data() data: LoginRequest, @Socket() socket) {
-        try{
+        try {
             const { result } = await this.authService.login(data);
             const response = await RpcUtils.pack(
                 "auth", "LoginResponse", result
             );
 
-            if(response)
+            if (response)
                 socket.send(response);            
-        }
-        catch(e){
+        } catch (e) {
             return null;
         }
     }
 
     @Message("RegisterRequest")
     async register(@Data() data: RegisterRequest, @Socket() socket) {
-        try{
+        try {
             const result = await this.authService.register(data);
             const response = await RpcUtils.pack(
                 "auth", "RegisterResponse", result
             );
 
-            if(response)
+            if (response)
                 socket.send(response);            
-        }
-        catch(e){
+        } catch (e) {
             return null;
         }
     }
 }
 ```
 
-## Decorator 
+<br/>
 
-The ``@Auth`` decorator is designed to enforce authentication and authorization on specific routes within an application. It provides middleware functionality that checks if a user is authenticated by verifying a JWT (JSON Web Token) and optionally validates that the user has the required roles to access the route.
+## Decorador @Auth
 
-This decorator is used in conjunction with route handlers to protect specific endpoints. It validates the existence of a JWT token and, if provided, checks whether the token's payload includes the necessary roles to access the route.
+O decorador ``@Auth`` é projetado para aplicar autenticação e autorização em rotas específicas dentro de uma aplicação. Ele fornece uma funcionalidade middleware que verifica se um usuário está autenticado, validando um JWT (JSON Web Token) e, opcionalmente, verificando se o usuário possui as funções necessárias para acessar a rota.
 
-* **Token Location:** The middleware first checks for the JWT token in the request cookies (using a configurable cookie name) or in the ``Authorization`` header. If no token is found, it returns a ``401 Unauthorized`` response.
-* **Token Verification:** If a token is found, it verifies the token using the secret stored in the configuration (``auth.jwtSecret``). If the token is invalid or expired, the middleware returns a ``401 Unauthorized`` response.
-* **Role Validation:** If roles are specified, the middleware checks if the token's payload includes the required roles. If the user does not have the appropriate roles, the middleware returns a ``403 Forbidden`` response.
-* **User Information:** Upon successful validation, the decoded token (which typically includes user information such as user ID, username, and roles) is attached to the ``req.user`` object for further use in the route handler.
+* **Localização do Token:** O middleware verifica primeiro o token JWT nos cookies da requisição (usando um nome configurável) ou no cabeçalho ``Authorization``. Se nenhum token for encontrado, retorna uma resposta ``401 Unauthorized``.
+* **Validação do Token:** Se um token for encontrado, ele é verificado usando o segredo armazenado na configuração (``auth.jwtSecret``). Caso o token seja inválido ou expirado, o middleware retorna uma resposta ``401 Unauthorized``.
+* **Validação de Funções:** Se as funções (``roles``) forem especificadas, o middleware verifica se o payload do token inclui as funções necessárias. Caso contrário, retorna uma resposta ``403 Forbidden``.
+* **Informações do Usuário:** Após a validação bem-sucedida, o token decodificado (geralmente contendo informações do usuário, como ID e nome de usuário) é anexado ao objeto ``req.user`` para uso posterior no manipulador de rota.
 
 ```typescript
 import { Controller, Get, Req } from '@cmmv/http';
@@ -464,33 +462,33 @@ import { Auth } from '@cmmv/auth';
 
 @Controller('user')
 export class UserController {
-    // Protects the route, checks for valid JWT
+    // Protege a rota, verifica se o JWT é válido
     @Get('profile')
     @Auth()  
     async getProfile(@Req() req) {
-        return req.user;  // Access the authenticated user's info
+        return req.user;  // Acessa as informações do usuário autenticado
     }
 
-    // Protects the route, checks for valid JWT and admin role
+    // Protege a rota, verifica se o JWT é válido e se o usuário é admin
     @Get('admin')
     @Auth(['admin'])  
     async getAdminDashboard(@Req() req) {
-        return `Welcome admin ${req.user.username}`;
+        return `Bem-vindo(a), admin \${req.user.username}`;
     }
 }
 ```
 
 <br/>
 
-* **roles?:** (Optional) An array of roles that a user must have to access the route. If no roles are provided, only authentication is required (i.e., a valid JWT). If roles are specified, the user must possess at least one of the provided roles.
+* **``roles?:``** (Opcional): Um array de funções que o usuário deve possuir para acessar a rota. Se nenhuma função for fornecida, apenas a autenticação é necessária (ou seja, um JWT válido). Caso contrário, o usuário deve possuir pelo menos uma das funções especificadas.
 
 ```typescript
 @Auth(['admin', 'moderator']) 
 ```
 
-**Configuration Dependencies**
+**Dependências de Configuração**
 
-* **JWT Secret:** The decorator uses the secret specified in the configuration (``auth.jwtSecret``) to verify the token.
-* **Session Cookie Name:** By default, the token is checked in a cookie with the name specified in ``server.session.options.sessionCookieName``. If no token is found in the cookie, it checks the ``Authorization`` header.
+* **Segredo do JWT:** O decorador usa o segredo especificado na configuração (``auth.jwtSecret``) para verificar o token.
+* **Nome do Cookie de Sessão:** Por padrão, o token é verificado em um cookie com o nome especificado em ``server.session.options.sessionCookieName``. Se nenhum token for encontrado no cookie, ele verifica o cabeçalho ``Authorization``.
 
-The decorator adds the authentication and authorization middleware to the route's metadata. This middleware is processed before the route handler is executed, ensuring that unauthorized users are blocked before any business logic is reached.
+O decorador adiciona o middleware de autenticação e autorização aos metadados da rota. Este middleware é processado antes do manipulador da rota ser executado, garantindo que usuários não autorizados sejam bloqueados antes que qualquer lógica de negócio seja alcançada.

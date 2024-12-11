@@ -1,20 +1,20 @@
-# Repository
+# Repositório
 
-The ``@cmmv/repository`` module is designed to work alongside the ``@cmmv/core`` framework and is built using [TypeORM](https://typeorm.io/). This module automatically generates entities based on defined contracts and extends the service layer for handling CRUD operations with the configured database. Below, we provide detailed information on installation, usage, and features of this module.
+O módulo ``@cmmv/repository`` foi projetado para funcionar em conjunto com o framework ``@cmmv/core`` e é construído utilizando [TypeORM](https://typeorm.io/). Este módulo gera automaticamente entidades com base nos contratos definidos e estende a camada de serviço para lidar com operações CRUD no banco de dados configurado. Abaixo, fornecemos informações detalhadas sobre instalação, uso e recursos deste módulo.
 
-**Installation**
+**Instalação**
 
-To use the ``@cmmv/repository`` module in your project, you can install it via npm:
+Para usar o módulo ``@cmmv/repository`` em seu projeto, você pode instalá-lo via npm:
 
 ```bash
 $ pnpm add @cmmv/repository typeorm
 ```
 
-In addition to installing the ``@cmmv/repository`` module, depending on the database type you are using, you will need to install the respective database driver.
+Além de instalar o módulo ``@cmmv/repository``, dependendo do tipo de banco de dados que você está usando, será necessário instalar o driver correspondente.
 
-**Supported Databases and Drivers**
+**Bancos de Dados Suportados e Drivers**
 
-TypeORM supports multiple database systems, and each system requires the appropriate npm package to function correctly. Here is a list of supported databases along with the corresponding driver to install:
+O TypeORM suporta múltiplos sistemas de banco de dados, e cada sistema requer o pacote npm apropriado para funcionar corretamente. Aqui está uma lista de bancos de dados suportados com o respectivo driver para instalação:
 
 **SQLite:** [NPM](https://www.npmjs.com/package/sqlite3)
 
@@ -52,19 +52,19 @@ $ pnpm add oracledb
 $ pnpm add mongodb
 ```
 
-Once you install the module and the corresponding database driver, you can configure your database connection in the ``.cmmv.config.js`` file. TypeORM will automatically use the appropriate driver based on the configuration.
+Depois de instalar o módulo e o driver correspondente, você pode configurar a conexão com o banco de dados no arquivo ``.cmmv.config.js``. O TypeORM usará automaticamente o driver apropriado com base na configuração.
 
-## Purpose
+## Propósito
 
-The ``@cmmv/repository`` module simplifies the process of integrating database entities and services for CRUD operations by leveraging contracts defined using ``@cmmv/core``. It automatically transpiles contracts into TypeORM entities and provides a standardized way to manage interactions with the database.
+O módulo ``@cmmv/repository`` simplifica o processo de integração de entidades e serviços de banco de dados para operações CRUD, aproveitando contratos definidos com ``@cmmv/core``. Ele transpila automaticamente os contratos em entidades do TypeORM e fornece uma maneira padronizada de gerenciar interações com o banco de dados.
 
-* **Automatic Entity Generation:** Based on the contracts defined in your project, the module transpiles the contract definitions into TypeORM entities.
-* **CRUD Service:** The module generates CRUD operations for the entities without needing to manually implement services, allowing easy data management.
-* **TypeORM Integration:** Full integration with TypeORM, making it easier to work with a variety of databases, such as PostgreSQL, MySQL, SQLite, etc.
-* **Contract-Based:** Using contracts defined with ``@cmmv/core``, the module automatically generates both the database schema and the CRUD service layer.
+* **Geração Automática de Entidades:** Com base nos contratos definidos em seu projeto, o módulo transpila as definições do contrato em entidades do TypeORM.
+* **Serviço CRUD:** O módulo gera operações CRUD para as entidades sem a necessidade de implementar serviços manualmente, permitindo um gerenciamento fácil de dados.
+* **Integração com TypeORM:** Integração completa com o TypeORM, facilitando o trabalho com vários bancos de dados, como PostgreSQL, MySQL, SQLite, etc.
+* **Baseado em Contratos:** Usando contratos definidos com ``@cmmv/core``, o módulo gera automaticamente o esquema do banco de dados e a camada de serviço CRUD.
 
-``/src/contract/task.contract.ts``
 ```typescript
+// /src/contract/task.contract.ts
 import { AbstractContract, Contract, ContractField } from '@cmmv/core';
 
 @Contract({
@@ -93,12 +93,12 @@ export class TasksContract extends AbstractContract {
 }
 ```
 
-This contract defines the fields and structure for the Task entity, which will be transpiled into a database entity by the ``@cmmv/repository`` module.
+Este contrato define os campos e a estrutura para a entidade Task, que será transpilada em uma entidade de banco de dados pelo módulo ``@cmmv/repository``.
 
-Once the contract is defined, the ``@cmmv/repository`` module transpiles the contract into a TypeORM entity. Below is an example of an automatically generated entity (``task.entity.ts``):
+Uma vez definido o contrato, o módulo ``@cmmv/repository`` transpila o contrato em uma entidade do TypeORM. Abaixo está um exemplo de uma entidade gerada automaticamente (``task.entity.ts``):
 
 ```typescript
-// Generated automatically by CMMV
+// Gerado automaticamente pelo CMMV
 
 import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
 import { Task } from '../models/task.model';
@@ -120,11 +120,11 @@ export class TaskEntity implements Task {
 }
 ```
 
-The ``@cmmv/repository`` module also generates a CRUD service that automatically handles interactions with the database. This service will use the entity generated from the contract to provide standard CRUD methods (create, read, update, delete).
+O módulo ``@cmmv/repository`` também gera um serviço CRUD que lida automaticamente com interações com o banco de dados. Este serviço usa a entidade gerada a partir do contrato para fornecer métodos CRUD padrão (create, read, update, delete).
 
 ```typescript
-// Generated automatically by CMMV
-    
+// Gerado automaticamente pelo CMMV
+
 import { Telemetry } from "@cmmv/core";
 import { AbstractService, Service } from '@cmmv/http';
 import { Repository } from '@cmmv/repository';
@@ -151,7 +151,7 @@ export class TaskService extends AbstractService {
         Telemetry.end('TaskService::GetById', req?.requestId);
 
         if (!item) 
-            throw new Error('Item not found');
+            throw new Error('Item não encontrado');
         
         return item;
     }
@@ -190,15 +190,15 @@ export class TaskService extends AbstractService {
 }
 ```
 
-The ``@cmmv/repository`` module significantly simplifies database interaction by automatically generating the necessary entities and services based on predefined contracts. With built-in TypeORM integration, this module streamlines CRUD operations, enabling faster development and easier database management.
+O módulo ``@cmmv/repository`` simplifica significativamente a interação com o banco de dados, gerando automaticamente as entidades e serviços necessários com base em contratos pré-definidos. Com integração nativa ao TypeORM, este módulo agiliza operações CRUD, permitindo um desenvolvimento mais rápido e fácil gerenciamento do banco de dados.
 
-## Settings
+## Configurações
 
-To ensure that the ``@cmmv/repository`` module works correctly with your project, you need to define the database configurations in a ``.cmmv.config.js`` file. This file serves as the central configuration for your project, including the repository settings for database interaction.
+Para garantir que o módulo ``@cmmv/repository`` funcione corretamente com seu projeto, é necessário definir as configurações do banco de dados em um arquivo ``.cmmv.config.js``. Este arquivo serve como a configuração central para seu projeto, incluindo as configurações de repositório para interação com o banco de dados.
 
 ```javascript
 module.exports = {
-    // Other project configurations...
+    // Outras configurações do projeto...
 
     repository: {
         type: "sqlite", 
@@ -209,14 +209,14 @@ module.exports = {
 };
 ```
 
-In this example, the module is configured to use SQLite as the database with automatic synchronization enabled. This means that any changes in your entities will automatically be reflected in the database schema without requiring migrations.
+Neste exemplo, o módulo está configurado para usar SQLite como banco de dados com sincronização automática ativada. Isso significa que quaisquer alterações nas suas entidades serão refletidas automaticamente no esquema do banco de dados sem a necessidade de migrações.
 
-For a more detailed list of all available configurations, please visit the [TypeORM Data Source Options documentation](https://typeorm.io/data-source). There, you will find additional options such as:
+Para uma lista mais detalhada de todas as configurações disponíveis, visite a [documentação de opções de Data Source do TypeORM](https://typeorm.io/data-source). Lá, você encontrará opções adicionais como:
 
-* **entities:** An array of paths or classes to specify which entities TypeORM should manage.
-* **migrations:** A path to your migration files.
-* **cache:** Enable caching of queries.
-* **username and password:** Credentials for connecting to the database (for database types that require authentication).
-* **host and port:** For specifying the host and port for databases like PostgreSQL, MySQL, etc.
+* **entities:** Um array de caminhos ou classes para especificar quais entidades o TypeORM deve gerenciar.
+* **migrations:** Um caminho para seus arquivos de migração.
+* **cache:** Habilitar cache de consultas.
+* **username e password:** Credenciais para conexão com o banco de dados (para tipos de banco de dados que exigem autenticação).
+* **host e port:** Para especificar o host e a porta para bancos de dados como PostgreSQL, MySQL, etc.
 
-To properly configure the ``@cmmv/repository`` module, you need to specify your database connection settings in the ``.cmmv.config.js`` file. The example provided shows a typical setup using SQLite, but you can adjust the configuration for other databases like PostgreSQL or MySQL. For further details on possible configurations, refer to the [TypeORM documentation](https://typeorm.io).
+Para configurar adequadamente o módulo ``@cmmv/repository``, você deve especificar suas configurações de conexão com o banco de dados no arquivo ``.cmmv.config.js``. O exemplo fornecido mostra uma configuração típica usando SQLite, mas você pode ajustar as configurações para outros bancos de dados como PostgreSQL ou MySQL. Para mais detalhes sobre configurações possíveis, consulte a [documentação do TypeORM](https://typeorm.io).

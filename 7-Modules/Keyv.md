@@ -1,19 +1,19 @@
 # Keyv
 
-The ``@cmmv/keyv`` module integrates with the [Keyv](https://keyv.org/) package to provide a flexible key-value store service. This module allows developers to integrate key-value storage solutions like Redis, Memcached, MongoDB, and more into their applications with minimal configuration. Unlike the ``@cmmv/cache`` module, which is primarily focused on caching routes and gateway responses, ``@cmmv/keyv`` is intended for state management across microservices and multiple applications that share the same store. The module includes native support for namespaces and compression to reduce ``get`` latency and features custom JSON parsing for more efficient data handling in future implementations.
+O módulo ``@cmmv/keyv`` integra-se com o pacote [Keyv](https://keyv.org/) para fornecer um serviço flexível de armazenamento chave-valor. Este módulo permite que os desenvolvedores integrem soluções de armazenamento como Redis, Memcached, MongoDB e mais, em suas aplicações, com configuração mínima. Diferentemente do módulo ``@cmmv/cache``, que foca principalmente em cachear rotas e respostas de gateways, o ``@cmmv/keyv`` é destinado à gestão de estado em microsserviços e múltiplas aplicações que compartilham o mesmo armazenamento. O módulo inclui suporte nativo para namespaces e compactação para reduzir a latência em ``get`` e apresenta parsing customizado de JSON para manipulação de dados de forma mais eficiente em implementações futuras.
 
-## Installation
+## Instalação
 
-To install the ``@cmmv/keyv`` module, use the following command:
+Para instalar o módulo ``@cmmv/keyv``, use o seguinte comando:
 
 ```bash 
 $ pnpm add @cmmv/keyv keyv @keyv/compress-gzip
 $ pnpm add -D @types/keyv
 ```
 
-If you plan to use Redis, Memcached, or MongoDB as your store, you'll need to install the appropriate driver package for your store:
+Se você planeja usar Redis, Memcached ou MongoDB como seu armazenamento, será necessário instalar o driver apropriado:
 
-Supported Key-Value Stores and Drivers
+Armazenamentos Chave-Valor e Drivers Suportados
 
 **Redis:** [Github](https://github.com/jaredwray/keyv/tree/main/packages/redis)
 
@@ -45,15 +45,15 @@ $ pnpm add @keyv/postgres
 $ pnpm add @keyv/sqlite
 ```
 
-For a full list of supported stores, visit [Keyv on npm](https://www.npmjs.com/package/keyv).
+Para uma lista completa de armazenamentos suportados, visite [Keyv on npm](https://www.npmjs.com/package/keyv).
 
-## Configuration
+## Configuração
 
-The ``@cmmv/keyv`` module offers easy configuration through the CMMV system. Below is an example of how to set up a Redis store for use with ``@cmmv/keyv``:
+O módulo ``@cmmv/keyv`` oferece configuração fácil por meio do sistema CMMV. Abaixo está um exemplo de como configurar um armazenamento Redis para uso com ``@cmmv/keyv``:
 
 ```javascript
 module.exports = {
-    // Other configurations
+    // Outras configurações
 
     keyv: {
         uri: 'redis://localhost:6379',
@@ -67,21 +67,21 @@ module.exports = {
 }
 ```
 
-| Option       | Type     | Required | Description                                                                  | Default               |
-|--------------|----------|----------|------------------------------------------------------------------------------|-----------------------|
-| namespace    | String   | N        | Namespace for the current instance.                                           | 'keyv'                |
-| ttl          | Number   | N        | Default TTL. Can be overridden by specifying a TTL on `.set()`.               | undefined             |
-| compression  | @keyv/compress- | N  | Compression package to use. See Compression for more details.                | undefined             |
-| serialize    | Function | N        | A custom serialization function.                                              | JSONB.stringify       |
-| deserialize  | Function | N        | A custom deserialization function.                                            | JSONB.parse           |
-| store        | Storage adapter instance | N | The storage adapter instance to be used by Keyv.                              | new Map()             |
-| adapter      | String   | N        | Specify an adapter to use, e.g., 'redis' or 'mongodb'.                        | undefined             |
+| Opção         | Tipo                     | Obrigatório | Descrição                                                                 | Padrão               |
+|---------------|--------------------------|-------------|---------------------------------------------------------------------------|-----------------------|
+| namespace     | String                   | N           | Namespace para a instância atual.                                        | 'keyv'               |
+| ttl           | Number                   | N           | TTL padrão. Pode ser sobrescrito especificando um TTL em ``.set()``. | undefined            |
+| compression   | @keyv/compress-gzip      | N           | Pacote de compactação a ser usado. Veja Compression para mais detalhes.  | undefined            |
+| serialize     | Function                 | N           | Uma função de serialização customizada.                                  | JSONB.stringify      |
+| deserialize   | Function                 | N           | Uma função de desserialização customizada.                               | JSONB.parse          |
+| store         | Instância de adaptador   | N           | A instância do adaptador de armazenamento usada pelo Keyv.               | new Map()            |
+| adapter       | String                   | N           | Especifica um adaptador a ser usado, como 'redis' ou 'mongodb'.          | undefined            |
 
-## Keyv Service
+## Serviço Keyv
 
-The ``@cmmv/keyv`` module includes a service that can be optionally injected into controllers, gateways, or other services for direct access to the key-value store. Unlike the ``@cmmv/cache`` module, ``@cmmv/keyv`` does not provide decorators for automatic caching because its use case focuses more on state management across microservices and distributed applications.
+O módulo ``@cmmv/keyv`` inclui um serviço que pode ser opcionalmente injetado em controladores, gateways ou outros serviços para acesso direto ao armazenamento chave-valor. Diferentemente do módulo ``@cmmv/cache``, o ``@cmmv/keyv`` não fornece decoradores para cache automático, pois seu caso de uso foca mais na gestão de estado em microsserviços e aplicações distribuídas.
 
-Here’s an example of how you can use the ``KeyvService`` in a controller to interact with the key-value store:
+Aqui está um exemplo de como usar o ``KeyvService`` em um controlador para interagir com o armazenamento chave-valor:
 
 ```typescript
 import { Controller, Get, Post, Body, Request, Param } from '@cmmv/http';
@@ -91,40 +91,40 @@ import { KeyvService } from '@cmmv/keyv';
 export class StateController {
   constructor(private readonly keyvService: KeyvService) {}
 
-  // GET value by key
+  // GET valor por chave
   @Get(':key')
   async getValue(@Param('key') key: string, @Request() req): Promise<any> {
     const value = await this.keyvService.get(key);
-    return value ? JSON.parse(value) : { message: 'Key not found' };
+    return value ? JSON.parse(value) : { message: 'Chave não encontrada' };
   }
 
-  // POST (Set value for key)
+  // POST (Definir valor para uma chave)
   @Post()
   async setValue(@Body() data: { key: string; value: any }, @Request() req): Promise<any> {
     const stringifiedValue = JSON.stringify(data.value);
     await this.keyvService.set(data.key, stringifiedValue);
-    return { message: 'Value set successfully' };
+    return { message: 'Valor definido com sucesso' };
   }
 }
 ```
 
-### Keyv Service Methods
+### Métodos do Serviço Keyv
 
 <br/>
 
-* **get(key: string): Promise<any>:** Retrieves a value by key.
-* **set(key: string, value: any, ttl?: number): Promise<void>:** Stores a value by key with an optional TTL.
-* **delete(key: string): Promise<boolean>:** Deletes a value by key.
-* **clear(): Promise<boolean>:** Deletes all values.
+* **get(key: string): Promise<any>:** Recupera um valor pela chave.
+* **set(key: string, value: any, ttl?: number): Promise<void>:** Armazena um valor pela chave com TTL opcional.
+* **delete(key: string): Promise<boolean>:** Exclui um valor pela chave.
+* **clear(): Promise<boolean>:** Exclui todos os valores.
 
-## Custom JSON Parsing
+## Parsing Customizado de JSON
 
-``@cmmv/keyv`` includes support for custom JSON parsing, which will be important for future support of the [fast-json-stringify](https://www.npmjs.com/package/fast-json-stringify) package. This will allow for faster and more efficient serialization and deserialization of objects in the key-value store.
+O ``@cmmv/keyv`` inclui suporte para parsing customizado de JSON, que será importante para suporte futuro ao pacote [fast-json-stringify](https://www.npmjs.com/package/fast-json-stringify). Isso permitirá uma serialização e desserialização mais rápida e eficiente de objetos no armazenamento chave-valor.
 
-The future integration of ``fast-json-stringify`` will provide significant performance improvements for JSON handling in the key-value store. With this feature, ``@cmmv/keyv`` will support optimized JSON parsing, enabling faster read and write operations, particularly for complex data structures. This will be a key enhancement for applications that require high-performance state management across microservices.
+A futura integração com o ``fast-json-stringify`` trará melhorias significativas de desempenho para manipulação de JSON no armazenamento chave-valor. Com esse recurso, o ``@cmmv/keyv`` suportará parsing de JSON otimizado, permitindo operações de leitura e gravação mais rápidas, especialmente para estruturas de dados complexas. Isso será um aprimoramento essencial para aplicações que exigem gestão de estado de alto desempenho em microsserviços.
 
-## Usage Across Microservices
+## Uso em Microsserviços
 
-The ``@cmmv/keyv`` module is designed to support distributed applications and microservices. By leveraging shared key-value stores like Redis or Memcached, applications can manage shared state across different services, improving consistency and reducing latency. This makes it a great choice for scenarios where multiple applications or services need to interact with the same stateful data.
+O módulo ``@cmmv/keyv`` é projetado para suportar aplicações distribuídas e microsserviços. Ao aproveitar armazenamentos chave-valor compartilhados como Redis ou Memcached, as aplicações podem gerenciar estados compartilhados entre diferentes serviços, melhorando a consistência e reduzindo a latência. Isso o torna uma ótima escolha para cenários onde várias aplicações ou serviços precisam interagir com os mesmos dados com estado.
 
-The ``@cmmv/keyv`` module provides a flexible and powerful key-value storage solution for CMMV-based applications. It is particularly useful for managing application state across microservices, thanks to its support for namespaces, compression, and custom JSON parsing. While it doesn't include automatic caching decorators like ``@cmmv/cache``, it offers an ideal solution for scenarios where shared state is crucial, such as multi-application environments or microservice ecosystems.
+O módulo ``@cmmv/keyv`` fornece uma solução flexível e poderosa de armazenamento chave-valor para aplicações baseadas em CMMV. Ele é particularmente útil para gerenciar o estado da aplicação em microsserviços, graças ao suporte para namespaces, compactação e parsing customizado de JSON. Embora não inclua decoradores de cache automático como o ``@cmmv/cache``, oferece uma solução ideal para cenários onde o estado compartilhado é crucial, como ambientes de múltiplas aplicações ou ecossistemas de microsserviços.

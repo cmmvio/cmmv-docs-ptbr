@@ -1,26 +1,26 @@
 # Inspector
 
-The ``@cmmv/inspector`` module provides tools for runtime performance profiling and debugging for Node.js applications. It integrates seamlessly with CMMV-based projects and utilizes the built-in node:inspector module to capture CPU profiles and heap snapshots. The module also provides utility methods to manage and persist profiling data, making it an essential tool for optimizing and debugging your applications.
+O módulo ``@cmmv/inspector`` fornece ferramentas para análise de desempenho em tempo de execução e depuração de aplicações Node.js. Ele se integra perfeitamente com projetos baseados em CMMV e utiliza o módulo integrado ``node:inspector`` para capturar perfis de CPU e snapshots de heap. O módulo também oferece métodos utilitários para gerenciar e persistir dados de perfil, tornando-se uma ferramenta essencial para otimizar e depurar suas aplicações.
 
-## Installation
+## Instalação
 
-To install the ``@cmmv/inspector`` module, use the following command:
+Para instalar o módulo ``@cmmv/inspector``, use o seguinte comando:
 
 ```bash
 $ pnpm add @cmmv/inspector
 ```
 
-## Features
+## Recursos
 
-* **CPU Profiling:** Start and stop CPU profiling to capture performance data.
-* **Heap Snapshots:** Take and save heap snapshots to analyze memory usage and detect leaks.
-* **Process Signal Handling:** Automatically handles cleanup during process termination.
-* **Custom Finalization Hooks:** Register cleanup tasks with Inspector.once.
-* **Data Persistence:** Save profiling data for analysis with compatible tools like Chrome DevTools.
+* **Perfil de CPU:** Inicie e pare perfis de CPU para capturar dados de desempenho.
+* **Snapshots de Heap:** Tire e salve snapshots de heap para analisar o uso de memória e detectar vazamentos.
+* **Manipulação de Sinais de Processo:** Lida automaticamente com a limpeza durante a finalização do processo.
+* **Hooks de Finalização Personalizados:** Registre tarefas de limpeza com ``Inspector.once``.
+* **Persistência de Dados:** Salve dados de perfil para análise com ferramentas compatíveis, como o Chrome DevTools.
 
-## Examples
+## Exemplos
 
-You can start and stop CPU profiling to capture performance metrics during specific operations.
+Você pode iniciar e parar o perfil de CPU para capturar métricas de desempenho durante operações específicas.
 
 ```typescript
 import { Inspector } from '@cmmv/inspector';
@@ -28,68 +28,67 @@ import { Inspector } from '@cmmv/inspector';
 async function runProfiler() {
     await Inspector.start();
 
-    // Perform some operations
+    // Realize algumas operações
     for (let i = 0; i < 1e6; i++) {
         Math.sqrt(i);
     }
 
     await Inspector.stop();
     await Inspector.saveProfile('./profiles');
-    console.log('CPU Profile saved!');
+    console.log('Perfil de CPU salvo!');
 }
 
 runProfiler();
 ```
 
-## Bind Process 
+## Vinculando ao Processo 
 
-Ensure proper cleanup during process termination by binding kill signals.
+Garanta a limpeza adequada durante a finalização do processo vinculando sinais de kill.
 
 ```typescript
 import { Inspector } from '@cmmv/inspector';
 
 Inspector.bindKillProcess();
 
-// Perform operations
+// Realize operações
 ```
 
-## Custom Finalization
+## Finalização Personalizada
 
-Register cleanup tasks to execute before the process exits.
+Registre tarefas de limpeza para executar antes da finalização do processo.
 
 ```typescript
 import { Inspector } from '@cmmv/inspector';
 
 Inspector.once(async () => {
-    console.log('Performing cleanup: Saving heap snapshot...');
+    console.log('Executando limpeza: Salvando snapshot de heap...');
     await Inspector.takeHeapSnapshot('./snapshots');
-    console.log('Heap snapshot saved!');
+    console.log('Snapshot de heap salvo!');
 });
 
-// Perform operations
+// Realize operações
 ```
 
-## Heap Snapshot
+## Snapshot de Heap
 
-Take and save a heap snapshot to analyze memory usage.
+Tire e salve um snapshot de heap para analisar o uso de memória.
 
 ```typescript
 import { Inspector } from '@cmmv/inspector';
 
 async function captureHeapSnapshot() {
     await Inspector.takeHeapSnapshot('./snapshots');
-    console.log('Heap snapshot saved!');
+    console.log('Snapshot de heap salvo!');
 }
 
 captureHeapSnapshot();
 ```
 
-
-## API Reference
+## Referência da API
 
 ### ``Inspector.start(): Promise<void>``
 
-Starts the CPU profiler.
+Inicia o profiler de CPU.
 
 ```typescript
 await Inspector.start();
@@ -97,7 +96,7 @@ await Inspector.start();
 
 ### ``Inspector.stop(): Promise<void>``
 
-Stops the CPU profiler and disconnects the session.
+Para o profiler de CPU e desconecta a sessão.
 
 ```typescript
 await Inspector.stop();
@@ -105,7 +104,7 @@ await Inspector.stop();
 
 ### ``Inspector.saveProfile(dirPath: string, restart: boolean = true): Promise<void>``
 
-Saves the CPU profile to the specified directory. Optionally restarts the profiler after saving.
+Salva o perfil de CPU no diretório especificado. Opcionalmente reinicia o profiler após salvar.
 
 ```typescript
 await Inspector.saveProfile('./profiles');
@@ -113,7 +112,7 @@ await Inspector.saveProfile('./profiles');
 
 ### ``Inspector.takeHeapSnapshot(dirPath: string): Promise<void>``
 
-Takes a heap snapshot and saves it to the specified directory for memory analysis.
+Tira um snapshot de heap e salva no diretório especificado para análise de memória.
 
 ```typescript
 await Inspector.takeHeapSnapshot('./snapshots');
@@ -121,7 +120,7 @@ await Inspector.takeHeapSnapshot('./snapshots');
 
 ### ``Inspector.bindKillProcess(): void``
 
-Binds process termination signals to ensure proper finalization of profiling tasks.
+Vincula sinais de término de processo para garantir a finalização adequada das tarefas de perfil.
 
 ```typescript
 Inspector.bindKillProcess();
@@ -129,47 +128,47 @@ Inspector.bindKillProcess();
 
 ### ``Inspector.once(callback: () => Promise<void>): void``
 
-Registers a one-time finalization hook to execute before process termination.
+Registra um hook de finalização único para executar antes da finalização do processo.
 
 ```typescript
 Inspector.once(async () => {
-    console.log('Performing cleanup...');
+    console.log('Executando limpeza...');
 });
 ```
 
-## Workflow 
+## Fluxo de Trabalho 
 
-The following workflow demonstrates how to use the ``@cmmv/inspector`` module to start profiling, capture a heap snapshot, and stop profiling during process termination.
+O fluxo de trabalho a seguir demonstra como usar o módulo ``@cmmv/inspector`` para iniciar o perfil, capturar um snapshot de heap e parar o perfil durante a finalização do processo.
 
 ```typescript
 import { Inspector } from '@cmmv/inspector';
 
 async function main() {
-    // Register cleanup task
+    // Registre a tarefa de limpeza
     Inspector.once(async () => {
-        console.log('Performing cleanup: Saving heap snapshot...');
+        console.log('Executando limpeza: Salvando snapshot de heap...');
         await Inspector.takeHeapSnapshot('./snapshots');
-        console.log('Heap snapshot saved!');
+        console.log('Snapshot de heap salvo!');
     });
 
-    // Bind process signals
+    // Vincule sinais de processo
     Inspector.bindKillProcess();
 
-    // Start profiling
+    // Inicie o profiler
     await Inspector.start();
 
-    // Perform operations
+    // Realize operações
     for (let i = 0; i < 1e6; i++) {
         Math.sqrt(i);
     }
 
-    // Stop profiling and save CPU profile
+    // Pare o profiler e salve o perfil de CPU
     await Inspector.stop();
     await Inspector.saveProfile('./profiles');
-    console.log('Profile saved!');
+    console.log('Perfil salvo!');
 }
 
 main();
 ```
 
-The ``@cmmv/inspector`` module is an indispensable tool for debugging and performance tuning in CMMV-based projects, providing a streamlined and powerful interface for capturing and managing profiling data.
+O módulo ``@cmmv/inspector`` é uma ferramenta indispensável para depuração e ajuste de desempenho em projetos baseados em CMMV, fornecendo uma interface poderosa e simplificada para capturar e gerenciar dados de perfil.

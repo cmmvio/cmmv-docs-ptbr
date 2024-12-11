@@ -1,29 +1,29 @@
 # Encryptor
 
-The ``@cmmv/encryptor`` module provides a set of cryptographic utilities for CMMV-based applications. It offers robust methods for encryption, decryption, digital signature generation, and key management using elliptic curve cryptography (``ECC``) with ``secp256k1``, ``AES-256-GCM`` for encryption, and BIP32/BIP39 for wallet management. This module is designed to secure data transmission and storage, ensuring confidentiality, integrity, and authenticity of sensitive information.
+O módulo ``@cmmv/encryptor`` fornece um conjunto de utilitários criptográficos para aplicações baseadas no CMMV. Ele oferece métodos robustos para criptografia, descriptografia, geração de assinaturas digitais e gerenciamento de chaves usando criptografia de curvas elípticas (``ECC``) com ``secp256k1``, ``AES-256-GCM`` para criptografia, e BIP32/BIP39 para gerenciamento de wallets. Este módulo é projetado para garantir a segurança na transmissão e armazenamento de dados, preservando a confidencialidade, integridade e autenticidade das informações sensíveis.
 
-## Installation
+## Instalação
 
-To install the ``@cmmv/encryptor`` module, use the following command:
+Para instalar o módulo ``@cmmv/encryptor``, use o seguinte comando:
 
 ```bash
 $ pnpm add @cmmv/encryptor bip32 bip39 bs58 elliptic tiny-secp256k1
 ```
 
-### Features
+### Recursos
 
 <br/>
 
-* **ECC-based Encryption:** Supports elliptic curve cryptography (secp256k1) for secure key management and encryption.
-* **AES-256-GCM Encryption:** Provides encryption using AES-256-GCM to ensure data confidentiality and authenticity.
-* **Digital Signatures:** Sign and verify messages and objects using private keys, ensuring authenticity.
-* **BIP32/BIP39 Wallet Management:** Generate mnemonic phrases, derive private/public keys, and manage keys according to BIP32 and BIP39 standards.
+* **Criptografia baseada em ECC:** Suporte para criptografia de curvas elípticas (``secp256k1``) para gerenciamento seguro de chaves.
+* **Criptografia AES-256-GCM:** Fornece criptografia usando ``AES-256-GCM`` para garantir confidencialidade e autenticidade dos dados.
+* **Assinaturas Digitais:** Assine e verifique mensagens e objetos usando chaves privadas, garantindo autenticidade.
+* **Gerenciamento de Wallets BIP32/BIP39:** Gere frases mnemônicas, derive chaves privadas/públicas e gerencie chaves de acordo com os padrões BIP32 e BIP39.
 
-## Examples
+## Exemplos
 
-### 1. Key Generation
+### 1. Geração de Chaves
 
-Generate a new private-public key pair using Wallet:
+Gere um novo par de chaves privada-pública usando a classe Wallet:
 
 ```typescript
 import { Wallet } from '@cmmv/encryptor';
@@ -32,49 +32,49 @@ const mnemonic = Wallet.generateMnenomic();
 const privateKey = Wallet.toPrivate(mnemonic);
 const publicKey = Wallet.privateToPublic(privateKey);
 
-console.log(`Mnemonic: ${mnemonic}`);
-console.log(`Private Key: ${privateKey}`);
-console.log(`Public Key: ${publicKey}`);
+console.log(`Mnemonic: \${mnemonic}`);
+console.log(`Private Key: \${privateKey}`);
+console.log(`Public Key: \${publicKey}`);
 ```
 
-### 2. Object Signing
+### 2. Assinatura de Objetos
 
-Sign an object with a private key and verify its signature:
+Assine um objeto com uma chave privada e verifique sua assinatura:
 
 ```typescript
 import { Signer } from '@cmmv/encryptor';
 
-const privateKey = 'your-private-key-hex';
-const transaction = { amount: 100, recipient: 'address' };
+const privateKey = 'sua-chave-privada-hex';
+const transaction = { amount: 100, recipient: 'endereco' };
 const { objectHash, signature } = Signer.signObject(privateKey, transaction);
 
-console.log(`Hash: ${objectHash}`);
-console.log(`Signature: ${signature}`);
+console.log(`Hash: \${objectHash}`);
+console.log(`Signature: \${signature}`);
 
 const publicKey = Wallet.privateToPublic(privateKey);
 const isValid = Signer.verifySignature(objectHash, signature, publicKey);
 
-console.log(`Is valid: ${isValid}`);
+console.log(`É válido: \${isValid}`);
 ```
 
-### 3. Data Encryption
+### 3. Criptografia de Dados
 
-Encrypt and decrypt a string payload using ECC and ``AES-256-GCM``:
+Criptografe e descriptografe uma carga útil de string usando ECC e ``AES-256-GCM``:
 
 ```typescript
 import { Encryptor } from '@cmmv/encryptor';
 
-// Public and private keys
-const recipientPublicKey = 'your-recipient-public-key-hex';
-const recipientPrivateKey = 'your-recipient-private-key-hex';
+// Chaves pública e privada
+const recipientPublicKey = 'sua-chave-publica-do-receptor-hex';
+const recipientPrivateKey = 'sua-chave-privada-do-receptor-hex';
 
-// Encrypt a payload
-const payload = "Confidential message";
+// Criptografe uma carga útil
+const payload = "Mensagem Confidencial";
 const encryptedData = Encryptor.encryptPayload(recipientPublicKey, payload);
 
-console.log('Encrypted Data:', encryptedData);
+console.log('Dados Criptografados:', encryptedData);
 
-// Decrypt the payload
+// Descriptografe a carga útil
 const decryptedPayload = Encryptor.decryptPayload(
     recipientPrivateKey,
     {
@@ -85,260 +85,76 @@ const decryptedPayload = Encryptor.decryptPayload(
     encryptedData.ephemeralPublicKey
 );
 
-console.log(`Decrypted Payload: ${decryptedPayload}`);
+console.log(`Carga Útil Descriptografada: \${decryptedPayload}`);
 ```
 
 ## Wallets
 
-The ``Wallet`` class provides methods for handling cryptographic operations related to wallet generation, key derivation, and address generation using BIP32 and BIP39 standards. It supports mnemonic generation, private and public key derivation, and conversion to Wallet Import Format (WIF). This class is designed to work with various blockchain networks such as Bitcoin and Ethereum.
+A classe ``Wallet`` fornece métodos para operações criptográficas relacionadas à geração de wallets, derivação de chaves e geração de endereços usando os padrões BIP32 e BIP39. Ela suporta a geração de mnemônicos, derivação de chaves privadas e públicas, e conversão para o formato Wallet Import Format (WIF). Esta classe é projetada para trabalhar com diversas redes blockchain, como Bitcoin e Ethereum.
 
-To use the Wallet class, make sure to import it:
+Para usar a classe Wallet, certifique-se de importá-la:
 
 ```typescript
 import { Wallet } from '@cmmv/encryptor';
 ```
 
-### ``getEntropyForWordCount(size: number)``
+### Exemplos de Métodos da Wallet
 
-Returns the entropy size in bits based on the word count of a mnemonic phrase.
-
-```typescript
-const entropy = Wallet.getEntropyForWordCount(12); // Returns 128 for 12 words
-```
-
-### ``generateMnenomic(size: number = 24, wordlists: string[] = bip39.wordlists.english)``
-
-Generates a mnemonic phrase using a specified word count and wordlist.
+#### ``generateMnenomic(size: number = 24, wordlists: string[] = bip39.wordlists.english)``
+Gera uma frase mnemônica usando um número de palavras especificado.
 
 ```typescript
 const mnemonic = Wallet.generateMnenomic(12);
 ```
 
-### ``entropyToMnemonic(entropy: Buffer | string, wordlists: string[] = bip39.wordlists.english)``
-
-Converts a given entropy value to a mnemonic phrase.
-
-```typescript
-const mnemonic = Wallet.entropyToMnemonic('000102030405060708090a0b0c0d0e0f');
-```
-
-### ``randomByteMnemonic(wordlists: string[] = bip39.wordlists.english)``
-
-Generates a mnemonic phrase using 32 bytes of random entropy.
+#### ``toPrivate(mnemonic: string, passphrase: string = '')``
+Deriva a chave privada raiz de uma frase mnemônica e uma senha opcional.
 
 ```typescript
-const mnemonic = Wallet.randomByteMnemonic();
+const privateKey = Wallet.toPrivate(mnemonic, 'minhaSenha');
 ```
 
-### ``getSeed(mnemonic: string)``
-
-Converts a mnemonic phrase to a seed in hexadecimal format.
-
-```typescript
-const seed = Wallet.getSeed(mnemonic);
-```
-
-### ``getSeedBuffer(mnemonic: string)``
-
-Converts a mnemonic phrase to a seed as a Buffer.
-
-```typescript
-const seedBuffer = Wallet.getSeedBuffer(mnemonic);
-```
-
-### ``toPrivate(mnemonic: string, passphrase: string = '')``
-
-Derives the root private key from a mnemonic phrase and optional passphrase.
-
-```typescript
-const privateKey = Wallet.toPrivate(mnemonic, 'myPassphrase');
-```
-
-### ``createDerivationPath(bip: number = 44, coinType: number = 0, account: number = 0, change: number = 0, addressIndex: number = 0)``
-
-Creates a BIP derivation path.
-
-```typescript
-const path = Wallet.createDerivationPath();
-```
-
-### ``toDerivatationPrivateKey(mnemonic: string, derivationPath: string = "m/44'/0'/0'/0/0", passphrase: string = '')``
-
-Derives the private key using a mnemonic phrase and a specific derivation path.
-
-```typescript
-const privateKey = Wallet.toDerivatationPrivateKey(mnemonic, "m/44'/0'/0'/0/0");
-```
-
-### ``toRootKey(mnemonic: string, passphrase: string = '', network?: Network)``
-
-Derives the root key in Base58 format.
-
-```typescript
-const rootKey = Wallet.toRootKey(mnemonic);
-```
-
-### ``toPublic(mnemonic: string, derivationPath: string = "m/44'/0'/0'/0/0", passphrase: string = '')``
-
-Derives the public key from a mnemonic phrase and a derivation path.
-
-```typescript
-const publicKey = Wallet.toPublic(mnemonic);
-```
-
-### ``privateToPublic(privateKey: string | Uint8Array)``
-
-Derives the public key from a private key.
-
-```typescript
-const publicKey = Wallet.privateToPublic(privateKey);
-```
-
-### ``bip32ToPublic(bip32Key: any)``
-
-Gets the public key directly from a BIP32 key.
-
-```typescript
-const publicKey = Wallet.bip32ToPublic(bip32Key);
-```
-
-### ``privateKeyToWIF(privateKey: string, compressed: boolean = true)``
-
-Converts a private key to Wallet Import Format (WIF).
-
-```typescript
-const wif = Wallet.privateKeyToWIF(privateKey);
-```
-
-### ``wifToPrivateKey(wif: string)``
-
-Converts a WIF key to a private key.
-
-```typescript
-const { privateKey, compressed } = Wallet.wifToPrivateKey(wif);
-```
-
-### ``privateKeyToAddress(privateKey: string | Uint8Array | undefined)``
-
-Generates a public address from a private key.
+#### ``privateKeyToAddress(privateKey: string | Uint8Array | undefined)``
+Gera um endereço público a partir de uma chave privada.
 
 ```typescript
 const address = Wallet.privateKeyToAddress(privateKey);
 ```
 
-### ``publicKeyToAddress(publicKey: string)``
-
-Generates a public address from a public key.
-
-```typescript
-const address = Wallet.publicKeyToAddress(publicKey);
-```
-
 ## Signer
 
-The ``Signer`` class provides methods for cryptographic signing and verification of objects and strings using elliptic curve cryptography (``secp256k1``). This class is essential for handling digital signatures and verifying authenticity in blockchain and cryptocurrency applications. It uses ``tiny-secp256k1`` for cryptographic operations and supports hashing algorithms like ``sha256`` and ``sha3-256``.
+A classe ``Signer`` fornece métodos para assinaturas criptográficas e verificação de objetos e strings usando criptografia de curvas elípticas (``secp256k1``). Este recurso é essencial para lidar com assinaturas digitais e verificar autenticidade em aplicações blockchain e de criptomoedas.
 
-To use the ``Signer`` class, make sure to import it:
-
-```typescript
-import { Signer } from '@cmmv/encryptor';
-```
-
-This class provides methods for signing, verifying, and recovering public keys based on signed messages and objects. Below is a detailed explanation of each method, how to use them, and example usage.
-
-### ``signObject(privateKeyHex: string, object: any, algorithm: string = "sha3-256")``
-
-Signs an object using the given private key and returns the object hash and signature.
+#### ``signObject(privateKeyHex: string, object: any, algorithm: string = "sha3-256")``
+Assina um objeto usando a chave privada fornecida.
 
 ```typescript
 const signature = Signer.signObject(privateKeyHex, { key: "value" });
 console.log(signature); // { objectHash: '...', signature: '...' }
 ```
 
-### ``verifySignature(objectHash: string, signatureHex: string, publicKeyHex: string | Uint8Array | undefined)``
-
-Verifies a signature against the hash of an object using the provided public key.
+#### ``verifySignature(objectHash: string, signatureHex: string, publicKeyHex: string)``
+Verifica a assinatura de um objeto.
 
 ```typescript
 const isValid = Signer.verifySignature(objectHash, signature, publicKeyHex);
-console.log(isValid); // true or false
+console.log(isValid); // true ou false
 ```
-
-### ``recoverPublicKey(objectHash: string, signatureHex: string, recoveryId: 0 | 1 = 1)``
-
-Recovers the public key from a given signature and object hash.
-
-```typescript
-const publicKey = Signer.recoverPublicKey(objectHash, signatureHex, 1);
-console.log(publicKey); // Compressed public key in hex format
-```
-
-### ``signString(privateKeyHex: string, message: string, algorithm: string = "sha256")``
-
-Signs a string by hashing it with the specified algorithm and returns the signature along with the hash.
-
-```typescript
-const signedMessage = Signer.signString(privateKeyHex, "message to sign");
-console.log(signedMessage); // 'hash:signature'
-```
-
-### ``verifyHashSignature(signature: string, publicKeyHex: string)``
-
-Verifies if the signature matches the given hash and public key.
-
-```typescript
-const isValid = Signer.verifyHashSignature(signedMessage, publicKeyHex);
-console.log(isValid); // true or false
-```
-
-### ``recoverPublicKeyFromHash(signature: string, recoveryId: 0 | 1 = 1)``
-
-Recovers the public key from a given signature and hash.
-
-```typescript
-const publicKey = Signer.recoverPublicKeyFromHash(signedMessage);
-console.log(publicKey); // Compressed public key in hex format
-```
-
-### ``signedBy(signature: string, publicKeyHex: string)``
-
-Verifies if the message was signed by the provided public key by checking both recovery IDs.
-
-```typescript
-const isSignedBy = Signer.signedBy(signedMessage, publicKeyHex);
-console.log(isSignedBy); // true or false
-```
-
-The ``Signer`` class provides essential methods for digital signature operations, making it suitable for use in blockchain and cryptocurrency applications where verifying the authenticity of transactions and messages is critical.
 
 ## Encryptor
 
-The ``Encryptor`` class provides methods for encrypting and decrypting data using elliptic curve cryptography (``secp256k1``) and AES-256-GCM for encryption. It is designed for secure transmission of data using Elliptic Curve Diffie-Hellman (ECDH) to derive shared keys for symmetric encryption. This class is essential for ensuring the confidentiality and authenticity of sensitive information exchanged between parties.
+A classe ``Encryptor`` fornece métodos para criptografar e descriptografar dados usando ECC e AES-256-GCM, garantindo confidencialidade e integridade.
 
-To use the ``Encryptor`` class, import it as follows:
-
-```typescript
-import { Encryptor } from '@cmmv/encryptor';
-```
-
-### ``encryptPayload(recipientPublicKeyHex: string, payload: string)``
-
-Encrypts a payload using the recipient's public key. This method generates an ephemeral key pair and derives a shared secret using ECDH. The payload is encrypted using AES-256-GCM with the derived shared key, ensuring confidentiality and authenticity.
+#### ``encryptPayload(recipientPublicKeyHex: string, payload: string)``
+Criptografa uma carga útil usando a chave pública do receptor.
 
 ```typescript
-const encryptedData = Encryptor.encryptPayload(recipientPublicKey, "Hello, World!");
+const encryptedData = Encryptor.encryptPayload(recipientPublicKey, "Olá, Mundo!");
 console.log(encryptedData);
-// {
-//     payload: '0x...',
-//     iv: '0x...',
-//     authTag: '0x...',
-//     ephemeralPublicKey: '0x...'
-// }
 ```
 
-### ``decryptPayload(recipientPrivateKeyHex: string, encryptedData: { encrypted: string, iv: string, authTag: string }, ephemeralPublicKeyHex: string): string``
-
-Decrypts an encrypted payload using the recipient's private key. This method derives the shared secret using the recipient's private key and the sender's ephemeral public key. The shared key is then used to decrypt the payload using AES-256-GCM.
+#### ``decryptPayload(recipientPrivateKeyHex: string, encryptedData: object, ephemeralPublicKeyHex: string): string``
+Descriptografa uma carga útil criptografada usando a chave privada do receptor.
 
 ```typescript
 const decryptedPayload = Encryptor.decryptPayload(
@@ -346,7 +162,7 @@ const decryptedPayload = Encryptor.decryptPayload(
     { encrypted: '0x...', iv: '0x...', authTag: '0x...' },
     ephemeralPublicKey
 );
-console.log(decryptedPayload); // "Hello, World!"
+console.log(decryptedPayload); // "Olá, Mundo!"
 ```
 
-The ``Encryptor`` class provides an efficient and secure mechanism for encrypting and decrypting data using elliptic curve cryptography combined with AES-256-GCM. This ensures that both confidentiality and integrity of the data are maintained during transmission.
+Este módulo oferece uma solução completa e eficiente para garantir a segurança de dados e operações em ambientes sensíveis, como blockchain e criptomoedas.

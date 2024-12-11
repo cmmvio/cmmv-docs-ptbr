@@ -1,18 +1,18 @@
-# Scheduling 
+# Agendamento
 
-The ``@cmmv/scheduling`` package provides a simple way to schedule tasks in your CMMV application using cron patterns. This module is built using the ``cron`` library, and the ``@Cron`` decorator allows you to easily schedule methods to run at specific intervals.
+O pacote ``@cmmv/scheduling`` oferece uma maneira simples de agendar tarefas em sua aplicação CMMV usando padrões cron. Este módulo é construído com a biblioteca ``cron``, e o decorador ``@Cron`` permite que você agende métodos para serem executados em intervalos específicos.
 
-To install the scheduling module, run the following command:
+Para instalar o módulo de agendamento, execute o seguinte comando:
 
 ```bash
 $ pnpm add @cmmv/scheduling cron
 ```
 
-## Usage
+## Uso
 
-The ``@Cron`` decorator is used to define methods that should be scheduled according to a cron pattern. The scheduling is powered by the cron library, which provides flexible and powerful cron scheduling capabilities.
+O decorador ``@Cron`` é usado para definir métodos que devem ser agendados de acordo com um padrão cron. O agendamento é gerenciado pela biblioteca cron, que fornece recursos de agendamento flexíveis e poderosos.
 
-After installing the package, you can use the ``@Cron`` decorator and the SchedulingService in your project:
+Depois de instalar o pacote, você pode usar o decorador ``@Cron`` e o ``SchedulingService`` em seu projeto:
 
 ```typescript
 import { Cron } from '@cmmv/scheduling';
@@ -21,16 +21,16 @@ import { Logger } from '@cmmv/core';
 export class TaskService {
     private logger: Logger = new Logger('TaskService');
 
-    @Cron('*/5 * * * * *')  // Runs every 5 seconds
+    @Cron('*/5 * * * * *')  // Executa a cada 5 segundos
     handleTask() {
-        this.logger.log('Task executed every 5 seconds');
+        this.logger.log('Tarefa executada a cada 5 segundos');
     }
 }
 ```
 
-## Setting
+## Configuração
 
-Ensure that the ``SchedulingService`` is initialized during the startup of your application. This will register and start all the scheduled tasks defined with the ``@Cron`` decorator.
+Certifique-se de que o ``SchedulingService`` seja inicializado durante a inicialização da sua aplicação. Isso registrará e iniciará todas as tarefas agendadas definidas com o decorador ``@Cron``.
 
 ```typescript
 require('dotenv').config();
@@ -52,39 +52,38 @@ Application.create({
 });
 ```
 
-## Decorator
+## Decorador
 
-The ``@Cron`` decorator is used to schedule a method to run based on a cron pattern. It accepts a cron expression as its argument, which defines the schedule.
+O decorador ``@Cron`` é usado para agendar um método para ser executado com base em um padrão cron. Ele aceita uma expressão cron como argumento, que define o cronograma.
 
 ```typescript
-@Cron('*/5 * * * * *')  // Runs every 5 seconds
+@Cron('*/5 * * * * *')  // Executa a cada 5 segundos
 handleTask() {
-    this.logger.log('Task executed every 5 seconds');
+    this.logger.log('Tarefa executada a cada 5 segundos');
 }
 ```
 
-The cron patterns follow the standard format used by the cron library:
+Os padrões cron seguem o formato padrão usado pela biblioteca cron:
 
 ```scss
 *    *    *    *    *    *
 ┬    ┬    ┬    ┬    ┬    ┬
-│    │    │    │    │    │
-│    │    │    │    │    └ Day of the week (0 - 7) (Sunday=0 or 7)
-│    │    │    │    └───── Month (1 - 12)
-│    │    │    └────────── Day of the month (1 - 31)
-│    │    └─────────────── Hour (0 - 23)
-│    └──────────────────── Minute (0 - 59)
-└───────────────────────── Second (0 - 59, optional)
+│    │    │    │    │    └ Dia da semana (0 - 7) (Domingo=0 ou 7)
+│    │    │    │    └───── Mês (1 - 12)
+│    │    │    └────────── Dia do mês (1 - 31)
+│    │    └─────────────── Hora (0 - 23)
+│    └──────────────────── Minuto (0 - 59)
+└───────────────────────── Segundo (0 - 59, opcional)
 ```
 
-**Some Sample Cron Patterns**
+**Alguns Exemplos de Padrões Cron**
 
-Here are a few examples of cron patterns you can use with the ``@Cron`` decorator:
+Aqui estão alguns exemplos de padrões cron que você pode usar com o decorador ``@Cron``:
 
-* ``* * * * * *`` – Runs every second
-* ``*/5 * * * * *`` – Runs every 5 seconds
-* ``0 0 * * * *`` – Runs every hour
-* ``0 0 12 * * *`` – Runs every day at noon
-* ``0 0 1 1 *`` – Runs at midnight on January 1st
+* ``* * * * * *`` – Executa a cada segundo
+* ``*/5 * * * * *`` – Executa a cada 5 segundos
+* ``0 0 * * * *`` – Executa a cada hora
+* ``0 0 12 * * *`` – Executa todos os dias ao meio-dia
+* ``0 0 1 1 *`` – Executa à meia-noite do dia 1º de janeiro
 
-The ``@cmmv/scheduling`` module provides a powerful and flexible way to schedule tasks in a CMMV application using cron patterns. The ``@Cron`` decorator makes it easy to define when certain methods should run, and the ``SchedulingService`` ensures these tasks are properly managed and executed at runtime.
+O módulo ``@cmmv/scheduling`` fornece uma maneira poderosa e flexível de agendar tarefas em uma aplicação CMMV usando padrões cron. O decorador ``@Cron`` facilita a definição de quando certos métodos devem ser executados, e o ``SchedulingService`` garante que essas tarefas sejam gerenciadas e executadas corretamente em tempo de execução.
