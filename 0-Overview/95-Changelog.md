@@ -1,5 +1,51 @@
 # Registro de Alterações
 
+## Versão 0.8.0 (10 de Dezembro de 2024)
+
+### Correções Críticas
+
+- **Loop Infinito em Rotas Inexistentes**:  
+  Resolvido um problema crítico onde rotas inexistentes causavam um loop infinito de requisições, melhorando a estabilidade do servidor.
+
+### Adições
+
+- **Grupos e Acesso Root em Modo Dev**:  
+  - Adicionado suporte para grupos de usuários, permitindo controle mais granular sobre permissões e funções.
+  - Introduzido suporte ao acesso root no modo de desenvolvimento, simplificando o processo de depuração e testes.
+
+- **Parâmetro Root**:  
+  Adicionado o novo recurso `rootParam` para melhorar a flexibilidade e simplificar configurações em operações de nível root.
+
+### Melhorias
+
+- **Atualização do Servidor para a Versão 0.7.1**:  
+  Atualizado o núcleo do servidor para a versão `0.7.1`, trazendo otimizações e melhor compatibilidade com os módulos mais recentes.
+
+- **Atualizações no Service**:  
+  Melhorias na camada de serviço com melhor tratamento de erros, processamento aprimorado de requisições e suporte para configurações dinâmicas de nível root.
+
+- **Módulo `@cmmv/auth`**:  
+  Corrigido o tratamento incorreto do retorno HTTP 401 para garantir um fluxo de autenticação adequado e mensagens de erro precisas.
+
+### Remoções
+
+- **Vue do `@cmmv/view`**:  
+  O Vue foi completamente removido do `@cmmv/view`. Agora, os desenvolvedores devem usar o módulo dedicado `@cmmv/vue` para todas as integrações relacionadas ao Vue.
+
+### Recomendações
+
+- **Use o `@cmmv/vue` para Integrações com Vue**:  
+  Transicione para o módulo `@cmmv/vue` para suporte completo ao Vue, incluindo mixins e composables para RPC.
+
+- **Atualize para o Servidor 0.7.1**:  
+  Certifique-se de atualizar sua aplicação para a versão mais recente do servidor para aproveitar as novas correções e recursos.
+
+### Atualizações
+
+- **Documentação**:  
+  Documentação atualizada para refletir as mudanças e fornecer orientações sobre como usar os novos recursos e melhores práticas.
+
+
 ## 0.7.5 (10 de Dezembro de 2024)
 
 ### Adições
