@@ -1,5 +1,23 @@
 # View
 
+<div style="
+    background-color: #FEF3C7; 
+    border-left: 4px solid #F59E0B; 
+    color: #92400E; 
+    padding: 1rem; 
+    border-radius: 0.375rem; 
+    margin: 1.5rem 0;
+">
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
+    <p>
+        A partir da versão <strong>0.8.3</strong>, o módulo <strong>@cmmv/view</strong> foi totalmente desacoplado do sistema HTTP, tornando-se um módulo opcional para renderização do lado do servidor (SSR).
+Ele continua a funcionar com o servidor padrão e o Express, mas agora deve ser explicitamente habilitado nas configurações e instalado separadamente.
+    </p>
+    <p>
+        Essa alteração permite maior flexibilidade, permitindo que os projetos escolham se desejam incluir o módulo de visualização com base em suas necessidades específicas, reduzindo dependências e melhorando a modularidade.
+    </p>
+</div>
+
 O módulo `@cmmv/view` no CMMV é um motor de visualização personalizado projetado para otimizar SEO e desempenho, incorporando renderização no lado do servidor (SSR) com integração perfeita a frameworks frontend modernos. Construído sobre o EJS (Embedded JavaScript), ele funciona como um middleware para Express e Fastify, processando visualizações em tempo real e injetando dados pré-carregados no HTML antes que ele chegue ao navegador. Essa abordagem permite que os mecanismos de busca indexem conteúdo já processado, enquanto ainda oferece flexibilidade para usar frameworks frontend como Vue.js, React ou Angular para interatividade no lado do cliente.
 
 Os frameworks tradicionais de renderização no lado do cliente (CSR), como Vue.js e React, geram conteúdo dinamicamente no navegador. Embora esses frameworks proporcionem interatividade rica, podem impactar negativamente o SEO devido ao atraso na renderização do conteúdo—os mecanismos de busca podem não indexar totalmente o conteúdo dinâmico que depende da execução de JavaScript.
@@ -36,6 +54,14 @@ Como `@cmmv/view` processa os dados no servidor e os envia com o HTML inicial, o
 
 ### Redução de Sobrecarga de JavaScript
 Frameworks de renderização no lado do cliente frequentemente envolvem grandes bundles de JavaScript e execução significativa no runtime. Com `@cmmv/view`, grande parte do trabalho é transferida para o servidor, reduzindo a quantidade de JavaScript necessária para processar a página no lado do cliente.
+
+# Instalação
+
+Instale o pacote ``@cmmv/view`` via npm:
+
+```bash
+$ pnpm add @cmmv/view
+```
 
 ## Exemplo
 
@@ -86,11 +112,33 @@ Com o `@cmmv/view`, os desenvolvedores podem aproveitar as vantagens do SSR para
 
 O módulo `@cmmv/view` permite personalização flexível através do arquivo `.cmmv.config.js`. Abaixo estão as configurações disponíveis para ajustar o comportamento do motor de visualização, internacionalização (i18n), metadados para SEO, cabeçalhos de segurança e recursos JavaScript.
 
+| Configuração       | Descrição                                                                                          | Exemplo                                                   |
+|-------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| `server.publicDirs` | Define os diretórios públicos que serão servidos estaticamente pelo servidor.                     | `["public", "public/views"]`                              |
+| `server.render`    | Especifica o módulo de renderização SSR (ex: `@cmmv/view`). Deve ser instalado separadamente.       | `"@cmmv/view"`                                            |
+| `i18n.localeFiles` | Caminho para os arquivos de localização (traduções) utilizados no projeto.                         | `"./src/locale"`                                          |
+| `i18n.default`     | Define o idioma padrão para a aplicação.                                                           | `"en"`                                                    |
+| `view.extractInlineScript` | Se ativado, extrai scripts inline para arquivos separados para melhorar o desempenho.       | `true`                                                    |
+| `view.minifyHTML`  | Minifica o HTML renderizado para melhorar a performance e reduzir o tamanho da resposta.           | `true`                                                    |
+| `view.scriptsTimestamp` | Adiciona timestamps aos scripts para evitar problemas de cache.                               | `false`                                                   |
+| `head.title`       | Define o título da aplicação que aparecerá na aba do navegador.                                   | `"CMMV"`                                                  |
+| `head.htmlAttrs`   | Define atributos globais para a tag `<html>`, como idioma.                                         | `{ lang: "pt-br" }`                                       |
+| `head.meta`        | Lista de metadados a serem inseridos na página, como charset e viewport.                           | `[{ charset: "utf-8" }, { name: "viewport", content: "width=device-width" }]` |
+| `head.link`        | Define links externos, como favicon e fontes.                                                      | `[{ rel: "icon", href: "assets/favicon/favicon.ico" }]`   |
+| `headers`          | Define os cabeçalhos HTTP para segurança e controle de políticas de conteúdo.                     | `{ "Content-Security-Policy": ["default-src 'self'"] }`   |
+| `scripts`          | Lista de scripts que serão carregados na aplicação, como bundles de JavaScript externos.           | `[{ type: "text/javascript", src: "/assets/bundle.min.js" }]` |
+
 ### Configurações Disponíveis:
 
 ```typescript
 module.exports = {
     ...
+
+    server: {
+        ...
+        publicDirs: ["public", 'public/views'],
+        render: "@cmmv/view",
+    },
 
     i18n: {
         localeFiles: "./src/locale", 
@@ -99,7 +147,8 @@ module.exports = {
 
     view: {
         extractInlineScript: true, 
-        minifyHTML: true  
+        minifyHTML: true,
+        scriptsTimestamp: false
     },
 
     head: {
@@ -149,22 +198,6 @@ i18n: {
 
 * **localeFiles:** Diretório onde os arquivos de tradução para diferentes idiomas são armazenados.
 * **default:** O idioma padrão usado quando nenhum outro idioma específico é selecionado.
-
-### Configuração de View
-
-Controle como a saída HTML é processada, incluindo opções para extrair scripts inline e minificar o HTML para desempenho otimizado.
-
-```typescript
-view: {
-    extractInlineScript: true, 
-    minifyHTML: true  
-}
-```
-
-<br/>
-
-* **extractInlineScript:** Extrai scripts inline do HTML para arquivos separados.
-* **minifyHTML:** Minifica o HTML antes de enviá-lo para o navegador.
 
 ### Configuração de Head
 

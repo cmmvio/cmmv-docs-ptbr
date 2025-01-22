@@ -1,5 +1,23 @@
 # Componentes
 
+<div style="
+    background-color: #FEF3C7; 
+    border-left: 4px solid #F59E0B; 
+    color: #92400E; 
+    padding: 1rem; 
+    border-radius: 0.375rem; 
+    margin: 1.5rem 0;
+">
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
+    <p>
+        A partir da versão <strong>0.7.5</strong>, o módulo <strong>@cmmv/reactivity</strong> está sendo substituído pela integração nativa do <strong>Vue 3</strong> com <strong>Vite</strong>, que será a pipeline recomendada para versões futuras. 
+        Embora o <strong>@cmmv/reactivity</strong> continue sendo suportado, nenhuma funcionalidade adicional será adicionada ao script além das já existentes.
+    </p>
+    <p>
+        Além disso, o módulo <strong>@cmmv/view</strong> terá suporte ao <strong>Angular</strong> e <strong>React</strong> em versões futuras, oferecendo uma solução mais versátil para renderização no lado do servidor e integração com o frontend.
+    </p>
+</div>
+
 O framework CMMV apresenta uma maneira simples, mas poderosa, de integrar componentes renderizados no servidor (SSR), utilizando uma sintaxe semelhante ao Vue.js. Com o módulo ``@cmmv/view``, os componentes podem ser criados no diretório ``/public`` e importados dinamicamente para serem usados nas views.
 
 Este documento descreve o processo completo de configuração de componentes SSR usando CMMV, com exemplos de como estruturar templates, estilos, scripts e integração com as views.
