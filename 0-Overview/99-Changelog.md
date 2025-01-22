@@ -1,5 +1,62 @@
 # Registro de Alterações
 
+## Versão 0.8.7 (22 de Janeiro de 2025)
+
+### Correções Críticas
+
+- **Correções na Identificação de Rotas no `@cmmv/server`**:  
+  Resolvido problemas relacionados à identificação incorreta de rotas, garantindo roteamento preciso das requisições e maior confiabilidade.
+
+- **Correção no Middleware Helmet**:  
+  Ajustadas inconsistências na configuração do middleware de segurança Helmet, aumentando a segurança geral da aplicação.
+
+- **Correções no Ciclo de Vida da Requisição no `@cmmv/http`**:  
+  Problemas no ciclo de vida das requisições foram corrigidos para garantir um fluxo de execução adequado e reduzir possíveis travamentos.
+
+### Adições
+
+- **Pontos de Retorno para Cabeçalhos no `@cmmv/server`**:  
+  Introduzidos pontos adicionais de retorno para o processamento de cabeçalhos, evitando operações desnecessárias quando as respostas já foram enviadas.
+
+- **Função de Compilação no `@cmmv/core`**:  
+  Adicionada a nova função `compile`, permitindo que os desenvolvedores processem módulos e gerem arquivos transpilados sem precisar executar a aplicação.
+
+### Melhorias
+
+- **Melhorias de Desempenho no `@cmmv/server`**:  
+  Componentes do servidor foram otimizados, resultando em tempos de resposta mais rápidos e maior taxa de transferência.
+
+- **Atualização dos Benchmarks**:  
+  Os resultados de benchmark foram atualizados para refletir as melhorias de desempenho e otimizações em toda a estrutura do servidor.
+
+- **Correções no Tratamento de Requisições no `@cmmv/http`**:  
+  Melhoradas as importações de middlewares e o processamento de requisições para uma maior estabilidade e extensibilidade.
+
+- **`scriptsTimestamp` e Controle de Cache no `@cmmv/view`**:  
+  - Adicionada a configuração `scriptsTimestamp` para permitir o gerenciamento de scripts com base em marcação de tempo.
+  - Integrado o tempo de modificação do script (mtime) nas requisições de consulta para ignorar o cabeçalho de cache e garantir recursos atualizados.
+
+### Remoções
+
+- **Remoção Completa do Vite do `@cmmv/http`**:  
+  O Vite foi totalmente removido do módulo HTTP para simplificar as dependências e aumentar a flexibilidade.
+
+- **Desacoplamento do `@cmmv/view` do `@cmmv/http`**:  
+  O módulo `@cmmv/view` agora está totalmente desacoplado, tornando-se um módulo opcional para renderização do lado do servidor, oferecendo mais modularidade.
+
+### Recomendações
+
+- **Atualize para a Versão Mais Recente do Servidor**:  
+  Para aproveitar as melhorias de desempenho e correções, atualize para a versão `0.8.7` do `@cmmv/server`.
+
+- **Refatore as Integrações com Vue**:  
+  Com o desacoplamento do `@cmmv/view`, ajuste seu projeto caso esteja utilizando Vue para garantir compatibilidade.
+
+### Atualizações
+
+- **Atualização da Documentação**:  
+  A documentação foi atualizada para refletir as mudanças recentes, fornecendo diretrizes claras sobre os novos recursos e melhorias.
+
 ## Versão 0.8.0 (10 de Dezembro de 2024)
 
 ### Correções Críticas
