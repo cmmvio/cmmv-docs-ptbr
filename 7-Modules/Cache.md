@@ -320,4 +320,4 @@ Este exemplo mostra como o ``@Cache`` e o ``CacheService`` são utilizados para 
 * **Gerenciamento Centralizado:** Configuração de cache em contratos facilita a manutenção e o gerenciamento.
 * **Flexibilidade:** Suporte para várias stores e gerenciamento manual de entradas de cache permite personalização.
 
-Para mais informações, consulte a [documentação oficial do CMMV](https://github.com/andrehrferreira/cmmv).
+Para mais informações, consulte a [documentação oficial do CMMV](https://github.com/cmmvio/cmmv).
