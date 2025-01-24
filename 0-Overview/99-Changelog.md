@@ -1,6 +1,54 @@
 # Registro de Alterações
 
-## Versão 0.8.7 (22 de Janeiro de 2025)
+## Versão 0.9
+24 de Janeiro de 2025
+
+### Correções Críticas
+
+- **Correções na Geração de Entidades em `@cmmv/repository`:**  
+  Resolvido problemas relacionados à geração de entidades, abordando especificamente casos que envolvem objetos serializados para garantir definições de esquema corretas e integridade dos dados.
+
+- **Tratamento de Transformação com `toPlain`:**  
+  Introduzido o parâmetro `toPlain` para reverter transformações aplicadas via `transform` ao serializar objetos para transmissão via RPC ou REST, garantindo uma representação precisa dos dados.
+
+### Adições
+
+- **Suporte a Índices Personalizados em Contratos:**  
+  Adicionada a capacidade de definir índices personalizados diretamente no contrato usando o parâmetro `index`, permitindo índices complexos de múltiplos campos com opções avançadas do TypeORM, como `unique`, `spatial`, `fulltext`, e mais.
+
+- **Indexação Estendida em `@cmmv/repository`:**  
+  Atualizado o módulo de repositório para suportar e aplicar corretamente as definições de índices personalizados dos contratos, melhorando o desempenho das consultas e a organização dos dados.
+
+- **Novo Decorador `@ContractMessage`:**  
+  Introduzido o decorador `@ContractMessage`, permitindo que os desenvolvedores definam mensagens estruturadas de dados nos contratos, alinhando-se aos conceitos do Protobuf e padronizando DTOs para o tratamento de requisições e respostas.
+
+- **Novo Decorador `@ContractService`:**  
+  Adicionado o decorador `@ContractService` para facilitar a definição de funções personalizadas dentro dos contratos, fornecendo uma abordagem estruturada para gerenciar fluxos de requisição/resposta personalizados.
+
+- **Geração Automática de DTOs e Interfaces:**  
+  Implementada a geração automática de DTOs e interfaces TypeScript com base nas mensagens dos contratos, simplificando o desenvolvimento e garantindo consistência entre os serviços.
+
+- **Geração de Boilerplate para Funções Personalizadas:**  
+  O sistema agora gera código boilerplate para a implementação de funções personalizadas em controladores e gateways, facilitando a integração e reduzindo o esforço manual.
+
+### Melhorias
+
+- **Aprimoramento do Tratamento de Dados em RPC e REST:**  
+  A introdução de `toPlain` melhora a serialização de dados, proporcionando flexibilidade no tratamento de transformações e garantindo compatibilidade com diferentes camadas de transporte.
+
+- **Lógica de Indexação Otimizada no Repositório:**  
+  Melhorada a lógica de aplicação de índices personalizados no repositório, aumentando o desempenho e reduzindo a sobrecarga potencial em consultas ao banco de dados.
+
+- **Estruturas Padronizadas de Requisição e Resposta:**  
+  Com a introdução dos decoradores `@ContractMessage` e `@ContractService`, as aplicações agora possuem uma maneira consistente e sustentável de definir estruturas de requisição e resposta.
+
+### Atualizações
+
+- **Revisão da Documentação:**  
+  A documentação foi atualizada para refletir os novos recursos, incluindo exemplos e diretrizes para o uso dos decoradores `@ContractMessage`, `@ContractService` e opções de indexação personalizada.
+
+## Versão 0.8.7
+22 de Janeiro de 2025
 
 ### Correções Críticas
 
@@ -52,12 +100,8 @@
 - **Refatore as Integrações com Vue**:  
   Com o desacoplamento do `@cmmv/view`, ajuste seu projeto caso esteja utilizando Vue para garantir compatibilidade.
 
-### Atualizações
-
-- **Atualização da Documentação**:  
-  A documentação foi atualizada para refletir as mudanças recentes, fornecendo diretrizes claras sobre os novos recursos e melhorias.
-
-## Versão 0.8.0 (10 de Dezembro de 2024)
+## Versão 0.8.0 
+10 de Dezembro de 2024
 
 ### Correções Críticas
 
@@ -97,13 +141,8 @@
 - **Atualize para o Servidor 0.7.1**:  
   Certifique-se de atualizar sua aplicação para a versão mais recente do servidor para aproveitar as novas correções e recursos.
 
-### Atualizações
-
-- **Documentação**:  
-  Documentação atualizada para refletir as mudanças e fornecer orientações sobre como usar os novos recursos e melhores práticas.
-
-
-## 0.7.5 (10 de Dezembro de 2024)
+## Versão 0.7.5
+10 de Dezembro de 2024
 
 ### Adições
 
@@ -146,12 +185,8 @@
 - **Módulo `@cmmv/vue`:**  
   Utilize o módulo `@cmmv/vue` para gerar mixins RPC e composables para uma integração perfeita com o Vue.
 
-### Atualizações
-
-- **Documentação:**  
-  Revisada e expandida a documentação para refletir os novos recursos, remoções e práticas recomendadas.
-
-## 0.6.0 (26 de Novembro de 2024)
+## Versão 0.6.0
+26 de Novembro de 2024
 
 ### Novos Recursos
 
@@ -176,7 +211,8 @@
 
 - Planeja-se integrar o processamento de esquema durante o início da aplicação para melhorar a usabilidade do `fast-json-stringify` sem degradação de desempenho.
 
-## 0.5.5 (16 de Novembro de 2024)
+## Versão 0.5.5 
+16 de Novembro de 2024
 
 ### Novos Recursos
 
@@ -217,7 +253,8 @@
 ### Atualizações de Dependências
 - Dependências atualizadas em todo o framework, garantindo compatibilidade com as versões mais recentes do ecossistema e ferramentas.
 
-## 0.5.0 (5 de Novembro de 2024)
+## Versão 0.5.0 
+5 de Novembro de 2024
 
 ### Adicionado
 
@@ -250,7 +287,8 @@
 - **Manipulação de Erros Aprimorada:**  
   Melhorada a manipulação de erros para garantir o registro adequado de falhas com mensagens de erro mais informativas.
 
-## 0.4.0 (15 de Outubro de 2024)
+## Versão 0.4.0
+15 de Outubro de 2024
 
 ### Adicionado
 
@@ -288,7 +326,8 @@
 - Resolvemos problemas de validação de contratos durante a inicialização da aplicação.
 - Corrigidos bugs de sincronização de banco de dados para configurações SQLite e MongoDB.
 
-## 0.3.5 (28 de Setembro de 2024)
+## Versão 0.3.5 
+28 de Setembro de 2024
 
 ### Recursos
 
@@ -338,93 +377,3 @@
 
 - **Testes de Estresse:**  
   Simulados ambientes de tráfego intenso para validar a robustez da comunicação em tempo real e garantir escalabilidade sob carga.
-
-## 0.3.0 (15 de Setembro de 2024)
-
-### Novos Recursos
-
-- **Integração Protobuf:**  
-  Adicionado suporte ao Protobuf para comunicação binária eficiente em contratos de RPC.
-
-- **Módulo de Autenticação:**  
-  Introduzido o módulo `@cmmv/auth` para autenticação e autorização, gerenciando acesso seguro a rotas e serviços.
-
-- **Geração de Controladores Automatizada:**  
-  Controladores agora são gerados automaticamente a partir de contratos, permitindo desenvolvimento mais rápido e consistente.
-
-### Melhorias
-
-- **Melhoria na Estrutura de Dados:**  
-  Otimizada a manipulação de estruturas de dados em cache para operações mais rápidas e maior eficiência.
-
-- **Integração WebSocket Refinada:**  
-  Suporte aprimorado para WebSockets, adicionando melhor tratamento de erros e reconexões automáticas.
-
-- **Templates SSR Aprimorados:**  
-  Melhorados os templates de renderização no servidor para suportar Vue 3 com maior eficiência.
-
-### Correções
-
-- Resolvemos problemas de configuração de cache em Redis e memória local.
-- Corrigidos problemas de compatibilidade de contratos em diferentes ambientes de execução.
-- Atualizados scripts de inicialização para evitar conflitos com dependências de terceiros.
-
-### Planejamento Futuro
-
-- Integração com ferramentas de análise para monitoramento de desempenho em tempo real.
-- Suporte adicional para bancos de dados não relacionais no módulo de repositório.
-
-## 0.2.5 (30 de Agosto de 2024)
-
-### Recursos
-
-- **Módulo de Cache:**  
-  Adicionado suporte a cache local e distribuído para melhorar o desempenho em cargas pesadas.
-
-- **Otimizações no CLI:**  
-  Melhorias significativas na CLI, adicionando suporte a mais opções de configuração.
-
-### Melhorias
-
-- **Melhorias de Desempenho:**  
-  Código refatorado para operações assíncronas mais rápidas, reduzindo a latência geral do sistema.
-
-- **Geração de Contratos:**  
-  Melhorados os mecanismos de geração automática de contratos, incluindo validação mais robusta.
-
-### Correções
-
-- Corrigidos problemas de inicialização em ambientes Docker.
-- Ajustados erros de validação de entrada em contratos.
-- Resolvidos bugs em transações simultâneas no MongoDB.
-
-## 0.2.0 (15 de Agosto de 2024)
-
-### Recursos
-
-- **Suporte a TypeScript Completo:**  
-  O framework agora oferece suporte completo ao TypeScript, com tipagem aprimorada e melhor integração com IDEs.
-
-- **CLI para Criação de Projetos:**  
-  Introduzido um CLI simples para inicializar projetos rapidamente com configurações padrão.
-
-### Melhorias
-
-- **Estrutura Modular:**  
-  Melhorias na modularidade do framework, permitindo a integração mais fácil de novos módulos.
-
-- **Documentação Atualizada:**  
-  Adicionados novos exemplos e tutoriais para iniciantes.
-
-### Correções
-
-- Corrigidos problemas de compatibilidade com Node.js versões mais antigas.
-- Resolvidos problemas de sincronização de threads em tarefas assíncronas.
-
-## 0.1.0 (1 de Agosto de 2024)
-
-### Primeira Versão Oficial
-
-- **Lançamento Inicial:**  
-  Introdução do framework CMMV, incluindo suporte básico a contratos, geração de controladores e renderização no servidor.
-
