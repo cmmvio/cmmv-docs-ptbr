@@ -6,7 +6,7 @@
     <a href="https://www.npmjs.com/package/@cmmv/core">
         <img src="https://img.shields.io/npm/v/@cmmv/core.svg" alt="NPM Version" />
     </a>
-    <a href="https://github.com/andrehrferreira/cmmv/blob/main/LICENSE">
+    <a href="https://github.com/cmmvio/cmmv/blob/main/LICENSE">
         <img src="https://img.shields.io/npm/l/@cmmv/core.svg" alt="Package License" />
     </a>
     <a href="https://dl.circleci.com/status-badge/redirect/circleci/QyJWAYrZ9JTfN1eubSDo5u/7gdwcdqbMYfbYYX4hhoNhc/tree/main" target="_blank">

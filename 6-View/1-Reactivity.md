@@ -44,7 +44,7 @@ Para instalar o pacote `@cmmv/reactivity`, basta executar o seguinte comando:
 $ pnpm add @cmmv/reactivity
 ```
 
-Alternativamente, você pode visitar o [repositório no GitHub](https://github.com/andrehrferreira/cmmv-reactivity) para mais detalhes.
+Alternativamente, você pode visitar o [repositório no GitHub](https://github.com/cmmvio/cmmv-reactivity) para mais detalhes.
 
 O módulo `@cmmv/view` já integra reatividade nativamente, então não precisa ser instalado separadamente.
 
@@ -61,7 +61,7 @@ Vincula o valor de um elemento de entrada ao modelo de dados da aplicação e pe
 <p>Usuário: {{ username }}</p>
 ```
 
-[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/model.html): 
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/model.html): 
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -148,7 +148,7 @@ Renderiza condicionalmente um elemento apenas se a expressão especificada for v
 <p c-if="showMessage">Esta mensagem será exibida apenas se showMessage for verdadeiro.</p>
 ```
 
-[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/if.html):
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/if.html):
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -174,7 +174,7 @@ Faz um loop em um array ou objeto e repete o elemento associado para cada item.
 </ul>
 ```
 
-[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/for.html): 
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/for.html): 
 ```html
 <script type="module">
     import { createApp } from '../src'
@@ -224,7 +224,7 @@ Anexa um listener de eventos a um elemento. Comumente usado para lidar com event
 <button @click="incrementCounter">Clique aqui!</button>
 ```
 
-[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/on.html): 
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/on.html): 
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -254,7 +254,7 @@ Vincula dinamicamente um atributo a uma expressão. Comumente usado para modific
 <img :src="imageSource">
 ```
 
-[Exemplo](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/bind.html):
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/bind.html):
 ```html
 <style>
     #green {

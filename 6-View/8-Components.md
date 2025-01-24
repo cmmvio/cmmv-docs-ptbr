@@ -75,7 +75,7 @@ export default {
 
 A sintaxe do componente é baseada no Vue.js, suportando métodos de ciclo de vida (``created``, ``mounted``), dados reativos (``data``), ``props`` e ``methods``. O componente também pode usar estilos com escopo com capacidades SSR.
 
-Para um exemplo completo, veja [CMMV Reactivity Samples](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv).
+Para um exemplo completo, veja [CMMV Reactivity Samples](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv).
 
 ## Dados
 
@@ -131,7 +131,7 @@ createApp({
 </script>
 ```
 
-``/samples/componentTemplate.cmmv`` [Github](https://github.com/andrehrferreira/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv)
+``/samples/componentTemplate.cmmv`` [Github](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/componentTemplate.cmmv)
 
 ```html
 <template>

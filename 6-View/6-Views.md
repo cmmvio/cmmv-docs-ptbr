@@ -4,7 +4,7 @@ As views no CMMV são arquivos HTML localizados no diretório `/public/views/`, 
 
 Aqui está um exemplo de estrutura de uma view usando a seção `docs` da aplicação.
 
-**`docs/index.html`** [Código](https://github.com/andrehrferreira/docs.cmmv.io/blob/main/public/views/docs/index.html)
+**`docs/index.html`** [Código](https://github.com/cmmvio/docs.cmmv.io/blob/main/public/views/docs/index.html)
 
 ```html
 <div id="app" s:docs="docs" c-cloak>
@@ -44,7 +44,7 @@ Aqui está um exemplo de estrutura de uma view usando a seção `docs` da aplica
 
             <div class="justify-between align-middle ...">
                 <a 
-                    href="https://github.com/andrehrferreira/cmmv" 
+                    href="https://github.com/cmmvio/cmmv" 
                     title="Github" 
                     target="_blank" 
                     class="text-2xl p-2 hover:text-neutral-300"
@@ -88,7 +88,7 @@ Aqui está um exemplo de estrutura de uma view usando a seção `docs` da aplica
 </div>
 ```
 
-**`docs/navbar.html`** [Código](https://github.com/andrehrferreira/docs.cmmv.io/blob/main/public/views/docs/navbar.html)
+**`docs/navbar.html`** [Código](https://github.com/cmmvio/docs.cmmv.io/blob/main/public/views/docs/navbar.html)
 ```html
 <ul class="p-4 select-none top-16" c-cloak c-show="docs">
     <s-for c-for="(item, key) in docs.navbar" render-tag="li">
