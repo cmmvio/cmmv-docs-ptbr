@@ -1,6 +1,6 @@
 # Registro de Alterações
 
-## Versão 0.9
+## Versão 0.8.8
 24 de Janeiro de 2025
 
 ### Correções Críticas
