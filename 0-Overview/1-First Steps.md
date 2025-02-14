@@ -72,7 +72,7 @@ Application.create({
 });
 ```
 
-É possível realizar configurações através do arquivo `.cmmv.config.js` sem precisar alterar o código-fonte da aplicação. No futuro, forneceremos outros módulos de servidor HTTP.
+É possível realizar configurações através do arquivo `.cmmv.config.cjs` sem precisar alterar o código-fonte da aplicação. No futuro, forneceremos outros módulos de servidor HTTP.
 
 ## Diretórios Padrão
 

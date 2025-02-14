@@ -113,7 +113,7 @@ Resultado (Para o idioma inglês)
 
 **Configuração**
 
-No arquivo `.cmmv.config.js`, você pode configurar as definições de i18n para definir o caminho do arquivo de localidade e o idioma padrão para sua aplicação:
+No arquivo `.cmmv.config.cjs`, você pode configurar as definições de i18n para definir o caminho do arquivo de localidade e o idioma padrão para sua aplicação:
 
 ```typescript
 module.exports = {

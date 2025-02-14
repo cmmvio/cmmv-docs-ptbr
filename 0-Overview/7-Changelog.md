@@ -259,7 +259,7 @@
 ### Adicionado
 
 - **Suporte ao Vue 3:**  
-  Implementação completa do Vue 3, configurável via `.cmmv.config.js`, permitindo o uso de sintaxe do Vue 3. Configurações de SSR integradas para desempenho otimizado.
+  Implementação completa do Vue 3, configurável via `.cmmv.config.cjs`, permitindo o uso de sintaxe do Vue 3. Configurações de SSR integradas para desempenho otimizado.
 
 - **Carregamento Dinâmico de Layouts e Views:**  
   Adicionado suporte ao carregamento dinâmico de layouts e views, incluindo integração com Vite para servir eficientemente arquivos `.vue`.
@@ -308,7 +308,7 @@
   Controladores, entidades e serviços agora são gerados automaticamente a partir de contratos TypeScript, reduzindo código repetitivo.
 
 - **Configuração Dinâmica:**  
-  Suporte adicionado para configuração dinâmica usando `.cmmv.config.js`, permitindo ajustes em tempo de execução sem modificar o código-fonte.
+  Suporte adicionado para configuração dinâmica usando `.cmmv.config.cjs`, permitindo ajustes em tempo de execução sem modificar o código-fonte.
 
 ### Alterado
 

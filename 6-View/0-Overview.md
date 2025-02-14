@@ -110,7 +110,7 @@ Com o `@cmmv/view`, os desenvolvedores podem aproveitar as vantagens do SSR para
 
 ## Configurações
 
-O módulo `@cmmv/view` permite personalização flexível através do arquivo `.cmmv.config.js`. Abaixo estão as configurações disponíveis para ajustar o comportamento do motor de visualização, internacionalização (i18n), metadados para SEO, cabeçalhos de segurança e recursos JavaScript.
+O módulo `@cmmv/view` permite personalização flexível através do arquivo `.cmmv.config.cjs`. Abaixo estão as configurações disponíveis para ajustar o comportamento do motor de visualização, internacionalização (i18n), metadados para SEO, cabeçalhos de segurança e recursos JavaScript.
 
 | Configuração       | Descrição                                                                                          | Exemplo                                                   |
 |-------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------|

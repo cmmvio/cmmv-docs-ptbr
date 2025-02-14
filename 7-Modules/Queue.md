@@ -32,7 +32,7 @@ $ pnpm add ioredis
 
 ## Configuração
 
-O módulo ``@cmmv/queue`` requer um arquivo de configuração (``.cmmv.config.js``) para definir o tipo de backend de fila e os detalhes de conexão.
+O módulo ``@cmmv/queue`` requer um arquivo de configuração (``.cmmv.config.cjs``) para definir o tipo de backend de fila e os detalhes de conexão.
 
 ```javascript
 module.exports = {

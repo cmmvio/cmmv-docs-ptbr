@@ -22,7 +22,7 @@ Um template de página mestre define o layout HTML base das suas visões e é ar
 * **Tag `<headers/>`:**
 
     * Essa tag é usada para injetar todos os cabeçalhos processados pelo módulo `@cmmv/view`, que podem incluir metadados, folhas de estilo e outros elementos configurados dentro de suas visões ou globalmente.
-    * Esses cabeçalhos vêm do seu arquivo `.cmmv.config.js` ou de configurações personalizadas definidas em cada visão.
+    * Esses cabeçalhos vêm do seu arquivo `.cmmv.config.cjs` ou de configurações personalizadas definidas em cada visão.
 
 * **Tag `<slot/>`:**
 
@@ -31,7 +31,7 @@ Um template de página mestre define o layout HTML base das suas visões e é ar
 
 * **Tag `<scripts/>`:**
 
-    * Essa tag lida com a inclusão de arquivos JavaScript configurados no seu arquivo `.cmmv.config.js` ou diretamente dentro da própria visão.
+    * Essa tag lida com a inclusão de arquivos JavaScript configurados no seu arquivo `.cmmv.config.cjs` ou diretamente dentro da própria visão.
     * Isso garante que todos os scripts necessários no lado do cliente sejam incluídos na renderização final da página.
 
 * **Outras Tags Personalizadas:**
@@ -76,9 +76,9 @@ export default {
 </script>
 ```
 
-O arquivo `.cmmv.config.js` permite gerenciar globalmente JavaScript e folhas de estilo que devem ser incluídos em suas visões. Esses serão injetados nas tags `<scripts/>` e `<headers/>` dos seus templates mestre.
+O arquivo `.cmmv.config.cjs` permite gerenciar globalmente JavaScript e folhas de estilo que devem ser incluídos em suas visões. Esses serão injetados nas tags `<scripts/>` e `<headers/>` dos seus templates mestre.
 
-**Exemplo de `.cmmv.config.js:`**
+**Exemplo de `.cmmv.config.cjs:`**
 
 ```javascript
 module.exports = {

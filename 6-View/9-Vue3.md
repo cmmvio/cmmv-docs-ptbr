@@ -41,7 +41,7 @@ $ pnpm add -D vite
 
 ## Configuração
 
-Atualize seu arquivo `.cmmv.config.js` para incluir o módulo `@cmmv/vue`. Remova quaisquer configurações diretas do Vue 3 ou TailwindCSS da seção `view`, pois essas responsabilidades agora pertencem ao gerenciamento de frontend.
+Atualize seu arquivo `.cmmv.config.cjs` para incluir o módulo `@cmmv/vue`. Remova quaisquer configurações diretas do Vue 3 ou TailwindCSS da seção `view`, pois essas responsabilidades agora pertencem ao gerenciamento de frontend.
 
 ```javascript
 module.exports = {

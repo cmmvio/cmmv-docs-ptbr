@@ -21,7 +21,7 @@ $ pnpm add @cmmv/elastic @elastic/elasticsearch
 
 ## Configuração
 
-O módulo ``@cmmv/elastic`` exige uma configuração do Elasticsearch, que pode ser definida no arquivo ``.cmmv.config.js``:
+O módulo ``@cmmv/elastic`` exige uma configuração do Elasticsearch, que pode ser definida no arquivo ``.cmmv.config.cjs``:
 
 ```javascript
 import * as fs from "node:fs";

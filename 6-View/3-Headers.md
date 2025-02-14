@@ -1,10 +1,10 @@
 # Cabeçalhos
 
-No CMMV, você pode configurar os cabeçalhos de resposta para aumentar a segurança, definir metadados ou personalizar o comportamento do seu aplicativo web. Isso pode ser feito de duas maneiras: usando o arquivo `.cmmv.config.js` localizado na raiz do seu projeto ou adicionando configurações específicas diretamente nos arquivos de template para controle mais granular.
+No CMMV, você pode configurar os cabeçalhos de resposta para aumentar a segurança, definir metadados ou personalizar o comportamento do seu aplicativo web. Isso pode ser feito de duas maneiras: usando o arquivo `.cmmv.config.cjs` localizado na raiz do seu projeto ou adicionando configurações específicas diretamente nos arquivos de template para controle mais granular.
 
-O arquivo `.cmmv.config.js` serve como o arquivo de configuração global para o seu projeto CMMV. Você pode definir cabeçalhos padrão que serão aplicados a todas as respostas da sua aplicação definindo o objeto de cabeçalhos neste arquivo.
+O arquivo `.cmmv.config.cjs` serve como o arquivo de configuração global para o seu projeto CMMV. Você pode definir cabeçalhos padrão que serão aplicados a todas as respostas da sua aplicação definindo o objeto de cabeçalhos neste arquivo.
 
-Por exemplo, para configurar uma Content-Security-Policy e outros cabeçalhos relacionados à segurança, seu `.cmmv.config.js` pode ser assim:
+Por exemplo, para configurar uma Content-Security-Policy e outros cabeçalhos relacionados à segurança, seu `.cmmv.config.cjs` pode ser assim:
 
 ```typescript
 module.exports = {
@@ -156,7 +156,7 @@ Comprime as respostas HTTP usando Gzip ou Brotli para reduzir o tamanho do corpo
 * **Content-Encoding:** Especifica o tipo de compressão usada (por exemplo, gzip, br).
 * **Vary:** Instrui o navegador a variar a resposta com base no cabeçalho Accept-Encoding, permitindo que o servidor retorne conteúdo diferente com base nas capacidades de compressão do cliente.
 
-O arquivo `.cmmv.config.js` na raiz do projeto permite que os desenvolvedores definam e personalizem políticas de segurança, gerenciamento de sessões, configurações de CORS e opções de compressão. Essas configurações modificam automaticamente os cabeçalhos de resposta para atender aos requisitos de segurança e desempenho.
+O arquivo `.cmmv.config.cjs` na raiz do projeto permite que os desenvolvedores definam e personalizem políticas de segurança, gerenciamento de sessões, configurações de CORS e opções de compressão. Essas configurações modificam automaticamente os cabeçalhos de resposta para atender aos requisitos de segurança e desempenho.
 
 ### Personalização de Cabeçalhos
 
@@ -181,4 +181,4 @@ export default {
 </script>
 ```
 
-O módulo `@cmmv/http` automatiza otimizações essenciais para os cabeçalhos HTTP, garantindo segurança e desempenho por meio de compressão, gerenciamento de sessões e proteção contra ataques comuns na web via middleware como `cors`, `helmet` e `compression`. Isso é complementado por configurações personalizadas definidas no arquivo `.cmmv.config.js` e controles de cabeçalho específicos por template, tornando a plataforma CMMV uma base segura e eficiente para aplicativos web.
+O módulo `@cmmv/http` automatiza otimizações essenciais para os cabeçalhos HTTP, garantindo segurança e desempenho por meio de compressão, gerenciamento de sessões e proteção contra ataques comuns na web via middleware como `cors`, `helmet` e `compression`. Isso é complementado por configurações personalizadas definidas no arquivo `.cmmv.config.cjs` e controles de cabeçalho específicos por template, tornando a plataforma CMMV uma base segura e eficiente para aplicativos web.

@@ -22,7 +22,7 @@ $ pnpm add @cmmv/email nodemailer aws-sdk
 
 ## Configuração
 
-O módulo `@cmmv/email` requer configurações para integração com SMTP ou AWS SES. Essas configurações podem ser definidas no arquivo `.cmmv.config.js`:
+O módulo `@cmmv/email` requer configurações para integração com SMTP ou AWS SES. Essas configurações podem ser definidas no arquivo `.cmmv.config.cjs`:
 
 ```javascript
 module.exports = {

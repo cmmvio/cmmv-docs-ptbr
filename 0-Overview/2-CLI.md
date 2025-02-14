@@ -66,14 +66,14 @@ O CLI gera uma pasta de projeto estruturada com os arquivos e diretórios necess
 ├── tsconfig.vue.json (se Vue3 ou Vue3 + TailwindCSS estiver ativado)
 ├── vite.config.js (se o Vite estiver ativado)
 ├── vitest.config.ts (se o Vitest estiver ativado)
-├── .cmmv.config.js
+├── .cmmv.config.cjs
 ├── package.json
 ├── .gitignore
 └── ...
 ```
 
 **Arquivos de Configuração Gerados**
-* `.cmmv.config.js`: Configuração central para a aplicação CMMV.
+* `.cmmv.config.cjs`: Configuração central para a aplicação CMMV.
 * `package.json`: Inclui as dependências e scripts necessários com base nas opções selecionadas.
 * `tsconfig.json`: Referências para configurações do TypeScript.
 * `.gitignore`, `.npmignore`, `.prettierignore`, `.prettierrc`, `.swcrc`: Arquivos pré-configurados para padrões de desenvolvimento.
