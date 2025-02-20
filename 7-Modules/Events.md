@@ -15,7 +15,7 @@ O módulo ``@cmmv/events`` fornece um sistema robusto e flexível para comunica�
 Para instalar o módulo ``@cmmv/events``:
 
 ```bash
-$ pnpm add @cmmv/events eventemitter2
+$ pnpm add @cmmv/events
 ```
 
 ## Configuração

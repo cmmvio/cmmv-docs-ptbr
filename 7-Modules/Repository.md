@@ -52,7 +52,7 @@ $ pnpm add oracledb
 $ pnpm add mongodb
 ```
 
-Depois de instalar o módulo e o driver correspondente, você pode configurar a conexão com o banco de dados no arquivo ``.cmmv.config.js``. O TypeORM usará automaticamente o driver apropriado com base na configuração.
+Depois de instalar o módulo e o driver correspondente, você pode configurar a conexão com o banco de dados no arquivo ``.cmmv.config.cjs``. O TypeORM usará automaticamente o driver apropriado com base na configuração.
 
 ## Propósito
 
@@ -194,7 +194,7 @@ O módulo ``@cmmv/repository`` simplifica significativamente a interação com o
 
 ## Configurações
 
-Para garantir que o módulo ``@cmmv/repository`` funcione corretamente com seu projeto, é necessário definir as configurações do banco de dados em um arquivo ``.cmmv.config.js``. Este arquivo serve como a configuração central para seu projeto, incluindo as configurações de repositório para interação com o banco de dados.
+Para garantir que o módulo ``@cmmv/repository`` funcione corretamente com seu projeto, é necessário definir as configurações do banco de dados em um arquivo ``.cmmv.config.cjs``. Este arquivo serve como a configuração central para seu projeto, incluindo as configurações de repositório para interação com o banco de dados.
 
 ```javascript
 module.exports = {
@@ -219,4 +219,4 @@ Para uma lista mais detalhada de todas as configurações disponíveis, visite a
 * **username e password:** Credenciais para conexão com o banco de dados (para tipos de banco de dados que exigem autenticação).
 * **host e port:** Para especificar o host e a porta para bancos de dados como PostgreSQL, MySQL, etc.
 
-Para configurar adequadamente o módulo ``@cmmv/repository``, você deve especificar suas configurações de conexão com o banco de dados no arquivo ``.cmmv.config.js``. O exemplo fornecido mostra uma configuração típica usando SQLite, mas você pode ajustar as configurações para outros bancos de dados como PostgreSQL ou MySQL. Para mais detalhes sobre configurações possíveis, consulte a [documentação do TypeORM](https://typeorm.io).
+Para configurar adequadamente o módulo ``@cmmv/repository``, você deve especificar suas configurações de conexão com o banco de dados no arquivo ``.cmmv.config.cjs``. O exemplo fornecido mostra uma configuração típica usando SQLite, mas você pode ajustar as configurações para outros bancos de dados como PostgreSQL ou MySQL. Para mais detalhes sobre configurações possíveis, consulte a [documentação do TypeORM](https://typeorm.io).

@@ -8,7 +8,7 @@ Se você optar por não usar uma CDN, coloque todos os seus arquivos estáticos 
 
 Por padrão, a aplicação gerará arquivos complementares, resultando em um bundle final que é necessário se você estiver utilizando RPC e reatividade no frontend. Este bundle será criado como `/assets/bundle.min.js` e deve ser incluído em seus arquivos HTML ou templates para garantir que o frontend funcione corretamente.
 
-**Exemplo de Configuração do `.cmmv.config.js` para Assets:**
+**Exemplo de Configuração do `.cmmv.config.cjs` para Assets:**
 
 ```javascript
 module.exports = {
