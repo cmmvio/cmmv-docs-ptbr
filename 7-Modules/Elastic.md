@@ -16,7 +16,7 @@ O módulo ``@cmmv/elastic`` oferece uma integração completa com o [Elastic](ht
 Para instalar o módulo ``@cmmv/elastic``:
 
 ```bash
-$ pnpm add @cmmv/elastic @elastic/elasticsearch
+$ pnpm add @cmmv/elastic
 ```
 
 ## Configuração

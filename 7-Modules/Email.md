@@ -17,7 +17,7 @@ O módulo `@cmmv/email` fornece uma interface unificada para o envio de e-mails 
 Instale o pacote `@cmmv/email` via npm:
 
 ```bash
-$ pnpm add @cmmv/email nodemailer aws-sdk
+$ pnpm add @cmmv/email
 ```
 
 ## Configuração

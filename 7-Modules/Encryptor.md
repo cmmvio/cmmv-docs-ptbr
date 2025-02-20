@@ -7,7 +7,7 @@ O módulo ``@cmmv/encryptor`` fornece um conjunto de utilitários criptográfico
 Para instalar o módulo ``@cmmv/encryptor``, use o seguinte comando:
 
 ```bash
-$ pnpm add @cmmv/encryptor bip32 bip39 bs58 elliptic tiny-secp256k1
+$ pnpm add @cmmv/encryptor
 ```
 
 ### Recursos

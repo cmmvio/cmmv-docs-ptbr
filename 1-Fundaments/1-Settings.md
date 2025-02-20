@@ -12,6 +12,8 @@ A configuração do sistema para um projeto CMMV é gerenciada através do arqui
 Os módulos podem estender essa configuração com base nas necessidades da aplicação.
 
 ```typescript
+require('dotenv').config();
+
 module.exports = {
     server: {
         host: "0.0.0.0",

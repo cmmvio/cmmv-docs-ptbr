@@ -5,8 +5,7 @@ O módulo ``@cmmv/cache`` integra-se ao ``cache-manager`` para fornecer gerencia
 Para instalar o módulo ``@cmmv/cache``, use o seguinte comando:
 
 ```bash
-$ pnpm add @cmmv/cache cache-manager
-$ pnpm add -D @types/cache-manager
+$ pnpm add @cmmv/cache
 ```
 
 Se você planeja usar Redis ou outras stores, precisará instalar o pacote apropriado com base na store de cache que pretende usar.

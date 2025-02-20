@@ -7,7 +7,7 @@ O módulo ``@cmmv/auth`` fornece um conjunto de funcionalidades para lidar com a
 Para instalar o módulo ``@cmmv/auth``, execute o seguinte comando:
 
 ```typescript
-$ pnpm add @cmmv/auth jsonwebtoken jsonwebtoken @loskir/styled-qr-code-node qrcode speakeasy
+$ pnpm add @cmmv/auth
 ```
 
 ## Integração

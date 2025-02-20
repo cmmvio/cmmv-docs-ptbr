@@ -10,7 +10,7 @@ Seja você um desenvolvedor experiente ou um iniciante em programação, o CMMV 
 
 ## Pré-requisitos
 
-Para executar o CMMV, será necessário ter o `Node.js (versão >= 18.0)` instalado no seu sistema operacional.
+Para executar o CMMV, será necessário ter o `Node.js (versão >= 20.0)` instalado no seu sistema operacional.
 
 ## Configuração com CLI
 
@@ -29,7 +29,7 @@ Esse comando irá guiá-lo por um processo de configuração interativo, pergunt
 Se você preferir configurar o projeto manualmente, ainda é possível instalar os módulos necessários individualmente:
 
 ```bash
-$ pnpm add @cmmv/core @cmmv/http @cmmv/view rxjs reflect-metadata class-validator class-transformer fast-json-stringify
+$ pnpm add @cmmv/core @cmmv/http @cmmv/view reflect-metadata
 ```
 
 ## Estrutura
@@ -58,7 +58,7 @@ import { RepositoryModule, Repository } from "@cmmv/repository";
 import { ApplicationModule } from "./app.module";
 
 Application.create({
-    httpAdapter: DefaultAdapter,    
+    httpAdapter: DefaultAdapter,
     wsAdapter: WSAdapter,
     modules: [
         DefaultHTTPModule,
@@ -80,6 +80,12 @@ Os diretórios padrão que acompanham o projeto são os seguintes:
 
 ```
 .
+└── .generated/
+    ├── controllers/
+    ├── gateways/
+    ├── protos/
+    ├── services/
+    └── app.module.ts
 └── public/
     ├── assets/
     ├── templates/
