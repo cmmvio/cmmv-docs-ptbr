@@ -1,17 +1,18 @@
 # Tailwind CSS
 
 <div style="
-    background-color: #FEF3C7; 
-    border-left: 4px solid #F59E0B; 
-    color: #92400E; 
-    padding: 1rem; 
-    border-radius: 0.375rem; 
+    background-color: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    color: #92400E;
+    padding: 1rem;
+    border-radius: 0.375rem;
     margin: 1.5rem 0;
+    font-size: 12px;
 ">
     <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
     <p>
-        O suporte para integração com <strong>TailwindCSS</strong> foi removido do módulo principal na versão <strong>0.7.5</strong>. 
-        Agora é recomendado usar o <strong>Vite</strong> para gerenciar os assets do frontend e realizar o bundling. Siga os passos abaixo 
+        O suporte para integração com <strong>TailwindCSS</strong> foi removido do módulo principal na versão <strong>0.7.5</strong>.
+        Agora é recomendado usar o <strong>Vite</strong> para gerenciar os assets do frontend e realizar o bundling. Siga os passos abaixo
         para configurar o TailwindCSS com Vite no seu projeto CMMV.
     </p>
 </div>
@@ -130,4 +131,4 @@ Certifique-se de que seu `index.html` está configurado para incluir o elemento 
 - Configure o Vite como sua principal ferramenta de build para gerenciar fluxos de trabalho modernos de frontend.
 - Siga as melhores práticas do TailwindCSS para criar estilos reutilizáveis e escaláveis.
 
-Essa configuração garante uma separação clara de responsabilidades, permitindo que o CMMV se concentre em operações de backend enquanto o Vite gerencia os assets do frontend. 
+Essa configuração garante uma separação clara de responsabilidades, permitindo que o CMMV se concentre em operações de backend enquanto o Vite gerencia os assets do frontend.

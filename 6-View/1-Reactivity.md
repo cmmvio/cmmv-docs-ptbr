@@ -1,16 +1,17 @@
 # Reactivity
 
 <div style="
-    background-color: #FEF3C7; 
-    border-left: 4px solid #F59E0B; 
-    color: #92400E; 
-    padding: 1rem; 
-    border-radius: 0.375rem; 
+    background-color: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    color: #92400E;
+    padding: 1rem;
+    border-radius: 0.375rem;
     margin: 1.5rem 0;
+    font-size: 12px;
 ">
     <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
     <p>
-        A partir da versão <strong>0.7.5</strong>, o módulo <strong>@cmmv/reactivity</strong> está sendo substituído pela integração nativa do <strong>Vue 3</strong> com <strong>Vite</strong>, que será a pipeline recomendada para versões futuras. 
+        A partir da versão <strong>0.7.5</strong>, o módulo <strong>@cmmv/reactivity</strong> está sendo substituído pela integração nativa do <strong>Vue 3</strong> com <strong>Vite</strong>, que será a pipeline recomendada para versões futuras.
         Embora o <strong>@cmmv/reactivity</strong> continue sendo suportado, nenhuma funcionalidade adicional será adicionada ao script além das já existentes.
     </p>
     <p>
@@ -52,7 +53,7 @@ O módulo `@cmmv/view` já integra reatividade nativamente, então não precisa 
 
 Abaixo está a documentação de todas as diretivas suportadas pelo `@cmmv/reactivity` com base nos exemplos fornecidos no repositório do CMMV Reactivity no GitHub.
 
-## c-model 
+## c-model
 
 Vincula o valor de um elemento de entrada ao modelo de dados da aplicação e permite o binding bidirecional. Isso é útil para atualizar dinamicamente a UI conforme os usuários inserem dados.
 
@@ -61,7 +62,7 @@ Vincula o valor de um elemento de entrada ao modelo de dados da aplicação e pe
 <p>Usuário: {{ username }}</p>
 ```
 
-[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/model.html): 
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/model.html):
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -174,11 +175,11 @@ Faz um loop em um array ou objeto e repete o elemento associado para cada item.
 </ul>
 ```
 
-[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/for.html): 
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/for.html):
 ```html
 <script type="module">
     import { createApp } from '../src'
-  
+
     let id = 4
     createApp({
       list: [
@@ -195,7 +196,7 @@ Faz um loop em um array ou objeto e repete o elemento associado para cada item.
       }
     }).mount('#app')
 </script>
-  
+
 <div id="app" scope>
     <button @click="add">Adicionar</button>
     <button @click="list.reverse()">Reverter</button>
@@ -206,7 +207,7 @@ Faz um loop em um array ou objeto e repete o elemento associado para cada item.
         <div>{{ index }} {{ { id, text } }}</div>
       </li>
     </ul>
-  
+
     <ul>
       <li c-for="item of list" :key="item.id">
         <input c-model="item.text" />
@@ -224,7 +225,7 @@ Anexa um listener de eventos a um elemento. Comumente usado para lidar com event
 <button @click="incrementCounter">Clique aqui!</button>
 ```
 
-[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/on.html): 
+[Exemplo](https://github.com/cmmvio/cmmv-reactivity/blob/main/samples/on.html):
 ```html
 <script type="module">
   import { createApp } from '../src'
@@ -273,7 +274,7 @@ Vincula dinamicamente um atributo a uma expressão. Comumente usado para modific
         font-weight: bold;
     }
 </style>
-  
+
 <script type="module">
     import { createApp, reactive } from '../src'
 
@@ -286,7 +287,7 @@ Vincula dinamicamente um atributo a uma expressão. Comumente usado para modific
 
     createApp(data).mount()
 </script>
-  
+
 <div scope>
     <div :id="id">Binding simples - deve ser verde</div>
 
@@ -407,7 +408,7 @@ O `@cmmv/reactivity` permite criar componentes leves e reativos sem o overhead d
 ```html
 <script type="module">
     import { createApp, reactive } from '../src'
-  
+
     function MyComp() {
       return {
         $template: '#comp',
@@ -417,7 +418,7 @@ O `@cmmv/reactivity` permite criar componentes leves e reativos sem o overhead d
         }
       }
     }
-  
+
     createApp({ MyComp }).mount()
 </script>
 

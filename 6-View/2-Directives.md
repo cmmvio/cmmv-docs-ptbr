@@ -1,16 +1,17 @@
 # Diretrizes
 
 <div style="
-    background-color: #DBEAFE; 
-    border-left: 4px solid #3B82F6; 
-    color: #1E40AF; 
-    padding: 1rem; 
-    border-radius: 0.375rem; 
+    background-color: #DBEAFE;
+    border-left: 4px solid #3B82F6;
+    color: #1E40AF;
+    padding: 1rem;
+    border-radius: 0.375rem;
     margin: 1.5rem 0;
+    font-size: 12px;
 ">
     <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso Importante</p>
     <p>
-        As diretivas de SSR (renderização do lado do servidor) estão disponíveis exclusivamente para implementações que utilizam o <strong>@cmmv/view</strong> como template de renderização. 
+        As diretivas de SSR (renderização do lado do servidor) estão disponíveis exclusivamente para implementações que utilizam o <strong>@cmmv/view</strong> como template de renderização.
         Para aplicações em <strong>Vue</strong> servidas pelo <strong>Vite</strong> ou arquivos estáticos, os templates não passam pelas funções de SSR, e as diretivas não serão processadas durante o build ou em tempo de execução.
     </p>
 </div>
@@ -135,7 +136,7 @@ A diretiva `s-if` é usada para renderizar condicionalmente um bloco de conteúd
     <s-else>
         <div>Nenhum registro foi carregado via SSR</div>
     </s-else>
-</s-if> 
+</s-if>
 ```
 
 * `exp:` A expressão booleana a ser avaliada. A expressão pode usar variáveis e operadores lógicos para determinar se o bloco deve ser exibido.
@@ -171,30 +172,30 @@ A diretiva `s-for` é projetada para lidar com a renderização no lado do servi
 
 **Template de Entrada:**
 ```html
-<s-for 
+<s-for
     c-show="todolist"
     c-for="(item, key) in todolist"
     class="todo-item"
     render-tag="div"
 >
     <div class="todo-item-content">
-        <input 
-            type="checkbox" 
-            c-model="item.checked" 
+        <input
+            type="checkbox"
+            c-model="item.checked"
             @change="UpdateTaskRequest(item)"
         ></input>
 
-        <label 
+        <label
             :class="{'todo-item-checked': item.checked}"
         >{{ item.label }}</label>
     </div>
-    
-    <button 
+
+    <button
         class="todo-btn-remove"
-        s-i18n="remove" 
+        s-i18n="remove"
         @click="DeleteTaskRequest(item.id)"
     ></button>
-</s-for> 
+</s-for>
 ```
 
 **Saída Renderizada Final:**
@@ -202,37 +203,37 @@ A diretiva `s-for` é projetada para lidar com a renderização no lado do servi
 <div c-if="!loaded && !todolist">
     <div c-show="todolist" class="todo-item">
         <div class="todo-item-content">
-            <input 
-                type="checkbox" 
-                c-model="item.checked" 
+            <input
+                type="checkbox"
+                c-model="item.checked"
                 @change="UpdateTaskRequest(1)"
             >
             <label class="todo-item-checked">Task 1</label>
         </div>
-        <button 
-            class="todo-btn-remove" 
+        <button
+            class="todo-btn-remove"
             @click="DeleteTaskRequest(1)"
         >Remove</button>
     </div>
 </div>
 <div c-else>
-    <div 
-        c-show="todolist" 
-        c-for="(item, key) in todolist" 
+    <div
+        c-show="todolist"
+        c-for="(item, key) in todolist"
         class="todo-item"
     >
         <div class="todo-item-content">
-            <input 
-                type="checkbox" 
-                c-model="item.checked" 
+            <input
+                type="checkbox"
+                c-model="item.checked"
                 @change="UpdateTaskRequest(item)"
             >
-            <label 
+            <label
                 :class="{'todo-item-checked': item.checked}"
             >{{ item.label }}</label>
         </div>
-        <button 
-            class="todo-btn-remove" 
+        <button
+            class="todo-btn-remove"
             @click="DeleteTaskRequest(item.id)"
         >Remove</button>
     </div>
@@ -245,7 +246,7 @@ A diretiva `s-for` é projetada para lidar com a renderização no lado do servi
 
 Ao combinar `s-for` com `c-for`, você pode aproveitar os benefícios de renderização no servidor para SEO, mantendo atualizações dinâmicas no lado do cliente.
 
-## Include 
+## Include
 
 A diretiva `include` permite a inserção de componentes ou templates de outros arquivos no layout principal. Esse recurso é útil para construir páginas modulares, permitindo a divisão do layout em pequenos blocos reutilizáveis, o que otimiza tanto o desempenho de carregamento quanto a manutenção do código.
 
@@ -257,7 +258,7 @@ A diretiva `include` é responsável por pré-carregar componentes no lado do se
 <div>
     <!-- Inclui o navbar -->
     <!-- include('public/views/docs/navbar') -->
-    
+
     <!-- Inclui o footer -->
     <!-- include('public/views/docs/footer') -->
 </div>
@@ -295,8 +296,8 @@ export default {
                 localStorage.getItem('navbarState')
             ) || {};
 
-            this.contentData = { 
-                message: 'Conteúdo carregado dinamicamente.' 
+            this.contentData = {
+                message: 'Conteúdo carregado dinamicamente.'
             };
         }
     }
@@ -349,7 +350,7 @@ export default {
             this.navbar = JSON.parse(
                 localStorage.getItem('navbarState')
             ) || {};
-            
+
             return this.navbar;
         },
 
@@ -450,7 +451,7 @@ Abaixo está um exemplo de implementação de praticamente todas as diretivas qu
     <head>
         <headers/>
     </head>
-    <body scope> 
+    <body scope>
         <slot/>
         <scripts/>
     </body>
@@ -476,10 +477,10 @@ Abaixo está um exemplo de implementação de praticamente todas as diretivas qu
                         <i class="fa-solid fa-search"></i>
                     </div>
                     <div>
-                        <input 
-                            type="text" 
-                            class="p-1.5 pl-10 text-white bg-transparent" 
-                            placeholder="Search" 
+                        <input
+                            type="text"
+                            class="p-1.5 pl-10 text-white bg-transparent"
+                            placeholder="Search"
                         />
                     </div>
                 </div>
@@ -494,16 +495,16 @@ Abaixo está um exemplo de implementação de praticamente todas as diretivas qu
     </nav>
 
     <div class="max-w-8xl mx-auto flex container">
-        <div 
-            class="w-60 fixed mt-20 z-40 overflow-auto" 
-            style="height: calc(100% - 84px); background-color: #2e3035" 
+        <div
+            class="w-60 fixed mt-20 z-40 overflow-auto"
+            style="height: calc(100% - 84px); background-color: #2e3035"
             c-cloak
         >
             <!-- include('public/views/docs/navbar') -->
         </div>
 
         <div class="mt-20 ml-64 text-justify relative">
-            <div 
+            <div
                 class="lg:pl-[19.5rem] m-4 p-4 px-20 max-w-3x1 mx-auto xl:max-w-none xl:ml-0 xl:mr-[15.5rem] xl:pr-16"
                 :class="{'w-full': docs.anchors.length < 4}"
             >
@@ -514,9 +515,9 @@ Abaixo está um exemplo de implementação de praticamente todas as diretivas qu
                     <div c-html="docs.index">{ docs.index }</div>
 
                     <div class="absolute top-0 right-0">
-                        <a 
-                            :href="`https://github.com/cmmvio/docs.cmmv.io/tree/main${docs.link?.replace('.html', '.md')}?plain=1`" 
-                            target="_blank" 
+                        <a
+                            :href="`https://github.com/cmmvio/docs.cmmv.io/tree/main${docs.link?.replace('.html', '.md')}?plain=1`"
+                            target="_blank"
                             title="Sugerir mudança"
                         >
                             <i class="fa-solid fa-pen-to-square fa-lg"></i>
@@ -539,7 +540,7 @@ Abaixo está um exemplo de implementação de praticamente todas as diretivas qu
         let repoint = false;
         document.querySelectorAll('#anchors li').forEach((item, index) => {
             const target = document.querySelector(item.querySelector('a').getAttribute('href'));
-            
+
             if (target?.offsetTop >= scrollPosition && !repoint) {
                 repoint = true;
                 item.classList.add('current');
@@ -558,11 +559,11 @@ Abaixo está um exemplo de implementação de praticamente todas as diretivas qu
             link.addEventListener('click', function(event) {
                 event.preventDefault();
                 const href = this.getAttribute('href');
-                
+
                 document.querySelectorAll('.current').forEach(el => el.classList.remove('current'));
-                
+
                 this.parentElement.classList.add('current');
-                
+
                 window.scrollTo({
                     top: document.querySelector(href).offsetTop,
                     behavior: 'smooth'
@@ -618,11 +619,11 @@ export default {
 <!-- /public/views/docs/navbar.html -->
 <ul class="p-4 select-none top-16" c-cloak c-show="docs">
     <li c-for="(item, key) in docs.navbar">
-        <div 
+        <div
             c-show="item"
-            class="flex hover:text-blue-700 itemRoot text-white" 
-            :id="item?.name.replace(/\\s/,'_')" 
-            :data-opened="false" 
+            class="flex hover:text-blue-700 itemRoot text-white"
+            :id="item?.name.replace(/\\s/,'_')"
+            :data-opened="false"
             @click.stop="navbar[item?.name.replace(/\\s/, `_`)] = toggle(navbar[item?.name.replace(/\\s/, `_`)], item.name?.replace(/\\s/, `_`))"
         >
             <div class="flex flex-1 font-bold text-md cursor-pointer navbar-item">
@@ -636,9 +637,9 @@ export default {
             </div>
         </div>
 
-        <ul 
+        <ul
             c-if="item && item.children && item.children.length > 0"
-            :id="`\${item?.name.replace(/\\s/, `_`)}_contents`" 
+            :id="`\${item?.name.replace(/\\s/, `_`)}_contents`"
             class="p-4 py-1 text-md mb-4"
             :style="(navbar[item?.name.replace(/\\s/, `_`)]) ? '' : 'display: none;'"
         >
@@ -659,9 +660,9 @@ export default {
 import * as fs from 'fs';
 import * as path from "path";
 
-import { 
-    Controller, Get, Param, 
-    Response, ServiceRegistry 
+import {
+    Controller, Get, Param,
+    Response, ServiceRegistry
 } from '@cmmv/http';
 
 import { DocsService } from './docs.service';
@@ -673,7 +674,7 @@ export class DocsController {
     constructor(private docsService: DocsService){}
 
 	@Get()
-	async indexHandler(@Response() res) {		
+	async indexHandler(@Response() res) {
 		return res.render("views/docs/index", {
 			docs: await this.docsService.getDocsStrutucture(),
 			services: ServiceRegistry.getServicesArr()
@@ -682,7 +683,7 @@ export class DocsController {
 
 	@Get(":item")
 	async getDocHandler(
-        @Param("item") item: string, 
+        @Param("item") item: string,
         @Response() res
     ) {
 		if(index[item])
@@ -693,8 +694,8 @@ export class DocsController {
 
 	@Get(":dir/:item")
 	async getDocSubdirHandler(
-        @Param("dir") dir: string, 
-        @Param("item") item: string, 
+        @Param("dir") dir: string,
+        @Param("item") item: string,
         @Response() res
     ) {
 		const fullPath = `\${dir}/\${item}`;

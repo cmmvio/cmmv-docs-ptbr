@@ -2,6 +2,37 @@
 
 O CMMV CLI simplifica a inicialização de projetos, fornecendo uma maneira interativa de criar um novo projeto com configurações personalizáveis. Abaixo está a documentação atualizada para usar o CLI na geração de um projeto CMMV.
 
+<div style="
+    background-color: #DBEAFE;
+    border-left: 4px solid #2563EB;
+    color: #1E3A8A;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    margin: 1.5rem 0;
+    font-size: 12px;
+">
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
+    <p>
+        Atualizações recentes do <strong>PNPM</strong> podem exigir aprovação manual para módulos com scripts de construção, afetando pacotes como
+        <strong>better-sqlite3-multiple-ciphers</strong>, <strong>esbuild</strong>, <strong>protobufjs</strong>, <strong>sqlite3</strong>, entre outros.
+    </p>
+    <p>
+        Uma correção para esse problema foi implementada a partir da <strong>versão 0.8.20</strong>. No entanto, se seu projeto estiver usando uma versão mais antiga,
+        você pode resolver isso manualmente adicionando a seguinte configuração ao seu arquivo <code>.npmrc</code>:
+    </p>
+    <pre style="
+        background-color: #F3F4F6;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        overflow-x: auto;
+    ">
+    auto-install-peers=true
+    approve-builds=always</pre>
+    <p>
+        Isso garantirá que todas as compilações necessárias sejam aprovadas automaticamente durante a instalação, evitando problemas relacionados a prompts de aprovação manual.
+    </p>
+</div>
+
 ## Introdução
 
 ### Instalar o CLI globalmente
@@ -17,7 +48,7 @@ $ pnpm add -g @cmmv/cli
 Execute o comando `cmmv create` para criar um novo projeto:
 
 ```bash
-$ cmmv create <nome-do-projeto>
+$ cmmv create nome-do-projeto
 ```
 
 Isso iniciará um prompt interativo perguntando sobre as preferências do seu projeto, como:
@@ -35,7 +66,7 @@ Isso iniciará um prompt interativo perguntando sobre as preferências do seu pr
 Se não quiser instalar o CLI globalmente, use `pnpm dlx` para executá-lo diretamente:
 
 ```bash
-$ pnpm dlx @cmmv/cli@latest create <nome-do-projeto>
+$ pnpm dlx @cmmv/cli@latest create nome-do-projeto
 ```
 
 Isso garante que você sempre use a versão mais recente do CLI sem necessidade de instalação global.

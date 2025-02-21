@@ -1,12 +1,13 @@
 # View
 
 <div style="
-    background-color: #FEF3C7; 
-    border-left: 4px solid #F59E0B; 
-    color: #92400E; 
-    padding: 1rem; 
-    border-radius: 0.375rem; 
+    background-color: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    color: #92400E;
+    padding: 1rem;
+    border-radius: 0.375rem;
     margin: 1.5rem 0;
+    font-size: 12px;
 ">
     <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
     <p>
@@ -66,9 +67,9 @@ $ pnpm add @cmmv/view
 ## Exemplo
 
 ```html
-<div 
-    class="product-page" 
-    s:product="services.product.getProductById(productId)" 
+<div
+    class="product-page"
+    s:product="services.product.getProductById(productId)"
     scope
 >
     <h1>{{ product.name }}</h1>
@@ -80,23 +81,23 @@ $ pnpm add @cmmv/view
         {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
     </div>
 
-    <button 
+    <button
         s-i18n="addToCart"
-        class="add-to-cart" 
-        @click="addToCart(product.id)" 
+        class="add-to-cart"
+        @click="addToCart(product.id)"
     ></button>
 </div>
 
 <script s-setup>
 export default {
     layout: "default",
-    
+
     data() {
         return {
             product: null
         }
     },
-    
+
     methods: {
         addToCart(productId) {
             ...
@@ -141,12 +142,12 @@ module.exports = {
     },
 
     i18n: {
-        localeFiles: "./src/locale", 
-        default: "en" 
+        localeFiles: "./src/locale",
+        default: "en"
     },
 
     view: {
-        extractInlineScript: true, 
+        extractInlineScript: true,
         minifyHTML: true,
         scriptsTimestamp: false
     },
@@ -189,8 +190,8 @@ Gerencie internacionalização (i18n) na sua aplicação CMMV definindo o diret�
 
 ```typescript
 i18n: {
-    localeFiles: "./src/locale", 
-    default: "en" 
+    localeFiles: "./src/locale",
+    default: "en"
 }
 ```
 

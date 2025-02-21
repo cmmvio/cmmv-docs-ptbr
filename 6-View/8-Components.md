@@ -1,16 +1,17 @@
 # Componentes
 
 <div style="
-    background-color: #FEF3C7; 
-    border-left: 4px solid #F59E0B; 
-    color: #92400E; 
-    padding: 1rem; 
-    border-radius: 0.375rem; 
+    background-color: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    color: #92400E;
+    padding: 1rem;
+    border-radius: 0.375rem;
     margin: 1.5rem 0;
+    font-size: 12px;
 ">
     <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
     <p>
-        A partir da versão <strong>0.7.5</strong>, o módulo <strong>@cmmv/reactivity</strong> está sendo substituído pela integração nativa do <strong>Vue 3</strong> com <strong>Vite</strong>, que será a pipeline recomendada para versões futuras. 
+        A partir da versão <strong>0.7.5</strong>, o módulo <strong>@cmmv/reactivity</strong> está sendo substituído pela integração nativa do <strong>Vue 3</strong> com <strong>Vite</strong>, que será a pipeline recomendada para versões futuras.
         Embora o <strong>@cmmv/reactivity</strong> continue sendo suportado, nenhuma funcionalidade adicional será adicionada ao script além das já existentes.
     </p>
     <p>
@@ -37,14 +38,14 @@ export default {
 
     components: { ComponentTeste },
 
-    data() { 
-        return { 
-            test: 123 
+    data() {
+        return {
+            test: 123
         }
     },
 
-    methods: { 
-        addTask() { /*...*/ } 
+    methods: {
+        addTask() { /*...*/ }
     }
 }
 </script>
@@ -60,14 +61,14 @@ export default {
 
 <script>
 export default {
-    data() { 
-        return { 
-            test: 123 
+    data() {
+        return {
+            test: 123
         }
     },
 
-    mounted() { 
-        console.log("Componente montado"); 
+    mounted() {
+        console.log("Componente montado");
     }
 }
 </script>
@@ -108,7 +109,7 @@ Os componentes podem aceitar ``props`` para torná-los reutilizáveis e flexíve
     <ComponentTemplate ref="comp" :count="test"></ComponentTemplate>
 
     <hr/>
-    
+
     <div>
         Raiz: {{ test }}<br/>
         Contexto do Componente: {{ $refs.comp.count }}

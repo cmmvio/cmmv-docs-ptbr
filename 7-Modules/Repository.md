@@ -14,6 +14,37 @@ Além de instalar o módulo ``@cmmv/repository``, dependendo do tipo de banco de
 
 **Bancos de Dados Suportados e Drivers**
 
+<div style="
+    background-color: #DBEAFE;
+    border-left: 4px solid #2563EB;
+    color: #1E3A8A;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    margin: 1.5rem 0;
+    font-size: 12px;
+">
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">Aviso</p>
+    <p>
+        Atualizações recentes do <strong>PNPM</strong> podem exigir aprovação manual para módulos com scripts de construção, afetando pacotes como
+        <strong>better-sqlite3-multiple-ciphers</strong>, <strong>esbuild</strong>, <strong>protobufjs</strong>, <strong>sqlite3</strong>, entre outros.
+    </p>
+    <p>
+        Uma correção para esse problema foi implementada a partir da <strong>versão 0.8.20</strong>. No entanto, se seu projeto estiver usando uma versão mais antiga,
+        você pode resolver isso manualmente adicionando a seguinte configuração ao seu arquivo <code>.npmrc</code>:
+    </p>
+    <pre style="
+        background-color: #F3F4F6;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        overflow-x: auto;
+    ">
+    auto-install-peers=true
+    approve-builds=always</pre>
+    <p>
+        Isso garantirá que todas as compilações necessárias sejam aprovadas automaticamente durante a instalação, evitando problemas relacionados a prompts de aprovação manual.
+    </p>
+</div>
+
 O TypeORM suporta múltiplos sistemas de banco de dados, e cada sistema requer o pacote npm apropriado para funcionar corretamente. Aqui está uma lista de bancos de dados suportados com o respectivo driver para instalação:
 
 **SQLite:** [NPM](https://www.npmjs.com/package/sqlite3)
@@ -150,9 +181,9 @@ export class TaskService extends AbstractService {
         const item = await repository.findOneBy({ id });
         Telemetry.end('TaskService::GetById', req?.requestId);
 
-        if (!item) 
+        if (!item)
             throw new Error('Item não encontrado');
-        
+
         return item;
     }
 
@@ -201,7 +232,7 @@ module.exports = {
     // Outras configurações do projeto...
 
     repository: {
-        type: "sqlite", 
+        type: "sqlite",
         database: "./database.sqlite",
         synchronize: true,
         logging: false,
