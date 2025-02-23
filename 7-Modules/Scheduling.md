@@ -1,5 +1,7 @@
 # Agendamento
 
+Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/scheduling](https://github.com/cmmvio/cmmv/tree/main/packages/scheduling)
+
 O pacote ``@cmmv/scheduling`` oferece uma maneira simples de agendar tarefas em sua aplicação CMMV usando padrões cron. Este módulo é construído com a biblioteca ``cron``, e o decorador ``@Cron`` permite que você agende métodos para serem executados em intervalos específicos.
 
 Para instalar o módulo de agendamento, execute o seguinte comando:

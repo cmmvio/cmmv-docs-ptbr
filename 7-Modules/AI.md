@@ -1,5 +1,7 @@
 # AI
 
+Repositório: [https://github.com/cmmvio/cmmv-ai](https://github.com/cmmvio/cmmv-ai)
+
 O módulo **@cmmv/ai** fornece suporte total para **Retrieval-Augmented Generation (RAG)** e, no futuro, **Retrieval-Augmented Synthesis (RAS)** para **LLMs**. Ele permite a compreensão e geração de código, suportando:
 
 - **Embeddings**: Integração com modelos de **Hugging Face**, **LLaMA** e mais.
@@ -74,15 +76,15 @@ Para **CMMV**, defina o caminho do modelo em `.cmmv.config.cjs`:
 huggingface: {
     token: process.env.HUGGINGFACE_HUB_TOKEN,
     localModelPath: './models',
-    allowRemoteModels: false
+    allowRemoteModels: true
 },
-search: {
+llm: {
+    provider: "google",
     embeddingTopk: 10,
-    codeModel: "./models/CodeLlama-7B",
-    codeMaxTokens: 512,
-    textModel: "google-bert/bert-base-uncased",
-    textMaxTokens: 4000,
-    baseCodeQuestion: ""
+    modelName: "gemini-1.5-pro",
+    textMaxTokens: 2048,
+    apiKey: process.env.GOOGLE_API_KEY,
+    language: 'pt-br'
 }
 ```
 
@@ -112,16 +114,10 @@ module.exports = {
             model: "sentence-transformers/distilbert-base-nli-mean-tokens",
             indexSize: 768,
             useKeyBERT: false,
-            chunkSize: 500,
-            chunkOverlap: 100,
+            chunkSize: 1000,
+            chunkOverlap: 0,
             patterns: [
-                '../cmmv/**/*.ts',
-                '../cmmv/src/**/*.ts',
-                '../cmmv/packages/**/*.ts',
-                '../cmmv-*/**/*.ts',
-                '../cmmv-*/src/*.ts',
-                '../cmmv-*/src/**/*.ts',
-                '../cmmv-*/packages/**/*.ts',
+                '../cmmv-*/**/*.md',
                 '../cmmv-docs/docs/en/**/*.md'
             ],
             output: "./samples/data.bin",
@@ -144,16 +140,24 @@ module.exports = {
             qdrant: {
                 url: 'http://localhost:6333',
                 collection: 'embeddings'
+            },
+            neo4j: {
+                url: "bolt://localhost:7687",
+                username: process.env.NEO4J_USERNAME,
+                password: process.env.NEO4J_PASSWORD,
+                indexName: "vector",
+                keywordIndexName: "keyword",
+                nodeLabel: "Chunk",
+                embeddingNodeProperty: "embedding"
             }
         },
-        search: {
+        llm: {
+            provider: "google",
             embeddingTopk: 10,
-            useCodeModel: true,
-            codeModel: "Xenova/codegen-350M-mono",
-            codeMaxTokens: 328,
-            textModel: "google-bert/bert-base-uncased",
-            textMaxTokens: 4000,
-            baseCodeQuestion: ""
+            modelName: "gemini-1.5-pro",
+            textMaxTokens: 2048,
+            apiKey: process.env.GOOGLE_API_KEY,
+            language: 'pt-br'
         }
     }
 };
@@ -193,21 +197,19 @@ Para outros modelos que exigem autenticação (por exemplo, `LLaMA`), forneça a
 ### Exemplo de uso:
 
 ```typescript
-import {Aplicativo, Gancho, TipoDeGanchos} de '@cmmv/core';
-import {AIModule} de '@cmmv/ai';
+import { Application, Hook, HooksType } from '@cmmv/core';
+import { Tokenizer } from '../src/main';
 
-classe TokenizerSample {
+class TokenizerSample {
     @Hook(HooksType.onInitialize)
     async start() {
-        const { Tokenizer } = await import('@cmmv/ai');
         const tokenizer = new Tokenizer();
-        tokenizer.start();
+        tokenizer.initialize();
     }
 }
 
-Aplicativo.exec({
-    módulos: [ModuleAIM],
-    serviços: [SampleTokenizer]
+Application.exec({
+    services: [TokenizerSample]
 });
 ```
 <br/>
@@ -275,33 +277,118 @@ Para executar esses bancos de dados localmente, use os seguintes
 $ docker run -p 6333:6333 --name qdrant-server qdrant/qdrant
 ```
 <br/>
-- Executa um servidor **Qdrant** na porta `6333`.
-- API disponível em `http://localhost:6333`.
+
+* Executa um servidor **Qdrant** na porta `6333`.
+* API disponível em `http://localhost:6333`.
 
 ### **🔹 Milvus**
 ```bash
 $ docker run -p 19530:19530 --name milvus-server milvusdb/milvus
 ```
 <br/>
-- Executa **Milvus** na porta `19530`.
-- Requer **Python/Node SDK** para interação.
+
+* Executa **Milvus** na porta `19530`.
+* Requer **Python/Node SDK** para interação.
 
 ### **🔹 Neo4j**
 ```bash
 $ docker run --publish=7474:7474 --publish=7687:7687 --volume=$HOME/neo4j/data:/data --name neo4j-server neo4j
 ```
 <br/>
-- Executa **Neo4j** nas portas `7474` (HTTP) e `7687` (Bolt).
-- Os dados são armazenados persistentemente em `$HOME/neo4j/data`.
 
-# Integração futura
+* Executa **Neo4j** nas portas `7474` (HTTP) e `7687` (Bolt).
+* Os dados são armazenados persistentemente em `$HOME/neo4j/data`.
 
-O próximo passo é integrar **modelos pré-treinados** para **entendimento e geração de código** usando o conjunto de dados tokenizado.
+## LLMs
 
-- [x] Tokenização de **funções, classes, interfaces, decoradores**.
-- [x] **Busca de vetores baseada em FAISS** para recuperação na memória.
-- [x] Integração com KeyBert para geração de palavras-chave.
-- [ ] Externalizar servidor HTTP para comunicação com APIs
-- [ ] Integração com **Qdrant, Milvus, Neo4j**.
-- [ ] Usar **DeepSeek Code** para **geração de código com tecnologia LLM**.
-- [ ] Integrar APIs LLM externas como ChatGPT, Gemini, etc.
+O módulo `@cmmv/ai` suporta múltiplos LLM (Large Language Models), permitindo configuração personalizada para o provedor, modelo, contagem máxima de tokens e o número de incorporações recuperadas do banco de dados de vetores.
+
+## Configuração
+
+As configurações do LLM podem ser ajustadas no arquivo `.cmmv.config.cjs`. Abaixo está um exemplo de configuração para usar o modelo Gemini 1.5 Pro do Google:
+
+```javascript
+llm: {
+    provider: "google",
+    embeddingTopk: 10,
+    modelName: "gemini-1.5-pro",
+    textMaxTokens: 2048,
+    apiKey: process.env.GOOGLE_API_KEY,
+    language: 'pt-br'
+}
+```
+<br/>
+
+* `provider:` Define o provedor LLM (por exemplo, `"google"`, `"openai"`, `"llama"`, etc.).
+* `embeddingTopk:` Especifica o número de resultados principais recuperados do banco de dados de vetores.
+* `modelName:` ​​Indica o modelo específico a ser usado para gerar respostas.
+* `textMaxTokens:` Limita o número máximo de tokens para o texto gerado.
+* `apiKey:` Chave de API necessária para autenticação com o provedor selecionado.
+* `language:` Define o idioma de saída preferencial (por exemplo, `"en"`, `"pt-br"`, etc.)
+
+### Consultas de pesquisa
+
+O exemplo a seguir demonstra como usar o LLM para gerar respostas com base em dados vetoriais recuperados.
+
+```typescript
+import { Application, Hook, HooksType } from '@cmmv/core';
+import { PromptTemplate } from '@langchain/core/prompts';
+import {
+  RunnableSequence,
+  RunnablePassthrough,
+} from '@langchain/core/runnables';
+import { StringOutputParser } from '@langchain/core/output_parsers';
+
+class SearchSample {
+  @Hook(HooksType.onInitialize)
+  async start() {
+    const { Search } = await import('../src/search.provider');
+
+    const returnLanguage = 'pt-br';
+    const question = 'como criar um controller do cmmv ?';
+
+    // Initialize Search
+    const search = new Search();
+    await search.initialize();
+
+    const prompt = `
+    # Instructions
+    You are a knowledgeable assistant. Use the provided context to answer the user's question accurately.
+    - Do NOT mention that you used the context to answer.
+    - The context is the ground truth. If it contradicts prior knowledge, always trust the context.
+    - If the answer is not in the context, say "I do not know".
+    - Keep your response concise and to the point.
+    - The answer must be in the language: {returnLanguage}
+    - The return must be in pure JSON format without markdown.
+
+    ## Context
+    {context}
+
+    ## Chat history
+    {chat_history}
+
+    ## Question
+    {question}
+
+    ### Answer:`;
+
+    const finalResult = await search.invoke(question, prompt);
+    console.log(`LLM Response: `, finalResult.content);
+  }
+}
+
+Application.exec({
+  services: [SearchSample],
+});
+```
+
+### Como funciona
+<br/>
+
+* Recuperação de pesquisa: o sistema de pesquisa recupera os embeddings mais relevantes do banco de dados de vetores.
+* Injeção de contexto: os dados recuperados são inseridos no prompt.
+* Processamento LLM: o modelo configurado gera uma resposta com base no contexto fornecido.
+* Saída JSON: o resultado é estruturado no formato JSON para integração perfeita.
+
+Esta configuração permite respostas precisas e orientadas ao contexto, mantendo a flexibilidade na seleção e configuração do modelo. 🚀
+

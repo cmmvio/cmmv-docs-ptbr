@@ -19,6 +19,8 @@ Ele continua a funcionar com o servidor padrão e o Express, mas agora deve ser 
     </p>
 </div>
 
+Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/view](https://github.com/cmmvio/cmmv/tree/main/packages/view)
+
 O módulo `@cmmv/view` no CMMV é um motor de visualização personalizado projetado para otimizar SEO e desempenho, incorporando renderização no lado do servidor (SSR) com integração perfeita a frameworks frontend modernos. Construído sobre o EJS (Embedded JavaScript), ele funciona como um middleware para Express e Fastify, processando visualizações em tempo real e injetando dados pré-carregados no HTML antes que ele chegue ao navegador. Essa abordagem permite que os mecanismos de busca indexem conteúdo já processado, enquanto ainda oferece flexibilidade para usar frameworks frontend como Vue.js, React ou Angular para interatividade no lado do cliente.
 
 Os frameworks tradicionais de renderização no lado do cliente (CSR), como Vue.js e React, geram conteúdo dinamicamente no navegador. Embora esses frameworks proporcionem interatividade rica, podem impactar negativamente o SEO devido ao atraso na renderização do conteúdo—os mecanismos de busca podem não indexar totalmente o conteúdo dinâmico que depende da execução de JavaScript.

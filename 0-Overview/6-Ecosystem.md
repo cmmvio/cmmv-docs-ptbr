@@ -52,7 +52,8 @@ O CMMV oferece uma gama de plugins para complementar as aplicações, fornecendo
 | [@cmmv/queue](https://github.com/cmmvio/cmmv-queue)            | Gerencia filas de tarefas e processamento assíncrono para ajudar a melhorar o desempenho da aplicação.        | <a href="https://www.npmjs.com/package/@cmmv/queue"><img src="https://img.shields.io/npm/v/@cmmv/queue.svg" alt="Versão NPM" /></a> |
 | [@cmmv/repository](https://github.com/cmmvio/cmmv/tree/main/packages/repository)       | Gerenciamento de banco de dados com repositórios para manipulação de entidades e acesso a dados persistentes.           | <a href="https://www.npmjs.com/package/@cmmv/repository"><img src="https://img.shields.io/npm/v/@cmmv/repository.svg" alt="Versão NPM" /></a> |
 | [@cmmv/scheduling](https://github.com/cmmvio/cmmv/tree/main/packages/scheduling)       | Módulo para agendamento de tarefas e automação de rotinas com suporte a gerenciamento de tarefas.                 | <a href="https://www.npmjs.com/package/@cmmv/scheduling"><img src="https://img.shields.io/npm/v/@cmmv/scheduling.svg" alt="Versão NPM" /></a> |
-
+| [@cmmv/ai](https://github.com/cmmvio/cmmv-ai) | Módulo para integração com modelos de IA, incluindo tokenização, pesquisa vetorial e suporte a múltiplos LLMs. | <a href="https://www.npmjs.com/package/@cmmv/ai"><img src="https://img.shields.io/npm/v/@cmmv/ai.svg" alt="NPM Version" /></a> |
+| [@cmmv/parallel](https://github.com/cmmvio/cmmv-parallel) | Processamento paralelo otimizado com `SharedArrayBuffer` e `Atomics`, permitindo operações multithread de alta performance. | <a href="https://www.npmjs.com/package/@cmmv/parallel"><img src="https://img.shields.io/npm/v/@cmmv/parallel.svg" alt="NPM Version" /></a> |
 
 ## UI
 

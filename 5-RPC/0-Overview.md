@@ -51,8 +51,11 @@ Ao usar Protobuf, o CMMV assegura desempenho ideal na serialização de dados, t
 Para implementar comunicação WebSocket utilizando Protobuf no CMMV, siga estes passos:
 
 ```bash
-$ pnpm add @cmmv/protobuf @cmmv/ws protobufjs 
+$ pnpm add @cmmv/protobuf @cmmv/ws protobufjs
 ```
+
+* Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/protobuf](https://github.com/cmmvio/cmmv/tree/main/packages/protobuf)
+* Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/ws](https://github.com/cmmvio/cmmv/tree/main/packages/ws)
 
 Configuração da aplicação:
 
@@ -64,7 +67,7 @@ import { WSModule, WSAdapter } from "@cmmv/ws";
 import { ViewModule } from "@cmmv/view";
 
 Application.create({
-    httpAdapter: ExpressAdapter,    
+    httpAdapter: ExpressAdapter,
     wsAdapter: WSAdapter,
     modules: [
         ExpressModule,
@@ -113,30 +116,30 @@ O framework CMMV simplifica a comunicação no frontend ao vincular métodos Pro
 <div class="todo-box" scope>
     <h1 s-i18n="todo"></h1>
 
-    <div 
-        c-show="todolist?.length > 0" 
+    <div
+        c-show="todolist?.length > 0"
         s:todolist="services.task.getAll()"
     >
-        <div 
+        <div
             c-show="todolist"
             c-for="(item, key) in todolist"
             class="todo-item"
         >
             <div class="todo-item-content">
-                <input 
-                    type="checkbox" 
-                    c-model="item.checked" 
+                <input
+                    type="checkbox"
+                    c-model="item.checked"
                     @change="UpdateTaskRequest(item)"
                 ></input>
 
-                <label 
+                <label
                     :class="{'todo-item-checked': item.checked}"
                 >{{ item.label }}</label>
             </div>
-            
-            <button 
+
+            <button
                 class="todo-btn-remove"
-                s-i18n="remove" 
+                s-i18n="remove"
                 @click="DeleteTaskRequest(item.id)"
             ></button>
         </div>
@@ -145,9 +148,9 @@ O framework CMMV simplifica a comunicação no frontend ao vincular métodos Pro
     <div class="todo-input-box">
         <input c-model="label" class="todo-input">
 
-        <button 
+        <button
             class="todo-btn-add"
-            s-i18n="add" 
+            s-i18n="add"
             @click="addTask"
         ></button>
     </div>

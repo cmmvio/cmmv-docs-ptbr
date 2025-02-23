@@ -1,5 +1,7 @@
 # Elastic
 
+Repositório: [https://github.com/cmmvio/cmmv-elastic](https://github.com/cmmvio/cmmv-elastic)
+
 O módulo ``@cmmv/elastic`` oferece uma integração completa com o [Elastic](https://www.elastic.co/pt/) para gerenciamento de índices, manipulação de documentos e execução de consultas de busca. Este módulo foi projetado para ser escalável e eficiente, integrando-se perfeitamente ao framework ``@cmmv`` para suportar aplicações modernas orientadas a dados.
 
 ## Recursos
@@ -102,9 +104,9 @@ await ElasticService.deleteIndex('my-index');
 Adiciona um novo documento a um índice especificado. Ideal para armazenar e indexar dados estruturados para recuperação e análise.
 
 ```typescript
-await ElasticService.insertDocument('my-index', { 
-    id: 1, 
-    name: 'Documento de Teste' 
+await ElasticService.insertDocument('my-index', {
+    id: 1,
+    name: 'Documento de Teste'
 });
 ```
 
@@ -113,8 +115,8 @@ await ElasticService.insertDocument('my-index', {
 Atualiza um documento existente em um índice especificado. Use isso para modificar dados armazenados sem criar duplicatas.
 
 ```typescript
-await ElasticService.updateDocument('my-index', 'document-id', { 
-    name: 'Nome Atualizado' 
+await ElasticService.updateDocument('my-index', 'document-id', {
+    name: 'Nome Atualizado'
 });
 ```
 

@@ -1,5 +1,7 @@
 # Repositório
 
+Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/repository](https://github.com/cmmvio/cmmv/tree/main/packages/repository)
+
 O módulo ``@cmmv/repository`` foi projetado para funcionar em conjunto com o framework ``@cmmv/core`` e é construído utilizando [TypeORM](https://typeorm.io/). Este módulo gera automaticamente entidades com base nos contratos definidos e estende a camada de serviço para lidar com operações CRUD no banco de dados configurado. Abaixo, fornecemos informações detalhadas sobre instalação, uso e recursos deste módulo.
 
 **Instalação**

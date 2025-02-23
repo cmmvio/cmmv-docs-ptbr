@@ -1,5 +1,7 @@
 # Inspector
 
+Repositório: [https://github.com/cmmvio/cmmv-inspector](https://github.com/cmmvio/cmmv-inspector)
+
 O módulo ``@cmmv/inspector`` fornece ferramentas para análise de desempenho em tempo de execução e depuração de aplicações Node.js. Ele se integra perfeitamente com projetos baseados em CMMV e utiliza o módulo integrado ``node:inspector`` para capturar perfis de CPU e snapshots de heap. O módulo também oferece métodos utilitários para gerenciar e persistir dados de perfil, tornando-se uma ferramenta essencial para otimizar e depurar suas aplicações.
 
 ## Instalação
@@ -41,7 +43,7 @@ async function runProfiler() {
 runProfiler();
 ```
 
-## Vinculando ao Processo 
+## Vinculando ao Processo
 
 Garanta a limpeza adequada durante a finalização do processo vinculando sinais de kill.
 
@@ -136,7 +138,7 @@ Inspector.once(async () => {
 });
 ```
 
-## Fluxo de Trabalho 
+## Fluxo de Trabalho
 
 O fluxo de trabalho a seguir demonstra como usar o módulo ``@cmmv/inspector`` para iniciar o perfil, capturar um snapshot de heap e parar o perfil durante a finalização do processo.
 

@@ -1,5 +1,7 @@
 # Eventos
 
+Repositório: [https://github.com/cmmvio/cmmv-events](https://github.com/cmmvio/cmmv-events)
+
 O módulo ``@cmmv/events`` fornece um sistema robusto e flexível para comunicação assíncrona em sua aplicação. Baseado no ``eventemitter2``, este módulo permite que os desenvolvedores criem, emitam e ouçam eventos de maneira simples, aprimorando a modularidade e escalabilidade da aplicação.
 
 ## Recursos

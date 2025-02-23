@@ -1,5 +1,7 @@
 # Autenticação
 
+Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/auth](https://github.com/cmmvio/cmmv/tree/main/packages/auth)
+
 O módulo ``@cmmv/auth`` fornece um conjunto de funcionalidades para lidar com autenticação em sua aplicação. Ele suporta autenticação baseada em HTTP e WebSocket e pode ser facilmente integrado a qualquer aplicação baseada em ``@cmmv``.
 
 ## Instalação
@@ -58,18 +60,18 @@ module.exports = {
             enabled: true,  // Habilitar suporte a sessão
             options: {
                 // Nome do cookie de sessão
-                sessionCookieName: "cmmv-session", 
+                sessionCookieName: "cmmv-session",
                 // Chave secreta para assinar o ID do cookie de sessão
-                secret: process.env.SESSION_SECRET, 
+                secret: process.env.SESSION_SECRET,
                 // Impede que a sessão seja salva novamente no armazenamento
-                resave: false, 
+                resave: false,
                 // Força salvar a sessão, mesmo que não esteja inicializada
-                saveUninitialized: false, 
-                cookie: { 
+                saveUninitialized: false,
+                cookie: {
                     // Garante que o navegador envie o cookie apenas via HTTPS
-                    secure: true,  
+                    secure: true,
                     // Tempo máximo (em milissegundos) para o cookie de sessão
-                    maxAge: 60000  
+                    maxAge: 60000
                 }
             }
         }
@@ -78,18 +80,18 @@ module.exports = {
     // Configurações de autenticação para @cmmv/auth
     auth: {
         // Habilitar registro local (e-mail/senha)
-        localRegister: true,  
+        localRegister: true,
         // Habilitar login local (e-mail/senha)
-        localLogin: true,     
+        localLogin: true,
         // Chave secreta para assinar tokens JWT
-        jwtSecret: process.env.JWT_SECRET || "secret", 
+        jwtSecret: process.env.JWT_SECRET || "secret",
         // Chave secreta para assinar o token de atualização JWT
-        jwtSecretRefresh: process.env.JWT_SECRET_REFRESH,  
+        jwtSecretRefresh: process.env.JWT_SECRET_REFRESH,
         // Nome do cookie do token de atualização
-        refreshCookieName: "refreshToken",   
+        refreshCookieName: "refreshToken",
         // Tempo de expiração do token em segundos (1 hora)
-        expiresIn: 60 * 60,  
-        qrCode: {} //Veja o tópico do QR-Code 
+        expiresIn: 60 * 60,
+        qrCode: {} //Veja o tópico do QR-Code
         optSecret: {
             issuer: "CMMV",
             algorithm: "sha512"
@@ -111,10 +113,10 @@ O módulo ``@cmmv/auth`` é responsável por gerar os arquivos necessários para
 Este arquivo ``.proto`` define as mensagens ``User``, ``LoginRequest``, ``LoginResponse``, ``RegisterRequest``, ``RegisterResponse`` e o serviço ``AuthService`` com dois métodos RPC: Login e Register.
 
 ```proto
-/**                                                                               
+/**
     **********************************************
     This script was generated automatically by CMMV.
-    It is recommended not to modify this file manually, 
+    It is recommended not to modify this file manually,
     as it may be overwritten by the application.
     **********************************************
 **/
@@ -218,10 +220,10 @@ service UserService {
 Este arquivo fornece interfaces TypeScript que espelham as definições ``.proto``, facilitando o trabalho com as estruturas de dados na sua aplicação.
 
 ```typescript
-/**                                                                               
+/**
     **********************************************
     This script was generated automatically by CMMV.
-    It is recommended not to modify this file manually, 
+    It is recommended not to modify this file manually,
     as it may be overwritten by the application.
     **********************************************
 **/
@@ -298,14 +300,14 @@ import { Auth } from '@cmmv/auth';
 export class UserController {
     // Protege a rota, verifica se o JWT é válido
     @Get('profile')
-    @Auth()  
+    @Auth()
     async getProfile(@Req() req) {
         return req.user;  // Acessa as informações do usuário autenticado
     }
 
     // Protege a rota, verifica se o JWT é válido e se o usuário é admin
     @Get('admin')
-    @Auth(['admin'])  
+    @Auth(['admin'])
     async getAdminDashboard(@Req() req) {
         return `Bem-vindo(a), admin \${req.user.username}`;
     }
@@ -317,7 +319,7 @@ export class UserController {
 * **``roles?:``** (Opcional): Um array de funções que o usuário deve possuir para acessar a rota. Se nenhuma função for fornecida, apenas a autenticação é necessária (ou seja, um JWT válido). Caso contrário, o usuário deve possuir pelo menos uma das funções especificadas.
 
 ```typescript
-@Auth(['admin', 'moderator']) 
+@Auth(['admin', 'moderator'])
 ```
 
 **Dependências de Configuração**
@@ -373,11 +375,11 @@ Method: `POST`
 Payload Format:
 
 ```typescript
-{ 
+{
     username: string;
     password: string;
     token?: string;
-    opt?: string; 
+    opt?: string;
 }
 ```
 <br/>

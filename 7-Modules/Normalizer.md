@@ -1,5 +1,7 @@
 # Normalizador
 
+Repositório: [https://github.com/cmmvio/cmmv-normalizer](https://github.com/cmmvio/cmmv-normalizer)
+
 O módulo ``@cmmv/normalizer`` oferece uma maneira robusta e eficiente de normalizar dados de vários formatos (JSON, XML, YML) utilizando esquemas, transformações e validações. Projetado para escalabilidade, utiliza streams para processar grandes arquivos com consumo mínimo de memória. O módulo se integra perfeitamente com outros módulos ``@cmmv``, mantendo a consistência dos dados por meio de modelos e contratos. Além disso, suporta tokenização para dados sensíveis usando o ``@cmmv/encryptor``, permitindo armazenamento seguro de objetos e strings criptografados.
 
 ## Recursos
@@ -18,7 +20,7 @@ Para instalar o módulo ``@cmmv/normalizer``:
 $ pnpm add @cmmv/normalizer @cmmv/encryptor
 ```
 
-## Exemplo 
+## Exemplo
 
 O exemplo a seguir demonstra como normalizar um grande arquivo JSON usando ``JSONParser`` e um esquema com transformações e validações personalizadas.
 

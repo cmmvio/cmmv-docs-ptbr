@@ -1,5 +1,7 @@
 # Cache
 
+Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/cache](https://github.com/cmmvio/cmmv/tree/main/packages/cache)
+
 O módulo ``@cmmv/cache`` integra-se ao ``cache-manager`` para fornecer gerenciamento de cache na memória. Por padrão, ele inclui suporte ao Redis usando o pacote ``@tirke/node-cache-manager-ioredis``, mas também suporta outras stores de cache compatíveis com o ``cache-manager``.
 
 Para instalar o módulo ``@cmmv/cache``, use o seguinte comando:
@@ -73,13 +75,13 @@ Neste exemplo, demonstramos como implementar manualmente o cache usando o módul
 
 ```typescript
 // Gerado automaticamente pelo CMMV
-    
-import { Telemetry } from "@cmmv/core";  
-import { Cache, CacheService } from "@cmmv/cache"; 
 
-import { 
-    Controller, Get, Post, Put, Delete, 
-    Queries, Param, Body, Request 
+import { Telemetry } from "@cmmv/core";
+import { Cache, CacheService } from "@cmmv/cache";
+
+import {
+    Controller, Get, Post, Put, Delete,
+    Queries, Param, Body, Request
 } from '@cmmv/http';
 
 import { TaskService } from '../services/task.service';
@@ -114,10 +116,10 @@ export class TaskController {
     async add(@Body() item: Task, @Request() req): Promise<Task> {
         Telemetry.start('TaskController::Add', req.requestId);
         let result = await this.taskservice.add(item, req);
-        
+
         // Armazena o resultado da nova tarefa criada no cache
         CacheService.set(`task:\${result.id}`, JSON.stringify(result), 300);
-        
+
         Telemetry.end('TaskController::Add', req.requestId);
         return result;
     }
@@ -129,10 +131,10 @@ export class TaskController {
     ): Promise<Task> {
         Telemetry.start('TaskController::Update', req.requestId);
         let result = await this.taskservice.update(id, item, req);
-        
+
         // Atualiza o cache com a tarefa atualizada
         CacheService.set(`task:\${result.id}`, JSON.stringify(result), 300);
-        
+
         Telemetry.end('TaskController::Update', req.requestId);
         return result;
     }
@@ -144,10 +146,10 @@ export class TaskController {
     ): Promise<{ success: boolean, affected: number }> {
         Telemetry.start('TaskController::Delete', req.requestId);
         let result = await this.taskservice.delete(id, req);
-        
+
         // Remove a tarefa deletada do cache
         CacheService.del(`task:\${id}`);
-        
+
         Telemetry.end('TaskController::Delete', req.requestId);
         return result;
     }
@@ -183,7 +185,7 @@ import { AbstractContract, Contract, ContractField } from '@cmmv/core';
     controllerName: 'Task',
     protoPath: 'src/protos/task.proto',
     protoPackage: 'task',
-    cache: { 
+    cache: {
         key: "task:",   // Prefixo da chave do cache
         ttl: 300,       // Tempo de vida (em segundos)
         compress: true  // Ativar compressão para dados armazenados
@@ -245,12 +247,12 @@ Com base no contrato acima, o controlador gerado incluirá lógica para gerencia
 ```typescript
 // Gerado automaticamente pelo CMMV
 
-import { Telemetry } from "@cmmv/core";  
-import { Cache, CacheService } from "@cmmv/cache"; 
+import { Telemetry } from "@cmmv/core";
+import { Cache, CacheService } from "@cmmv/cache";
 
-import { 
-    Controller, Get, Post, Put, Delete, 
-    Queries, Param, Body, Request 
+import {
+    Controller, Get, Post, Put, Delete,
+    Queries, Param, Body, Request
 } from '@cmmv/http';
 
 import { TaskService } from '../services/task.service';

@@ -1,5 +1,7 @@
 # Encryptor
 
+Repositório: [https://github.com/cmmvio/cmmv-encryptor](https://github.com/cmmvio/cmmv-encryptor)
+
 O módulo ``@cmmv/encryptor`` fornece um conjunto de utilitários criptográficos para aplicações baseadas no CMMV. Ele oferece métodos robustos para criptografia, descriptografia, geração de assinaturas digitais e gerenciamento de chaves usando criptografia de curvas elípticas (``ECC``) com ``secp256k1``, ``AES-256-GCM`` para criptografia, e BIP32/BIP39 para gerenciamento de wallets. Este módulo é projetado para garantir a segurança na transmissão e armazenamento de dados, preservando a confidencialidade, integridade e autenticidade das informações sensíveis.
 
 ## Instalação

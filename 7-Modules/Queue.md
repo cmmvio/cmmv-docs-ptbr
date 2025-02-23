@@ -1,4 +1,6 @@
-# Fila 
+# Fila
+
+Repositório: [https://github.com/cmmvio/cmmv-queue](https://github.com/cmmvio/cmmv-queue)
 
 O módulo ``@cmmv/queue`` fornece uma interface poderosa e unificada para gerenciar filas de mensagens em aplicações Node.js construídas com o framework ``@cmmv/core``. Ele suporta RabbitMQ, Kafka e Redis como backends de fila, permitindo que os desenvolvedores definam produtores e consumidores para processamento de mensagens de maneira estruturada e modular. O módulo simplifica a integração de arquiteturas baseadas em filas, tornando mais fácil construir sistemas escaláveis e orientados a eventos.
 
@@ -56,10 +58,10 @@ module.exports = {
 Use os decoradores ``@Channel`` e ``@Consume`` para definir consumidores de mensagens. Abaixo está um exemplo de consumidor para RabbitMQ:
 
 ```typescript
-import { 
-    Channel, Consume, 
-    QueueMessage, QueueConn, 
-    QueueChannel 
+import {
+    Channel, Consume,
+    QueueMessage, QueueConn,
+    QueueChannel
 } from "@cmmv/queue";
 
 import { QueueService } from "../services";
@@ -70,7 +72,7 @@ export class HelloWorldConsumer {
 
     @Consume("hello-world")
     public async onReceiveMessage(
-        @QueueMessage() message, 
+        @QueueMessage() message,
         @QueueChannel() channel,
         @QueueConn() conn
     ){
@@ -90,16 +92,16 @@ export class HelloWorldConsumer {
 Para habilitar Pub/Sub, use a opção ``pubSub`` no decorador ``@Channel``.
 
 ```typescript
-import { 
-    Channel, Consume, 
-    QueueMessage 
+import {
+    Channel, Consume,
+    QueueMessage
 } from "@cmmv/queue";
 
 import { QueueService } from "../services";
 
-@Channel("broadcast", { 
+@Channel("broadcast", {
     exchangeName: "broadcast",
-    pubSub: true 
+    pubSub: true
 })
 export class BroadcastConsumer {
     constructor(private readonly queueService: QueueService) {}

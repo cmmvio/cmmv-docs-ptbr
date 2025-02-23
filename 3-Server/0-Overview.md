@@ -1,18 +1,20 @@
 # Servidor
 
+Repositório: [https://github.com/cmmvio/cmmv-server](https://github.com/cmmvio/cmmv-server)
+
 O `@cmmv/server` é um servidor minimalista escrito em TypeScript, projetado para manter a mesma estrutura e métodos do [Express](https://expressjs.com/), enquanto resolve problemas de desempenho e introduz novos recursos para a entrega eficiente de componentes e arquivos estáticos.
 
 Este projeto incorpora código do [Express](https://github.com/expressjs/express), [Koa](https://github.com/koajs/koa) e [Fastify](https://github.com/fastify/fastify), mas foi completamente reescrito em TypeScript com foco na modernidade e desempenho. Além disso, integra recursos do Vite para otimizar a entrega de componentes e ativos, garantindo uma experiência mais ágil para aplicativos modernos.
 
 Devido à complexidade do projeto, ele foi separado em outro repositório [cmmv-server monorepo](https://github.com/cmmvio/cmmv-server), que contém múltiplos pacotes. Além do servidor principal, vários módulos foram implementados, incluindo:
 
-* body-parser
-* compression
-* cookie-parser
-* cors
-* etag
-* helmet
-* server-static
+* body-parser ([https://github.com/cmmvio/cmmv-server/tree/main/packages/body-parser](https://github.com/cmmvio/cmmv-server/tree/main/packages/body-parser))
+* compression ([https://github.com/cmmvio/cmmv-server/tree/main/packages/compression](https://github.com/cmmvio/cmmv-server/tree/main/packages/compression))
+* cookie-parser ([https://github.com/cmmvio/cmmv-server/tree/main/packages/cookie-parser](https://github.com/cmmvio/cmmv-server/tree/main/packages/cookie-parser))
+* cors ([https://github.com/cmmvio/cmmv-server/tree/main/packages/cors](https://github.com/cmmvio/cmmv-server/tree/main/packages/cors))
+* etag ([https://github.com/cmmvio/cmmv-server/tree/main/packages/etag](https://github.com/cmmvio/cmmv-server/tree/main/packages/etag))
+* helmet ([https://github.com/cmmvio/cmmv-server/tree/main/packages/helmet](https://github.com/cmmvio/cmmv-server/tree/main/packages/helmet))
+* server-static ([https://github.com/cmmvio/cmmv-server/tree/main/packages/server-static](https://github.com/cmmvio/cmmv-server/tree/main/packages/server-static))
 
 Abaixo, discutiremos cada módulo em mais detalhes.
 
@@ -109,7 +111,7 @@ app.listen({ host: "0.0.0.0", port: 3000 })
 
 ## Aplicação
 
-A classe Application é central para o `@cmmv/server` e fornece uma base flexível para gerenciar instâncias de servidor HTTP/HTTP2, rotas, middlewares e tratamento de erros. 
+A classe Application é central para o `@cmmv/server` e fornece uma base flexível para gerenciar instâncias de servidor HTTP/HTTP2, rotas, middlewares e tratamento de erros.
 
 **Recursos:**
 * Suporte a HTTP/HTTP2.
