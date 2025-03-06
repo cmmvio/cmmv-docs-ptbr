@@ -30,7 +30,7 @@ Em cenários onde a comunicação em tempo real, como jogos, plataformas de nego
 
 Ao escolher RPC via WebSocket/Protobuf como protocolo de comunicação padrão, o CMMV garante que os desenvolvedores possam construir aplicações eficientes e escaláveis sem o peso da sobrecarga do HTTP ou da ineficiência do JSON, resultando em sistemas mais rápidos e confiáveis.
 
-# Protobuf
+## Protobuf
 
 Protocol Buffers (Protobuf) é um formato de serialização binária neutro em linguagem e plataforma desenvolvido pelo Google. No CMMV, o Protobuf foi escolhido como camada de comunicação devido à sua eficiência, estrutura e benefícios de desempenho em relação a alternativas como JSON ou XML.
 
@@ -46,7 +46,7 @@ Protocol Buffers (Protobuf) é um formato de serialização binária neutro em l
 
 Ao usar Protobuf, o CMMV assegura desempenho ideal na serialização de dados, tornando a comunicação eficiente, escalável e confiável em uma ampla gama de aplicações.
 
-# Instalação
+## Instalação
 
 Para implementar comunicação WebSocket utilizando Protobuf no CMMV, siga estes passos:
 
@@ -108,7 +108,7 @@ No CMMV, contratos são processados no formato .proto e armazenados no diretóri
 
 * **Carregamento Sob Demanda:** Definir `preLoadContracts = false` carrega os arquivos .proto conforme necessário ao receber a primeira mensagem que exige o contrato, armazenando-os em cache local para uso futuro. Este método é útil para aplicações com inúmeros contratos.
 
-# Integração
+## Integração
 
 O framework CMMV simplifica a comunicação no frontend ao vincular métodos Protobuf diretamente ao contexto da view. Isso permite que desenvolvedores invoquem métodos RPC como `AddTaskRequest` e `DeleteTaskRequest` dentro das views de forma fluida, como demonstrado no exemplo de lista de tarefas:
 

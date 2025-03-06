@@ -263,7 +263,7 @@ export default {
 
 O hook ``mounted`` é essencial quando você precisa garantir que seu componente esteja totalmente carregado no DOM antes de interagir com ele, tornando-o útil para manipulações no DOM, configuração de ouvintes de eventos ou inicialização de componentes que dependem de bibliotecas ou serviços de terceiros.
 
-# Slot
+## Slot
 
 Os slots no CMMV permitem passar conteúdo personalizado do escopo pai para o componente filho. Eles podem ser atualizados dinamicamente usando dados do componente pai.
 

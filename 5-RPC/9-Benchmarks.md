@@ -68,12 +68,12 @@ Assumindo uma conexão de internet média:
 * **Ping Time:** 100ms
 * **Tempo de Download do Conteúdo:** 50ms
 
-**Tempo Total por Requisição:** 300ms  
+**Tempo Total por Requisição:** 300ms
 **Tempo Total para 1000 Requisições:** 300 segundos (5 minutos)
 
 ---
 
-# Protobuf + WebSocket
+## Protobuf + WebSocket
 
 Para este benchmark, analisamos o tamanho e o tempo total para 1000 requisições WebSocket utilizando Protobuf para comunicação binária. Neste cenário, o esquema Protobuf é carregado apenas uma vez (26 KB), e os dados enviados via WebSocket são mínimos devido ao formato binário eficiente. Assumimos o mesmo payload, mas em um formato binário compacto utilizando Protobuf.
 
@@ -101,7 +101,7 @@ Em uma conexão WebSocket:
 * **Ping Time:** 100ms (assumido para latência de rede)
 * **Tempo de Download do Conteúdo (Dados Binários):** Muito menor que HTTP/JSON.
 
-**Tempo Total por Requisição:** ~100ms (ping + processamento mínimo)  
+**Tempo Total por Requisição:** ~100ms (ping + processamento mínimo)
 **Tempo Total para 1000 Requisições:** 100 segundos (1 minuto e 40 segundos)
 
 ---

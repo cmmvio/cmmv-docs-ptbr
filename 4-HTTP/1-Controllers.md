@@ -8,9 +8,9 @@ Aqui está um exemplo de um controlador personalizado:
 import * as fs from 'fs';
 import * as path from "path";
 
-import { 
-    Controller, Get, Param, 
-    Response, ServiceRegistry 
+import {
+    Controller, Get, Param,
+    Response, ServiceRegistry
 } from '@cmmv/http';
 
 import { DocsService } from './docs.service';
@@ -20,7 +20,7 @@ export class DocsController {
     constructor(private docsService: DocsService){}
 
 	@Get()
-	async index(@Response() res) {		
+	async index(@Response() res) {
 		res.render("views/docs/index", {
 			docs: await this.docsService.getDocsStrutucture(),
 			services: ServiceRegistry.getServicesArr()
@@ -218,16 +218,16 @@ async getHost(@HostParam() host: string): Promise<string> {
 }
 ```
 
-# Inicializando
+## Inicializando
 
 Para que o controlador seja funcional, ele precisa ser adicionado a um módulo e chamado na aplicação. O processo envolve criar um módulo, registrar o controlador e garantir que o módulo seja usado durante a inicialização da aplicação.
 
 Aqui está um exemplo de registro de um controlador dentro de um módulo:
 
-```typescript   
+```typescript
 import { Module } from '@cmmv/core';
 import { TaskController } from './controllers/task.controller';
-    
+
 export let TaskModule = new Module({
     controllers: [TaskController],
     ...

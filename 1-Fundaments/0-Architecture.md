@@ -4,7 +4,7 @@
 
 <img src="/assets/cmmv-core.png" />
 
-# Core
+## Core
 
 O **Core** atua como o orquestrador de todo o sistema. Ele contém classes fundamentais necessárias para a operação do sistema, como **Singleton**, **Application**, e outras utilidades essenciais. Além disso, fornece tudo o que é necessário para a criação de contratos. Através do Core, é possível configurar a aplicação e integrar módulos complementares, transpiladores, providers e serviços, entre outros componentes.
 
@@ -18,7 +18,7 @@ Além disso, a aplicação é responsável por criar **models, interfaces e sche
 - **Transformação e serialização de dados**
 - **Parsing JSON de alta performance** via fast-json-stringify
 
-# HTTP
+## HTTP
 
 O módulo **HTTP** é responsável por:
 
@@ -39,7 +39,7 @@ O módulo HTTP inclui suporte embutido para:
 * **CORS (Cross-Origin Resource Sharing)**
 * **Gerenciamento de sessões**
 
-# Repository (Opcional)
+## Repository (Opcional)
 
 O **módulo Repository** é fundamental para qualquer aplicação, pois fornece uma camada de abstração para o **TypeORM**. Ele gerencia a comunicação entre a aplicação e o banco de dados, com suporte a:
 
@@ -52,7 +52,7 @@ O **módulo Repository** é fundamental para qualquer aplicação, pois fornece 
 
 Este módulo é responsável por **gerar entidades ORM**, **criar índices e relacionamentos** (para bancos relacionais). Além disso, os serviços anteriormente gerados pelo módulo HTTP serão atualizados para recuperar dados diretamente do banco de dados, eliminando a necessidade de integrações adicionais.
 
-# Cache (Opcional)
+## Cache (Opcional)
 
 O módulo **Cache** complementa HTTP e RPC fornecendo uma camada de cache em memória do servidor. Pode ser facilmente aplicado a controladores e gateways por meio de **decoradores**.
 
@@ -115,5 +115,6 @@ Além de sua funcionalidade principal, o CMMV fornece **módulos oficiais** que 
 - **`@cmmv/swagger`** - Gera **documentação de API** automaticamente.
 - **`@cmmv/events`** - Implementa **comunicação interna baseada em eventos** para microsserviços e módulos.
 - **`@cmmv/vue`** - Integração simplificada com **Vue 2 e Vue 3**.
+- **`@cmmv/vault`** - Gerencia **armazenamento seguro de dados** usando **criptografia ECC e AES-256-GCM**.
 
 Esses módulos oferecem **recursos prontos para uso**, permitindo que os desenvolvedores expandam suas aplicações sem complexidade adicional. Seja para **desenvolvimento de UI, processamento em segundo plano, segurança ou comunicação interna**, o **CMMV fornece soluções modulares e escaláveis** para aplicações modernas.

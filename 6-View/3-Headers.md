@@ -59,7 +59,7 @@ export default {
 
 Ao configurar cabeçalhos globalmente e no nível do template, você tem controle total sobre o comportamento, segurança e otimização de SEO do seu aplicativo CMMV.
 
-# Módulo HTTP
+## Módulo HTTP
 
 O módulo `@cmmv/http` fornece uma maneira automática de gerenciar e otimizar os cabeçalhos enviados com as respostas HTTP, reduzindo o tamanho de cabeçalhos desnecessários com base no tipo de solicitação (por exemplo, `GET`, `POST`, `PUT` ou `DELETE`). Essa funcionalidade embutida garante que apenas os cabeçalhos relevantes sejam incluídos, minimizando a sobrecarga e melhorando o desempenho.
 
@@ -83,7 +83,7 @@ if (req.method === 'GET') {
 
 * **X-XSS-Protection:** Desativa o filtro de XSS para evitar possíveis problemas no nível do navegador.
 
-### Solicitações POST, PUT, DELETE: 
+### Solicitações POST, PUT, DELETE:
 Para esses tipos de solicitações, o módulo remove cabeçalhos específicos que não são necessários para operações de escrita, garantindo respostas menores e mais eficientes.
 
 ```javascript
@@ -112,7 +112,7 @@ if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
 
 O módulo `@cmmv/http` gerencia inteligentemente os cabeçalhos para otimizar o desempenho, especialmente para operações de escrita (`POST`, `PUT`, `DELETE`). Para operações somente leitura (`GET`), garante forte segurança configurando cabeçalhos apropriados. Essa abordagem reduz a quantidade de dados desnecessários enviados com cada solicitação, ao mesmo tempo que adere às melhores práticas de segurança na web.
 
-# Módulos Adicionais
+## Módulos Adicionais
 
 O módulo `@cmmv/http` integra vários componentes de middleware essenciais para melhorar a segurança, o gerenciamento de sessões e o desempenho geral. Esses incluem `cors`, `helmet`, `session` e `compression`, que modificam os cabeçalhos e lidam com certos aspectos da comunicação HTTP.
 

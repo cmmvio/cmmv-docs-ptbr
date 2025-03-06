@@ -58,7 +58,7 @@ Como `@cmmv/view` processa os dados no servidor e os envia com o HTML inicial, o
 ### Redução de Sobrecarga de JavaScript
 Frameworks de renderização no lado do cliente frequentemente envolvem grandes bundles de JavaScript e execução significativa no runtime. Com `@cmmv/view`, grande parte do trabalho é transferida para o servidor, reduzindo a quantidade de JavaScript necessária para processar a página no lado do cliente.
 
-# Instalação
+## Instalação
 
 Instale o pacote ``@cmmv/view`` via npm:
 

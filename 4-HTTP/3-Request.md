@@ -100,8 +100,8 @@ const response = await this.httpService.head('https://api.example.com/data');
 * **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
-const response = await httpService.post('https://api.example.com/data', { 
-    key: 'value' 
+const response = await httpService.post('https://api.example.com/data', {
+    key: 'value'
 });
 ```
 
@@ -122,8 +122,8 @@ const response = await httpService.post('https://api.example.com/data', {
 * **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
-const response = await httpService.put('https://api.example.com/data/1', { 
-    key: 'newValue' 
+const response = await httpService.put('https://api.example.com/data/1', {
+    key: 'newValue'
 });
 ```
 
@@ -144,12 +144,12 @@ const response = await httpService.put('https://api.example.com/data/1', {
 * **Retorno:** Uma ``Promise`` que resolve com um ``AxiosResponse``.
 
 ```typescript
-const response = await httpService.patch('https://api.example.com/data/1', { 
-    key: 'patchedValue' 
+const response = await httpService.patch('https://api.example.com/data/1', {
+    key: 'patchedValue'
 });
 ```
 
-# Uso 
+## Uso
 
 ```typescript
 import { Service } from "@cmmv/core";
@@ -170,7 +170,7 @@ export class CryptoPriceService {
             const response = await this.httpService.get(this.apiUrl, {
                 params: {
                     vs_currency: 'usd',
-                    order: 'market_cap_desc', 
+                    order: 'market_cap_desc',
                     page: 1
                 }
             });
@@ -179,7 +179,7 @@ export class CryptoPriceService {
                 const cryptos = response.data;
                 cryptos.forEach((crypto: any) => {
                     console.log(`
-                        Criptomoeda: ${crypto.name}, 
+                        Criptomoeda: ${crypto.name},
                         Preço: $${crypto.current_price}
                     `);
                 });

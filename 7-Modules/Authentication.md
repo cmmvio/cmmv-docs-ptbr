@@ -329,7 +329,7 @@ export class UserController {
 
 O decorador adiciona o middleware de autenticação e autorização aos metadados da rota. Este middleware é processado antes do manipulador da rota ser executado, garantindo que usuários não autorizados sejam bloqueados antes que qualquer lógica de negócio seja alcançada.
 
-# User Registration
+## User Registration
 
 A partir da versão `0.8.10`, o módulo `@cmmv/auth` foi redesenhado para incluir controladores, serviços e gateways dentro do próprio módulo, eliminando a necessidade de geração de código. Apenas adicionar o módulo à sua aplicação já ativa todas as funcionalidades de autenticação automaticamente.
 
