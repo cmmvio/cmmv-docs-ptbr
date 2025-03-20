@@ -2,17 +2,17 @@
 
 Repositório: [https://github.com/cmmvio/cmmv-email](https://github.com/cmmvio/cmmv-email)
 
-O módulo `@cmmv/email` fornece uma interface unificada para o envio de e-mails em aplicações baseadas no CMMV, utilizando [nodemailer](https://nodemailer.com/) para transporte de e-mails e integração opcional com AWS SES.
+O módulo `@cmmv/email` fornece uma interface unificada para enviar emails em aplicações baseadas em CMMV, utilizando o [nodemailer](https://nodemailer.com/) para transporte de email e integração opcional com AWS SES.
 
 ## Recursos
 
-* **Suporte a SMTP e AWS SES:** Envie e-mails via SMTP padrão ou Amazon SES.
+* **Suporte a SMTP e AWS SES:** Envie emails via SMTP padrão ou Amazon SES.
 
-* **Integração Transparente:** Funciona perfeitamente com o ecossistema CMMV.
+* **Integração Perfeita:** Funciona com o ecossistema CMMV.
 
 * **Opções de Transporte:** Opções de transporte personalizáveis via configuração.
 
-* **Suporte a Logs:** Ative o registro de logs de e-mails para fins de depuração.
+* **Suporte a Registro de Logs:** Ative ou desative o registro de logs de email para fins de depuração.
 
 ## Instalação
 
@@ -36,8 +36,8 @@ module.exports = {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
-        logger: true,  // Ativar logs
-        debug: true,   // Ativar modo de depuração
+        logger: true,  // Habilita o registro de logs
+        debug: true,   // Habilita o modo de depuração
         SES: {
             region: process.env.AWS_REGION,
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -49,7 +49,7 @@ module.exports = {
 
 ## Configurando a Aplicação
 
-No seu arquivo `index.ts`, inclua o `EmailModule` na aplicação:
+No seu arquivo ``index.ts``, inclua o ``EmailModule`` na aplicação:
 
 ```typescript
 import { Application } from "@cmmv/core";
@@ -67,7 +67,7 @@ Application.create({
 
 ## Usando o EmailService
 
-O `EmailService` pode ser integrado com o módulo `@cmmv/queue` para processamento assíncrono de e-mails.
+O `EmailService` pode ser integrado ao módulo `@cmmv/queue` para processamento assíncrono de emails.
 
 ```typescript
 import { Channel, Consume, QueueMessage } from "@cmmv/queue";
@@ -93,12 +93,12 @@ export class EmailConsumer {
 
 ## Integração com AWS SES
 
-Se as configurações do AWS SES forem fornecidas na configuração, o módulo usará automaticamente o AWS SES como provedor de e-mail.
+Se as configurações do AWS SES forem fornecidas na configuração, o módulo usará automaticamente o AWS SES como provedor de email.
 
 ```javascript
 SES: {
     region: "us-east-1",
-    accessKeyId: "YOUR_AWS_ACCESS_KEY",
-    secretAccessKey: "YOUR_AWS_SECRET_KEY"
+    accessKeyId: "SUA_CHAVE_DE_ACESSO_AWS",
+    secretAccessKey: "SUA_CHAVE_SECRETA_AWS"
 }
 ```

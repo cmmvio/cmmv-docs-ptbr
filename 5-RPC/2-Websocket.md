@@ -1,14 +1,14 @@
 # WebSocket
 
-O módulo `@cmmv/ws` é um componente-chave responsável por gerenciar a comunicação WebSocket no framework CMMV. Ele é crucial para o funcionamento de **Remote Procedure Calls (RPC)** no sistema, permitindo interações cliente-servidor sem interrupções. Este módulo gera automaticamente gateways WebSocket com base nos contratos definidos no seu projeto, habilitando o manuseio eficiente de solicitações e respostas RPC binárias.
+O módulo ``@cmmv/ws`` é um componente essencial responsável por gerenciar a comunicação WebSocket no framework CMMV. Ele é crucial para o funcionamento das **Chamadas de Procedimento Remoto (RPC)** no sistema, permitindo interações contínuas entre cliente e servidor. Este módulo gera automaticamente gateways WebSocket com base nos contratos definidos no seu projeto, possibilitando o manuseio de requisições e respostas RPC em formato binário.
 
-* **Geração Automática de Gateways:** Ao adicionar o módulo `@cmmv/ws`, ele gera automaticamente gateways WebSocket a partir dos contratos definidos no seu projeto. Esses gateways atuam como endpoints de comunicação para solicitações e respostas RPC.
+* **Geração Automática de Gateway:** Quando o módulo ``@cmmv/ws`` é adicionado, ele gera automaticamente gateways WebSocket a partir dos contratos definidos no seu projeto. Esses gateways funcionam como pontos de extremidade de comunicação para requisições e respostas RPC.
 
-* **Protocolo Binário:** O módulo utiliza um formato binário para todas as solicitações e respostas RPC. Isso garante transferência de dados eficiente e suporte a estruturas de dados complexas. É importante observar que comunicação baseada em texto simples não é suportada por este módulo.
+* **Protocolo Binário:** O módulo utiliza um formato binário para todas as requisições e respostas RPC. Isso garante uma transferência de dados eficiente e suporta estruturas de dados complexas. É importante observar que a comunicação simples baseada em texto não é suportada por este módulo.
 
-* **Comunicação Baseada em Contratos:** A comunicação segue a estrutura definida nos seus contratos, garantindo tratamento de dados bem estruturado e com tipagem segura. Os contratos são escritos utilizando o decorador `@Contract` do módulo `@cmmv/core`.
+* **Comunicação Baseada em Contratos:** A comunicação segue a estrutura definida nos seus contratos, garantindo um manuseio de dados seguro e bem estruturado. Os contratos são escritos usando o decorador ``@Contract`` do módulo ``@cmmv/core``.
 
-Abaixo está um exemplo de contrato que define a estrutura para operações RPC relacionadas a tarefas. O contrato é anotado com os decoradores `@Contract` e `@ContractField` para especificar os campos e tipos.
+Abaixo está um exemplo de contrato que define a estrutura para operações RPC relacionadas a tarefas. O contrato é anotado com os decoradores ``@Contract`` e ``@ContractField`` para especificar os campos e tipos.
 
 ```typescript
 import { AbstractContract, Contract, ContractField } from '@cmmv/core';
@@ -39,19 +39,19 @@ export class TasksContract extends AbstractContract {
 }
 ```
 
-O contrato acima gerará um gateway WebSocket responsável por gerenciar operações RPC como adicionar, atualizar, deletar e recuperar tarefas. Abaixo está um exemplo de gateway gerado:
+O contrato acima gerará um gateway WebSocket, responsável por lidar com operações RPC como adicionar, atualizar, excluir e recuperar tarefas. Abaixo está um exemplo de um gateway gerado:
 
 ```typescript
 // Gerado automaticamente pelo CMMV
-    
+
 import { Rpc, Message, Data, Socket, RpcUtils } from "@cmmv/ws";
 import { plainToClass } from 'class-transformer';
 import { TaskEntity } from '../entities/task.entity';
 
-import { 
-    AddTaskRequest, 
-    UpdateTaskRequest,   
-    DeleteTaskRequest 
+import {
+    AddTaskRequest,
+    UpdateTaskRequest,
+    DeleteTaskRequest
 } from "../protos/task";
 
 import { TaskService } from '../services/task.service';
@@ -71,7 +71,7 @@ export class TaskGateway {
             if (response)
                 socket.send(response);
         } catch (e) {
-            // Handle error
+            // Lidar com erro
         }
     }
 
@@ -87,7 +87,7 @@ export class TaskGateway {
             if (response)
                 socket.send(response);
         } catch (e) {
-            // Handle error
+            // Lidar com erro
         }
     }
 
@@ -103,7 +103,7 @@ export class TaskGateway {
             if (response)
                 socket.send(response);
         } catch (e) {
-            // Handle error
+            // Lidar com erro
         }
     }
 
@@ -118,14 +118,14 @@ export class TaskGateway {
             if (response)
                 socket.send(response);
         } catch (e) {
-            // Handle error
+            // Lidar com erro
         }
     }
 }
 ```
 
-O gateway interage com serviços (ex.: `TaskService`) para processar os dados. Esses serviços realizam a lógica de negócio e interagem com o banco de dados ou outros componentes do backend.
+O gateway interage com serviços (por exemplo, ``TaskService``) para processar os dados. Esses serviços executam a lógica de negócios e interagem com o banco de dados ou outros componentes do backend.
 
-O módulo `@cmmv/ws` é uma ferramenta poderosa para gerenciar comunicação WebSocket binária no framework CMMV. Ele gera automaticamente gateways WebSocket com base nos contratos, lidando com solicitações e respostas RPC de forma eficiente usando dados binários. Isso garante uma comunicação segura, performática e integração fluida com o restante do sistema CMMV.
+O módulo ``@cmmv/ws`` é uma ferramenta poderosa para gerenciar a comunicação WebSocket binária no framework CMMV. Ele gera automaticamente gateways WebSocket com base em contratos, lidando com requisições e respostas RPC de forma eficiente usando dados binários. Isso garante uma comunicação segura, performática e uma integração perfeita com o restante do sistema CMMV.
 
-Ao utilizar este módulo, os desenvolvedores podem facilmente implementar funcionalidades em tempo real em suas aplicações, aproveitando o sistema RPC embutido para tarefas como sincronização de dados, atualizações em tempo real e muito mais.
+Ao utilizar este módulo, os desenvolvedores podem facilmente implementar funcionalidades em tempo real em suas aplicações, aproveitando o sistema RPC integrado para tarefas como sincronização de dados, atualizações em tempo real e muito mais.

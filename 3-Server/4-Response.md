@@ -1,6 +1,6 @@
-# Resposta (Response)
+# Resposta
 
-O objeto `res` representa a resposta HTTP em uma aplicação no servidor e é responsável por gerenciar e enviar respostas de volta ao cliente. Este objeto permite definir códigos de status, cabeçalhos, cookies, entre outros. É uma versão aprimorada do objeto padrão `ServerResponse` do Node.js, oferecendo recursos adicionais para maior controle sobre a resposta. O objeto `res` é comumente usado para enviar vários tipos de respostas—como HTML, JSON ou arquivos—ao cliente. Por convenção, o objeto `res` refere-se à resposta (e `req` refere-se à requisição), mas seu nome pode ser diferente dependendo dos parâmetros usados na função de callback.
+O objeto ``res`` representa a resposta HTTP em uma aplicação do lado do servidor e é responsável por gerenciar e enviar respostas de volta ao cliente. Este objeto permite definir códigos de status, cabeçalhos, cookies e mais. É uma versão aprimorada do objeto padrão do Node.js ``ServerResponse``, oferecendo recursos adicionais para maior controle sobre a resposta. O objeto ``res`` é comumente usado para enviar vários tipos de respostas — como HTML, JSON ou arquivos — ao cliente. Por convenção, o objeto ``res`` refere-se à resposta (e ``req`` à requisição), mas seu nome pode variar dependendo dos parâmetros usados na função de callback.
 
 **Exemplo:**
 
@@ -18,11 +18,11 @@ app.get('/user/:id', function (request, response) {
 });
 ```
 
-O objeto `res` não apenas suporta todos os métodos e propriedades integrados do `ServerResponse` do Node, mas também oferece capacidades adicionais, facilitando o gerenciamento do ciclo de vida HTTP em aplicações modernas.
+O objeto ``res`` suporta todos os métodos e propriedades embutidos do ``ServerResponse`` do Node.js, mas também oferece capacidades adicionais, facilitando o gerenciamento do ciclo de vida HTTP em aplicações modernas.
 
 ## Propriedades
 
-## res.socket
+### res.socket
 
 Retorna o socket da requisição.
 
@@ -30,7 +30,7 @@ Retorna o socket da requisição.
 console.log(res.socket);
 ```
 
-## res.status
+### res.status
 
 Recupera o código de status HTTP da resposta.
 
@@ -38,7 +38,7 @@ Recupera o código de status HTTP da resposta.
 console.log(res.status); // Exibe o código de status
 ```
 
-## res.now
+### res.now
 
 Retorna o timestamp atual em milissegundos.
 
@@ -46,15 +46,15 @@ Retorna o timestamp atual em milissegundos.
 console.log(res.now); // Exibe o timestamp atual
 ```
 
-## res.elapsedTime
+### res.elapsedTime
 
-Retorna o tempo decorrido em milissegundos desde que a resposta começou.
+Retorna o tempo decorrido em milissegundos desde o início da resposta.
 
 ```typescript
 console.log(res.elapsedTime); // Exibe o tempo decorrido
 ```
 
-## res.sent
+### res.sent
 
 Verifica se a resposta já foi enviada.
 
@@ -64,27 +64,27 @@ if (res.sent) {
 }
 ```
 
-## res.headerSent
+### res.headerSent
 
-Retorna `true` se os cabeçalhos já foram enviados.
+Retorna ``true`` se os cabeçalhos já foram enviados.
 
-## res.writable
+### res.writable
 
-Retorna `true` se a resposta ainda pode ser gravada (não finalizada).
+Retorna ``true`` se a resposta ainda é gravável (não finalizada).
 
-## res.message (get/set)
+### res.message (get/set)
 
-Recupera ou define a mensagem de status HTTP da resposta.
+Recupera a mensagem de status HTTP da resposta.
 
-## res.body (get/set)
+### res.body (get/set)
 
-Recupera ou define o corpo da resposta. Pode aceitar diferentes tipos, como `string`, `Buffer`, `Object` ou `Stream`.
+Retorna ou define o corpo da resposta. Pode aceitar diferentes tipos, como string, Buffer, Object ou Stream.
 
-## res.length (get/set)
+### res.length (get/set)
 
-Recupera o tamanho do conteúdo da resposta ou define o cabeçalho `Content-Length`.
+Retorna o comprimento do conteúdo da resposta. / Define o cabeçalho ``Content-Length`` como ``n``.
 
-## res.status (get/set)
+### res.status (get/set)
 
 Define o código de status HTTP para a resposta.
 
@@ -92,9 +92,9 @@ Define o código de status HTTP para a resposta.
 res.status = 404;
 ```
 
-## res.lastModified (get/set)
+### res.lastModified (get/set)
 
-Define o cabeçalho `Last-Modified` usando uma `string` ou um objeto `Date`.
+Define o cabeçalho ``Last-Modified`` usando uma string ou uma ``Date``.
 
 ```typescript
 res.lastModified = new Date();
@@ -102,17 +102,17 @@ res.lastModified = new Date();
 
 ## Métodos
 
-## res.has(field)
+### res.has(field)
 
 Verifica se um cabeçalho específico está presente na resposta.
 
 ```typescript
 if (res.has('Content-Type')) {
-  console.log('O cabeçalho Content-Type está definido');
+  console.log('Cabeçalho Content-Type está definido');
 }
 ```
 
-## res.remove(field)
+### res.remove(field)
 
 Remove um cabeçalho específico da resposta.
 
@@ -120,21 +120,21 @@ Remove um cabeçalho específico da resposta.
 res.remove('Content-Type');
 ```
 
-## res.hijack()
+### res.hijack()
 
-Marca a resposta como sequestrada (`hijacked`).
+Marca a resposta como sequestrada.
 
-## res.code(code)
+### res.code(code)
 
-Define o código de status HTTP e retorna a resposta para encadeamento (`chaining`).
+Define o código de status HTTP e retorna a resposta para encadeamento.
 
 ```typescript
 res.code(200);
 ```
 
-## res.links(links)
+### res.links(links)
 
-Define o campo de cabeçalho `Link` com o objeto `links` fornecido.
+Define o campo de cabeçalho ``Link`` com o objeto ``links`` fornecido.
 
 ```typescript
 res.links({
@@ -143,7 +143,7 @@ res.links({
 });
 ```
 
-## res.header(field, val)
+### res.header(field, val)
 
 Define um campo de cabeçalho com um valor específico.
 
@@ -151,23 +151,23 @@ Define um campo de cabeçalho com um valor específico.
 res.header('Content-Type', 'application/json');
 ```
 
-## res.get(field)
+### res.get(field)
 
-Recupera o valor de um cabeçalho específico.
+Recupera o valor de um campo de cabeçalho específico.
 
 ```typescript
 console.log(res.get('Content-Type'));
 ```
 
-## res.type(type)
+### res.type(type)
 
-Define o tipo de conteúdo (`Content-Type`) com base no tipo fornecido.
+Define o ``Content-Type`` com base no tipo fornecido.
 
 ```typescript
 res.type('json');
 ```
 
-## res.sendStatus(statusCode)
+### res.sendStatus(statusCode)
 
 Envia o código de status HTTP com a mensagem padrão.
 
@@ -175,220 +175,208 @@ Envia o código de status HTTP com a mensagem padrão.
 res.sendStatus(404);
 ```
 
-## res.send(payload)
+### res.send(payload)
 
 Envia a resposta com o payload fornecido.
 
 ```typescript
-res.send({ message: 'Olá Mundo' });
+res.send({ mensagem: 'Olá, Mundo' });
 ```
 
-## res.json(obj)
+### res.json(obj)
 
-Envia uma resposta no formato JSON.
+Envia uma resposta JSON.
 
 ```typescript
-res.json({ user: 'João' });
+res.json({ usuário: 'João' });
 ```
 
-## res.jsonp(obj)
+### res.jsonp(obj)
 
 Envia uma resposta JSONP com suporte a callback.
 
-## res.sendFile(path, opt, cb)
+### res.sendFile(path, opt, cb)
 
-A função `res.sendFile()` é usada para transferir o arquivo localizado no caminho (`path`) especificado para o cliente. Ela configura automaticamente o cabeçalho `Content-Type` com base na extensão do arquivo e dispara um callback quando a transferência do arquivo é concluída ou ocorre um erro.
+A função ``res.sendFile()`` é usada para transferir o arquivo localizado em um determinado ``path`` para o cliente. Ela define automaticamente o cabeçalho de resposta ``Content-Type`` com base na extensão do arquivo e aciona um callback quando a transferência do arquivo é concluída ou se ocorre um erro. Esse método é particularmente útil para servir arquivos estáticos ou entregar arquivos dinamicamente em resposta a requisições.
 
-Veja algumas opções suportadas:
+Aqui está uma visão geral de como o ``res.sendFile()`` funciona, junto com opções adicionais que podem ser usadas para controlar o comportamento de entrega de arquivos.
 
-| Opção          | Tipo            | Padrão      | Descrição                                                                                                     |
-|----------------|-----------------|-------------|---------------------------------------------------------------------------------------------------------------|
-| `maxAge`      | número/string   | `0`        | Especifica o tempo de cache no cliente em milissegundos ou string.                                            |
-| `root`        | string          | `undefined`| Define o diretório raiz para resolução de caminhos relativos.                                                 |
-| `headers`     | objeto          | `{}`       | Cabeçalhos personalizados que serão adicionados na resposta.                                                  |
-| `dotfiles`    | string          | `ignore`   | Determina como lidar com arquivos ocultos (ex.: `.gitignore`). Pode ser `allow`, `deny`, ou `ignore`. |
-| `etag`        | boolean         | `true`     | Gera um cabeçalho `ETag` para o arquivo.                                                                     |
-| `lastModified`| boolean         | `true`     | Configura o cabeçalho `Last-Modified` para o arquivo.                                                        |
+| Opção          | Tipo           | Padrão      | Descrição                                                                                                                                    |
+|----------------|----------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| `maxAge`       | number/string  | `0`         | Especifica a propriedade `max-age` do `Cache-Control` em milissegundos ou uma string (convertida por `ms`). Controla o tempo de cache do cliente. |
+| `root`         | string         | `undefined` | O diretório raiz a partir do qual os caminhos relativos dos arquivos são resolvidos. Sem `root`, o `path` deve ser um caminho absoluto.      |
+| `headers`      | object         | `{}`        | Objeto contendo cabeçalhos personalizados que serão adicionados à resposta quando o arquivo for servido.                                     |
+| `dotfiles`     | string         | `'ignore'`  | Determina como lidar com dotfiles (arquivos ou diretórios começando com ponto, como `.gitignore`). Pode ser `'allow'`, `'deny'` ou `'ignore'`. |
+| `etag`         | boolean        | `true`      | Define se deve gerar um cabeçalho `ETag` para o arquivo.                                                                                     |
+| `lastModified` | boolean        | `true`      | Define se deve configurar o cabeçalho `Last-Modified` para o arquivo.                                                                        |
+| `cacheControl` | boolean        | `true`      | Habilita ou desabilita a configuração do cabeçalho `Cache-Control` na resposta.                                                              |
+| `acceptRanges` | boolean        | `true`      | Permite conteúdo parcial (via cabeçalho `Range`). Útil para streaming de vídeo e áudio.                                                      |
+| `immutable`    | boolean        | `false`     | Quando definido como `true`, adiciona `Cache-Control: immutable` à resposta, indicando que o arquivo nunca mudará e pode ser armazenado indefinidamente. |
 
-## res.end(payload, encoding, cb)
+### res.download(path, filename, opt, cb)
+
+O método ``res.download()`` é usado para transferir o arquivo localizado no ``path`` especificado como um anexo, solicitando ao cliente que faça o download do arquivo. Você pode opcionalmente fornecer um nome de arquivo diferente para o arquivo baixado e uma função de callback para lidar com quaisquer erros que possam ocorrer durante a transferência.
+
+Esse método também aceita um objeto ``options`` semelhante ao usado com ``res.sendFile()``. O cabeçalho ``Content-Disposition`` é automaticamente definido para sinalizar que o arquivo deve ser baixado como um anexo, sobrescrevendo quaisquer cabeçalhos ``Content-Disposition`` previamente definidos.
+
+Internamente, esse método usa ``res.sendFile()`` para gerenciar a transferência do arquivo.
+
+### res.end(payload, encoding, cb)
 
 Finaliza o processo de resposta.
 
-## res.render(view, opt, cb)
+### res.format(obj)
 
-Renderiza um template de visualização com as opções fornecidas e, opcionalmente, um callback.
+Responde à requisição chamando o callback apropriado do objeto ``obj`` com base no cabeçalho ``Accept``.
 
 ```typescript
-app.get('/sobre', (req, res) => {
-    res.render('sobre', { titulo: 'Sobre Nós', empresa: 'MinhaEmpresa' });
+res.format({
+  'text/plain': () => res.send('Texto puro'),
+  'application/json': () => res.json({ mensagem: 'JSON' })
 });
 ```
 
-Este método é ideal para aplicações que usam engines de template como Pug ou EJS.
+### res.vary(field)
 
-## Compatibilidade de Resposta
+Adiciona o campo fornecido ao cabeçalho ``Vary``.
 
-## res.append(field, val)
+```typescript
+res.vary('Accept-Encoding');
+```
+
+### res.attachment(filename)
+
+Define o cabeçalho ``Content-Disposition`` como anexo e define o nome do arquivo.
+
+### res.append(field, val)
 
 Adiciona um valor a um cabeçalho específico.
 
 ```typescript
 res.append('Link', ['<http://localhost/>', '<http://localhost:3000/>']);
+res.append('Set-Cookie', 'foo=bar; Path=/; HttpOnly');
+res.append('Warning', '199 Miscellaneous warning');
 ```
 
-## res.redirect(url, alt)
+### res.location(url)
 
-Realiza um redirecionamento (302) para a URL especificada.
+Define o cabeçalho ``Location`` para a URL fornecida.
 
 ```typescript
-res.redirect('/login');
+res.location('/foo/bar');
+res.location('http://example.com');
+res.location('../login');
 ```
 
-## res.clearCookie(name, options)
+### res.redirect(url, alt)
 
-Remove o cookie com o nome especificado.
+Realiza um redirecionamento 302 para a URL especificada.
+
+```typescript
+this.redirect('back');
+this.redirect('back', '/index.html');
+this.redirect('/login');
+this.redirect('http://google.com');
+```
+
+### res.clearCookie(name, options)
+
+Limpa o cookie com o nome fornecido.
 
 ```typescript
 res.clearCookie('session_id');
 ```
 
-## res.cookie(name, value, options)
+### res.cookie(name, value, options)
 
-Define um cookie com nome e valor especificados, podendo incluir opções adicionais, como tempo de expiração, flags de segurança e mais.
+O método ``res.cookie()`` é usado para definir um cookie com um nome e valor especificados. Ele permite definir opções adicionais para controlar o comportamento do cookie, como tempo de expiração, bandeiras de segurança e mais. O método é encadeável, permitindo chamá-lo várias vezes em uma única resposta.
 
 ```typescript
-res.cookie('lembrar', '1', { 
-    maxAge: 900000, 
-    httpOnly: true 
+// Define um cookie que expira em 15 minutos
+res.cookie('rememberme', '1', {
+    expires: new Date(Date.now() + 900000),
+    httpOnly: true
+});
+
+// Define um cookie com max-age de 15 minutos (em milissegundos)
+res.cookie('rememberme', '1', {
+    maxAge: 900000,
+    httpOnly: true
 });
 ```
 
-Essas propriedades e métodos tornam o `res` um objeto poderoso para gerenciar respostas HTTP em aplicações modernas.
+| Opção      | Tipo            | Padrão      | Descrição                                                                                                    |
+|------------|-----------------|-------------|--------------------------------------------------------------------------------------------------------------|
+| `maxAge`   | number          | `undefined` | Especifica o `max-age` do cookie em milissegundos. Se definido, substitui a opção `expires`.                  |
+| `expires`  | Date            | `undefined` | Define a data de expiração do cookie. Use `maxAge` como alternativa para definir o tempo de expiração relativo. |
+| `path`     | string          | `'/'`       | Define o caminho da URL para o qual o cookie é válido. Padrão é o caminho raiz `/`.                          |
+| `domain`   | string          | `undefined` | Especifica o domínio para o qual o cookie é válido.                                                          |
+| `secure`   | boolean         | `false`     | Marca o cookie como seguro, garantindo que seja enviado apenas por HTTPS.                                    |
+| `httpOnly` | boolean         | `false`     | Marca o cookie como HTTP-only, significando que ele não pode ser acessado via JavaScript no navegador.         |
+| `signed`   | boolean         | `false`     | Indica se o cookie deve ser assinado. Requer um segredo definido em `cookieParser()`.                         |
+| `sameSite` | boolean/string  | `false`     | Restringe como o cookie é enviado entre sites. Pode ser `'strict'`, `'lax'` ou `true` (que define como `'strict'`). |
 
-| Opção       | Tipo            | Padrão      | Descrição                                                                                                     |
-|-------------|-----------------|-------------|---------------------------------------------------------------------------------------------------------------|
-| `maxAge`   | número          | `undefined` | Especifica o `max-age` do cookie em milissegundos. Se definido, substitui a opção `expires`.                 |
-| `expires`  | Date             | `undefined` | Define a data de expiração do cookie. Use `maxAge` como alternativa para definir o tempo de expiração relativo. |
-| `path`     | string           | `'/'`       | Define o caminho URL no qual o cookie é válido. O padrão é o caminho raiz `/`.                                |
-| `domain`   | string           | `undefined` | Especifica o domínio no qual o cookie é válido.                                                                |
-| `secure`   | boolean          | `false`     | Marca o cookie como seguro, garantindo que seja enviado apenas via HTTPS.                                       |
-| `httpOnly` | boolean          | `false`     | Marca o cookie como HTTP-only, o que significa que ele não pode ser acessado via JavaScript no navegador.        |
-| `signed`   | boolean          | `false`     | Indica se o cookie deve ser assinado. Requer um segredo definido no `cookieParser()`.                          |
-| `sameSite` | boolean/string   | `false`     | Restringe como o cookie é enviado entre sites. Pode ser `'strict'`, `'lax'` ou `true` (o que define como `'strict'`). |
+### res.render(view, opt, cb)
 
-## res.render(view, opt, cb)
-
-Renderiza um modelo de visualização com as opções fornecidas e uma função de callback opcional. Se um callback for fornecido, ele será executado assim que a visualização for renderizada, e nenhuma resposta automática será enviada. Se nenhum callback for fornecido, o método envia uma resposta padrão com o status `200` e o tipo de conteúdo `text/html`.
+Renderiza um template de visão com as opções fornecidas e uma função de callback opcional. Se um callback for fornecido, ele é executado assim que a visão for renderizada, e nenhuma resposta automática é enviada. Se nenhum callback for fornecido, o método envia uma resposta padrão com código de status ``200`` e tipo de conteúdo ``text/html``.
 
 **Exemplo:**
 
 ```typescript
-app.get('/sobre', (req, res) => {
-    res.render('sobre', { title: 'Sobre Nós', company: 'MinhaEmpresa' });
+app.get('/about', (req, res) => {
+    res.render('about', { título: 'Sobre Nós', empresa: 'MinhaEmpresa' });
 });
 ```
 
 **Exemplo com Callback:**
 
 ```typescript
-app.get('/visualizacao-personalizada', (req, res) => {
-    res.render('personalizado', { title: 'Página Personalizada' }, (err, html) => {
-        if (err) 
+app.get('/custom-view', (req, res) => {
+    res.render('custom', { título: 'Página Personalizada' }, (err, html) => {
+        if (err)
             return res.status(500).send('Erro ao renderizar a página.');
-        
+
         res.send(html);
     });
 });
 ```
 
-Neste exemplo, uma função de callback personalizada é fornecida. Se ocorrer um erro durante a renderização, o callback lida com ele enviando um status `500` e uma mensagem de erro ao cliente.
+Nesse exemplo, uma função de callback personalizada é fornecida. Se ocorrer um erro durante a renderização, o callback lida com isso enviando um código de status ``500`` e uma mensagem de erro ao cliente.
 
 ## Compatibilidade de Resposta
-
-## res.trailer(key, fn)
-
-Define um cabeçalho de trailer com a chave e função fornecidas.
-
-```typescript
-res.trailer('X-Custom-Trailer', () => 'Valor do Trailer');
-```
-
-### res.flushHeaders()
-
-Envia imediatamente os cabeçalhos acumulados para o cliente, sem esperar que o corpo da resposta seja enviado.
-
-```typescript
-res.flushHeaders();
-```
-
-### res.getHeaderNames()
-
-Retorna um array com os nomes dos cabeçalhos atualmente definidos na resposta.
-
-```typescript
-console.log(res.getHeaderNames());
-```
-
-### res.getHeaders()
-
-Retorna um objeto contendo todos os cabeçalhos definidos na resposta.
-
-```typescript
-console.log(res.getHeaders());
-```
-
-### res.hasHeader(name)
-
-Verifica se um cabeçalho específico está presente na resposta.
-
-```typescript
-if (res.hasHeader('Content-Type')) {
-    console.log('O cabeçalho Content-Type está definido');
-}
-```
-
-### res.removeHeader(name)
-
-Remove um cabeçalho específico da resposta.
-
-```typescript
-res.removeHeader('Content-Type');
-```
-
-### res.setTimeout(msecs, cb)
-
-Define um tempo limite para a resposta. O callback `cb` será executado se o tempo limite for alcançado.
-
-```typescript
-res.setTimeout(5000, () => {
-    console.log('A resposta atingiu o tempo limite');
-});
-```
-
-### res.uncork()
-
-Desbloqueia o fluxo de escrita na resposta, enviando qualquer conteúdo armazenado em buffer.
-
-### res.writeEarlyHints(hints, callback)
-
-Escreve cabeçalhos HTTP/1.1 103 Early Hints, que podem ser usados para sugerir ao navegador que carregue recursos antes de receber a resposta final.
-
-**Exemplo:**
-
-```typescript
-res.writeEarlyHints({
-    'Link': '</style.css>; rel=preload; as=style'
-}, () => {
-    console.log('Hints enviados ao cliente');
-});
-```
 
 ### res.trailer(key, fn)
 
 Define um cabeçalho de trailer com a chave e função fornecidas.
 
-```typescript
-res.trailer('X-Custom-Trailer', () => 'Valor do Trailer');
-```
+### res.flushHeaders()
 
-Esses métodos adicionais fornecem maior flexibilidade no controle de respostas HTTP, permitindo otimizações e personalizações no comportamento do servidor. O objeto `res` é projetado para atender a uma ampla gama de casos de uso em aplicações modernas, garantindo compatibilidade com os padrões HTTP e melhores práticas.
+Libera os cabeçalhos da resposta.
+
+### res.getHeaderNames()
+
+Retorna um array com os nomes dos cabeçalhos atualmente definidos na resposta.
+
+### res.getHeaders()
+
+Retorna o objeto de cabeçalhos da resposta.
+
+### res.hasHeader(name)
+
+Verifica se um cabeçalho específico está presente na resposta.
+
+### res.removeHeader(name)
+
+Remove um cabeçalho específico da resposta.
+
+### res.setTimeout(msecs, cb)
+
+Define um tempo limite para a resposta.
+
+### res.uncork()
+
+Desobstrui o fluxo de resposta.
+
+### res.writeEarlyHints(hints, callback)
+
+Escreve HTTP/1.1 103 Early Hints com o objeto de dicas fornecido.

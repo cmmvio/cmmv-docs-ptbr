@@ -2,7 +2,7 @@
 
 Repositório: [https://github.com/cmmvio/cmmv-queue](https://github.com/cmmvio/cmmv-queue)
 
-O módulo ``@cmmv/queue`` fornece uma interface poderosa e unificada para gerenciar filas de mensagens em aplicações Node.js construídas com o framework ``@cmmv/core``. Ele suporta RabbitMQ, Kafka e Redis como backends de fila, permitindo que os desenvolvedores definam produtores e consumidores para processamento de mensagens de maneira estruturada e modular. O módulo simplifica a integração de arquiteturas baseadas em filas, tornando mais fácil construir sistemas escaláveis e orientados a eventos.
+O módulo ``@cmmv/queue`` oferece uma interface poderosa e unificada para gerenciar filas de mensagens em aplicações Node.js construídas com o framework ``@cmmv/core``. Ele suporta RabbitMQ, Kafka e Redis como backends de fila, permitindo que os desenvolvedores definam produtores e consumidores para o processamento de mensagens de forma estruturada e modular. O módulo simplifica a integração de uma arquitetura orientada a filas, facilitando a construção de sistemas escaláveis e orientados a eventos.
 
 ## Instalação
 
@@ -34,7 +34,7 @@ $ pnpm add ioredis
 
 ## Configuração
 
-O módulo ``@cmmv/queue`` requer um arquivo de configuração (``.cmmv.config.cjs``) para definir o tipo de backend de fila e os detalhes de conexão.
+O módulo ``@cmmv/queue`` requer um arquivo de configuração (``.cmmv.config.cjs``) para definir o tipo de backend da fila e os detalhes de conexão.
 
 ```javascript
 module.exports = {
@@ -48,12 +48,12 @@ module.exports = {
 ## Recursos
 
 * **Suporte a Múltiplos Backends de Fila:** Funciona perfeitamente com RabbitMQ, Kafka e Redis.
-* **Pub/Sub:** Suporta padrões de publicação/assinatura para arquiteturas orientadas a eventos.
-* **Gerenciamento de Consumidores:** Defina e registre consumidores usando decoradores.
-* **Suporte a Produtores:** Publique e envie mensagens para filas com facilidade.
-* **Integração com o Framework CMMV:** Integra-se facilmente às aplicações CMMV.
+* **Pub/Sub:** Suporta padrões de publicação/assinatura para arquitetura orientada a eventos.
+* **Gerenciamento de Consumidores:** Define e registra consumidores usando decoradores.
+* **Suporte a Produtores:** Publica e envia mensagens para filas com facilidade.
+* **Integração com o Framework CMMV:** Integra-se facilmente a aplicações CMMV.
 
-## Introdução
+## Primeiros Passos
 
 Use os decoradores ``@Channel`` e ``@Consume`` para definir consumidores de mensagens. Abaixo está um exemplo de consumidor para RabbitMQ:
 
@@ -87,9 +87,9 @@ export class HelloWorldConsumer {
 }
 ```
 
-## Exemplo Pub/Sub
+## Exemplo de Pub/Sub
 
-Para habilitar Pub/Sub, use a opção ``pubSub`` no decorador ``@Channel``.
+Para habilitar o Pub/Sub, use a opção ``pubSub`` no decorador ``@Channel``.
 
 ```typescript
 import {
@@ -113,7 +113,7 @@ export class BroadcastConsumer {
 }
 ```
 
-## Registrar Consumidores
+## Registro de Consumidores
 
 Os consumidores são registrados em um módulo dedicado:
 
@@ -128,7 +128,7 @@ export let ConsumersModule = new Module("consumers", {
 });
 ```
 
-## Iniciar a Aplicação
+## Iniciando a Aplicação
 
 Integre o módulo ``@cmmv/queue`` e seus módulos de consumidores na configuração da aplicação.
 
@@ -158,35 +158,35 @@ As mensagens podem ser enviadas para uma fila específica usando o ``QueueServic
 import { QueueService } from "@cmmv/queue";
 
 // Enviando uma mensagem direta
-QueueService.send("hello-world", "niceday", { message: "Aproveite o dia!" });
+QueueService.send("hello-world", "niceday", { message: "Aproveite seu dia!" });
 
 // Publicando uma mensagem (Pub/Sub)
-QueueService.publish("broadcast", "exchangeName", { event: "atualizacao_sistema" });
+QueueService.publish("broadcast", "exchangeName", { event: "system_update" });
 ```
 
 ## Decoradores
 
 ### ``@Channel(queueName: string, options?: ChannelOptions)``
-Define uma fila/canal para uma classe de consumidor.
+Define uma fila/canal para uma classe consumidora.
 
 Opções:
 
-| Opção           | Tipo      | Descrição                                           | Padrão           |
-|------------------|-----------|----------------------------------------------------|------------------|
-| ``pubSub``       | boolean   | Habilita mensagens no padrão Pub/Sub.             | ``false``      |
-| ``exchangeName`` | string    | Define o nome da exchange para roteamento.         | ``"exchange"`` |
-| ``exclusive``    | boolean   | Cria uma fila exclusiva.                          | ``false``      |
-| ``autoDelete``   | boolean   | Exclui a fila quando não há consumidores.          | ``false``      |
-| ``durable``      | boolean   | Torna a fila durável (sobrevive a reinícios).      | ``true``       |
+| Opção          | Tipo      | Descrição                                            | Padrão          |
+|----------------|-----------|------------------------------------------------------|-----------------|
+| `pubSub`       | boolean   | Habilita mensagens Pub/Sub.                          | `false`         |
+| `exchangeName` | string    | Define o nome do exchange para roteamento de mensagens. | `"exchange"`    |
+| `exclusive`    | boolean   | Cria uma fila exclusiva.                             | `false`         |
+| `autoDelete`   | boolean   | Exclui a fila quando não há consumidores.            | `false`         |
+| `durable`      | boolean   | Torna a fila durável (sobrevive a reinícios do broker). | `true`          |
 
 ### ``@Consume(message: string)``
-Registra um método para processar mensagens de uma fila específica.
+Registra um método para lidar com mensagens da fila especificada.
 
-**Decoradores de Parâmetros**
-* **``@QueueMessage()``:** Injeta o payload da mensagem recebida.
-* **``@QueueChannel()``:** Injeta o canal da fila.
-* **``@QueueConn()``:** Injeta a instância de conexão.
+**Decoradores de Parâmetro**
+* **@QueueMessage():** Injeta o payload da mensagem recebida.
+* **@QueueChannel():** Injeta o canal para a fila.
+* **@QueueConn():** Injeta a instância de conexão.
 
-O módulo ``@cmmv/queue`` permite configurar opções avançadas, como padrões Pub/Sub, filas duráveis e consumidores exclusivos. Use as opções no decorador ``@Channel`` para personalizar sua configuração de fila conforme os requisitos da aplicação.
+O módulo ``@cmmv/queue`` permite configurar opções avançadas como padrões Pub/Sub, filas duráveis e consumidores exclusivos. Use as opções no decorador ``@Channel`` para personalizar sua configuração de fila conforme os requisitos da sua aplicação.
 
 Com suporte a múltiplos backends e integração perfeita com o framework ``@cmmv/core``, o módulo ``@cmmv/queue`` simplifica a construção de sistemas escaláveis e modulares orientados a eventos.

@@ -1,15 +1,15 @@
 # Configurações
 
-A configuração do sistema para um projeto CMMV é gerenciada através do arquivo `.cmmv.config.cjs` na raiz do diretório. Este arquivo define várias configurações, como:
+A configuração do sistema para um projeto CMMV é gerenciada por meio de um arquivo `.cmmv.config.cjs` no diretório raiz. Este arquivo define várias configurações, como:
 
-* **Configurações do Servidor:** Configura o host e a porta da aplicação.
-* **I18n:** Gerencia internacionalização com arquivos de idioma e linguagens padrão.
-* **Repositório:** Define o tipo de banco de dados (ex.: SQLite) e os detalhes de conexão.
-* **Configuração de Head:** Define atributos HTML, meta tags e links para o frontend da aplicação.
-* **Headers:** Políticas de segurança como Content-Security-Policy.
+* **Configurações do Servidor:** Configura o host e a porta para a aplicação.
+* **I18n:** Gerencia a internacionalização com arquivos de localização e idiomas padrão.
+* **Repositório:** Define o tipo de banco de dados (por exemplo, SQLite) e detalhes de conexão.
+* **Configuração de Cabeçalho:** Define atributos HTML, meta tags e links para o frontend da aplicação.
+* **Cabeçalhos:** Políticas de segurança como Content-Security-Policy.
 * **Scripts:** Especifica arquivos JavaScript a serem carregados.
 
-Os módulos podem estender essa configuração com base nas necessidades da aplicação.
+Módulos podem estender essa configuração com base nas necessidades da aplicação.
 
 ```typescript
 require('dotenv').config();
@@ -26,7 +26,7 @@ module.exports = {
     },
 
     head: {
-        title: "Documentação | CMMV - Um framework minimalista para Node.js",
+        title: "Documentação | CMMV - Um framework Node.js minimalista",
         htmlAttrs: {
             lang: "pt-br"
         },
@@ -39,8 +39,8 @@ module.exports = {
         link: [
             { rel: 'icon', href: '/assets/favicon/favicon.ico' },
             { rel: "dns-prefetch", href: "https://docs.cmmv.io" },
-            { rel: "preconnect", href: "https://docs.cmmv.io" },    
-            { rel: "stylesheet", href: "/assets/docs.css" }            
+            { rel: "preconnect", href: "https://docs.cmmv.io" },
+            { rel: "stylesheet", href: "/assets/docs.css" }
         ]
     },
 
@@ -59,11 +59,11 @@ module.exports = {
 };
 ```
 
-O renderizador HTTP padrão no CMMV suporta nativamente internacionalização, configuração de SEO e headers personalizados com foco em segurança. Esses recursos permitem que os desenvolvedores gerenciem conteúdos localizados, melhorem a otimização para motores de busca e apliquem políticas de segurança como Content-Security-Policy diretamente na configuração. Configurações adicionais para templates e visualizações também podem ser adicionadas, proporcionando flexibilidade para personalizar as páginas. Instruções mais detalhadas podem ser encontradas na documentação "View", que explica como implementar essas configurações no sistema de templates.
+O renderizador HTTP padrão no CMMV suporta nativamente internacionalização, configuração de SEO e cabeçalhos personalizados focados em segurança. Esses recursos permitem que os desenvolvedores gerenciem conteúdo localizado, melhorem a otimização para motores de busca e apliquem políticas de segurança como Content-Security-Policy diretamente na configuração. Configurações adicionais para modelos e visualizações também podem ser adicionadas posteriormente, proporcionando flexibilidade para personalizar páginas. Instruções mais detalhadas podem ser encontradas na documentação "View", que explica como implementar essas configurações dentro do sistema de modelos.
 
-## Assign
+## Atribuir
 
-O método `Config.assign()` permite modificar ou sobrescrever dinamicamente a configuração do sistema em tempo de execução. Esse método aceita um objeto que mescla ou atualiza a configuração existente. Abaixo está um exemplo de como a configuração pode ser aplicada usando `Config.assign()`:
+O método `Config.assign()` permite que você modifique ou substitua dinamicamente a configuração do sistema em tempo de execução. Este método recebe um objeto que mescla ou atualiza a configuração existente. Abaixo está um exemplo de como a configuração pode ser aplicada usando `Config.assign()`:
 
 ```typescript
 import { Config } from '@cmmv/core';
@@ -81,11 +81,11 @@ Config.assign({
 });
 ```
 
-Com `Config.assign()`, você pode modificar configurações como a configuração do servidor, internacionalização e mais, sem precisar codificar diretamente no arquivo `.cmmv.config.cjs`.
+Com `Config.assign()`, você pode modificar de forma flexível configurações como a configuração do servidor, internacionalização e mais, sem codificá-las diretamente no arquivo `.cmmv.config.cjs`.
 
 ## API
 
-As configurações do sistema em uma aplicação baseada no CMMV podem ser acessadas programaticamente através da classe Config do módulo `@cmmv/core`. Isso permite que os desenvolvedores recuperem, modifiquem ou excluam dinamicamente valores de configuração ao longo da aplicação. Por exemplo, as configurações de host e porta do servidor, configurações de banco de dados ou opções de internacionalização podem ser acessadas e alteradas chamando métodos como `Config.get()`, `Config.set()` e `Config.has()`. Esses recursos possibilitam uma abordagem centralizada e flexível para gerenciar as configurações do sistema.
+As configurações do sistema em uma aplicação baseada em CMMV podem ser acessadas programaticamente por meio da classe Config do módulo `@cmmv/core`. Isso permite que os desenvolvedores recuperem, modifiquem ou excluam valores de configuração dinamicamente ao longo da aplicação. Por exemplo, as configurações de host e porta do servidor, configurações de banco de dados ou opções de internacionalização podem ser acessadas e alteradas chamando métodos como Config.get(), Config.set() e Config.has(). Esses recursos permitem uma abordagem flexível e centralizada para o gerenciamento das configurações do sistema.
 
 ```typescript
 import { Config } from "@cmmv/core";
@@ -100,26 +100,26 @@ Config.set('server.host', '127.0.0.1');
 // Excluir
 Config.delete('repository.logging');
 
-// Obter Tudo
+// Obter tudo
 const allConfig = Config.getAll();
 console.log(allConfig);
 
-// Assign
+// Atribuir
 Config.assign({
     server: { port: 4000 },
     repository: { type: 'sqlite' }
 });
 ```
 
-Cada módulo no sistema CMMV possui seu próprio conjunto de configurações que podem ser adicionadas ao arquivo de configuração central (`.cmmv.config.cjs`). Isso permite que os desenvolvedores personalizem o comportamento e os recursos dos módulos que estão utilizando. Como diferentes módulos podem exigir configurações específicas, é essencial revisar a documentação de cada módulo para entender as opções de configuração disponíveis e como elas se integram ao sistema principal. Isso garante a configuração ideal e o uso de funcionalidades avançadas, como RPC, autenticação, cache, entre outras.
+Cada módulo no sistema CMMV possui seu próprio conjunto de configurações que podem ser adicionadas ao arquivo de configuração central (`.cmmv.config.cjs`). Isso permite que os desenvolvedores personalizem o comportamento e os recursos dos módulos que estão utilizando. Como diferentes módulos podem exigir configurações específicas, é essencial revisar cuidadosamente a documentação de cada módulo para entender as opções de configuração disponíveis e como elas se integram ao sistema principal. Isso garante uma configuração otimizada e o uso de funcionalidades avançadas como RPC, autenticação, cache e mais.
 
-## Validação de Schema
+## Validação de Esquema
 
-O CMMV introduz um sistema de validação baseado em schema para garantir que todas as configurações definidas no `.cmmv.config.cjs` estejam de acordo com a estrutura e os tipos esperados. Essa validação oferece um manuseio robusto de erros e garante que sua aplicação opere com configurações corretamente definidas.
+O CMMV introduz um sistema de validação baseado em esquema para garantir que todas as configurações definidas em `.cmmv.config.cjs` sigam a estrutura e os tipos esperados. Essa validação oferece um tratamento robusto de erros e garante que sua aplicação opere com configurações corretamente definidas.
 
-Cada módulo pode definir seu próprio schema usando a interface `ConfigSchema`. Esse schema especifica os campos necessários, seus tipos, valores padrão e propriedades aninhadas, quando aplicável.
+Cada módulo pode definir seu próprio esquema usando a interface ConfigSchema. Este esquema especifica os campos obrigatórios, seus tipos, valores padrão e propriedades aninhadas quando aplicável.
 
-Aqui está um exemplo de schema para a configuração de um módulo `auth`, demonstrando propriedades simples e aninhadas:
+Aqui está um exemplo de esquema para uma configuração de módulo `auth`, demonstrando propriedades planas e aninhadas:
 
 ```typescript
 import { ConfigSchema } from '@cmmv/core';
@@ -172,26 +172,27 @@ export const AuthConfig: ConfigSchema = {
 };
 ```
 
-O CMMV valida automaticamente a configuração carregada contra os schemas definidos em tempo de execução usando o método `Config.validateConfigs()`. Isso garante que todos os campos necessários estejam presentes, os tipos correspondam e as propriedades aninhadas sigam suas especificações.
+O CMMV valida automaticamente a configuração carregada contra os esquemas definidos em tempo de execução usando o método `Config.validateConfigs()`. Isso garante que todos os campos obrigatórios estejam presentes, que os tipos correspondam e que as propriedades aninhadas sigam suas especificações.
 
 ### Tipos Suportados
 
-O schema suporta os seguintes tipos:
+O esquema suporta os seguintes tipos:
 
-- string
-- number
-- boolean
-- object (incluindo propriedades aninhadas)
-- array
-- any (pula validação de tipo)
+* string
+* number
+* boolean
+* object (incluindo propriedades aninhadas)
+* array
+* any (pula a validação de tipo)
 
 ### Como a Validação Funciona
+<br/>
 
-1. **Carregar Configurações:** O método `Config.loadConfig()` carrega o arquivo `.cmmv.config.cjs`.
-2. **Validar Contra Schemas:** Cada módulo registra seu schema, e o método `Config.validateConfigs()` garante que todas as configurações correspondam aos seus respectivos schemas.
-3. **Erros para Configurações Inválidas:** Se algum valor de configuração não corresponder ao schema, um erro será lançado com detalhes sobre a chave inválida e o tipo esperado.
+* **Carregar Configurações:** O método `Config.loadConfig()` carrega o arquivo `.cmmv.config.cjs`.
+* **Validar Contra Esquemas:** Cada módulo registra seu esquema, e o método `Config.validateConfigs()` garante que todas as configurações correspondam aos seus respectivos esquemas.
+* **Lançar Erros para Configurações Inválidas:** Se algum valor de configuração não corresponder ao esquema, um erro é lançado com detalhes sobre a chave inválida e o tipo esperado.
 
-Se uma configuração não atender aos requisitos do schema, o CMMV lançará um erro como:
+Se uma configuração não atender aos requisitos do esquema, o CMMV lançará um erro como:
 
 ```typescript
 Error: Configuração "auth.google.clientID" espera o tipo "string" mas recebeu "undefined".
@@ -199,7 +200,7 @@ Error: Configuração "auth.google.clientID" espera o tipo "string" mas recebeu 
 
 ## Ambiente
 
-A configuração `env` permite controlar o ambiente da aplicação (ex.: `development`, `production`). Essa configuração geralmente vem de variáveis de ambiente usando `dotenv` [NPM](https://www.npmjs.com/package/dotenv) para gerenciar valores sensíveis de forma segura.
+A configuração `env` permite que você controle o ambiente da aplicação (por exemplo, `development`, `production`). Essa configuração geralmente vem de variáveis de ambiente usando `dotenv` [NPM](https://www.npmjs.com/package/dotenv) para gerenciar valores sensíveis de forma segura.
 
 ```typescript
 env: process.env.NODE_ENV, // Exemplo: 'development' ou 'production'
@@ -213,10 +214,10 @@ As configurações do servidor controlam vários aspectos de como a aplicação 
 server: {
     host: process.env.HOST || '0.0.0.0',  // Host padrão
     port: process.env.PORT || 3000,       // Porta padrão
-    poweredBy: false,                     // Remove o header 'X-Powered-By'
-    removePolicyHeaders: false,           // Opção para remover headers adicionados pelo Helmet
-    cors: true,                           // Habilita Cross-Origin Resource Sharing (CORS)
-    
+    poweredBy: false,                     // Remove o cabeçalho 'X-Powered-By'
+    removePolicyHeaders: false,           // Opção para remover cabeçalhos adicionados pelo Helmet
+    cors: true,                           // Habilita o Compartilhamento de Recursos de Origem Cruzada (CORS)
+
     // Configurações de compressão
     compress: {
         enabled: true,
@@ -224,8 +225,8 @@ server: {
             level: 6,  // Nível de compressão (0-9)
         },
     },
-    
-    // Headers de segurança com Helmet.js
+
+    // Cabeçalhos de segurança com Helmet.js
     helmet: {
         enabled: true,
         options: {
@@ -233,16 +234,16 @@ server: {
         },
     },
 
-    // Gerenciamento de sessões
+    // Gerenciamento de sessão
     session: {
         enabled: true,  // Habilita sessões
         options: {
             sessionCookieName: process.env.SESSION_COOKIENAME || 'cmmv-session',
-            secret: process.env.SESSION_SECRET || 'secret',  // Chave secreta para sessão
-            resave: false,    // Previne o re-save de dados da sessão
+            secret: process.env.SESSION_SECRET || 'secret',  // Segredo da sessão
+            resave: false,    // Impede o resalvamento de dados da sessão
             saveUninitialized: false, // Não salva sessões não inicializadas
             cookie: {
-                secure: true,  // Garante cookie seguro (apenas HTTPS)
+                secure: true,  // Garante cookie seguro (somente por HTTPS)
                 maxAge: 60000, // Tempo de expiração do cookie em ms
             },
         },
@@ -250,22 +251,22 @@ server: {
 },
 ```
 
-Essa seção inclui controle detalhado sobre CORS, gerenciamento de sessões, compressão e recursos de segurança como Helmet. Você também pode configurar diferentes ambientes usando `dotenv`.
+Esta seção inclui controle detalhado sobre CORS, gerenciamento de sessões, compressão e recursos de segurança como Helmet. Você também pode configurar diferentes ambientes usando `dotenv`.
 
 ## Internacionalização
 
-O sistema i18n (Internacionalização) fornece uma maneira de gerenciar arquivos de localização e definir o idioma padrão da aplicação. Isso facilita a tradução e localização de conteúdo.
+O sistema i18n (Internacionalização) fornece uma maneira de gerenciar arquivos de localização e definir o idioma padrão para a aplicação. Isso ajuda na tradução e localização de conteúdo.
 
 ```typescript
 i18n: {
     localeFiles: './src/locale',  // Caminho para os arquivos de localização
-    default: 'en',               // Idioma padrão (Inglês)
+    default: 'en',                // Idioma padrão (Inglês)
 },
 ```
 
 ## RPC
 
-A configuração `rpc` permite que chamadas de procedimento remoto (RPC) sejam usadas na aplicação. O RPC melhora o desempenho e a modularidade do sistema ao habilitar a comunicação via contratos pré-definidos.
+A configuração `rpc` permite que Chamadas de Procedimento Remoto (RPC) sejam usadas na aplicação. O RPC melhora o desempenho e a modularidade do sistema ao possibilitar a comunicação por meio de contratos predefinidos.
 
 ```typescript
 rpc: {
@@ -274,67 +275,67 @@ rpc: {
 },
 ```
 
-## View
+## Visualização
 
-As configurações de `view` controlam como o HTML é renderizado, incluindo opções para minificar HTML e lidar com scripts embutidos. Essas configurações podem ser ajustadas para otimizar a entrega do conteúdo frontend.
+As configurações de visualização controlam como o HTML é renderizado, incluindo opções para minificar HTML e lidar com scripts inline. Essas configurações podem ser ajustadas para otimizar a entrega de conteúdo frontend.
 
 ```typescript
 view: {
-    extractInlineScript: false, // Desabilita extração de scripts inline para maior controle
-    minifyHTML: true,           // Habilita minificação de HTML para desempenho
+    extractInlineScript: false, // Desabilita a extração de scripts inline para melhor controle
+    minifyHTML: true,           // Habilita a minificação de HTML para desempenho
 },
 ```
 
 ## Repositório
 
-As configurações de `repository` definem o tipo de banco de dados, caminho e opções para sincronização e registro de logs. Por padrão, o SQLite é usado, mas outros bancos de dados podem ser configurados conforme necessário.
+As configurações de `repository` definem o tipo de banco de dados, caminho e opções para sincronização e registro. Por padrão, o SQLite é usado, mas outros bancos de dados podem ser configurados conforme necessário.
 
 ```typescript
 repository: {
     type: 'sqlite',                // Tipo de banco de dados padrão
-    database: './database.sqlite', // Caminho para o arquivo do banco SQLite
-    synchronize: true,             // Sincroniza o esquema do banco
-    logging: false,                // Desabilita logs para desempenho
+    database: './database.sqlite',  // Caminho para o arquivo de banco de dados SQLite
+    synchronize: true,              // Sincroniza o esquema do banco de dados
+    logging: false,                 // Desabilita o registro para desempenho
 },
 ```
 
 ## Cache
 
-A configuração de cache utiliza Redis por padrão para armazenar dados em cache, melhorando a velocidade e o desempenho da aplicação.
+A configuração de cache usa o Redis por padrão para armazenar dados em cache, melhorando a velocidade e o desempenho da aplicação.
 
 ```typescript
 cache: {
-    store: '@tirke/node-cache-manager-ioredis',  // Store de cache Redis
-    getter: 'ioRedisStore',                      // Getter do store de cache
-    host: 'localhost',                           // Host do Redis
-    port: 6379,                                  // Porta do Redis
+    store: '@tirke/node-cache-manager-ioredis',  // Armazenamento de cache Redis
+    getter: 'ioRedisStore',                      // Obtentor de armazenamento de cache
+    host: 'localhost',                           // Host Redis
+    port: 6379,                                  // Porta Redis
     ttl: 600,                                    // Tempo de vida do cache (em segundos)
 },
 ```
 
 ## Autenticação
 
-Esta seção gerencia a autenticação de usuários, incluindo login/registro local e integração OAuth de terceiros (ex.: Google). A configuração permite a configuração flexível dos mecanismos de autenticação.
+Esta seção lida com a autenticação do usuário, incluindo login/registro local e integração com OAuth de terceiros (por exemplo, Google). A configuração permite uma configuração flexível de mecanismos de autenticação.
 
 ```typescript
 auth: {
-    localRegister: true,  // Habilita registro de usuários localmente
-    localLogin: true,     // Habilita login de usuários localmente
-    jwtSecret: process.env.JWT_SECRET || 'secret',  // Chave JWT para assinatura de tokens
+    localRegister: true,  // Habilita o registro de usuário local
+    localLogin: true,     // Habilita o login de usuário local
+    jwtSecret: process.env.JWT_SECRET || 'secret',  // Segredo JWT para assinatura de token
     expiresIn: 60 * 60,   // Tempo de expiração do token JWT (em segundos)
-    
+
     // Configuração OAuth do Google
     google: {
         clientID: process.env.GOOGLE_CLIENT_ID,               // ID do cliente Google
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,       // Chave secreta do cliente Google
-        callbackURL: 'http://localhost:3000/auth/google/callback',  // URL de callback OAuth
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,       // Segredo do cliente Google
+        callbackURL: 'http://localhost:3000/auth/google/callback',  // URL de retorno OAuth
     },
 },
 ```
 
-## Head
+## Cabeçalho
 
-A configuração `head` gerencia atributos HTML, meta tags e elementos `link`, que são essenciais para SEO e renderização adequada da aplicação.
+A configuração `head` gerencia atributos HTML, meta tags e elementos de link, que são essenciais para SEO e renderização adequada da aplicação.
 
 ```typescript
 head: {
@@ -357,7 +358,7 @@ head: {
 },
 ```
 
-## Headers
+## Cabeçalhos
 
 ```typescript
 headers: {
@@ -379,10 +380,10 @@ A configuração `scripts` define os arquivos JavaScript a serem carregados na a
 scripts: [
     {
         type: 'text/javascript',
-        src: '/assets/bundle.min.js',  // Bundle principal de JavaScript
+        src: '/assets/bundle.min.js',  // Pacote JavaScript principal
         defer: 'defer',  // Carrega o script após o HTML ser analisado
     },
 ],
 ```
 
-Com isso, concluímos a documentação detalhada das configurações. O método `assign` na classe Config permite atualizar ou substituir dinamicamente essas configurações, proporcionando flexibilidade em diferentes ambientes e módulos.
+Isso conclui a documentação detalhada das configurações. O método assign na Config permite que você atualize ou substitua dinamicamente essas configurações, proporcionando flexibilidade em diferentes ambientes e módulos.

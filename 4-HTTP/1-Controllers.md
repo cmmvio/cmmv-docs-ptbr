@@ -1,6 +1,6 @@
 # Controladores
 
-O módulo ``@cmmv/http`` gera automaticamente controladores REST com operações CRUD padrão com base nos contratos definidos. No entanto, você pode criar controladores personalizados usando uma sintaxe semelhante ao NestJS, com decoradores para definir rotas e métodos. Diferentemente do NestJS, o CMMV não utiliza injeção de dependências complexa. Em vez disso, serviços como bancos de dados, filas e cache devem ser implementados como singletons.
+O módulo ``@cmmv/http`` gera automaticamente controladores REST com operações CRUD padrão baseadas em contratos definidos. No entanto, você pode criar controladores personalizados usando uma sintaxe semelhante ao NestJS, com decoradores para definir rotas e métodos. Diferentemente do NestJS, o CMMV não utiliza injeção de dependências complexa. Em vez disso, serviços como bancos de dados, filas e cache devem ser implementados como singletons.
 
 Aqui está um exemplo de um controlador personalizado:
 
@@ -42,7 +42,7 @@ export class DocsController {
 
 ## @Controller(prefix: string)
 
-Define o controlador e o prefixo de rota para todos os seus métodos. O parâmetro `prefix` é opcional, mas define uma URL base para as rotas do controlador.
+Define o controlador e o prefixo de rota para todos os seus métodos. O parâmetro ``prefix`` é opcional, mas define uma URL base para as rotas do controlador.
 
 ```typescript
 @Controller('tasks')
@@ -51,7 +51,7 @@ export class TaskController { ... }
 
 ## @Request() / @Req()
 
-Vincula o objeto de solicitação inteiro ao parâmetro do método.
+Vincula o objeto completo da requisição ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -62,7 +62,7 @@ async getRequestData(@Request() req: any): Promise<any> {
 
 ## @Response() / @Res()
 
-Vincula o objeto de resposta inteiro ao parâmetro do método, útil para manipular respostas personalizadas.
+Vincula o objeto completo da resposta ao parâmetro do método, útil para lidar com respostas personalizadas.
 
 ```typescript
 @Get()
@@ -73,7 +73,7 @@ async customResponse(@Response() res: any): Promise<void> {
 
 ## @Next()
 
-Vincula a função `next` do middleware ao parâmetro do método, útil para encadeamento de middlewares.
+Vincula a função ``next`` no middleware ao parâmetro do método, útil para encadeamento de middlewares.
 
 ```typescript
 @Get()
@@ -84,7 +84,7 @@ async handleRequest(@Next() next: Function): Promise<void> {
 
 ## @Get(path?: string)
 
-Mapeia uma solicitação HTTP GET para um método específico. O argumento opcional `path` pode definir a rota ou será padrão para a rota base do controlador.
+Mapeia uma requisição HTTP GET para um método específico. O argumento opcional ``path`` pode definir a rota, ou ela será padrão para a rota base do controlador.
 
 ```typescript
 @Get(':id')
@@ -95,7 +95,7 @@ getTaskById(@Param('id') id: string) {
 
 ## @Post(path?: string)
 
-Lida com solicitações HTTP POST. O decorador `@Body` pode ser usado para acessar o corpo da solicitação e passá-lo para o método.
+Lida com requisições HTTP POST. O decorador ``@Body`` pode ser usado para acessar o corpo da requisição e passá-lo ao método.
 
 ```typescript
 @Post()
@@ -106,7 +106,7 @@ addTask(@Body() task: any) {
 
 ## @Put(path?: string)
 
-Mapeia uma solicitação HTTP PUT para atualizar recursos existentes. Assim como `@Post`, pode aceitar dados através do corpo da solicitação.
+Mapeia uma requisição HTTP PUT para atualizar recursos existentes. Assim como o ``@Post``, pode aceitar dados pelo corpo da requisição.
 
 ```typescript
 @Put(':id')
@@ -117,7 +117,7 @@ updateTask(@Param('id') id: string, @Body() task: any) {
 
 ## @Delete(path?: string)
 
-Lida com solicitações DELETE para remover recursos por ID.
+Lida com requisições DELETE para remover recursos por ID.
 
 ```typescript
 @Delete(':id')
@@ -128,7 +128,7 @@ deleteTask(@Param('id') id: string) {
 
 ## @Param(param: string)
 
-Usado para extrair parâmetros da rota. No exemplo, `@Param('id')` extrai o ID da rota da solicitação.
+Usado para extrair parâmetros da rota. No exemplo, ``@Param('id')`` extrai o ``id`` da rota da requisição.
 
 ```typescript
 @Get(':id')
@@ -139,11 +139,11 @@ getTaskById(@Param('id') id: string) {
 
 ## @Body()
 
-Este decorador extrai o corpo da solicitação e o torna disponível no método. É comumente usado com `@Post` e `@Put` para criar e atualizar dados.
+Este decorador extrai o corpo da requisição e o disponibiliza no método. É comumente usado com ``@Post`` e ``@Put`` para criar e atualizar dados.
 
 ## @Query()
 
-Extrai parâmetros de consulta da solicitação.
+Extrai parâmetros de consulta da requisição.
 
 ```typescript
 @Get()
@@ -165,7 +165,7 @@ async getAll(@Queries() queries: any): Promise<Task[]> {
 
 ## @Header(headerName: string)
 
-Vincula um valor de cabeçalho específico ao parâmetro do método.
+Vincula o valor de um cabeçalho específico ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -187,7 +187,7 @@ async getHeaders(@Headers() headers: any): Promise<any> {
 
 ## @Session()
 
-Extrai os dados da sessão e os vincula ao parâmetro do método.
+Extrai dados da sessão e os vincula ao parâmetro do método.
 
 ```typescript
 @Get()
@@ -209,7 +209,7 @@ async getClientIp(@Ip() ip: string): Promise<string> {
 
 ## @HostParam()
 
-Extrai as informações do host da solicitação.
+Extrai as informações do host da requisição.
 
 ```typescript
 @Get()
@@ -218,9 +218,9 @@ async getHost(@HostParam() host: string): Promise<string> {
 }
 ```
 
-## Inicializando
+## Configuração e Inicialização
 
-Para que o controlador seja funcional, ele precisa ser adicionado a um módulo e chamado na aplicação. O processo envolve criar um módulo, registrar o controlador e garantir que o módulo seja usado durante a inicialização da aplicação.
+Para tornar o controlador funcional, ele precisa ser adicionado a um módulo e chamado na aplicação. O processo envolve criar um módulo, registrar o controlador e garantir que o módulo seja usado durante a inicialização da aplicação.
 
 Aqui está um exemplo de registro de um controlador dentro de um módulo:
 
@@ -234,6 +234,6 @@ export let TaskModule = new Module({
 });
 ```
 
-Depois que o módulo é criado, você pode importá-lo e carregá-lo na configuração principal da aplicação, garantindo que o controlador seja inicializado corretamente e acessível para lidar com as solicitações.
+Uma vez que o módulo é criado, você pode importá-lo e carregá-lo na configuração principal da aplicação, garantindo que o controlador seja devidamente inicializado e acessível para lidar com requisições.
 
 O módulo gerenciará automaticamente o roteamento e a lógica do controlador quando vinculado à configuração da aplicação. Esse design modular permite uma separação clara de responsabilidades e simplifica a adição e gerenciamento de controladores no framework CMMV.

@@ -1,16 +1,16 @@
 # Middleware
 
-O sistema de middleware em `@cmmv/server` oferece flexibilidade e integração poderosa para processar requisições e respostas HTTP. Similar ao Express, ele fornece hooks e pontos de integração que permitem aos desenvolvedores modificar o comportamento das requisições enquanto elas fluem pelo sistema. No entanto, o middleware no `@cmmv/server` também introduz novos comportamentos e otimizações, particularmente por meio do uso de hooks.
+O sistema de middleware no ``@cmmv/server`` oferece flexibilidade e uma integração poderosa para processar requisições e respostas HTTP. Semelhante ao Express, ele fornece *hooks* e pontos de integração que permitem aos desenvolvedores modificar o comportamento das requisições enquanto elas fluem pelo sistema. No entanto, o middleware no ``@cmmv/server`` também introduz novos comportamentos e otimizações, particularmente por meio do uso de *hooks*.
 
-Este sistema permite a implementação de funções de middleware essenciais, como ETag, Body-Parser, Compression, Cookie-Parser, CORS, Helmet e Server-Static, cada uma seguindo um padrão comum. Alguns desses middlewares, como o ETag, são totalmente compatíveis com o Express. Outros, como o Server-Static, possuem implementações personalizadas que introduzem mudanças específicas de comportamento, tornando-os incompatíveis com o Express.
+Esse sistema permite a implementação de funções de middleware essenciais como ETag, Body-Parser, Compression, Cookie-Parser, CORS, Helmet e Server-Static, cada uma seguindo um padrão comum. Alguns desses middlewares, como o ETag, são totalmente compatíveis com o Express. Outros, como o Server-Static, possuem implementações personalizadas que introduzem mudanças específicas de comportamento, tornando-os incompatíveis com o Express.
 
-O design central do middleware em `@cmmv/server` gira em torno de hooks, que são acionados em vários pontos do ciclo de vida da requisição-resposta. Esse design permite um processamento mais preciso e eficiente das requisições.
+O design central do middleware no ``@cmmv/server`` gira em torno de *hooks*, que são acionados em vários pontos do ciclo de vida da requisição-resposta. Esse design permite um processamento mais preciso e eficiente das requisições.
 
 ## Exemplo
 
-O middleware ETag é usado para gerenciar cabeçalhos ETag para fins de cache. ETags são um mecanismo para validação de cache e são gerados com base no conteúdo do corpo da resposta. Se o conteúdo não mudou entre as requisições, o servidor pode responder com um status 304 Not Modified, melhorando o desempenho.
+O middleware ETag é usado para gerenciar cabeçalhos ETag para fins de cache. Os ETags são um mecanismo para validação de cache e são gerados com base no conteúdo do corpo da resposta. Se o conteúdo não mudou entre as requisições, o servidor pode responder com um status 304 Not Modified, melhorando o desempenho.
 
-Aqui está um exemplo do middleware ETag implementado no `@cmmv/server`:
+Aqui está um exemplo do middleware ETag implementado no ``@cmmv/server``:
 
 ```typescript
 export class EtagMiddleware {
@@ -78,7 +78,7 @@ export class EtagMiddleware {
         try {
             createHash(algorithm);
         } catch (e) {
-            throw new TypeError(`Algorithm \${algorithm} not supported.`);
+            throw new TypeError(`Algoritmo ${algorithm} não suportado.`);
         }
     }
 }
@@ -94,21 +94,21 @@ export const etag = function (options?: ETagOptions) {
 };
 ```
 
-O sistema de middleware em `@cmmv/server` foi projetado para oferecer compatibilidade com o Express e melhorias que fornecem melhor controle sobre o ciclo de vida de requisição-resposta. Ao aproveitar hooks e execução seletiva, o sistema garante que o middleware seja executado apenas quando necessário, levando a um melhor desempenho.
+O sistema de middleware no ``@cmmv/server`` é projetado para oferecer tanto compatibilidade com o Express quanto melhorias que proporcionam maior controle sobre o ciclo de requisição-resposta. Ao aproveitar *hooks* e execução seletiva, o sistema garante que o middleware só seja executado quando necessário, resultando em melhor desempenho.
 
-Embora a maioria dos middlewares seja compatível com o Express, alguns, como o Server-Static, introduzem mudanças de comportamento específicas. Este sistema é projetado para ser flexível e modular, permitindo que você implemente middlewares personalizados facilmente, integre middlewares existentes e otimize o desempenho da sua aplicação.
+Embora a maioria dos middlewares seja compatível com o Express, alguns — como o Server-Static — introduzem mudanças específicas de comportamento. Esse sistema é projetado para ser flexível e modular, permitindo que você implemente middlewares personalizados com facilidade, integre middlewares existentes e otimize o desempenho da sua aplicação.
 
-Adicionalmente, todos os middlewares implementados para `@cmmv/server` devem retornar uma promise, garantindo que eles se encaixem no ciclo de vida assíncrono do framework. Sempre que possível, versões compatíveis dos middlewares são fornecidas para uso em aplicações Express.
+Além disso, todos os middlewares implementados para o ``@cmmv/server`` devem retornar uma promessa, garantindo que se encaixem no ciclo de vida assíncrono do framework. Quando possível, versões compatíveis dos middlewares são fornecidas para uso em aplicações Express.
 
 ## Compression
 
-O middleware `@cmmv/compression` fornece compressão de resposta HTTP para seu servidor, suportando codificações gzip, deflate e brotli. A compressão reduz o tamanho do corpo da resposta, melhorando a velocidade e eficiência na entrega de conteúdo ao cliente. Ele pode ser usado tanto no `@cmmv/server` quanto em ambientes Express, com algumas variações na implementação.
+O middleware ``@cmmv/compression`` fornece compressão de respostas HTTP para o seu servidor, suportando codificações gzip, deflate e brotli. A compressão reduz o tamanho do corpo da resposta, o que melhora a velocidade e a eficiência da entrega de conteúdo ao cliente. Ele pode ser usado tanto em ambientes ``@cmmv/server`` quanto Express, com algumas variações na implementação.
 
-Este middleware se integra perfeitamente ao ciclo de vida da requisição, aplicando compressão às respostas com base no tipo de conteúdo, tamanho e no cabeçalho `Accept-Encoding` do cliente. Ele lida automaticamente com grandes payloads e ajusta dinamicamente a codificação para diferentes tipos de conteúdo.
+Esse middleware se integra perfeitamente ao ciclo de vida da requisição, aplicando compressão às respostas com base no tipo de conteúdo, tamanho e no cabeçalho ``Accept-Encoding`` do cliente. O middleware lida automaticamente com payloads grandes e ajusta dinamicamente a codificação para diferentes tipos de conteúdo.
 
 **Instalação**
 
-Para instalar o middleware `@cmmv/compression`, execute o seguinte comando:
+Para instalar o middleware ``@cmmv/compression``, execute o seguinte comando:
 
 ```bash
 $ pnpm add @cmmv/compression
@@ -116,36 +116,37 @@ $ pnpm add @cmmv/compression
 
 **Uso**
 
-Ao usar o `@cmmv/server`, o middleware de compressão deve ser adicionado como parte da cadeia de middlewares. Aqui está um exemplo de como usá-lo:
+Ao usar o ``@cmmv/server``, o middleware de compressão deve ser adicionado como parte da cadeia de middlewares. Aqui está um exemplo de como usá-lo:
 
 ```typescript
 import compression from '@cmmv/compression';
 
-app.use(compression({ 
-    threshold: 1024, 
-    cacheEnabled: true 
+app.use(compression({
+    threshold: 1024,
+    cacheEnabled: true
 }));
 ```
 
-O middleware `@cmmv/compression` vem com uma série de opções para controlar como e quando a compressão é aplicada. Abaixo está uma lista de opções disponíveis:
+O middleware ``@cmmv/compression`` vem com uma variedade de opções para controlar como e quando a compressão é aplicada. Abaixo está uma lista das opções disponíveis:
 
-| Opção         | Tipo                | Padrão                                     | Descrição                                                                                                                                                         |
-|---------------|---------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `threshold`  | `number` ou `string` | `1024`                                    | Especifica o tamanho mínimo da resposta (em bytes) necessário para que a compressão seja aplicada. Respostas menores não são comprimidas.                       |
-| `cacheEnabled` | `boolean`         | `false`                                   | Habilita o cache de respostas comprimidas para melhorar o desempenho em requisições repetidas. Respostas serão armazenadas na memória pelo tempo especificado.   |
-| `algorithm`   | `string`          | `'sha1'`                                  | Especifica o algoritmo de hashing usado para gerar um ETag para validação de cache. Valores suportados incluem `sha1`, `md5` e `fnv1a`.                      |
-| `weak`        | `boolean` | `false`                                     | Indica se o ETag deve ser marcado como "fraco", o que significa que fornece validação de cache menos rigorosa.                                          |
-| `level`       | `number`  | `zlib.constants.Z_DEFAULT_COMPRESSION`       | Especifica o nível de compressão para algoritmos baseados no zlib. Aceita um valor entre `0` (sem compressão) e `9` (compressão máxima).               |
-| `memLevel`    | `number`  | `8`                                         | Controla o uso de memória para compressão (valores mais altos usam mais memória, mas fornecem melhor compressão). Aceita valores entre `1` e `9`.      |
-| `strategy`    | `number`  | `zlib.constants.Z_DEFAULT_STRATEGY`          | Especifica a estratégia de compressão a ser usada pelos algoritmos zlib. Estratégias comuns incluem `Z_FILTERED`, `Z_HUFFMAN_ONLY` e `Z_RLE`.          |
-| `filter`      | `function`| `shouldCompress`                            | Uma função para determinar se uma resposta deve ou não ser comprimida com base no tipo de conteúdo ou outros fatores.                                      |
-| `flush`       | `boolean` | `false`                                     | Habilita a limpeza manual dos buffers de compressão. Quando ativado, o servidor pode forçar uma limpeza quando necessário (por exemplo, ao transmitir respostas). |
-| `chunkSize`   | `number`  | `16384`                                     | Define o tamanho do bloco usado para fluxos de compressão. Tamanhos menores resultam em gravações mais frequentes, mas podem impactar o desempenho.         |
-| `windowBits`  | `number`  | `15`                                        | Especifica o tamanho da janela de compressão (em bits). Uma janela maior oferece melhor compressão, mas usa mais memória.                                 |
+| Opção         | Tipo     | Padrão                                     | Descrição                                                                                                                                    |
+|---------------|----------|--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| `threshold`   | `number` ou `string` | `1024`                            | Especifica o tamanho mínimo da resposta (em bytes) necessário para que a compressão seja aplicada. Respostas menores não são comprimidas. Aceita valores legíveis como '1kb'. |
+| `cacheEnabled`| `boolean` | `false`                                     | Habilita o cache de respostas comprimidas para melhorar o desempenho em requisições repetidas. As respostas serão armazenadas em memória pelo tempo especificado. |
+| `cacheTimeout`| `number`  | `60000 (1 min)`                             | Define o tempo limite (em milissegundos) após o qual as respostas comprimidas em cache são removidas da memória. Aplicável apenas se `cacheEnabled` for `true`. |
+| `algorithm`   | `string`  | `'sha1'`                                    | Especifica o algoritmo de hash usado para gerar um ETag para validação de cache. Valores suportados incluem `sha1`, `md5` e `fnv1a`.      |
+| `weak`        | `boolean` | `false`                                     | Indica se o ETag deve ser marcado como "fraco", o que permite uma validação de cache menos rigorosa.                                       |
+| `level`       | `number`  | `zlib.constants.Z_DEFAULT_COMPRESSION`      | Especifica o nível de compressão para algoritmos baseados em zlib. Aceita valores entre `0` (sem compressão) e `9` (compressão máxima).   |
+| `memLevel`    | `number`  | `8`                                         | Controla o uso de memória para compressão (valores mais altos usam mais memória, mas oferecem melhor compressão). Aceita valores entre `1` e `9`. |
+| `strategy`    | `number`  | `zlib.constants.Z_DEFAULT_STRATEGY`         | Especifica a estratégia de compressão a ser usada pelos algoritmos zlib. Inclui `Z_FILTERED`, `Z_HUFFMAN_ONLY` e `Z_RLE`.                 |
+| `filter`      | `function`| `shouldCompress`                            | Uma função para determinar se uma resposta deve ser comprimida com base no tipo de conteúdo ou outros fatores.                            |
+| `flush`       | `boolean` | `false`                                     | Habilita a liberação manual dos buffers de compressão. Quando ativado, o servidor pode forçar uma liberação quando necessário (exemplo: streaming). |
+| `chunkSize`   | `number`  | `16384`                                     | Define o tamanho do pedaço usado para fluxos de compressão. Tamanhos menores resultam em escritas mais frequentes, mas podem impactar o desempenho. |
+| `windowBits`  | `number`  | `15`                                        | Especifica o tamanho da janela de compressão (em bits). Um tamanho maior oferece melhor compressão, mas usa mais memória.                  |
 
 ## Cookie-Parser
 
-O middleware `@cmmv/cookie-parser` foi projetado para analisar cookies em requisições HTTP, tanto assinados quanto não assinados, e torná-los disponíveis no objeto `req.cookies`. Ele suporta tanto `CMMV` quanto Express, proporcionando integração perfeita com qualquer um dos frameworks.
+O middleware ``@cmmv/cookie-parser`` é projetado para analisar cookies em requisições HTTP, tanto assinados quanto não assinados, e disponibilizá-los no objeto ``req.cookies``. Ele suporta tanto o ``CMMV`` quanto o Express, proporcionando uma integração perfeita com qualquer um dos frameworks.
 
 **Instalação**
 
@@ -155,7 +156,7 @@ $ pnpm add @cmmv/cookie-parser
 
 **Uso**
 
-No `CMMV`, o middleware é usado registrando-o no aplicativo por meio de hooks. Ele analisará automaticamente os cookies nas requisições recebidas e os disponibilizará nos objetos `req.cookies` e `req.signedCookies`.
+No CMMV, o middleware é usado registrando-o com o aplicativo usando *hooks*. Ele analisará automaticamente os cookies nas requisições recebidas e os disponibilizará nos objetos ``req.cookies`` e ``req.signedCookies``.
 
 ```typescript
 import cmmv from '@cmmv/server';
@@ -163,7 +164,7 @@ import cookieParser from '@cmmv/cookie-parser';
 
 const app = cmmv();
 
-app.use(cookieParser({ secret: 'mySecretKey' }));
+app.use(cookieParser({ secret: 'minhaChaveSecreta' }));
 
 app.get('/cookies', (req, res) => {
     res.send({
@@ -175,21 +176,21 @@ app.get('/cookies', (req, res) => {
 app.listen({ port: 3000 });
 ```
 
-| Opção   | Tipo                | Padrão | Descrição                                                                                              |
-|---------|---------------------|--------|------------------------------------------------------------------------------------------------------|
-| `name`  | `string`          |        | O nome do cookie a ser analisado.                                                                    |
-| `secret`| `string`/`string[]` | `[]`  | Uma string ou array de strings usadas para assinar e verificar cookies. Isso garante a integridade dos cookies assinados. |
-| `decode`| `function`       |        | Uma função personalizada para decodificar cookies. Se não fornecida, será usado o padrão `decodeURIComponent`. |
-| `path`  | `string`          | `'/'`| Define o caminho da URL que deve existir para que o cookie seja incluído nas requisições.             |
+| Opção   | Tipo           | Padrão | Descrição                                                                                             |
+|---------|----------------|--------|-------------------------------------------------------------------------------------------------------|
+| `name`  | `string`       |        | O nome do cookie a ser analisado.                                                                     |
+| `secret`| `string`/`string[]` | `[]`   | Uma string ou array de strings usado para assinar e verificar cookies. Garante a integridade de cookies assinados. |
+| `decode`| `function`     |        | Uma função de decodificação personalizada para analisar cookies. Se não fornecida, usa-se o padrão `decodeURIComponent`. |
+| `path`  | `string`       | `'/'`  | Define o caminho da URL que deve existir para que o cookie seja incluído nas requisições.              |
 
 **Exemplo para Cookies Assinados**
 
 ```typescript
-app.use(cookieParser({ secret: 'mySecretKey' }));
+app.use(cookieParser({ secret: 'minhaChaveSecreta' }));
 
 app.get('/set-cookie', (req, res) => {
-    res.cookie('name', 'value', { signed: true });
-    res.send('Cookie set');
+    res.cookie('nome', 'valor', { signed: true });
+    res.send('Cookie definido');
 });
 
 app.get('/get-cookie', (req, res) => {
@@ -197,9 +198,9 @@ app.get('/get-cookie', (req, res) => {
 });
 ```
 
-## Cors
+## CORS
 
-O middleware CORS (Cross-Origin Resource Sharing) permite que você habilite o compartilhamento de recursos entre origens diferentes para suas aplicações, configurando os cabeçalhos HTTP apropriados. Ele é baseado no middleware CORS do Express, mas foi adaptado para suportar hooks assíncronos no ambiente `CMMV`, tornando-o totalmente compatível com `@cmmv/server` enquanto mantém compatibilidade com o Express sempre que possível.
+O middleware CORS (Cross-Origin Resource Sharing) permite que você habilite o compartilhamento de recursos entre origens cruzadas para suas aplicações ao definir os cabeçalhos HTTP apropriados. Ele é baseado no middleware CORS do Express, mas foi adaptado para suportar *hooks* assíncronos no ambiente do servidor CMMV, tornando-o totalmente compatível com ``@cmmv/server`` enquanto mantém compatibilidade com o Express sempre que possível.
 
 **Instalação**
 
@@ -218,71 +219,23 @@ app.use(cors());
 app.listen({ port: 3000 });
 ```
 
-| Opção               | Tipo                  | Padrão                    | Descrição                                                                                  |
-|----------------------|-----------------------|---------------------------|------------------------------------------------------------------------------------------|
-| `origin`            | `string` ou `function` | `*`                     | Especifica a origem que pode acessar o recurso. Pode ser uma string, array ou função.    |
-| `methods`           | `string` ou `string[]`| `'GET,HEAD,PUT,PATCH,POST,DELETE'` | Especifica os métodos HTTP permitidos para requisições de origem cruzada.               |
-| `credentials`       | `boolean`           | `false`                 | Se `true`, o cabeçalho `Access-Control-Allow-Credentials` será definido como `true`. |
-| `allowedHeaders`    | `string` ou `string[]`| `undefined`             | Especifica os cabeçalhos que podem ser usados na requisição real.                        |
+| Opção                | Tipo                | Padrão                                           | Descrição                                                                                   |
+|----------------------|---------------------|--------------------------------------------------|---------------------------------------------------------------------------------------------|
+| `origin`             | `string` ou `function`| `*`                                              | Especifica a origem que tem permissão para acessar o recurso. Pode ser uma string, array ou função. |
+| `methods`            | `string` ou `string[]`| `'GET,HEAD,PUT,PATCH,POST,DELETE'`                | Especifica os métodos HTTP permitidos para requisições de origem cruzada.                   |
+| `preflightContinue`   | `boolean`            | `false`                                          | Se `true`, o middleware não interromperá as requisições de pré-verificação e as passará ao próximo manipulador. |
+| `optionsSuccessStatus`| `number`             | `204`                                            | O código de status enviado para requisições OPTIONS bem-sucedidas (pré-verificação). Alguns navegadores legados usam 204 para sucesso. |
+| `credentials`         | `boolean`            | `false`                                          | Se `true`, o cabeçalho `Access-Control-Allow-Credentials` será definido como `true`.         |
+| `maxAge`              | `number`             | `0`                                              | Especifica o tempo em segundos que os navegadores podem armazenar respostas de pré-verificação em cache. |
+| `headers`             | `string` ou `string[]`| `undefined`                                      | Especifica quais cabeçalhos podem ser enviados em uma requisição.                           |
+| `allowedHeaders`      | `string` ou `string[]`| `undefined`                                      | Especifica os cabeçalhos que podem ser usados na requisição real. Padrão é o `Access-Control-Request-Headers` da requisição. |
+| `exposedHeaders`      | `string` ou `string[]`| `undefined`                                      | Especifica quais cabeçalhos são expostos ao navegador. Padrão é nenhum.                     |
 
-## Etag
+## ETag
 
-## Helmet
+O middleware ETag do CMMV adiciona automaticamente um cabeçalho ``ETag`` às respostas HTTP, auxiliando na validação de cache ao gerar um hash único para cada payload de resposta. Esse middleware é baseado na implementação do ETag do Fastify, mas adaptado para funcionar no framework CMMV. O cabeçalho ETag permite que navegadores e outros clientes determinem se o conteúdo mudou desde a última requisição, reduzindo o uso de banda e melhorando o desempenho.
 
-O middleware `@cmmv/helmet` é projetado para melhorar a segurança de aplicativos web, configurando vários cabeçalhos HTTP. Ele oferece suporte a políticas de segurança de conteúdo (Content Security Policies), cabeçalhos de segurança como `X-Frame-Options`, `Strict-Transport-Security` e outros. Este middleware é desenvolvido com flexibilidade, permitindo que você personalize seu comportamento com base nos requisitos do seu aplicativo. Ele segue um padrão de implementação semelhante ao popular `helmet` e inclui integração nativa com o CMMV, mantendo a compatibilidade com o Express sempre que possível.
-
-Este middleware configura automaticamente cabeçalhos de segurança HTTP para proteger melhor contra vulnerabilidades comuns, como ataques de cross-site scripting (XSS), clickjacking e interceptação de dados.
-
-**Instalação**
-
-```bash
-$ pnpm add @cmmv/helmet
-```
-
-**Uso**
-
-```typescript
-import cmmv from '@cmmv/server';
-import helmet from '@cmmv/helmet';
-
-const app = cmmv();
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://trustedscripts.com"],
-        },
-    },
-    hsts: {
-        maxAge: 31536000, // Força HTTPS por um ano
-    },
-    frameguard: {
-        action: 'deny', // Desabilita iframes completamente
-    }
-}));
-app.listen({ port: 3000 });
-```
-
-O `HelmetMiddleware` permite configurar vários cabeçalhos HTTP e políticas de segurança. Abaixo está a lista de opções disponíveis:
-
-| Opção                          | Tipo                | Padrão                       | Descrição                                                                                                   |
-|--------------------------------|---------------------|------------------------------|-------------------------------------------------------------------------------------------------------------|
-| `contentSecurityPolicy`      | objeto ou booleano  | Habilitado com políticas padrão | Configura o cabeçalho Content Security Policy (CSP). Pode ser desativado definindo como `false` ou personalizado fornecendo um objeto. |
-| `frameguard`                 | objeto ou booleano  | `SAMEORIGIN`               | Configura o cabeçalho `X-Frame-Options` para evitar clickjacking.                                         |
-| `dnsPrefetchControl`         | booleano            | `true`                     | Controla o cabeçalho `X-DNS-Prefetch-Control` para melhorar a privacidade.                                |
-| `expectCt`                   | objeto ou booleano  | `false`                    | Adiciona o cabeçalho `Expect-CT` para reforçar os requisitos de transparência de certificado.             |
-| `hsts`                       | objeto ou booleano  | `true`                     | Configura o cabeçalho `Strict-Transport-Security` para forçar conexões HTTPS por um tempo especificado.    |
-| `ieNoOpen`                   | booleano            | `true`                     | Configura o cabeçalho `X-Download-Options` para evitar que downloads sejam abertos automaticamente no Internet Explorer. |
-| `noSniff`                    | booleano            | `true`                     | Configura o cabeçalho `X-Content-Type-Options` para evitar que navegadores façam MIME-sniffing da resposta. |
-| `xssFilter`                  | booleano            | `true`                     | Configura o cabeçalho `X-XSS-Protection` para habilitar o filtro XSS embutido na maioria dos navegadores modernos. |
-| `referrerPolicy`             | string ou objeto    | `no-referrer`              | Configura o cabeçalho `Referrer-Policy` para controlar as informações enviadas no cabeçalho `Referer`.  |
-| `hidePoweredBy`              | booleano ou objeto  | `true`                     | Oculta o cabeçalho `X-Powered-By` para evitar vazamento de informações sobre a tecnologia do servidor.    |
-| `permittedCrossDomainPolicies`| objeto ou booleano | `false`                    | Configura o cabeçalho `X-Permitted-Cross-Domain-Policies`, geralmente usado por produtos Flash/Adobe.     |
-
-
-O middleware CMMV ETag adiciona automaticamente um cabeçalho `ETag` às respostas HTTP, ajudando na validação do cache ao gerar um hash único para cada payload de resposta. Este middleware é baseado na implementação ETag do Fastify, mas adaptado para funcionar dentro do framework CMMV. O cabeçalho ETag permite que navegadores e outros clientes determinem se o conteúdo mudou desde a última solicitação, reduzindo o uso de largura de banda e melhorando o desempenho.
-
-Este middleware foi projetado para suportar ambientes CMMV e Express. Para CMMV, a exportação padrão retorna uma promise, enquanto para Express, uma função `etag` separada está disponível.
+Esse middleware é projetado para suportar tanto ambientes CMMV quanto Express. Para CMMV, a exportação padrão retorna uma promessa, e para Express, uma função separada ``etag`` está disponível.
 
 **Instalação**
 
@@ -301,18 +254,70 @@ app.use(etag());
 app.listen({ port: 3000 });
 ```
 
-A interface `ETagOptions` fornece várias opções de configuração para personalizar o comportamento do middleware ETag.
+A interface ``ETagOptions`` fornece várias opções de configuração para personalizar o comportamento do middleware ETag.
 
-| Opção     | Tipo     | Padrão | Descrição                                                                 |
-|-----------|----------|--------|---------------------------------------------------------------------------|
-| algorithm | string   | 'sha1' | Especifica o algoritmo de hashing a ser usado para gerar o ETag. Valores suportados incluem 'sha1', 'md5' e 'fnv1a'. |
-| weak      | boolean  | false  | Se `true`, o middleware gera ETags fracos (prefixados com W/). ETags fracos permitem uma validação de cache menos rigorosa. |
+| Opção     | Tipo    | Padrão | Descrição                                                                 |
+|-----------|---------|--------|---------------------------------------------------------------------------|
+| `algorithm` | `string`  | 'sha1' | Especifica o algoritmo de hash usado para gerar o ETag. Valores suportados incluem 'sha1', 'md5' e 'fnv1a'. |
+| `weak`    | `boolean` | false  | Se verdadeiro, o middleware gera ETags fracos (prefixados com W/). ETags fracos permitem validação de cache menos rigorosa. |
+
+## Helmet
+
+O middleware ``@cmmv/helmet`` é projetado para aumentar a segurança de aplicações web ao definir vários cabeçalhos HTTP. Ele oferece suporte a políticas de segurança de conteúdo, cabeçalhos de segurança como ``X-Frame-Options``, ``Strict-Transport-Security`` e mais. Esse middleware foi construído com flexibilidade em mente, permitindo que você personalize seu comportamento com base nas necessidades da sua aplicação. Ele segue um padrão de implementação semelhante à popular biblioteca ``helmet`` e inclui integração nativa com o CMMV, mantendo compatibilidade com o Express quando possível.
+
+Esse middleware configura automaticamente cabeçalhos de segurança HTTP para melhor proteção contra vulnerabilidades comuns, como ataques de cross-site scripting (XSS), clickjacking e sniffing de dados.
+
+**Instalação**
+
+```bash
+$ pnpm add @cmmv/helmet
+```
+
+**Uso**
+
+```typescript
+import cmmv from '@cmmv/server';
+import helmet from '@cmmv/helmet';
+
+const app = cmmv();
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "https://trustedscripts.com"],
+        },
+    },
+    hsts: {
+        maxAge: 31536000, // Força HTTPS por um ano
+    },
+    frameguard: {
+        action: 'deny', // Impede iframes completamente
+    }
+}));
+app.listen({ port: 3000 });
+```
+
+O ``HelmetMiddleware`` permite configurar vários cabeçalhos HTTP e políticas de segurança. Abaixo está a lista de opções disponíveis:
+
+| Opção                          | Tipo                | Padrão                      | Descrição                                                                                                  |
+|--------------------------------|---------------------|-----------------------------|------------------------------------------------------------------------------------------------------------|
+| `contentSecurityPolicy`        | object ou boolean   | Habilitado com políticas padrão | Configura o cabeçalho Content Security Policy (CSP). Pode ser desabilitado com `false` ou personalizado com um objeto. |
+| `frameguard`                   | object ou boolean   | `SAMEORIGIN`                | Define o cabeçalho `X-Frame-Options` para prevenir clickjacking.                                           |
+| `dnsPrefetchControl`           | boolean             | `true`                      | Controla o cabeçalho `X-DNS-Prefetch-Control` para melhorar a privacidade.                                |
+| `expectCt`                     | object ou boolean   | `false`                     | Adiciona o cabeçalho `Expect-CT` para impor requisitos de Transparência de Certificados.                  |
+| `hsts`                         | object ou boolean   | `true`                      | Define o cabeçalho `Strict-Transport-Security` para forçar conexões HTTPS por um tempo especificado.      |
+| `ieNoOpen`                     | boolean             | `true`                      | Define o cabeçalho `X-Download-Options` para evitar que downloads abram automaticamente no Internet Explorer. |
+| `noSniff`                      | boolean             | `true`                      | Define o cabeçalho `X-Content-Type-Options` para impedir que navegadores façam sniffing de MIME da resposta. |
+| `xssFilter`                    | boolean             | `true`                      | Define o cabeçalho `X-XSS-Protection` para habilitar o filtro XSS embutido em navegadores modernos.        |
+| `referrerPolicy`               | string ou object    | `no-referrer`               | Configura o cabeçalho `Referrer-Policy` para controlar as informações enviadas no cabeçalho `Referer`.     |
+| `hidePoweredBy`                | boolean ou object   | `true`                      | Oculta o cabeçalho `X-Powered-By` para evitar vazamento de informações sobre a tecnologia do servidor.     |
+| `permittedCrossDomainPolicies` | object ou boolean   | `false`                     | Configura o cabeçalho `X-Permitted-Cross-Domain-Policies`, frequentemente usado por produtos Flash/Adobe.  |
 
 ## Server-Static
 
-O middleware `@cmmv/server-static` fornece funcionalidade para servir arquivos estáticos de um diretório. Ele é inspirado no `serve-static` do Express e no `fastify-static` do Fastify. Este middleware pode ser configurado para servir arquivos de um ou mais diretórios e fornece cache, compressão de arquivos e outras opções úteis para servir conteúdo estático.
+O middleware ``@cmmv/server-static`` oferece funcionalidades para servir arquivos estáticos a partir de um diretório. Ele é inspirado no ``serve-static`` do Express e no ``fastify-static`` do Fastify. Esse middleware pode ser configurado para servir arquivos de um ou mais diretórios e fornece opções de cache, compressão de arquivos e outras funcionalidades úteis para entrega de conteúdo estático.
 
-Você pode usar a função `serveStatic` para servir arquivos estáticos de um diretório:
+Você pode usar a função ``serverStatic`` para servir arquivos estáticos de um diretório:
 
 ```typescript
 import cmmv, { serverStatic } from '@cmmv/server';
@@ -326,13 +331,13 @@ app.use(serverStatic('public'));
 app.set('view engine', 'pug');
 
 app.get('/view', function (req, res) {
-    res.render('index', { title: 'Hey', message: 'Hello there!' });
+    res.render('index', { title: 'Oi', message: 'Olá!' });
 });
 
 app.listen({ host, port })
 .then(server => {
     console.log(
-        `Listen on http://\${server.address().address}:\${server.address().port}`,
+        `Ouvindo em http://${server.address().address}:${server.address().port}`,
     );
 })
 .catch(err => {
@@ -340,9 +345,9 @@ app.listen({ host, port })
 });
 ```
 
-## All Middlwares
+## Todos os Middlewares
 
-Este exemplo configura um servidor usando `@cmmv/server` com vários middlewares para lidar de forma eficiente com solicitações HTTP. Ele serve arquivos estáticos da pasta `public`, habilita CORS para compartilhamento de recursos entre origens diferentes e adiciona cabeçalhos ETag para cache usando o algoritmo `fnv1a`. O middleware de análise de cookies é usado para interpretar cookies e preencher `req.cookies`, enquanto os analisadores JSON e URL codificados processam os dados do corpo das requisições. As respostas são compactadas usando GZIP por meio do middleware de compressão, e o Helmet adiciona cabeçalhos de segurança, incluindo uma Política de Segurança de Conteúdo personalizada. O servidor define rotas para lidar com requisições GET e POST básicas, renderizar visualizações, enviar respostas JSON e gerenciar rotas dinâmicas. Ele escuta na porta `0.0.0.0:3000`, com uma opção para habilitar HTTP/2 e HTTPS se os certificados forem fornecidos.
+Este exemplo configura um servidor usando ``@cmmv/server`` com vários middlewares para lidar eficientemente com requisições HTTP. Ele serve arquivos estáticos da pasta ``public``, habilita CORS para compartilhamento de recursos entre origens, e adiciona cabeçalhos ETag para cache usando o algoritmo ``fnv1a``. O middleware cookie-parser é usado para analisar cookies e preencher ``req.cookies``, enquanto os parsers JSON e URL-encoded processam dados do corpo da requisição. As respostas são comprimidas usando GZIP através do middleware de compressão, e o Helmet adiciona cabeçalhos de segurança, incluindo uma Política de Segurança de Conteúdo personalizada. O servidor define rotas para lidar com requisições GET e POST básicas, renderizar visões, enviar respostas JSON e gerenciar rotas dinâmicas. Ele escuta em ``0.0.0.0:3000``, com a opção de habilitar HTTP/2 e HTTPS se certificados forem fornecidos.
 
 ```typescript
 //import { readFileSync } from "node:fs";
@@ -390,19 +395,19 @@ app.use(
 app.set('view engine', 'pug');
 
 app.get('/view', function (req, res) {
-    res.render('index', { title: 'Hey', message: 'Hello there!' });
+    res.render('index', { title: 'Oi', message: 'Olá!' });
 });
 
 app.get('/', async (req, res) => {
-    res.send('Hello World');
+    res.send('Olá, Mundo');
 });
 
 app.get('/json', async (req, res) => {
-    res.json({ hello: 'world' });
+    res.json({ olá: 'mundo' });
 });
 
 app.get('/user/:id', async (req, res) => {
-    res.send('User ' + req.params.id);
+    res.send('Usuário ' + req.params.id);
 });
 
 app.get('/users', async (req, res) => {
@@ -418,7 +423,7 @@ app.listen({ host, port })
 .then(server => {
     const addr = server.address();
     console.log(
-        `Listen on http://${addr.address}:${addr.port}`,
+        `Ouvindo em http://${addr.address}:${addr.port}`,
     );
 })
 .catch(err => {

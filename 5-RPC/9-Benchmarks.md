@@ -1,8 +1,10 @@
-# RPC Benchmarks
+# Benchmarks RPC
 
-Este relatório demonstra um teste de benchmark simples para realizar 1000 requisições HTTP a um servidor, incluindo o tamanho dos cabeçalhos de solicitação e resposta, e estimativas do tempo médio para processar cada requisição. O payload de dados testado é um objeto JSON simples `{ "Hello": "World" }`, e os seguintes cabeçalhos são usados para a requisição e resposta.
+Este relatório demonstra um teste de benchmark simples para realizar 1000 requisições HTTP a um servidor, incluindo o tamanho dos cabeçalhos de requisição e resposta, e estimativas para o tempo médio necessário para processar cada requisição. O payload de dados testado é um objeto JSON simples { "Hello": "World" }, e os seguintes cabeçalhos são usados para a requisição e resposta.
 
-### Cabeçalhos de Resposta:
+### Cabeçalhos de Requisição e Resposta:
+
+**Cabeçalhos de Resposta:**
 
 ```yaml
 HTTP/1.1 200 OK
@@ -23,13 +25,13 @@ Content-Type: text/html; charset=utf-8
 ETag: W/"5d67-lioHfOkcIYpcQS7nNQKGH5y6XRk"
 Vary: Accept-Encoding
 Content-Encoding: gzip
-Date: Wed, 04 Sep 2024 12:41:13 GMT
+Date: Qua, 04 Set 2024 12:41:13 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 Transfer-Encoding: chunked
 ```
 
-### Cabeçalhos de Requisição:
+**Cabeçalhos de Requisição:**
 
 ```yaml
 GET /docs/3-RPC%2F0-Overview HTTP/1.1
@@ -48,67 +50,63 @@ Upgrade-Insecure-Requests: 1
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari
 ```
 
-### Análise de Tamanho e Tempo para 1000 Requisições HTTP:
+Para o teste de benchmark, analisamos o tamanho total e o tempo para processar 1000 requisições HTTP. Aqui está a análise detalhada:
 
-#### Tamanhos:
+### Tamanhos dos Cabeçalhos:
 * **Tamanho dos Cabeçalhos de Resposta:** 925 bytes
 * **Tamanho dos Cabeçalhos de Requisição:** 783 bytes
-* **Tamanho dos Dados:** 20 bytes (JSON payload `{ "Hello": "World" }`)
+* **Tamanho dos Dados:** 20 bytes (payload JSON { "Hello": "World" })
 
-#### Total por Requisição:
-* **Tamanho Total por Requisição:** 1,728 bytes
+### Tamanho Total por Requisição:
+* **Tamanho Total por Requisição:** 1.728 bytes
 
-#### Total para 1000 Requisições:
-* **Tamanho Total para 1000 Requisições:** 1,728,000 bytes (1,73 MB)
+### Tamanho Total para 1000 Requisições:
+* **Tamanho Total para 1000 Requisições:** 1.728.000 bytes (1,73 MB)
 
-#### Análise de Tempo:
-Assumindo uma conexão de internet média:
-* **DNS Lookup:** 50ms
-* **Time to First Byte (TTFB):** 100ms
-* **Ping Time:** 100ms
+### Análise de Tempo:
+Assumindo uma conexão média de internet com:
+
+* **Consulta DNS:** 50ms
+* **Tempo até o Primeiro Byte (TTFB):** 100ms
+* **Tempo de Ping:** 100ms
 * **Tempo de Download do Conteúdo:** 50ms
 
 **Tempo Total por Requisição:** 300ms
 **Tempo Total para 1000 Requisições:** 300 segundos (5 minutos)
 
----
+# Protobuf + WebSocket
 
-## Protobuf + WebSocket
+Para este benchmark, analisamos o tamanho total e o tempo para 1000 requisições WebSocket usando Protobuf para comunicação binária. Neste cenário, o esquema Protobuf é carregado apenas uma vez (26 KB), e os dados enviados pelo WebSocket são mínimos devido ao formato binário eficiente. Assumimos o mesmo payload, mas em um formato compacto e serializado usando Protobuf.
 
-Para este benchmark, analisamos o tamanho e o tempo total para 1000 requisições WebSocket utilizando Protobuf para comunicação binária. Neste cenário, o esquema Protobuf é carregado apenas uma vez (26 KB), e os dados enviados via WebSocket são mínimos devido ao formato binário eficiente. Assumimos o mesmo payload, mas em um formato binário compacto utilizando Protobuf.
-
-### Assumptions:
+### Suposições:
 * **Carregamento Inicial do Protobuf:** 26 KB (carregado uma vez, em cache)
-* **Tamanho dos Dados (Formato Binário):** Aproximadamente 12 bytes (baseado na representação compacta de `{ "Hello": "World" }`)
-* **Cabeçalhos do WebSocket:** O WebSocket não requer cabeçalhos grandes como o HTTP, resultando em overheads muito menores.
-* **Conexão Persistente:** A conexão WebSocket permanece aberta, eliminando a necessidade de buscas DNS e TTFB repetidos.
+* **Tamanho dos Dados (Formato Binário):** Aproximadamente 12 bytes (baseado na representação binária compacta de { "Hello": "World" })
+* **Cabeçalhos WebSocket:** O WebSocket não exige cabeçalhos grandes como o HTTP, resultando em uma sobrecarga muito menor.
+* **Conexão Persistente:** A conexão WebSocket permanece aberta, eliminando a necessidade de consultas DNS repetidas, TTFB, etc., que são necessárias para cada requisição HTTP.
 
-#### Tamanhos:
-* **Tamanho Binário por Requisição:** 12 bytes
-* **Overhead do Cabeçalho do WebSocket:** 2-6 bytes por quadro
+### Tamanho Total por Requisição:
+* **Tamanho dos Dados Binários por Requisição:** 12 bytes
+* **Sobrecarga dos Cabeçalhos WebSocket:** 2-6 bytes por quadro (dependendo da estrutura do quadro e do opcode)
 * **Tamanho Total por Requisição:** ~18 bytes
 
-#### Total para 1000 Requisições:
-* **Tamanho do Esquema Protobuf (carregado uma vez):** 26 KB (26,000 bytes)
-* **Dados Transferidos:** 18 bytes * 1000 requisições = 18,000 bytes
-* **Tamanho Total para 1000 Requisições:** 26,000 bytes (esquema) + 18,000 bytes (dados) = 44,000 bytes (44 KB)
+### Tamanho Total para 1000 Requisições:
+* **Tamanho do Esquema Protobuf (carregado apenas uma vez):** 26 KB (26.000 bytes)
+* **Total de Dados Transferidos:** 18 bytes * 1000 requisições = 18.000 bytes
+* **Tamanho Total para 1000 Requisições:** 26.000 bytes (esquema) + 18.000 bytes (dados) = 44.000 bytes (44 KB)
 
 ### Análise de Tempo:
 
 Em uma conexão WebSocket:
-* **Sem DNS Lookup:** A busca DNS ocorre apenas uma vez durante a conexão inicial.
-* **Sem TTFB:** A conexão é persistente, então não há tempo de TTFB para cada requisição.
-* **Ping Time:** 100ms (assumido para latência de rede)
+
+* **Sem Consulta DNS:** A consulta DNS ocorre apenas uma vez durante a conexão inicial.
+* **Sem TTFB:** A conexão é persistente, então não há tempo até o primeiro byte para cada requisição.
+* **Tempo de Ping:** 100ms (assumido para latência de rede)
 * **Tempo de Download do Conteúdo (Dados Binários):** Muito menor que HTTP/JSON.
-
-**Tempo Total por Requisição:** ~100ms (ping + processamento mínimo)
-**Tempo Total para 1000 Requisições:** 100 segundos (1 minuto e 40 segundos)
-
----
+* **Tempo Total por Requisição:** ~100ms (ping + processamento mínimo)
+* **Tempo Total para 1000 Requisições:** 100 segundos (1 minuto e 40 segundos)
 
 ### Conclusão:
+* **Total de Dados Transferidos:** Apenas 44 KB para 1000 requisições em comparação com 1,73 MB em HTTP/JSON.
+* **Tempo Total:** 100 segundos (1 minuto e 40 segundos) para 1000 requisições WebSocket, em comparação com 5 minutos para requisições HTTP.
 
-* **Tamanho Total dos Dados Transferidos:** Apenas 44 KB para 1000 requisições via WebSocket com Protobuf, comparado a 1,73 MB via HTTP/JSON.
-* **Tempo Total:** 100 segundos (1 minuto e 40 segundos) para 1000 requisições WebSocket, comparado a 5 minutos para requisições HTTP.
-
-A comunicação binária via WebSocket utilizando Protobuf é significativamente mais eficiente em termos de tamanho dos dados e tempo de processamento. A conexão persistente elimina overheads associados a buscas DNS e TTFB, enquanto o formato binário compacto reduz consideravelmente o tamanho do payload.
+A comunicação binária por WebSocket usando Protobuf é significativamente mais eficiente em termos de tamanho de dados e tempo de processamento. A conexão persistente elimina a sobrecarga associada a consultas DNS repetidas e TTFB, enquanto o formato binário compacto reduz consideravelmente o tamanho do payload.

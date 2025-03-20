@@ -2,17 +2,17 @@
 
 Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/repository](https://github.com/cmmvio/cmmv/tree/main/packages/repository)
 
-O módulo ``@cmmv/repository`` foi projetado para funcionar em conjunto com o framework ``@cmmv/core`` e é construído utilizando [TypeORM](https://typeorm.io/). Este módulo gera automaticamente entidades com base nos contratos definidos e estende a camada de serviço para lidar com operações CRUD no banco de dados configurado. Abaixo, fornecemos informações detalhadas sobre instalação, uso e recursos deste módulo.
+O módulo ``@cmmv/repository`` foi projetado para funcionar em conjunto com o framework ``@cmmv/core`` e é construído utilizando [TypeORM](https://typeorm.io/). Este módulo gera automaticamente entidades com base nos contratos definidos e estende a camada de serviço para lidar com operações CRUD com o banco de dados configurado. A seguir, fornecemos informações detalhadas sobre instalação, uso e recursos deste módulo.
 
 **Instalação**
 
 Para usar o módulo ``@cmmv/repository`` em seu projeto, você pode instalá-lo via npm:
 
 ```bash
-$ pnpm add @cmmv/repository typeorm
+$ pnpm add @cmmv/repository
 ```
 
-Além de instalar o módulo ``@cmmv/repository``, dependendo do tipo de banco de dados que você está usando, será necessário instalar o driver correspondente.
+Além de instalar o módulo ``@cmmv/repository``, dependendo do tipo de banco de dados que você está utilizando, será necessário instalar o respectivo driver de banco de dados.
 
 **Bancos de Dados Suportados e Drivers**
 
@@ -40,14 +40,14 @@ Além de instalar o módulo ``@cmmv/repository``, dependendo do tipo de banco de
         border-radius: 0.375rem;
         overflow-x: auto;
     ">
-    auto-install-peers=true
-    approve-builds=always</pre>
+auto-install-peers=true
+approve-builds=always</pre>
     <p>
-        Isso garantirá que todas as compilações necessárias sejam aprovadas automaticamente durante a instalação, evitando problemas relacionados a prompts de aprovação manual.
+        Isso garantirá que todas as construções necessárias sejam aprovadas automaticamente durante a instalação, evitando problemas relacionados a prompts de aprovação manual.
     </p>
 </div>
 
-O TypeORM suporta múltiplos sistemas de banco de dados, e cada sistema requer o pacote npm apropriado para funcionar corretamente. Aqui está uma lista de bancos de dados suportados com o respectivo driver para instalação:
+O TypeORM suporta vários sistemas de banco de dados, e cada sistema requer o pacote npm apropriado para funcionar corretamente. Aqui está uma lista de bancos de dados suportados junto com o driver correspondente a instalar:
 
 **SQLite:** [NPM](https://www.npmjs.com/package/sqlite3)
 
@@ -85,19 +85,19 @@ $ pnpm add oracledb
 $ pnpm add mongodb
 ```
 
-Depois de instalar o módulo e o driver correspondente, você pode configurar a conexão com o banco de dados no arquivo ``.cmmv.config.cjs``. O TypeORM usará automaticamente o driver apropriado com base na configuração.
+Após instalar o módulo e o driver de banco de dados correspondente, você pode configurar sua conexão com o banco de dados no arquivo ``.cmmv.config.cjs``. O TypeORM usará automaticamente o driver apropriado com base na configuração.
 
 ## Propósito
 
-O módulo ``@cmmv/repository`` simplifica o processo de integração de entidades e serviços de banco de dados para operações CRUD, aproveitando contratos definidos com ``@cmmv/core``. Ele transpila automaticamente os contratos em entidades do TypeORM e fornece uma maneira padronizada de gerenciar interações com o banco de dados.
+O módulo ``@cmmv/repository`` simplifica o processo de integração de entidades de banco de dados e serviços para operações CRUD, aproveitando os contratos definidos usando o ``@cmmv/core``. Ele transpila automaticamente as definições de contratos em entidades TypeORM e fornece uma maneira padronizada de gerenciar interações com o banco de dados.
 
-* **Geração Automática de Entidades:** Com base nos contratos definidos em seu projeto, o módulo transpila as definições do contrato em entidades do TypeORM.
-* **Serviço CRUD:** O módulo gera operações CRUD para as entidades sem a necessidade de implementar serviços manualmente, permitindo um gerenciamento fácil de dados.
-* **Integração com TypeORM:** Integração completa com o TypeORM, facilitando o trabalho com vários bancos de dados, como PostgreSQL, MySQL, SQLite, etc.
-* **Baseado em Contratos:** Usando contratos definidos com ``@cmmv/core``, o módulo gera automaticamente o esquema do banco de dados e a camada de serviço CRUD.
+* **Geração Automática de Entidades:** Com base nos contratos definidos em seu projeto, o módulo transpila as definições de contrato em entidades TypeORM.
+* **Serviço CRUD:** O módulo gera operações CRUD para as entidades sem a necessidade de implementar serviços manualmente, permitindo um gerenciamento fácil dos dados.
+* **Integração com TypeORM:** Integração completa com TypeORM, facilitando o trabalho com uma variedade de bancos de dados, como PostgreSQL, MySQL, SQLite, etc.
+* **Baseado em Contratos:** Usando contratos definidos com ``@cmmv/core``, o módulo gera automaticamente tanto o esquema do banco de dados quanto a camada de serviço CRUD.
 
+``/src/contract/task.contract.ts``
 ```typescript
-// /src/contract/task.contract.ts
 import { AbstractContract, Contract, ContractField } from '@cmmv/core';
 
 @Contract({
@@ -128,7 +128,7 @@ export class TasksContract extends AbstractContract {
 
 Este contrato define os campos e a estrutura para a entidade Task, que será transpilada em uma entidade de banco de dados pelo módulo ``@cmmv/repository``.
 
-Uma vez definido o contrato, o módulo ``@cmmv/repository`` transpila o contrato em uma entidade do TypeORM. Abaixo está um exemplo de uma entidade gerada automaticamente (``task.entity.ts``):
+Uma vez que o contrato é definido, o módulo ``@cmmv/repository`` transpila o contrato em uma entidade TypeORM. Abaixo está um exemplo de uma entidade gerada automaticamente (``task.entity.ts``):
 
 ```typescript
 // Gerado automaticamente pelo CMMV
@@ -153,7 +153,7 @@ export class TaskEntity implements Task {
 }
 ```
 
-O módulo ``@cmmv/repository`` também gera um serviço CRUD que lida automaticamente com interações com o banco de dados. Este serviço usa a entidade gerada a partir do contrato para fornecer métodos CRUD padrão (create, read, update, delete).
+O módulo ``@cmmv/repository`` também gera um serviço CRUD que lida automaticamente com interações com o banco de dados. Este serviço usará a entidade gerada a partir do contrato para fornecer métodos CRUD padrão (criar, ler, atualizar, excluir).
 
 ```typescript
 // Gerado automaticamente pelo CMMV
@@ -223,11 +223,11 @@ export class TaskService extends AbstractService {
 }
 ```
 
-O módulo ``@cmmv/repository`` simplifica significativamente a interação com o banco de dados, gerando automaticamente as entidades e serviços necessários com base em contratos pré-definidos. Com integração nativa ao TypeORM, este módulo agiliza operações CRUD, permitindo um desenvolvimento mais rápido e fácil gerenciamento do banco de dados.
+O módulo ``@cmmv/repository`` simplifica significativamente a interação com o banco de dados ao gerar automaticamente as entidades e serviços necessários com base nos contratos predefinidos. Com a integração embutida ao TypeORM, este módulo agiliza as operações CRUD, possibilitando um desenvolvimento mais rápido e um gerenciamento mais fácil do banco de dados.
 
 ## Configurações
 
-Para garantir que o módulo ``@cmmv/repository`` funcione corretamente com seu projeto, é necessário definir as configurações do banco de dados em um arquivo ``.cmmv.config.cjs``. Este arquivo serve como a configuração central para seu projeto, incluindo as configurações de repositório para interação com o banco de dados.
+Para garantir que o módulo ``@cmmv/repository`` funcione corretamente em seu projeto, você precisa definir as configurações do banco de dados em um arquivo ``.cmmv.config.cjs``. Este arquivo serve como a configuração central do seu projeto, incluindo as configurações do repositório para interação com o banco de dados.
 
 ```javascript
 module.exports = {
@@ -242,14 +242,113 @@ module.exports = {
 };
 ```
 
-Neste exemplo, o módulo está configurado para usar SQLite como banco de dados com sincronização automática ativada. Isso significa que quaisquer alterações nas suas entidades serão refletidas automaticamente no esquema do banco de dados sem a necessidade de migrações.
+Neste exemplo, o módulo está configurado para usar SQLite como banco de dados com sincronização automática habilitada. Isso significa que quaisquer mudanças em suas entidades serão automaticamente refletidas no esquema do banco de dados sem a necessidade de migrações.
 
-Para uma lista mais detalhada de todas as configurações disponíveis, visite a [documentação de opções de Data Source do TypeORM](https://typeorm.io/data-source). Lá, você encontrará opções adicionais como:
+Para uma lista mais detalhada de todas as configurações disponíveis, visite a [documentação de opções de fonte de dados do TypeORM](https://typeorm.io/data-source). Lá, você encontrará opções adicionais como:
 
 * **entities:** Um array de caminhos ou classes para especificar quais entidades o TypeORM deve gerenciar.
 * **migrations:** Um caminho para seus arquivos de migração.
-* **cache:** Habilitar cache de consultas.
-* **username e password:** Credenciais para conexão com o banco de dados (para tipos de banco de dados que exigem autenticação).
-* **host e port:** Para especificar o host e a porta para bancos de dados como PostgreSQL, MySQL, etc.
+* **cache:** Habilita o cache de consultas.
+* **username e password:** Credenciais para conexão com o banco de dados (para tipos de banco que exigem autenticação).
+* **host e port:** Para especificar o host e a porta para bancos como PostgreSQL, MySQL, etc.
 
-Para configurar adequadamente o módulo ``@cmmv/repository``, você deve especificar suas configurações de conexão com o banco de dados no arquivo ``.cmmv.config.cjs``. O exemplo fornecido mostra uma configuração típica usando SQLite, mas você pode ajustar as configurações para outros bancos de dados como PostgreSQL ou MySQL. Para mais detalhes sobre configurações possíveis, consulte a [documentação do TypeORM](https://typeorm.io).
+Para configurar corretamente o módulo ``@cmmv/repository``, você precisa especificar as configurações de conexão do banco de dados no arquivo ``.cmmv.config.cjs``. O exemplo fornecido mostra uma configuração típica usando SQLite, mas você pode ajustar a configuração para outros bancos como PostgreSQL ou MySQL. Para mais detalhes sobre configurações possíveis, consulte a [documentação do TypeORM](https://typeorm.io).
+
+## Índice Personalizado
+
+A partir da versão 0.9, o módulo ``@cmmv/repository`` introduz suporte para declarações de índices personalizados dentro dos contratos. Esse recurso permite que os desenvolvedores definam índices mais complexos diretamente no contrato usando o parâmetro `index` no decorador ``@Contract``. Ele suporta índices de múltiplos campos e inclui todas as opções de indexação disponíveis fornecidas pelo TypeORM.
+
+```typescript
+@Contract({
+    controllerName: 'User',
+    protoPath: 'src/protos/auth.proto',
+    protoPackage: 'auth',
+    generateController: true,
+    auth: true,
+    imports: ['crypto'],
+    index: [
+        {
+            name: 'idx_user_login',
+            fields: ['username', 'password'],
+            options: {
+                where: "password IS NOT NULL",
+                expireAfterSeconds: 3600,
+            },
+        },
+    ],
+})
+export class UserContract extends AbstractContract {
+    @ContractField({ protoType: 'string', unique: true })
+    username: string;
+
+    @ContractField({ protoType: 'string' })
+    password: string;
+
+    @ContractField({ protoType: 'string', nullable: true })
+    googleId: string;
+
+    @ContractField({ protoType: 'string', defaultValue: '"[]"' })
+    groups: string;
+
+    @ContractField({ protoType: 'string', defaultValue: '"[]"' })
+    roles: string;
+
+    @ContractField({ protoType: 'bool', defaultValue: false })
+    root: boolean;
+}
+```
+
+### Opções de Índice
+
+O parâmetro ``index`` aceita um array de definições de índices, cada uma contendo as seguintes opções:
+
+```typescript
+export interface ContractIndexOptions {
+    unique?: boolean;
+    spatial?: boolean;
+    fulltext?: boolean;
+    nullFiltered?: boolean;
+    parser?: string;
+    where?: string;
+    sparse?: boolean;
+    background?: boolean;
+    concurrent?: boolean;
+    expireAfterSeconds?: number;
+}
+```
+
+### Entidade Gerada
+
+O módulo ``@cmmv/repository`` gerará a entidade TypeORM correspondente com os índices definidos:
+
+```typescript
+@Entity('user')
+@Index("idx_user_username", ["username"], { unique: true })
+@Index("idx_user_googleId", ["googleId"])
+@Index("idx_user_login", ["username", "password"], {
+    where: "password IS NOT NULL",
+    expireAfterSeconds: 3600
+})
+export class UserEntity implements IUser {
+    @ObjectIdColumn()
+    _id: ObjectId;
+
+    @Column({ type: 'varchar' })
+    username: string;
+
+    @Column({ type: 'varchar' })
+    password: string;
+
+    @Column({ type: 'varchar', nullable: true })
+    googleId: string;
+
+    @Column({ type: 'varchar', default: "[]" })
+    groups: string;
+
+    @Column({ type: 'varchar', default: "[]" })
+    roles: string;
+
+    @Column({ type: 'boolean', default: false })
+    root: boolean;
+}
+```

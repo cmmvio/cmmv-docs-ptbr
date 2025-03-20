@@ -1,48 +1,50 @@
-## View Engine
+# Motor de Visão
 
-No desenvolvimento de aplicações web, o motor de visualização (view engine) é responsável por renderizar templates e gerar páginas HTML. O método `res.render` permite renderizar um template usando o motor de visualização configurado.
+Em aplicações web, o motor de visão é responsável por renderizar templates e gerar páginas HTML. Em uma configuração típica, o motor de visão pega dados dinâmicos e os renderiza em uma página HTML estática que é enviada ao cliente. O método ``res.render`` no servidor permite que você renderize um template usando o motor de visão que você configurar.
 
-### Configurando o Motor de Visualização com Pug
+Nesta documentação, demonstraremos como configurar e usar um motor de visão, especificamente com o popular motor de templates Pug. No entanto, é possível configurar diferentes motores de visão dependendo das suas necessidades.
 
-O exemplo a seguir demonstra como configurar o Pug como motor de visualização para renderizar arquivos `.pug` localizados no diretório `/views`:
+No exemplo a seguir, configuramos o motor de templates Pug para renderizar arquivos ``.pug`` a partir do diretório ``/views``. Veja como você pode configurá-lo:
 
 ```typescript
-// Importando os módulos necessários
+// Importa os módulos necessários
 import cmmv from '@cmmv/server';
 import { json, urlencoded } from '@cmmv/server';
 import { readFileSync } from 'fs';
 import path from 'path';
 
-// Inicializando o app
+// Inicializa o aplicativo
 const app = cmmv();
 
-// Configurando o motor de visualização como Pug
+// Define o motor de visão como Pug
 app.set('view engine', 'pug');
 
-// Especificando o diretório onde os templates estão localizados
+// Especifica o diretório onde os templates estão localizados
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware para parsear dados JSON e URL-encoded
+// Middleware para analisar dados JSON e URL-encoded
 app.use(json({ limit: '50mb' }));
 app.use(urlencoded({ extended: true }));
 
 // Rota de exemplo para renderizar um template Pug
 app.get('/view', function (req, res) {
-  res.render('index', { title: 'Hello', message: 'Welcome to the app!' });
+  res.render('index', { title: 'Olá', message: 'Bem-vindo ao aplicativo!' });
 });
 
-// Iniciando o servidor
+// Inicia o servidor
 const host = '0.0.0.0';
 const port = 3000;
 
 app.listen({ host, port }).then((server) => {
-  console.log(`Server running at http://\${host}:\${port}`);
+  console.log(`Servidor rodando em http://${host}:${port}`);
 }).catch((err) => {
   console.error(err);
 });
 ```
 
-O diretório padrão de views é `/views`, mas isso pode ser personalizado. O arquivo `index.pug` no diretório `/views` poderia ser assim:
+O diretório padrão para visões é ``/views``, mas isso pode ser personalizado como mostrado no exemplo. O motor de templates Pug espera arquivos com a extensão ``.pug`` dentro desse diretório.
+
+Por exemplo, o arquivo ``index.pug`` no diretório ``/views`` poderia ser assim:
 
 ```pug
 doctype html
@@ -53,21 +55,25 @@ html
     h1= message
 ```
 
-### Configuração de Motor de Visualização Personalizado
+Ao configurar um motor de visão, você pode gerar dinamicamente páginas HTML com base em templates e dados. O exemplo fornecido mostra como configurar o motor de templates Pug e usá-lo para renderizar HTML a partir de templates Pug armazenados em um diretório específico. Isso permite gerenciar facilmente conteúdo dinâmico e exibi-lo ao cliente em sua aplicação web.
 
-Esta implementação configura um motor de visualização customizado para processar arquivos `.html`, suportando renderização no lado do servidor (SSR) com políticas de segurança customizadas.
+No CMMV, você pode configurar vários motores de visão suportados pelo Express, como [EJS](https://ejs.co/), [Mustache](https://mustache.github.io/), entre outros. Além disso, também é possível criar implementações personalizadas para atender às suas necessidades. Por exemplo, no CMMV, há suporte nativo para SSR (Renderização no Lado do Servidor) usando o motor de visão personalizado ``@cmmv/view``. Abaixo está um exemplo de implementação que demonstra como configurar e usar o motor de visão personalizado do CMMV.
+
+## Motor de Visão Personalizado
+
+Esta implementação configura um motor de visão personalizado que processa arquivos ``.html`` para SSR (Renderização no Lado do Servidor). Ele utiliza o próprio motor de visão do CMMV, que oferece flexibilidade no manuseio de conteúdo dinâmico com cabeçalhos personalizados e geração de *nonce* para políticas de segurança.
 
 ```typescript
 import cmmv from '@cmmv/server';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import fs from 'fs';
-import Config from './config'; // Assume que existe um serviço Config para configurações do app
+import Config from './config'; // Assume que você tem um serviço Config para configuração do aplicativo
 
 const publicDir = path.join(process.cwd(), 'public');
 const app = cmmv();
 
-// Configurando o motor de visualização para processar arquivos .html
+// Configurando o motor de visão para processar arquivos .html usando o motor personalizado
 app.set('views', publicDir);
 app.set('view engine', 'html');
 app.engine('html', (filePath, options, callback) => {
@@ -79,13 +85,13 @@ app.engine('html', (filePath, options, callback) => {
     );
 });
 
-// Adicionando um hook para gerenciar requisições e cabeçalhos de segurança
+// Adicionando um hook para gerenciar requisições e lidar com cabeçalhos com políticas de segurança
 app.addHook('onRequest', (req, res, next) => {
     req.requestId = uuidv4();
     res.locals = {};
     res.locals.nonce = uuidv4().substring(0, 8);
 
-    // Configurando cabeçalhos de segurança personalizados
+    // Definir cabeçalhos de segurança personalizados
     const customHeaders = Config.get('headers') || {};
     for (const headerName in customHeaders) {
         let headerValue = customHeaders[headerName];
@@ -95,7 +101,7 @@ app.addHook('onRequest', (req, res, next) => {
                 .map(value => {
                     if (headerName === 'Content-Security-Policy')
                         return value.indexOf('style-src') == -1
-                            ? `\${value} 'nonce-\${res.locals.nonce}'`
+                            ? `${value} 'nonce-${res.locals.nonce}'`
                             : value;
                     return value;
                 })
@@ -104,24 +110,24 @@ app.addHook('onRequest', (req, res, next) => {
             if (headerName === 'Content-Security-Policy')
                 headerValue =
                     headerValue.indexOf('style-src') == -1
-                        ? `\${headerValue} 'nonce-\${res.locals.nonce}'`
+                        ? `${headerValue} 'nonce-${res.locals.nonce}'`
                         : headerValue;
         }
 
         res.setHeader(headerName, headerValue);
     }
 
-    // Servindo arquivos HTML do diretório /public/views
+    // Servir arquivos HTML do diretório /public/views
     const publicDir = path.join(process.cwd(), 'public/views');
     const requestPath = req.path === '/' ? 'index' : req.path.substring(1);
     const possiblePaths = [
-        path.join(publicDir, `\${requestPath}.html`),
+        path.join(publicDir, `${requestPath}.html`),
         path.join(publicDir, requestPath, 'index.html'),
-        path.join(publicDir, `\${requestPath}`),
+        path.join(publicDir, `${requestPath}`),
         path.join(publicDir, requestPath, 'index.html'),
     ];
 
-    // Verificando se algum dos caminhos existe
+    // Verificar se algum dos caminhos possíveis existe
     let fileFound = false;
     for (const filePath of possiblePaths) {
         if (fs.existsSync(filePath)) {
@@ -136,18 +142,18 @@ app.addHook('onRequest', (req, res, next) => {
         }
     }
 
-    if (!fileFound) res.code(404).send('Page not found');
+    if (!fileFound) res.code(404).send('Página não encontrada');
 
     next();
 });
 
-// Iniciando o servidor
+// Iniciar o servidor
 const host = '0.0.0.0';
 const port = 3000;
 
 app.listen({ host, port }).then(server => {
-    console.log(`Server running at http://\${host}:\${port}`);
+    console.log(`Servidor rodando em http://${host}:${port}`);
 });
 ```
 
-O framework CMMV oferece flexibilidade para suportar qualquer motor de visualização compatível com Express, como EJS, Mustache, entre outros. Também permite a criação de motores de visualização personalizados, como o motor `@cmmv/view`, utilizado no exemplo acima.
+O framework CMMV oferece flexibilidade ao suportar qualquer motor de visão compatível com o Express, como EJS, Mustache e outros. Além disso, você pode implementar motores de visão personalizados, como o ``@cmmv/view`` usado no exemplo acima, para aprimorar as capacidades de renderização no lado do servidor e otimizar o desempenho com comportamentos personalizados.

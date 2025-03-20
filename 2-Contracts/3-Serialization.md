@@ -1,10 +1,10 @@
 # Serialização
 
-A serialização e desserialização em um projeto que utiliza `class-transformer` são fundamentais para converter objetos JavaScript em instâncias de classes específicas e vice-versa. No exemplo abaixo, a classe `Task`, gerada automaticamente pelo `@cmmv/core`, pode ser serializada e validada, garantindo que a aplicação processe os dados de forma segura e com a tipagem correta.
+A serialização e desserialização em um projeto usando o ``class-transformer`` são fundamentais para converter objetos JavaScript em instâncias de classes específicas e vice-versa. No exemplo acima, a classe ``Task``, gerada automaticamente pelo ``@cmmv/core``, pode ser serializada e validada, garantindo que a aplicação processe os dados de forma segura e com tipagem correta.
 
-O objetivo da serialização é transformar os dados em instâncias de classes apropriadas, garantindo que os objetos manipulados possuam as propriedades e tipos corretos. Utilizamos o pacote `class-transformer` para serializar e desserializar objetos e `class-validator` para validar os dados.
+O objetivo da serialização é transformar os dados em instâncias de classes apropriadas, assegurando que os objetos manipulados tenham as propriedades e tipos corretos. Utilizamos o pacote ``class-transformer`` para serializar e desserializar objetos e o ``class-validator`` para validar os dados.
 
-Aqui está a implementação de um modelo `Task` que representa uma tarefa e utiliza `class-validator` e `class-transformer` para garantir a serialização e validação adequadas dos campos:
+Aqui está uma implementação de um modelo ``Task`` que representa uma tarefa e utiliza o ``class-validator`` e o ``class-transformer`` para garantir a serialização e validação adequadas dos campos:
 
 ```typescript
 // Gerado automaticamente pelo CMMV
@@ -22,14 +22,14 @@ export interface ITask {
 export class Task implements ITask {
     id?: any;
 
-    @IsString({ message: 'Label inválido' })
-    @IsNotEmpty({ message: 'Label inválido' })
+    @IsString({ message: 'Rótulo inválido' })
+    @IsNotEmpty({ message: 'Rótulo inválido' })
     label: string;
 
-    @IsBoolean({ message: 'Tipo de checked inválido' })
+    @IsBoolean({ message: 'Tipo de "checked" inválido' })
     checked: boolean = false;
 
-    @IsBoolean({ message: 'Tipo de removed inválido' })
+    @IsBoolean({ message: 'Tipo de "removed" inválido' })
     removed: boolean = false;
 
     constructor(partial: Partial<Task>) {
@@ -40,10 +40,10 @@ export class Task implements ITask {
 
 <br/>
 
-* **`plainToInstance:`** Converte objetos simples (como JSON) em instâncias de classes, transformando um objeto JSON recebido em uma instância da classe `Task`.
-* **`instanceToPlain:`** Converte uma instância de classe de volta em um objeto simples para serialização ou envio em uma resposta HTTP.
+* **``plainToInstance:``** Converte objetos simples (como JSON) em instâncias de classe, transformando um objeto JSON recebido em uma instância da classe ``Task``.
+* **``instanceToPlain:``** Converte uma instância de classe de volta em um objeto simples para serialização ou envio em uma resposta HTTP.
 
-Aqui está como converter um objeto simples que representa uma tarefa em uma instância da classe `Task` usando `plainToInstance`:
+Aqui está como convertemos um objeto simples que representa uma tarefa em uma instância da classe ``Task`` usando ``plainToInstance``:
 
 ## Desserialização
 
@@ -52,7 +52,7 @@ import { plainToInstance } from 'class-transformer';
 
 // Objeto simples
 const plainTask = {
-    label: 'Concluir relatório',
+    label: 'Completar relatório',
     checked: true,
     removed: false,
 };
@@ -60,17 +60,17 @@ const plainTask = {
 // Converte para uma instância da classe Task
 const taskInstance = plainToInstance(Task, plainTask);
 
-console.log(taskInstance); // Instância da classe Task
+console.log(taskInstance); // Instância de Task
 ```
 
-## Serialização 
+## Serialização
 
-Quando a aplicação precisa enviar dados para um banco de dados ou uma API, é possível serializar a instância da classe de volta para um objeto simples usando `instanceToPlain`.
+Quando a aplicação precisa enviar dados para um banco de dados ou uma API, ela pode serializar a instância da classe de volta em um objeto simples usando ``instanceToPlain``.
 
 ```typescript
 import { instanceToPlain } from 'class-transformer';
 
-const taskInstance = new Task({ label: 'Concluir relatório', checked: true });
+const taskInstance = new Task({ label: 'Completar relatório', checked: true });
 
 // Converte para um objeto simples
 const plainTask = instanceToPlain(taskInstance);
@@ -80,7 +80,7 @@ console.log(plainTask); // Objeto simples
 
 ## Validação de Dados
 
-Use `validate` do `class-validator` para verificar se os dados são válidos:
+Use o método `validate` do ``class-validator`` para verificar se os dados são válidos:
 
 ```typescript
 import { validate } from 'class-validator';
@@ -96,4 +96,4 @@ validate(taskInstance).then(errors => {
 });
 ```
 
-Ao utilizar `class-transformer` e `class-validator`, você garante que as instâncias de classes sejam devidamente validadas e facilmente convertidas entre objetos simples e instâncias de classe. Isso fornece uma camada robusta de validação e simplifica o gerenciamento de dados, especialmente para APIs e bancos de dados.
+Ao usar o ``class-transformer`` e o ``class-validator``, você garante que as instâncias de classe sejam devidamente validadas e facilmente convertidas entre objetos simples e instâncias de classe. Isso proporciona uma forte camada de validação e simplifica o manuseio de dados, especialmente para APIs e bancos de dados.

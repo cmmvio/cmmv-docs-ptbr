@@ -1,445 +1,180 @@
-# Registro de Alterações
+# Changelog
+
+## Versão 0.9.0
+20 de março de 2025
+
+### Novos Recursos
+
+- **Projeto `@cmmv/sandbox`**
+  - Adicionada uma **interface interativa** para criação de **contratos complexos** no padrão CMMV.
+  - Permite **testes integrados** das rotas **RESTful** e **GraphQL** diretamente na interface.
+  - Fornece suporte para **visualização e manipulação** de contratos antes da implementação no sistema.
+
+- **Carregamento Dinâmico de Contratos Públicos no `@cmmv/core`**
+  - Agora o **núcleo do CMMV** pode carregar automaticamente **contratos públicos**, facilitando a modularização e o uso dinâmico de contratos sem necessidade de importação manual.
+
+- **Correções e Melhorias nas Interfaces de Contratos**
+  - As interfaces dos contratos foram **refatoradas** para melhor compatibilidade e estruturação.
+  - **Inclusão de `paramType` nas mensagens**, garantindo **tipagem correta** nas chamadas RPC e GraphQL.
+
+- **Melhorias no Parser de Contratos**
+  - Várias **correções no parsing** de contratos foram aplicadas, garantindo **compatibilidade e padronização** dos contratos gerados.
+
+- **Nova Classe de Compilação para Contratos**
+  - Criada uma classe que **recebe um contrato em formato JSON** e **gera automaticamente o contrato em TypeScript** no formato correto.
+  - Melhoria na **automatização da criação de contratos**, permitindo integração com sistemas externos.
+
+### Melhorias e Correções no `@cmmv/auth`
+
+- **Correções e Inclusão de Novos Dados em Contratos de Autenticação**
+  - Ajustes nos contratos do **módulo de autenticação**, garantindo **compatibilidade total** com os novos modelos de contratos.
+  - Melhorias na **gestão de usuários, permissões e tokens**, permitindo maior controle na definição de regras de acesso.
+
+### Recomendações
+
+- **Aproveite o `@cmmv/sandbox` para Criar e Testar Contratos**
+  - Utilize a **nova interface interativa** para facilitar a criação de contratos **complexos** e testar suas APIs antes da implementação.
+
+- **Utilize o Novo Carregamento Dinâmico de Contratos**
+  - Agora o CMMV **importa automaticamente contratos públicos**, permitindo **menor esforço manual** ao definir novos contratos no sistema.
+
+- **Adapte os Contratos Existentes para `paramType`**
+  - Atualize **suas mensagens e contratos** para incluir **`paramType`**, garantindo melhor validação de dados e compatibilidade com **REST, GraphQL e RPC**.
+
+A atualização para **0.9.0** traz **grandes melhorias no desenvolvimento e gerenciamento de contratos**, além de **facilitar testes e integração** com APIs, tornando o CMMV **mais eficiente e modular**.
+
+## Versão 0.8.34
+13 de março de 2025
+
+### Novos Recursos
+
+- **Módulo GraphQL (`@cmmv/graphql`)**
+  - Introdução do suporte nativo para **GraphQL** com `type-graphql` e `Apollo Server`.
+  - Geração automática de **tipos e resolvers** a partir dos contratos do sistema.
+  - Integração nativa com `@cmmv/auth`, oferecendo **autenticação**, **controle de acesso baseado em funções** e **refresh de tokens**.
+  - Suporte a **paginação e filtragem**, garantindo compatibilidade com as funcionalidades REST e RPC.
+
+- **Módulo OpenAPI (`@cmmv/openapi`)**
+  - Geração automática de **documentação OpenAPI/Swagger** para todos os controladores e rotas.
+  - Criação dos arquivos `openapi.json` e `openapi.yml` no diretório `/public` para integração externa.
+  - Implementação da rota `/docs` para acesso à documentação pública da API.
+  - Suporte a **autenticação via Bearer Token e OAuth2** quando `@cmmv/auth` estiver ativado.
+
+- **Transpilador de Schemas de Contrato**
+  - Novo **transpilador de geração de schemas** nos formatos **JSON e YAML**.
+  - Todos os contratos agora geram **schemas estruturados**, permitindo melhor interoperabilidade com outros serviços.
+
+### Melhorias no Core
+
+- **Extensão da API de `Application`**
+  - Adição de `getResolver` e `getResolvers` para recuperar resolvers GraphQL gerados dinamicamente.
+  - Introdução do método `resolveProvider`, permitindo a resolução dinâmica de **provedores com dependências** em outros provedores.
+
+- **Aprimoramento do suporte a OpenAPI e GraphQL no `@cmmv/core`**
+  - Os contratos agora **suportam metadados** para a geração de schemas OpenAPI.
+  - Mecanismo embutido para **registro automático de resolvers** a partir dos contratos quando GraphQL está ativado.
+
+### Correções e Melhorias
+
+- **Atualizações na Autenticação (`@cmmv/auth`)**
+  - **Melhoria na segurança** com validação e refresh de tokens aprimorados.
+  - Correção de inconsistências no gerenciamento de sessões ao utilizar **controle de acesso baseado em funções**.
+  - **Suporte a autenticação GraphQL**, garantindo integração perfeita entre todos os níveis da API.
+
+- **Otimizações de Desempenho**
+  - **Melhoria na geração de schemas de contratos**.
+  - Otimização na **compilação dos schemas OpenAPI**, reduzindo **tempo de build**.
+
+### Recomendações
+
+- **Adote OpenAPI para Documentação**
+  - Se você precisa de documentação para sua API, **ative `@cmmv/openapi`** para gerar automaticamente os arquivos OpenAPI.
+
+- **Migre para GraphQL para Consultas Flexíveis**
+  - Aplicações que precisam de **consultas personalizadas** devem considerar a migração para `@cmmv/graphql` para aproveitar resolvers **tipados**.
+
+- **Atualize os Fluxos de Autenticação**
+  - Utilize os novos recursos de autenticação do `@cmmv/auth`, incluindo **refresh de JWT, OAuth2 e controle de acesso baseado em funções**.
+
+A atualização para **0.8.34** traz **grandes melhorias** em **GraphQL, OpenAPI, geração de schemas e autenticação**, tornando o CMMV **mais extensível e interoperável**.
+
+---
 
 ## Versão 0.8.30
-Março 5, 2025
+5 de março de 2025
 
 ### Correções Críticas
 
-- **Correção na Geração de Entidades em `@cmmv/repository`**:
-  Resolvido problemas relacionados à geração de entidades, garantindo a correta definição de esquemas e a integridade dos dados.
+- **Correção na Inclusão de Arquivos do Transpilador em `@cmmv/core`**
+  - Resolução de um problema onde arquivos incluídos nos transpiladores **não eram corretamente processados**, garantindo consistência na saída gerada.
 
-- **Correção no Manipulador de `fromPartial` e `fromEntity`**:
-  Melhorado o tratamento dessas funções para evitar inconsistências nos modelos ao transformar dados parciais em instâncias completas.
+- **Correção de Tipos de Parâmetros Vinculados no `@cmmv/http`**
+  - Ajuste em **tipos de parâmetros incorretos** que estavam afetando a confiabilidade do manuseio de parâmetros em rotas HTTP.
 
-- **Correções na Geração de Protos em `@cmmv/protobuf`**:
-  Ajustada a localização dos arquivos de destino dos protos e seus arquivos derivados.
+- **Correção de Schemas do `fast-json-stringify` no `@cmmv/http`**
+  - Correção na geração de schemas usando `fast-json-stringify`, garantindo **serialização correta e melhor desempenho**.
 
 ### Adições
 
-- **Suporte a Hooks na Aplicação (`@cmmv/core`)**:
-  Agora é possível definir hooks personalizados para eventos dentro da aplicação, facilitando integração de lógicas específicas.
+- **Novos Hooks na Aplicação (`@cmmv/core`)**
+  - Introdução de hooks de ciclo de vida (`awaitModule`, `awaitService`) para melhor controle da inicialização de serviços.
 
-- **Decorações para Manipulação HTTP (`@cmmv/http`)**:
-  Foram adicionados os decoradores `@Redirect` e `@HTTPCode` para definir redirecionamentos e códigos de status personalizados.
+- **Relacionamento entre Contratos (`@cmmv/core`)**
+  - Suporte para **definição de relacionamentos** entre contratos, melhorando a modularidade e reutilização.
 
-- **Autenticação Avançada (`@cmmv/auth`)**:
-  - Suporte a **roles e grupos** para controle de permissão refinado.
-  - Implementação de **verificação de impressão digital no JWT**.
-  - Suporte a **autenticação de dois fatores (T2F)** com QR Code.
-  - Registros de sessão com **dados de navegação e fingerprint do dispositivo**.
-  - **Validação de reCAPTCHA** para evitar acessos automatizados.
-  - **Criptografia de dados JWT com AES-256-GCM**.
+- **Indexação Personalizada nos Contratos**
+  - Agora é possível definir **índices personalizados** diretamente nos contratos para otimizar consultas no banco de dados.
 
-- **Melhorias na Paginação e Consulta (`@cmmv/repository`)**:
-  - **Função `insertIfNotExists`** para inserção condicional de dados.
-  - **Novas funções** `updateOne`, `exists`, `count` para manipulação e consulta otimizada.
+- **Suporte a Alias em Modelos**
+  - Modelos agora podem ter **aliases**, permitindo identificadores alternativos em consultas ao banco de dados.
 
-- **Novo Modulo `@cmmv/vault`**:
-  - **Geração de chaves criptográficas seguras**.
-  - **Inserção segura de payloads criptografados**.
-  - **Recuperação e remoção de chaves armazenadas**.
+- **Carregamento Recursivo de Provedores**
+  - Agora os **provedores são carregados recursivamente**, garantindo a resolução correta de dependências durante a inicialização.
+
+- **`execAsyncFn` para Processamento Assíncrono**
+  - Novo método `execAsyncFn` para execução **não bloqueante** de funções específicas de provedores.
+
+- **Novos Decoradores em `@cmmv/http`**
+  - **`@Redirect` e `@HTTPCode`** para definir redirecionamentos e códigos de status HTTP diretamente nos controladores.
+
+- **Novas Funções para Modelos em `@cmmv/http`**
+  - Métodos `fromPartial`, `fromEntity` para criação facilitada de modelos.
+  - Suporte para `getByIdRaw` para busca direta de entidades no banco de dados.
+
+- **Melhorias na Autenticação (`@cmmv/auth`)**
+  - **Gerenciamento de funções e grupos** para permissões avançadas de usuários.
+  - **Verificação de impressão digital de JWT** para evitar sequestro de tokens.
+  - **Autenticação em Dois Fatores (2FA)** com suporte a geração de QR Code.
+  - **Registro de sessões** com impressão digital de dispositivos e dados de navegação.
+  - **Validação de ReCAPTCHA** para melhorar a segurança contra bots.
+  - **Criptografia AES-256-GCM para tokens JWT**, garantindo armazenamento seguro.
+  - **Suporte a Refresh Token**, permitindo sessões contínuas para usuários autenticados.
+
+- **Funções de Paginação e Contagem em `@cmmv/repository`**
+  - Introdução de **`pagination`, `count` e `insertIfNotExists`** para melhor gerenciamento de dados.
+  - Novos métodos **`updateOne`, `exists` e `count`** para consultas mais eficientes.
+
+- **Novo Destino de Arquivos Protobuf em `@cmmv/protobuf`**
+  - **Mudança na organização** dos arquivos gerados `.proto`, melhorando a estrutura do projeto.
+
+- **Organização de Gateways WebSocket e Modelos em `@cmmv/ws`**
+  - **WebSocket Gateways e Modelos movidos para `.generated`**, mantendo **placeholders no diretório `src`** para melhor organização do código.
+
+- **Novo Módulo Vault (`@cmmv/vault`)**
+  - **Geração segura de chaves e criptografia de payloads**.
+  - Inserção, recuperação e exclusão de dados criptografados via **ECC e AES-256-GCM**.
 
 ### Melhorias
 
-- **Carregamento Recursivo de Provedores (`@cmmv/core`)**:
-  Agora, os provedores são carregados de forma recursiva, garantindo que dependências sejam resolvidas corretamente.
+- **Suporte a Múltiplos Formatos de Configuração**
+  - `@cmmv/core` agora suporta arquivos `.js`, `.cjs` e `.ts` para configuração.
 
-- **Melhorias de Performance em `@cmmv/ws`**:
-  - Gateways e modelos foram movidos para `.generated`, otimizando a estrutura dos arquivos e tempo de execução.
-
-- **Execução Assíncrona em `@cmmv/core`**:
-  - A nova função `execAsyncFn` permite processar funções específicas de provedores de forma assíncrona.
-
-### Recomendações
-
-- **Ajuste na Organização dos Módulos**:
-  Agora, os modelos e entidades dos módulos são carregados dinamicamente, garantindo maior modularidade.
-
-- **Uso de Funções de Consulta Otimizadas (`@cmmv/repository`)**:
-  Utilize as novas funções `exists`, `count` e `updateOne` para melhorar a eficiência das operações no banco de dados.
-
-- **Utilização do `@cmmv/vault` para Armazenamento Seguro**:
-  Para dados sensíveis, recomenda-se armazená-los criptografados utilizando o novo módulo `@cmmv/vault`.
+- **Otimização de Modelos Baseados em Contratos**
+  - Agora contratos, modelos e entidades **são carregados dinamicamente**, reduzindo importações manuais.
 
 ### Atualizações
 
-- **Revisão e Atualização da Documentação**:
-  Toda a documentação foi atualizada para incluir informações detalhadas sobre os novos recursos e melhorias implementadas nesta versão.
+- **Documentação Atualizada**
+  - Guias detalhados para **autenticação avançada, indexação de contratos, segurança e Vault**.
 
-## Versão 0.8.8
-24 de Janeiro de 2025
-
-### Correções Críticas
-
-- **Correções na Geração de Entidades em `@cmmv/repository`:**
-  Resolvido problemas relacionados à geração de entidades, abordando especificamente casos que envolvem objetos serializados para garantir definições de esquema corretas e integridade dos dados.
-
-- **Tratamento de Transformação com `toPlain`:**
-  Introduzido o parâmetro `toPlain` para reverter transformações aplicadas via `transform` ao serializar objetos para transmissão via RPC ou REST, garantindo uma representação precisa dos dados.
-
-### Adições
-
-- **Suporte a Índices Personalizados em Contratos:**
-  Adicionada a capacidade de definir índices personalizados diretamente no contrato usando o parâmetro `index`, permitindo índices complexos de múltiplos campos com opções avançadas do TypeORM, como `unique`, `spatial`, `fulltext`, e mais.
-
-- **Indexação Estendida em `@cmmv/repository`:**
-  Atualizado o módulo de repositório para suportar e aplicar corretamente as definições de índices personalizados dos contratos, melhorando o desempenho das consultas e a organização dos dados.
-
-- **Novo Decorador `@ContractMessage`:**
-  Introduzido o decorador `@ContractMessage`, permitindo que os desenvolvedores definam mensagens estruturadas de dados nos contratos, alinhando-se aos conceitos do Protobuf e padronizando DTOs para o tratamento de requisições e respostas.
-
-- **Novo Decorador `@ContractService`:**
-  Adicionado o decorador `@ContractService` para facilitar a definição de funções personalizadas dentro dos contratos, fornecendo uma abordagem estruturada para gerenciar fluxos de requisição/resposta personalizados.
-
-- **Geração Automática de DTOs e Interfaces:**
-  Implementada a geração automática de DTOs e interfaces TypeScript com base nas mensagens dos contratos, simplificando o desenvolvimento e garantindo consistência entre os serviços.
-
-- **Geração de Boilerplate para Funções Personalizadas:**
-  O sistema agora gera código boilerplate para a implementação de funções personalizadas em controladores e gateways, facilitando a integração e reduzindo o esforço manual.
-
-### Melhorias
-
-- **Aprimoramento do Tratamento de Dados em RPC e REST:**
-  A introdução de `toPlain` melhora a serialização de dados, proporcionando flexibilidade no tratamento de transformações e garantindo compatibilidade com diferentes camadas de transporte.
-
-- **Lógica de Indexação Otimizada no Repositório:**
-  Melhorada a lógica de aplicação de índices personalizados no repositório, aumentando o desempenho e reduzindo a sobrecarga potencial em consultas ao banco de dados.
-
-- **Estruturas Padronizadas de Requisição e Resposta:**
-  Com a introdução dos decoradores `@ContractMessage` e `@ContractService`, as aplicações agora possuem uma maneira consistente e sustentável de definir estruturas de requisição e resposta.
-
-### Atualizações
-
-- **Revisão da Documentação:**
-  A documentação foi atualizada para refletir os novos recursos, incluindo exemplos e diretrizes para o uso dos decoradores `@ContractMessage`, `@ContractService` e opções de indexação personalizada.
-
-## Versão 0.8.7
-22 de Janeiro de 2025
-
-### Correções Críticas
-
-- **Correções na Identificação de Rotas no `@cmmv/server`**:
-  Resolvido problemas relacionados à identificação incorreta de rotas, garantindo roteamento preciso das requisições e maior confiabilidade.
-
-- **Correção no Middleware Helmet**:
-  Ajustadas inconsistências na configuração do middleware de segurança Helmet, aumentando a segurança geral da aplicação.
-
-- **Correções no Ciclo de Vida da Requisição no `@cmmv/http`**:
-  Problemas no ciclo de vida das requisições foram corrigidos para garantir um fluxo de execução adequado e reduzir possíveis travamentos.
-
-### Adições
-
-- **Pontos de Retorno para Cabeçalhos no `@cmmv/server`**:
-  Introduzidos pontos adicionais de retorno para o processamento de cabeçalhos, evitando operações desnecessárias quando as respostas já foram enviadas.
-
-- **Função de Compilação no `@cmmv/core`**:
-  Adicionada a nova função `compile`, permitindo que os desenvolvedores processem módulos e gerem arquivos transpilados sem precisar executar a aplicação.
-
-### Melhorias
-
-- **Melhorias de Desempenho no `@cmmv/server`**:
-  Componentes do servidor foram otimizados, resultando em tempos de resposta mais rápidos e maior taxa de transferência.
-
-- **Atualização dos Benchmarks**:
-  Os resultados de benchmark foram atualizados para refletir as melhorias de desempenho e otimizações em toda a estrutura do servidor.
-
-- **Correções no Tratamento de Requisições no `@cmmv/http`**:
-  Melhoradas as importações de middlewares e o processamento de requisições para uma maior estabilidade e extensibilidade.
-
-- **`scriptsTimestamp` e Controle de Cache no `@cmmv/view`**:
-  - Adicionada a configuração `scriptsTimestamp` para permitir o gerenciamento de scripts com base em marcação de tempo.
-  - Integrado o tempo de modificação do script (mtime) nas requisições de consulta para ignorar o cabeçalho de cache e garantir recursos atualizados.
-
-### Remoções
-
-- **Remoção Completa do Vite do `@cmmv/http`**:
-  O Vite foi totalmente removido do módulo HTTP para simplificar as dependências e aumentar a flexibilidade.
-
-- **Desacoplamento do `@cmmv/view` do `@cmmv/http`**:
-  O módulo `@cmmv/view` agora está totalmente desacoplado, tornando-se um módulo opcional para renderização do lado do servidor, oferecendo mais modularidade.
-
-### Recomendações
-
-- **Atualize para a Versão Mais Recente do Servidor**:
-  Para aproveitar as melhorias de desempenho e correções, atualize para a versão `0.8.7` do `@cmmv/server`.
-
-- **Refatore as Integrações com Vue**:
-  Com o desacoplamento do `@cmmv/view`, ajuste seu projeto caso esteja utilizando Vue para garantir compatibilidade.
-
-## Versão 0.8.0
-10 de Dezembro de 2024
-
-### Correções Críticas
-
-- **Loop Infinito em Rotas Inexistentes**:
-  Resolvido um problema crítico onde rotas inexistentes causavam um loop infinito de requisições, melhorando a estabilidade do servidor.
-
-### Adições
-
-- **Grupos e Acesso Root em Modo Dev**:
-  - Adicionado suporte para grupos de usuários, permitindo controle mais granular sobre permissões e funções.
-  - Introduzido suporte ao acesso root no modo de desenvolvimento, simplificando o processo de depuração e testes.
-
-- **Parâmetro Root**:
-  Adicionado o novo recurso `rootParam` para melhorar a flexibilidade e simplificar configurações em operações de nível root.
-
-### Melhorias
-
-- **Atualização do Servidor para a Versão 0.7.1**:
-  Atualizado o núcleo do servidor para a versão `0.7.1`, trazendo otimizações e melhor compatibilidade com os módulos mais recentes.
-
-- **Atualizações no Service**:
-  Melhorias na camada de serviço com melhor tratamento de erros, processamento aprimorado de requisições e suporte para configurações dinâmicas de nível root.
-
-- **Módulo `@cmmv/auth`**:
-  Corrigido o tratamento incorreto do retorno HTTP 401 para garantir um fluxo de autenticação adequado e mensagens de erro precisas.
-
-### Remoções
-
-- **Vue do `@cmmv/view`**:
-  O Vue foi completamente removido do `@cmmv/view`. Agora, os desenvolvedores devem usar o módulo dedicado `@cmmv/vue` para todas as integrações relacionadas ao Vue.
-
-### Recomendações
-
-- **Use o `@cmmv/vue` para Integrações com Vue**:
-  Transicione para o módulo `@cmmv/vue` para suporte completo ao Vue, incluindo mixins e composables para RPC.
-
-- **Atualize para o Servidor 0.7.1**:
-  Certifique-se de atualizar sua aplicação para a versão mais recente do servidor para aproveitar as novas correções e recursos.
-
-## Versão 0.7.5
-10 de Dezembro de 2024
-
-### Adições
-
-- **Módulo `@cmmv/testing`:**
-  Introduzido um novo módulo para simplificar o teste de aplicações CMMV, fornecendo utilitários para simular módulos, serviços e contratos.
-
-- **Validador de Configuração:**
-  Adicionado um sistema de validação para configurações da aplicação, garantindo consistência e correção em todos os ambientes.
-
-- **Esquema para Configurações:**
-  Introduzidas definições de esquema para validar e estruturar configurações de forma padronizada.
-
-### Melhorias
-
-- **Refatoração dos Módulos Centrais:**
-  Simplificados os módulos centrais para melhorar a manutenibilidade, reduzindo a complexidade enquanto mantém todas as funcionalidades essenciais.
-
-- **Paginação, Ordenação e Classificação:**
-  Adicionado suporte nativo para paginação, ordenação e classificação em rotas GET e gateways, simplificando a recuperação de dados e o design da API.
-
-- **Limpeza de Dependências:**
-  Removidas dependências não utilizadas e funções legadas, reduzindo o impacto do framework e melhorando a eficiência geral.
-
-- **Adaptadores HTTP Modulares:**
-  Os módulos Express e Fastify, anteriormente integrados ao `@cmmv/http`, foram desacoplados em módulos independentes:
-  - `@cmmv/express`
-  - `@cmmv/fastify`
-  Essa mudança reduz o impacto das dependências no núcleo, permitindo que os desenvolvedores escolham e instalem apenas o adaptador HTTP necessário.
-
-### Remoções
-
-- **Integração com Vue e TailwindCSS:**
-  Vue e TailwindCSS foram removidos do módulo central. Use o Vite para gerenciamento de ativos frontend e o módulo `@cmmv/vue` para integrações específicas do Vue.
-
-### Recomendações
-
-- **Integração com Vite:**
-  Utilize o Vite para fluxos de trabalho modernos de desenvolvimento frontend, incluindo Vue e TailwindCSS.
-
-- **Módulo `@cmmv/vue`:**
-  Utilize o módulo `@cmmv/vue` para gerar mixins RPC e composables para uma integração perfeita com o Vue.
-
-## Versão 0.6.0
-26 de Novembro de 2024
-
-### Novos Recursos
-
-- **Módulo Inspector:**
-  Adicionado o módulo `@cmmv/inspector` para depuração e monitoramento de aplicações CMMV. O módulo fornece informações em tempo de execução, perfis de desempenho e análise de gargalos críticos.
-
-### Melhorias
-
-- **Otimização de Desempenho:**
-  Usando insights do perfil do módulo Inspector, funções críticas do lado do servidor foram otimizadas. Isso resultou em um aumento de desempenho de uma média de 71.1k para 79k requisições por segundo em testes de benchmark, uma melhoria de aproximadamente 8-10% nos tempos de resposta.
-- **Atualização de Documentação:**
-  Documentação atualizada para incluir o novo módulo Inspector e seu uso no ecossistema.
-- **Revisão de Benchmark:**
-  Benchmarks refeitos e documentados com o servidor otimizado, refletindo as métricas de desempenho aprimoradas.
-
-### Alterações
-
-- **Remoção do `Fast-JSON-Stringify` dos Exemplos:**
-  Removido `fast-json-stringify` dos exemplos, já que o esquema precisa ser processado durante o início da aplicação. Esse recurso será revisado e potencialmente otimizado em versões futuras.
-
-### Notas para Versões Futuras
-
-- Planeja-se integrar o processamento de esquema durante o início da aplicação para melhorar a usabilidade do `fast-json-stringify` sem degradação de desempenho.
-
-## Versão 0.5.5
-16 de Novembro de 2024
-
-### Novos Recursos
-
-- **Integração com Middleware Vite:**
-  Adicionado Vite como middleware para servir arquivos estáticos durante o desenvolvimento, melhorando a integração com Vue 3 e a experiência de desenvolvimento.
-
-- **Mixins RPC para Vue 3 e Nuxt:**
-  Introduzidos mixins RPC gerados a partir de contratos CMMV para integração perfeita com Vue 3 e Nuxt.
-
-- **Implementação Completa de RPC:**
-  Implementado suporte completo a RPC para Vue e Nuxt, permitindo comunicação dinâmica cliente-servidor baseada em contratos.
-
-- **Suporte a Importação de Vue 3 + TailwindCSS:**
-  Aprimorado o módulo `view` para suportar importações de Vue 3 e TailwindCSS para fluxos de trabalho modernos de desenvolvimento frontend.
-
-### Melhorias
-
-- **Fast-JSON-Stringify:**
-  Substituída a serialização JSON padrão por `fast-json-stringify`, melhorando significativamente o desempenho da serialização.
-
-- **Mudança para Vitest:**
-  Migrado de Mocha para Vitest para testes mais rápidos, modernos e com melhor integração ao TypeScript.
-
-- **Exemplo de Aplicativo de Lista de Tarefas:**
-  Adicionado um exemplo funcional de lista de tarefas mostrando Vue 3, Vite e mixins RPC gerados pelo CMMV.
-
-### Correções de Bugs
-
-- **Correções no Repositório MongoDB:**
-  Resolvidos bugs críticos no módulo `repository` para MongoDB, garantindo interações estáveis com o banco de dados.
-
-- **Atualizações de Dependências Obsoletas:**
-  Atualizadas dependências obsoletas em todo o framework, melhorando a compatibilidade e removendo avisos de segurança.
-
-- **Aprimoramentos no Módulo View:**
-  Corrigidos problemas com importações estáticas no módulo `view` para melhor manipulação de ativos Vue 3 e TailwindCSS.
-
-### Atualizações de Dependências
-- Dependências atualizadas em todo o framework, garantindo compatibilidade com as versões mais recentes do ecossistema e ferramentas.
-
-## Versão 0.5.0
-5 de Novembro de 2024
-
-### Adicionado
-
-- **Suporte ao Vue 3:**
-  Implementação completa do Vue 3, configurável via `.cmmv.config.cjs`, permitindo o uso de sintaxe do Vue 3. Configurações de SSR integradas para desempenho otimizado.
-
-- **Carregamento Dinâmico de Layouts e Views:**
-  Adicionado suporte ao carregamento dinâmico de layouts e views, incluindo integração com Vite para servir eficientemente arquivos `.vue`.
-
-- **Vinculação de Dados e Configuração de Setup:**
-  Introduzido `s-setup` para configurar scripts e dados reativos em views, com suporte a hooks de ciclo de vida como `mounted` e `created`.
-
-- **Novos Hooks de Ciclo de Vida:**
-  Adicionados hooks `mounted` e `created` em scripts de configuração de views, proporcionando flexibilidade para executar código quando a view for carregada.
-
-- **Diretiva Include:**
-  Uma nova diretiva para importar e reutilizar componentes de view modularmente em diferentes páginas.
-
-- **Serviço de Telemetria:**
-  Adicionada a classe `Telemetry` para monitorar desempenho e capturar métricas de tempo de execução em todo o sistema.
-
-- **Injeção de Métodos:**
-  Funções RPC agora são automaticamente injetadas como métodos em componentes Vue, simplificando chamadas de funções remotas no frontend.
-
-### Alterado
-
-- **Renderização de Views Aprimorada:**
-  Sistema de renderização de views otimizado com minificação de HTML e extração de scripts inline para melhorar o desempenho.
-
-- **Manipulação de Erros Aprimorada:**
-  Melhorada a manipulação de erros para garantir o registro adequado de falhas com mensagens de erro mais informativas.
-
-## Versão 0.4.0
-15 de Outubro de 2024
-
-### Adicionado
-
-- **Suporte a RPC com Protobuf:**
-  Integração para Protobuf, permitindo comunicação binária via WebSocket, aprimorando as capacidades em tempo real.
-
-- **Adaptador WebSocket:**
-  Adicionado suporte a WebSocket com um adaptador dedicado para comunicação em tempo real, incluindo geração de RPC baseada em contratos.
-
-- **Módulo de Cache:**
-  Integrado o módulo de cache (`@cmmv/cache`) para armazenamento de dados de alto desempenho, com suporte a Redis e opções em memória.
-
-- **Módulo de Repositório:**
-  Adicionado suporte para gerenciamento de banco de dados baseado em repositórios com integração para TypeORM e MongoDB.
-
-- **Geração Automática Baseada em Contratos:**
-  Controladores, entidades e serviços agora são gerados automaticamente a partir de contratos TypeScript, reduzindo código repetitivo.
-
-- **Configuração Dinâmica:**
-  Suporte adicionado para configuração dinâmica usando `.cmmv.config.cjs`, permitindo ajustes em tempo de execução sem modificar o código-fonte.
-
-### Alterado
-
-- **CLI Melhorada:**
-  CLI aprimorada para simplificar a inicialização de projetos, com configurações personalizáveis para RPC, cache e repositórios.
-
-- **Estrutura de Diretórios Refinada:**
-  Estrutura de projetos revisada para melhor organização, separando ativos públicos, views e templates.
-
-- **Integração de Módulos Aprimorada:**
-  Integração refinada de módulos como `@cmmv/repository` e `@cmmv/view` para garantir compatibilidade perfeita com componentes gerados automaticamente.
-
-### Corrigido
-
-- Resolvemos problemas de validação de contratos durante a inicialização da aplicação.
-- Corrigidos bugs de sincronização de banco de dados para configurações SQLite e MongoDB.
-
-## Versão 0.3.5
-28 de Setembro de 2024
-
-### Recursos
-
-- **Gerador de Contratos:**
-  Automatiza a criação de contratos entre servidor e cliente, garantindo interfaces de API consistentes e reduzindo esforços manuais.
-
-- **Suporte Aprimorado ao WebSocket:**
-  Integração de WebSocket para comunicações RPC em tempo real usando Protobuf, otimizando a eficiência e confiabilidade da transmissão de dados.
-
-### Melhorias
-
-- **Otimização de Desempenho:**
-  Melhorias significativas no tempo de processamento para geração e execução de contratos, reduzindo a latência em cenários de alta carga.
-
-- **Design Modular:**
-  Reestruturado o framework principal para suportar melhor isolamento de módulos, permitindo extensões ou modificações mais fáceis sem impactar o sistema como um todo.
-
-- **Aprimoramentos de Escalabilidade:**
-  Ajustes finos no sistema principal para lidar com maior tráfego e cargas de dados maiores com impacto mínimo no desempenho.
-
-### Correções de Bugs
-
-- **Correções de Lint:**
-  Solucionados todos os problemas de linting em todo o código-base para garantir um código limpo e fácil de manter.
-
-- **Correções de Testes:**
-  Resolvidos diversos problemas para melhorar a confiabilidade dos testes unitários e de integração.
-
-- **Correção de Importação de WebSocket:**
-  Corrigidos problemas de importação no módulo de WebSocket para garantir inicialização e funcionalidade adequadas.
-
-- **Configuração do CircleCI:**
-  Integrado e corrigido problemas no CircleCI para pipelines contínuos de integração e implantação.
-
-- **Correções Diversas:**
-  Várias pequenas correções de bugs e melhorias no código em todo o framework.
-
-### Documentação e Exemplos
-
-- **Configuração Avançada de Contratos:**
-  Documentação atualizada para configuração avançada de contratos e geração de APIs, fornecendo exemplos mais claros e detalhados para os desenvolvedores.
-
-### Testes e Qualidade
-
-- **Cobertura de Testes Expandida:**
-  Adicionados testes unitários para módulos críticos, melhorando a estabilidade e confiabilidade geral do framework.
-
-- **Testes de Estresse:**
-  Simulados ambientes de tráfego intenso para validar a robustez da comunicação em tempo real e garantir escalabilidade sob carga.
+A versão **0.8.30** melhora **autenticação, indexação, segurança e gerenciamento de contratos**, tornando o CMMV **mais robusto e escalável** para aplicações empresariais.

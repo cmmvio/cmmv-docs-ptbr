@@ -2,16 +2,16 @@
 
 Repositório: [https://github.com/cmmvio/cmmv-elastic](https://github.com/cmmvio/cmmv-elastic)
 
-O módulo ``@cmmv/elastic`` oferece uma integração completa com o [Elastic](https://www.elastic.co/pt/) para gerenciamento de índices, manipulação de documentos e execução de consultas de busca. Este módulo foi projetado para ser escalável e eficiente, integrando-se perfeitamente ao framework ``@cmmv`` para suportar aplicações modernas orientadas a dados.
+O módulo ``@cmmv/elastic`` oferece uma integração perfeita com o [Elastic](https://www.elastic.co/pt/) para gerenciar índices, manipular documentos e executar consultas de busca. Este módulo foi projetado para ser escalável e eficiente, integrando-se perfeitamente ao framework ``@cmmv`` para suportar aplicações modernas orientadas a dados.
 
 ## Recursos
 
-* **Gerenciamento de Índices:** Simplifica a criação, exclusão, verificação e gerenciamento de índices do Elasticsearch.
-* **Operações com Documentos:** Realize operações de CRUD em documentos no Elasticsearch.
-* **Busca e Execução de Consultas:** Execute consultas avançadas de busca com suporte a pontuação e filtros.
-* **Suporte a Alias e Rollover:** Gerencie aliases para roteamento flexível de índices e execute rollovers para armazenamento escalável de dados.
+* **Gerenciamento de Índices:** Simplifica a criação, exclusão, verificação e gerenciamento de índices Elasticsearch.
+* **Operações com Documentos:** Realiza operações CRUD em documentos Elasticsearch.
+* **Execução de Buscas e Consultas:** Executa consultas de busca avançadas com suporte a pontuação e filtragem.
+* **Suporte a Alias e Rollover:** Gerencia aliases para roteamento flexível de índices e realiza rollovers para armazenamento escalável de dados.
 * **Integração com o Framework CMMV:** Suporte integrado para contratos e modelos do ``@cmmv``.
-* **Registro de Erros e Tratamento:** Garante um gerenciamento robusto de erros e depuração.
+* **Registro e Tratamento de Erros:** Garante um gerenciamento robusto de erros e depuração.
 
 ## Instalação
 
@@ -23,7 +23,7 @@ $ pnpm add @cmmv/elastic
 
 ## Configuração
 
-O módulo ``@cmmv/elastic`` exige uma configuração do Elasticsearch, que pode ser definida no arquivo ``.cmmv.config.cjs``:
+O módulo ``@cmmv/elastic`` requer uma configuração do Elasticsearch, que pode ser definida no arquivo ``.cmmv.config.cjs``:
 
 ```javascript
 import * as fs from "node:fs";
@@ -32,7 +32,7 @@ module.exports = {
     env: process.env.NODE_ENV,
 
     elastic: {
-        node: 'http://localhost:9200', // URL do nó do Elasticsearch
+        node: 'http://localhost:9200', // URL do nó Elasticsearch
         //cloud: { id: '<cloud-id>' }, // Opcional para Elastic Cloud
         /*
         tls: {
@@ -52,7 +52,7 @@ module.exports = {
 
 ## Configurando a Aplicação
 
-No seu ``index.ts``, inclua o ``ElasticModule`` e seus serviços para integração com a aplicação:
+No seu arquivo ``index.ts``, inclua o ``ElasticModule`` e seus serviços para uma integração perfeita com a aplicação:
 
 ```typescript
 import { Application } from "@cmmv/core";
@@ -73,30 +73,30 @@ Application.create({
 
 ### Criando um Índice
 
-Permite criar um novo índice no Elasticsearch com configurações personalizáveis, como o número de shards e réplicas. Use isso para estruturar seu armazenamento de dados.
+Permite criar um novo índice Elasticsearch com configurações ajustáveis, como o número de shards e réplicas. Use isso para estruturar o armazenamento de dados.
 
 ```typescript
-await ElasticService.createIndex('my-index', {
+await ElasticService.createIndex('meu-indice', {
     number_of_shards: 1,
     number_of_replicas: 0,
 });
 ```
 
-### Verificando Existência de Índice
+### Verificando a Existência de um Índice
 
-Verifica se um índice específico existe no Elasticsearch. Útil para operações condicionais para evitar a criação de índices duplicados.
+Verifica se um índice específico existe no Elasticsearch. Útil para operações condicionais para evitar a criação duplicada de índices.
 
 ```typescript
-const exists = await ElasticService.checkIndexExists('my-index');
-console.log(`O índice existe: \${exists}`);
+const existe = await ElasticService.checkIndexExists('meu-indice');
+console.log(`Índice existe: \${existe}`);
 ```
 
 ### Excluindo um Índice
 
-Exclui um índice existente no Elasticsearch. Use isso para remover índices desatualizados ou desnecessários.
+Exclui um índice existente do Elasticsearch. Use isso para remover índices desatualizados ou desnecessários.
 
 ```typescript
-await ElasticService.deleteIndex('my-index');
+await ElasticService.deleteIndex('meu-indice');
 ```
 
 ### Inserindo Documentos
@@ -104,9 +104,9 @@ await ElasticService.deleteIndex('my-index');
 Adiciona um novo documento a um índice especificado. Ideal para armazenar e indexar dados estruturados para recuperação e análise.
 
 ```typescript
-await ElasticService.insertDocument('my-index', {
+await ElasticService.insertDocument('meu-indice', {
     id: 1,
-    name: 'Documento de Teste'
+    nome: 'Documento de Teste'
 });
 ```
 
@@ -115,35 +115,35 @@ await ElasticService.insertDocument('my-index', {
 Atualiza um documento existente em um índice especificado. Use isso para modificar dados armazenados sem criar duplicatas.
 
 ```typescript
-await ElasticService.updateDocument('my-index', 'document-id', {
-    name: 'Nome Atualizado'
+await ElasticService.updateDocument('meu-indice', 'id-do-documento', {
+    nome: 'Nome Atualizado'
 });
 ```
 
 ### Buscando Documentos
 
-Executa uma consulta de busca em um índice especificado. Use isso para recuperar documentos que correspondam a critérios específicos.
+Realiza uma consulta de busca em um índice especificado. Use isso para recuperar documentos que correspondam a critérios específicos.
 
 ```typescript
-const results = await ElasticService.searchDocuments('my-index', {
-    query: { match: { name: 'Documento de Teste' } },
+const resultados = await ElasticService.searchDocuments('meu-indice', {
+    query: { match: { nome: 'Documento de Teste' } },
 });
-console.log(results);
+console.log(resultados);
 ```
 
 ### Gerenciamento de Alias
 
-Cria ou verifica a existência de um alias para um índice. Aliases são úteis para abstrair o acesso aos índices, permitindo um gerenciamento flexível de dados.
+Cria ou verifica a existência de um alias para um índice. Aliases são úteis para abstrair o acesso a índices, permitindo um gerenciamento de dados flexível.
 
 ```typescript
-await ElasticService.createAlias('my-index');
-const aliasExists = await ElasticService.checkAliasExists('my-alias');
+await ElasticService.createAlias('meu-indice');
+const aliasExiste = await ElasticService.checkAliasExists('meu-alias');
 ```
 
 ### Rollover de Índice
 
-Executa uma operação de rollover em um alias, criando um novo índice quando condições específicas são atendidas (por exemplo, número máximo de documentos). Útil para gerenciar o armazenamento de dados em grande escala.
+Realiza uma operação de rollover em um alias, criando um novo índice quando condições específicas são atendidas (por exemplo, número máximo de documentos). Útil para gerenciar armazenamento de dados em grande escala.
 
 ```typescript
-await ElasticService.performRollover('my-alias', { max_docs: 1000 });
+await ElasticService.performRollover('meu-alias', { max_docs: 1000 });
 ```

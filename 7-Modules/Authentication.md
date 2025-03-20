@@ -2,7 +2,7 @@
 
 Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/auth](https://github.com/cmmvio/cmmv/tree/main/packages/auth)
 
-O módulo ``@cmmv/auth`` fornece um conjunto de funcionalidades para lidar com autenticação em sua aplicação. Ele suporta autenticação baseada em HTTP e WebSocket e pode ser facilmente integrado a qualquer aplicação baseada em ``@cmmv``.
+O módulo ``@cmmv/auth`` oferece um conjunto de funcionalidades para gerenciar autenticação em sua aplicação. Ele suporta autenticação baseada em HTTP e WebSocket e pode ser facilmente integrado a qualquer aplicação baseada em ``@cmmv``.
 
 ## Instalação
 
@@ -14,29 +14,27 @@ $ pnpm add @cmmv/auth
 
 ## Integração
 
-Após instalar, você pode integrar o módulo ``@cmmv/auth`` em sua aplicação conforme mostrado abaixo. Este exemplo demonstra a configuração básica de uma aplicação CMMV que inclui o módulo ``@cmmv/auth`` para lidar com autenticação.
+Após a instalação, você pode integrar o módulo ``@cmmv/auth`` em sua aplicação conforme mostrado abaixo. Este exemplo demonstra a configuração básica de uma aplicação CMMV que inclui o módulo ``@cmmv/auth`` para lidar com autenticação.
 
 ```typescript
 require('dotenv').config();
 
 import { Application } from '@cmmv/core';
-import { ExpressAdapter, ExpressModule } from '@cmmv/http';
+import { DefaultAdapter, DefaultHTTPModule } from '@cmmv/http';
 import { ProtobufModule } from '@cmmv/protobuf';
 import { WSModule, WSAdapter } from '@cmmv/ws';
-import { ViewModule } from '@cmmv/view';
 ...
 import { AuthModule } from '@cmmv/auth';
 
 Application.create({
-    httpAdapter: ExpressAdapter,
+    httpAdapter: DefaultAdapter,
     wsAdapter: WSAdapter,
     modules: [
-        ExpressModule,
+        DefaultHTTPModule,
         ProtobufModule,
         WSModule,
-        ViewModule,
         RepositoryModule,
-        AuthModule,  // Adicione o AuthModule
+        AuthModule,  // Adiciona o AuthModule
     ],
     services: [
         // Adicione seus serviços personalizados aqui
@@ -49,7 +47,7 @@ Application.create({
 
 ## Configuração
 
-O arquivo ``.cmmv.config.cjs`` é o arquivo de configuração central da sua aplicação CMMV, permitindo configurar diferentes definições relacionadas ao servidor, autenticação e outros módulos. Abaixo está uma explicação detalhada das opções de configuração relevantes para o módulo ``@cmmv/auth``:
+O arquivo ``.cmmv.config.cjs`` é o arquivo de configuração central da sua aplicação CMMV, permitindo que você defina diferentes configurações relacionadas ao servidor, autenticação e outros módulos. Abaixo está uma explicação detalhada das opções de configuração relevantes para o módulo ``@cmmv/auth``:
 
 ```javascript
 module.exports = {
@@ -57,20 +55,20 @@ module.exports = {
 
     server: {
         session: {
-            enabled: true,  // Habilitar suporte a sessão
+            enabled: true,  // Habilita suporte a sessões
             options: {
-                // Nome do cookie de sessão
+                // Nome do cookie da sessão
                 sessionCookieName: "cmmv-session",
-                // Chave secreta para assinar o ID do cookie de sessão
+                // Segredo para assinar o cookie de ID da sessão
                 secret: process.env.SESSION_SECRET,
-                // Impede que a sessão seja salva novamente no armazenamento
+                // Impede que a sessão seja salva novamente no armazenamento de sessões
                 resave: false,
-                // Força salvar a sessão, mesmo que não esteja inicializada
+                // Força a gravação de uma sessão mesmo que não inicializada
                 saveUninitialized: false,
                 cookie: {
-                    // Garante que o navegador envie o cookie apenas via HTTPS
+                    // Garante que o navegador envie o cookie apenas por HTTPS
                     secure: true,
-                    // Tempo máximo (em milissegundos) para o cookie de sessão
+                    // Tempo máximo de vida (em milissegundos) do cookie da sessão
                     maxAge: 60000
                 }
             }
@@ -79,19 +77,19 @@ module.exports = {
 
     // Configurações de autenticação para @cmmv/auth
     auth: {
-        // Habilitar registro local (e-mail/senha)
+        // Habilita registro local (email/senha)
         localRegister: true,
-        // Habilitar login local (e-mail/senha)
+        // Habilita login local (email/senha)
         localLogin: true,
         // Chave secreta para assinar tokens JWT
         jwtSecret: process.env.JWT_SECRET || "secret",
-        // Chave secreta para assinar o token de atualização JWT
+        // Chave secreta para assinar token de atualização JWT
         jwtSecretRefresh: process.env.JWT_SECRET_REFRESH,
         // Nome do cookie do token de atualização
         refreshCookieName: "refreshToken",
         // Tempo de expiração do token em segundos (1 hora)
         expiresIn: 60 * 60,
-        qrCode: {} //Veja o tópico do QR-Code
+        qrCode: {}, // Veja o tópico QR Code
         optSecret: {
             issuer: "CMMV",
             algorithm: "sha512"
@@ -106,18 +104,18 @@ module.exports = {
 
 ## Gerados
 
-O módulo ``@cmmv/auth`` é responsável por gerar os arquivos necessários para autenticação em uma aplicação baseada no CMMV. Isso inclui arquivos ``.proto``, definições TypeScript, implementações de serviços e controladores. Caso o módulo ``@cmmv/ws`` esteja instalado, ele também gerará o gateway WebSocket para lidar com eventos de autenticação. Abaixo estão os principais componentes gerados por este módulo:
+O módulo ``@cmmv/auth`` é responsável por gerar os arquivos necessários para autenticação em uma aplicação baseada em CMMV. Isso inclui buffers de protocolo (arquivos proto), definições TypeScript, implementações de serviços e controladores. Se o módulo ``@cmmv/ws`` estiver instalado, ele também gerará o gateway WebSocket para lidar com eventos de autenticação. Abaixo estão os principais componentes gerados por este módulo:
 
 **``.generated/protos/auth/user.proto``**
 
-Este arquivo ``.proto`` define as mensagens ``User``, ``LoginRequest``, ``LoginResponse``, ``RegisterRequest``, ``RegisterResponse`` e o serviço ``AuthService`` com dois métodos RPC: Login e Register.
+Este arquivo ``.proto`` define as mensagens ``User``, ``LoginRequest``, ``LoginResponse``, ``RegisterRequest``, ``RegisterResponse`` e o serviço ``AuthService`` com dois métodos RPC, Login e Register.
 
 ```proto
 /**
     **********************************************
-    This script was generated automatically by CMMV.
-    It is recommended not to modify this file manually,
-    as it may be overwritten by the application.
+    Este script foi gerado automaticamente pelo CMMV.
+    Não é recomendado modificar este arquivo manualmente,
+    pois ele pode ser sobrescrito pela aplicação.
     **********************************************
 **/
 
@@ -212,19 +210,18 @@ service UserService {
    rpc Register (RegisterRequest) returns (RegisterResponse);
 }
 ```
-
 <br/>
 
 **``.generated/protos/auth/auth.d.ts``**
 
-Este arquivo fornece interfaces TypeScript que espelham as definições ``.proto``, facilitando o trabalho com as estruturas de dados na sua aplicação.
+Este arquivo fornece interfaces TypeScript que refletem as definições do ``.proto``, facilitando o trabalho com as estruturas de dados em sua aplicação.
 
 ```typescript
 /**
     **********************************************
-    This script was generated automatically by CMMV.
-    It is recommended not to modify this file manually,
-    as it may be overwritten by the application.
+    Este script foi gerado automaticamente pelo CMMV.
+    Não é recomendado modificar este arquivo manualmente,
+    pois ele pode ser sobrescrito pela aplicação.
     **********************************************
 **/
 
@@ -280,17 +277,18 @@ export interface GetAllUserResponse {
     items: User[];
 }
 ```
-
 <br/>
 
-## Decorador @Auth
+## Decorador
 
-O decorador ``@Auth`` é projetado para aplicar autenticação e autorização em rotas específicas dentro de uma aplicação. Ele fornece uma funcionalidade middleware que verifica se um usuário está autenticado, validando um JWT (JSON Web Token) e, opcionalmente, verificando se o usuário possui as funções necessárias para acessar a rota.
+O decorador ``@Auth`` foi projetado para impor autenticação e autorização em rotas específicas dentro de uma aplicação. Ele fornece funcionalidade de middleware que verifica se um usuário está autenticado ao validar um JWT (JSON Web Token) e, opcionalmente, valida se o usuário possui os papéis necessários para acessar a rota.
 
-* **Localização do Token:** O middleware verifica primeiro o token JWT nos cookies da requisição (usando um nome configurável) ou no cabeçalho ``Authorization``. Se nenhum token for encontrado, retorna uma resposta ``401 Unauthorized``.
-* **Validação do Token:** Se um token for encontrado, ele é verificado usando o segredo armazenado na configuração (``auth.jwtSecret``). Caso o token seja inválido ou expirado, o middleware retorna uma resposta ``401 Unauthorized``.
-* **Validação de Funções:** Se as funções (``roles``) forem especificadas, o middleware verifica se o payload do token inclui as funções necessárias. Caso contrário, retorna uma resposta ``403 Forbidden``.
-* **Informações do Usuário:** Após a validação bem-sucedida, o token decodificado (geralmente contendo informações do usuário, como ID e nome de usuário) é anexado ao objeto ``req.user`` para uso posterior no manipulador de rota.
+Esse decorador é usado em conjunto com manipuladores de rotas para proteger endpoints específicos. Ele valida a existência de um token JWT e, se fornecido, verifica se o payload do token inclui os papéis necessários para acessar a rota.
+
+* **Localização do Token:** O middleware verifica primeiro o token JWT nos cookies da requisição (usando um nome de cookie configurável) ou no cabeçalho ``Authorization``. Se nenhum token for encontrado, retorna uma resposta ``401 Unauthorized``.
+* **Verificação do Token:** Se um token for encontrado, ele verifica o token usando o segredo armazenado na configuração (``auth.jwtSecret``). Se o token for inválido ou expirado, o middleware retorna uma resposta ``401 Unauthorized``.
+* **Validação de Papéis:** Se papéis forem especificados, o middleware verifica se o payload do token inclui os papéis necessários. Se o usuário não possuir os papéis apropriados, o middleware retorna uma resposta ``403 Forbidden``.
+* **Informações do Usuário:** Após validação bem-sucedida, o token decodificado (que normalmente inclui informações do usuário como ID, nome de usuário e papéis) é anexado ao objeto ``req.user`` para uso posterior no manipulador de rota.
 
 ```typescript
 import { Controller, Get, Req } from '@cmmv/http';
@@ -298,25 +296,24 @@ import { Auth } from '@cmmv/auth';
 
 @Controller('user')
 export class UserController {
-    // Protege a rota, verifica se o JWT é válido
+    // Protege a rota, verifica JWT válido
     @Get('profile')
     @Auth()
     async getProfile(@Req() req) {
         return req.user;  // Acessa as informações do usuário autenticado
     }
 
-    // Protege a rota, verifica se o JWT é válido e se o usuário é admin
+    // Protege a rota, verifica JWT válido e papel admin
     @Get('admin')
     @Auth(['admin'])
     async getAdminDashboard(@Req() req) {
-        return `Bem-vindo(a), admin \${req.user.username}`;
+        return `Bem-vindo, admin \${req.user.username}`;
     }
 }
 ```
-
 <br/>
 
-* **``roles?:``** (Opcional): Um array de funções que o usuário deve possuir para acessar a rota. Se nenhuma função for fornecida, apenas a autenticação é necessária (ou seja, um JWT válido). Caso contrário, o usuário deve possuir pelo menos uma das funções especificadas.
+* **roles?:** (Opcional) Um array de papéis que o usuário deve possuir para acessar a rota. Se nenhum papel for fornecido, apenas autenticação é necessária (ou seja, um JWT válido). Se papéis forem especificados, o usuário deve possuir pelo menos um dos papéis fornecidos.
 
 ```typescript
 @Auth(['admin', 'moderator'])
@@ -324,20 +321,20 @@ export class UserController {
 
 **Dependências de Configuração**
 
-* **Segredo do JWT:** O decorador usa o segredo especificado na configuração (``auth.jwtSecret``) para verificar o token.
-* **Nome do Cookie de Sessão:** Por padrão, o token é verificado em um cookie com o nome especificado em ``server.session.options.sessionCookieName``. Se nenhum token for encontrado no cookie, ele verifica o cabeçalho ``Authorization``.
+* **Segredo JWT:** O decorador usa o segredo especificado na configuração (``auth.jwtSecret``) para verificar o token.
+* **Nome do Cookie da Sessão:** Por padrão, o token é verificado em um cookie com o nome especificado em ``server.session.options.sessionCookieName``. Se nenhum token for encontrado no cookie, ele verifica o cabeçalho ``Authorization``.
 
-O decorador adiciona o middleware de autenticação e autorização aos metadados da rota. Este middleware é processado antes do manipulador da rota ser executado, garantindo que usuários não autorizados sejam bloqueados antes que qualquer lógica de negócio seja alcançada.
+O decorador adiciona o middleware de autenticação e autorização aos metadados da rota. Esse middleware é processado antes da execução do manipulador de rota, garantindo que usuários não autorizados sejam bloqueados antes que qualquer lógica de negócios seja alcançada.
 
-## User Registration
+## Registro de Usuário
 
-A partir da versão `0.8.10`, o módulo `@cmmv/auth` foi redesenhado para incluir controladores, serviços e gateways dentro do próprio módulo, eliminando a necessidade de geração de código. Apenas adicionar o módulo à sua aplicação já ativa todas as funcionalidades de autenticação automaticamente.
+A partir da versão `0.8.10`, o módulo `@cmmv/auth` foi redesenhado para incluir controladores, serviços e gateways dentro do próprio módulo, eliminando a necessidade de geração de código. Basta adicionar o módulo à sua aplicação para habilitar automaticamente todas as funcionalidades de autenticação.
 
-O registro de usuários e o login local devem ser explicitamente ativados no arquivo de configuração (`.cmmv.config.cjs`) utilizando as opções `auth.localRegister` e `auth.localLogin`. Caso esses parâmetros estejam desativados, apenas a autenticação via provedores externos estará disponível.
+O registro de usuários e o login local devem ser explicitamente habilitados no arquivo de configuração (`.cmmv.config.cjs`) usando as opções `auth.localRegister` e `auth.localLogin`. Se esses parâmetros estiverem desabilitados, apenas a autenticação via provedores externos estará disponível.
 
 Endpoint: `/auth/register`
-Method: `POST`
-Payload Format:
+Método: `POST`
+Formato do Payload:
 
 ```typescript
 {
@@ -346,7 +343,7 @@ Payload Format:
 }
 ```
 
-Registro no modo de administrador
+Registro em modo administrador
 
 ```typescript
 {
@@ -371,8 +368,8 @@ Registro no modo de administrador
 ## Login
 
 Endpoint: `/auth/login`
-Method: `POST`
-Payload Format:
+Método: `POST`
+Formato do Payload:
 
 ```typescript
 {
@@ -384,10 +381,10 @@ Payload Format:
 ```
 <br/>
 
-* `token:` Necessário caso a validação do reCAPTCHA esteja ativada (`auth.recaptcha.required = true`).
-* `opt:` Um código de segurança gerado pelo Google Authenticator ou um serviço similar, caso a Autenticação de Dois Fatores (2FA) esteja ativada para o usuário.
+* `token:` Obrigatório se a validação reCAPTCHA estiver habilitada (`auth.recaptcha.required = true`).
+* `opt:` Um código de segurança gerado por Google Authenticator ou serviço similar, se a Autenticação de Dois Fatores (2FA) estiver habilitada para o usuário.
 
-Response Format:
+Formato da Resposta:
 
 ```typescript
 {
@@ -397,32 +394,32 @@ Response Format:
         "success": true,
         "token": "eyJhbGciOiJIUzI1NiI...",
         "refreshToken": "eyJhbGciOiJIUzI1...",
-        "message": "Login successful"
+        "message": "Login bem-sucedido",
         "actions": "opt-validate"
     }
 }
 ```
 
-### Token de acesso
+### Token de Acesso
 
-O campo `token` contém o token de autenticação, que é válido por 15 minutos.
+O campo `token` contém o token de autenticação, válido por 15 minutos.
 
-* Este token deve ser incluído no cabeçalho `Authorization` (`Authorization: Bearer <token>`) para todas as solicitações de API que exigem autenticação.
+* Esse token deve ser incluído no cabeçalho `Authorization` (`Authorization: Bearer <token>`) para todas as requisições de API que exigem autenticação.
 * Se o token expirar, um novo deve ser obtido usando o token de atualização.
 
-### Token de atualização
+### Token de Atualização
 
 O `refreshToken` é usado para renovar o token de acesso sem exigir que o usuário faça login novamente.
 
-Para atualizar um token expirado, envie uma solicitação para:
+Para atualizar um token expirado, envie uma requisição para:
 
 Endpoint: `/auth/refresh`
 Método: `POST`
 Cabeçalhos: `Authorization: Bearer <expired_access_token>`
 
-Normalmente, os navegadores enviam automaticamente o token de atualização por meio de cookies. No entanto, se os cookies não forem usados ​​devido às configurações do aplicativo, o token de atualização pode ser enviado manualmente por meio do cabeçalho `RefreshToken`:
+Normalmente, os navegadores enviam automaticamente o token de atualização via cookies. No entanto, se os cookies não forem usados devido às configurações da aplicação, o token de atualização pode ser enviado manualmente via cabeçalho `RefreshToken`:
 
-Headers (método alternativo):
+Cabeçalhos (método alternativo):
 
 ```text
 Authorization: Bearer <expired_access_token>
@@ -431,40 +428,40 @@ RefreshToken: <refresh_token>
 
 Se o token de atualização for válido e tiver sido criado pelo mesmo dispositivo que realizou o login, a API retornará um novo token de acesso com validade de 15 minutos.
 
-Se você tentar usar o token de acesso ou o token de atualização de uma ferramenta como o Postman e, em seguida, tentar usar o token atualizado em um navegador ou outro dispositivo, a solicitação será negada.
+Se você tentar usar o token de acesso ou o token de atualização em uma ferramenta como o Postman e depois tentar usar o token atualizado em um navegador ou outro dispositivo, a requisição será negada.
 
-O sistema de autenticação vincula a sessão ao dispositivo e considera o User-Agent da solicitação, garantindo segurança aprimorada contra roubo de token e sequestro de sessão.
+O sistema de autenticação vincula a sessão ao dispositivo e considera o User-Agent da requisição, garantindo maior segurança contra roubo de tokens e sequestro de sessão.
 
 ## reCAPTCHA
 
-Se a validação do reCAPTCHA estiver ativada (`auth.recaptcha.required`), a API do Google reCAPTCHA será utilizada para verificação.
+Se a validação reCAPTCHA estiver habilitada (`auth.recaptcha.required`), a API do Google reCAPTCHA será usada para verificação.
 
-A chave `secret` deve ser armazenada no arquivo `.env` e configurada na opção `auth.recaptcha.secret`:
+A chave `secret` deve ser armazenada no arquivo `.env` e definida em `auth.recaptcha.secret`:
 
 ```env
-RECAPTCHA_SECRET=your-secret-key
+RECAPTCHA_SECRET=sua-chave-secreta
 ```
 
-Mais detalhes e a geração de chaves podem ser encontrados em: [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin/create)
+Mais detalhes e geração de chaves podem ser encontrados em: [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin/create)
 
-## Dois Fatores (2FA)
+## Autenticação de Dois Fatores (2FA)
 
-Se um usuário tiver a Autenticação de Dois Fatores (2FA) (`optSecret`) ativada, será necessário fornecer um código de verificação gerado por um aplicativo autenticador (por exemplo, Google Authenticator) durante o login.
+Se um usuário tiver a Autenticação de Dois Fatores (2FA) (`optSecret`) habilitada, ele deverá fornecer um código de verificação gerado por um aplicativo autenticador (por exemplo, Google Authenticator) durante o login.
 
-Para tornar o 2FA obrigatório para todos os usuários, ative a opção `auth.optSecret.required` no arquivo de configuração.
+Para tornar a 2FA obrigatória para todos os usuários, habilite `auth.optSecret.required` no arquivo de configuração.
 
 ### QR Code
 
-Se a resposta do login indicar que o registro do 2FA é necessário, você pode solicitar um QR code para escaneamento via um aplicativo autenticador utilizando o seguinte endpoint:
+Se a resposta de login indicar que o registro de 2FA é necessário, você pode solicitar um QR code para escaneamento por um aplicativo de autenticação usando o seguinte endpoint:
 
 Endpoint: `/auth/opt-qrcode`
 Método: `GET`
 Cabeçalhos: `Authorization: Bearer <login_token>`
-Resposta: Uma imagem QR code codificada em Base64, que pode ser exibida diretamente em uma tag IMG.
+Resposta: Uma imagem de QR code codificada em Base64, que pode ser exibida diretamente em uma tag IMG.
 
-### Activating 2FA for a User
+### Ativando 2FA para um Usuário
 
-Para ativar a Autenticação de Dois Fatores (2FA) para um usuário:
+Para habilitar a Autenticação de Dois Fatores para um usuário:
 
 Endpoint: `/auth/opt-enable`
 Método: `POST`
@@ -473,88 +470,94 @@ Payload:
 
 ```typescript
 {
-    "secret": "user-generated-code", // Código gerado pelo aplicativo autenticador
-    "token": "optional-recaptcha-token" // Código do reCAPTCHA (se obrigatório)
+    "secret": "código-gerado-pelo-usuário", // Código gerado pelo aplicativo autenticador
+    "token": "token-recaptcha-opcional" // Obrigatório se reCAPTCHA estiver habilitado
 }
 ```
 
-Se a ativação for bem-sucedida, nos próximos logins será solicitado um código de autenticação para sessões sem um dispositivo registrado. Se o dispositivo já estiver validado, o código não será necessário.
+Se a ativação for bem-sucedida, um código de verificação será necessário para logins futuros em dispositivos não registrados. Se o dispositivo já estiver validado, o código não será necessário.
 
-### Validating 2FA for a New Session
+### Validando 2FA para uma Nova Sessão
 
 Para validar uma nova sessão usando 2FA:
 
 Endpoint: `/auth/opt-validate`
-Method: `POST`
-Headers: `Authorization: Bearer <login_token>`
+Método: `POST`
+Cabeçalhos: `Authorization: Bearer <login_token>`
 Payload:
 
 ```typescript
 {
-    "secret": "user-generated-code", // Código gerado pelo aplicativo autenticador
-    "token": "optional-recaptcha-token" // Código do reCAPTCHA (se obrigatório)
+    "secret": "código-gerado-pelo-usuário", // Código gerado pelo aplicativo autenticador
+    "token": "token-recaptcha-opcional" // Obrigatório se reCAPTCHA estiver habilitado
 }
 ```
 
-### Disabling 2FA for a User
+### Desativando 2FA para um Usuário
 
-Se um usuário quiser desabilitar a autenticação de dois fatores, ele pode fazer uma solicitação para:
+Se um usuário deseja desativar a Autenticação de Dois Fatores, ele pode fazer uma requisição para:
 
 Endpoint: `/auth/opt-remove`
-Method: `DELETE`
-Headers: `Authorization: Bearer <login_token>`
+Método: `DELETE`
+Cabeçalhos: `Authorization: Bearer <login_token>`
 
-## Recomendações de segurança
+## Recomendações de Segurança
 
-O módulo de autenticação é projetado como um componente fundamental para o CMMV IAM System, que será desenvolvido em breve. Se você escolher gerenciar o controle de sessão de forma independente, recomendamos fortemente seguir estas melhores práticas de segurança:
+O módulo de autenticação foi projetado como um componente fundamental para o Sistema IAM do CMMV, que será desenvolvido em breve. Se você optar por gerenciar o controle de sessão de forma independente, recomendamos fortemente seguir estas melhores práticas de segurança:
 
 ### Transmissão Segura (HTTPS)
+<br/>
 
-* Sempre use HTTPS para solicitações de registro e login.
+* Sempre use HTTPS para requisições de registro e login.
 * Isso previne ataques Man-in-the-Middle (MitM), garantindo que credenciais e tokens sejam criptografados durante a transmissão.
 
-### Implementar proteção reCAPTCHA
+### Implementar Proteção reCAPTCHA
+<br/>
 
 * Obtenha chaves reCAPTCHA gratuitas e registre-as no sistema.
 * Habilite a validação reCAPTCHA para login e registro configurando
 * Isso ajuda a mitigar ataques de força bruta automatizados.
 
-### Gerenciamento seguro de chaves JWT
+### Gerenciamento Seguro de Chaves JWT
 
 Use chaves separadas e fortemente geradas para `jwtSecret` e `jwtSecretRefresh`
 
 ```text
-JWT_SECRET=secure_random_key_1
-JWT_SECRET_REFRESH=secure_random_key_2
+JWT_SECRET=chave_segura_aleatoria_1
+JWT_SECRET_REFRESH=chave_segura_aleatoria_2
 ```
+<br/>
 
 * NÃO use a mesma chave para autenticação e tokens de atualização.
 * Armazene essas chaves com segurança no arquivo `.env` e garanta chaves diferentes para ambientes de desenvolvimento e produção.
 
-### Aplicar autenticação de dois fatores (2FA)
+### Impor Autenticação de Dois Fatores (2FA)
+<br/>
 
-* Recomendamos fortemente tornar o 2FA obrigatório para todos os usuários
-* Isso adiciona uma camada extra de segurança, impedindo acesso não autorizado mesmo se uma senha for comprometida.
-* Os usuários precisarão verificar os logins com o Google Authenticator ou um aplicativo semelhante.
+* Recomende fortemente tornar a 2FA obrigatória para todos os usuários
+* Isso adiciona uma camada extra de segurança, prevenindo acesso não autorizado mesmo que uma senha seja comprometida.
+* Os usuários precisarão verificar logins com Google Authenticator ou um aplicativo similar.
 
-### Integração futura do sistema IAM
+### Integração Futura com o Sistema IAM
+<br/>
 
-* Assim que o CMMV IAM System for lançado, é altamente recomendável mudar para seu serviço de autenticação centralizado.
-* Você poderá gerar chaves de API de aplicativo a partir do [CMMV.io](https://cmmv.io), garantindo uma solução IAM totalmente gerenciada, segura e escalável.
+* Quando o Sistema IAM do CMMV for lançado, é altamente recomendado migrar para seu serviço centralizado de autenticação.
+* Você poderá gerar chaves de API da aplicação a partir de [CMMV.io](https://cmmv.io), garantindo uma solução IAM segura, escalável e totalmente gerenciada.
 
-Ao implementar essas medidas de segurança, seu sistema de autenticação será significativamente mais resiliente a ataques e alinhado com as melhores práticas do setor.
+Ao implementar essas medidas de segurança, seu sistema de autenticação será significativamente mais resiliente a ataques e estará alinhado às melhores práticas da indústria.
 
-### Use políticas de senhas fortes
+### Use Políticas de Senha Fortes
+<br/>
 
 * Imponha um comprimento mínimo de senha (por exemplo, pelo menos 12 caracteres).
 * Exija uma combinação de letras maiúsculas, minúsculas, números e caracteres especiais.
-* Evite o uso de senhas comuns verificando em um banco de dados de senhas violadas (por exemplo, Have I Been Pwned).
-* Use limitação de taxa para evitar ataques de força bruta em tentativas de login.
+* Impeça o uso de senhas comuns verificando contra um banco de dados de senhas comprometidas (por exemplo, Have I Been Pwned).
+* Use limitação de taxa para prevenir ataques de força bruta em tentativas de login.
 
-### Implementar bloqueio de conta
+### Implementar Bloqueio de Conta
 
-Se várias tentativas de login com falha ocorrerem em um curto período de tempo:
+Se ocorrerem múltiplas tentativas de login falhas em um curto período:
 
 * Bloqueie temporariamente a conta.
-* Exija verificação do reCAPTCHA antes de permitir novas tentativas de login.
-* Envie uma notificação de segurança para o e-mail do usuário.
+* Exija verificação reCAPTCHA antes de permitir novas tentativas de login.
+* Envie uma notificação de segurança ao e-mail do usuário.

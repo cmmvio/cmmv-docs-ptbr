@@ -2,19 +2,19 @@
 
 Repositório: [https://github.com/cmmvio/cmmv-events](https://github.com/cmmvio/cmmv-events)
 
-O módulo ``@cmmv/events`` fornece um sistema robusto e flexível para comunicação assíncrona em sua aplicação. Baseado no ``eventemitter2``, este módulo permite que os desenvolvedores criem, emitam e ouçam eventos de maneira simples, aprimorando a modularidade e escalabilidade da aplicação.
+O módulo `@cmmv/events` oferece um sistema robusto e flexível orientado a eventos para gerenciar comunicação assíncrona dentro da sua aplicação. Utilizando o `eventemitter2`, este módulo permite que os desenvolvedores criem, emitam e escutem eventos de forma transparente, aprimorando a modularidade e a escalabilidade da aplicação.
 
 ## Recursos
 
-- **Vinculação de Eventos:** Vincule facilmente métodos a eventos usando o decorador ``@OnEvent``.
-- **Comunicação Assíncrona:** Facilita a comunicação entre serviços com acoplamento mínimo.
+- **Vinculação de Eventos:** Vincule métodos a eventos facilmente usando o decorador `@OnEvent`.
+- **Comunicação Assíncrona:** Facilite a comunicação entre serviços com acoplamento mínimo.
 - **Flexibilidade de Payload:** Suporta qualquer tipo de payload, com recomendação de uso de interfaces TypeScript para dados estruturados.
-- **Integração com o Framework CMMV:** Compatibilidade integrada com módulos e serviços do ``@cmmv/core``.
-- **Tratamento de Erros:** Garante registro robusto de erros e depuração para fluxos de trabalho orientados a eventos.
+- **Integração com o Framework CMMV:** Compatibilidade integrada com módulos e serviços do `@cmmv/core`.
+- **Tratamento de Erros:** Garante registro robusto de erros e depuração para fluxos orientados a eventos.
 
 ## Instalação
 
-Para instalar o módulo ``@cmmv/events``:
+Para instalar o módulo `@cmmv/events`:
 
 ```bash
 $ pnpm add @cmmv/events
@@ -22,11 +22,11 @@ $ pnpm add @cmmv/events
 
 ## Configuração
 
-Não é necessária configuração adicional. O módulo ``@cmmv/events`` funciona imediatamente em sua aplicação CMMV.
+Nenhuma configuração adicional é necessária. O módulo `@cmmv/events` funciona diretamente com sua aplicação CMMV sem necessidade de ajustes.
 
 ## Configurando a Aplicação
 
-No seu ``index.ts``, inclua o ``EventsModule`` juntamente com quaisquer módulos ou serviços que utilizem comunicação baseada em eventos:
+No seu arquivo `index.ts`, inclua o `EventsModule` junto com quaisquer módulos ou serviços que utilizem comunicação baseada em eventos:
 
 ```typescript
 import { Application } from '@cmmv/core';
@@ -48,9 +48,9 @@ Application.create({
 
 ## Uso
 
-### Criando Listeners de Evento
+### Criando Ouvintes de Eventos
 
-Use o decorador ``@OnEvent`` para vincular um método a um evento. Os listeners podem ser adicionados a qualquer serviço, controlador ou gateway em sua aplicação.
+Use o decorador `@OnEvent` para vincular um método a um evento. Ouvintes de eventos podem ser adicionados a qualquer serviço, controlador ou gateway na sua aplicação.
 
 ```typescript
 import { Service } from '@cmmv/core';
@@ -70,12 +70,11 @@ export class Listener {
 
 ### Emitindo Eventos
 
-Para emitir um evento, injete ``EventsService`` em sua classe e chame o método ``emit``:
+Para emitir um evento, injete o `EventsService` na sua classe e chame o método `emit`:
 
 ```typescript
-this.eventsService.emit('event-name', { key: 'value' });
+this.eventsService.emit('nome-do-evento', { chave: 'valor' });
 ```
-
 <br/>
 
 - **Primeiro Parâmetro:** Nome do evento.
@@ -84,22 +83,22 @@ this.eventsService.emit('event-name', { key: 'value' });
 ### Exemplo de Emissão de Evento
 
 ```typescript
-this.eventsService.emit('user.created', { id: 1, name: 'John Doe' });
+this.eventsService.emit('user.created', { id: 1, name: 'João Silva' });
 ```
 
 ## Decoradores
 
-### ``@OnEvent(eventName: string)``
-Vincula um método para ouvir um evento específico.
+### `@OnEvent(eventName: string)`
+Vincula um método para escutar um evento específico.
 
-## Boas Práticas
+## Melhores Práticas
 
-- **Use Interfaces para Payloads:** Defina interfaces TypeScript para payloads de eventos para garantir consistência e segurança de tipo.
-- **Agrupe Eventos Relacionados:** Use namespaces ou prefixos para agrupar eventos relacionados (ex.: ``user.created``, ``user.updated``).
+- **Use Interfaces para Payloads:** Defina interfaces TypeScript para os payloads dos eventos para garantir consistência e segurança de tipo.
+- **Agrupe Eventos Relacionados:** Use namespaces ou prefixos de eventos para agrupar eventos relacionados (por exemplo, `user.created`, `user.updated`).
 
 ## Exemplo de Aplicação
 
-Aqui está um exemplo de aplicação utilizando o módulo ``@cmmv/events``:
+Aqui está um exemplo de uma aplicação utilizando o módulo `@cmmv/events`:
 
 ```typescript
 import { Application } from '@cmmv/core';
@@ -129,7 +128,7 @@ export const UserModule = new Module('user', {
 });
 ```
 
-### Listener de Usuário
+### Ouvinte de Usuário
 
 ```typescript
 import { Service } from '@cmmv/core';
@@ -155,10 +154,10 @@ export class UserController {
     constructor(private readonly eventsService: EventsService) {}
 
     public async createUser() {
-        // Realize a lógica de criação de usuário...
+        // Lógica de criação de usuário...
 
-        // Emita o evento user.created
-        this.eventsService.emit('user.created', { id: 1, name: 'John Doe' });
+        // Emite o evento user.created
+        this.eventsService.emit('user.created', { id: 1, name: 'João Silva' });
     }
 }
 ```
@@ -167,4 +166,4 @@ export class UserController {
 
 - **Lógica Desacoplada:** Permite uma melhor separação de responsabilidades ao desacoplar emissores e ouvintes de eventos.
 - **Comunicação Escalável:** Ideal para aplicações com fluxos de trabalho complexos que requerem comunicação baseada em eventos.
-- **Integração Transparente:** Funciona imediatamente com o framework CMMV, simplificando a configuração e o uso.
+- **Integração Transparente:** Funciona diretamente com o framework CMMV, simplificando a configuração e o uso.

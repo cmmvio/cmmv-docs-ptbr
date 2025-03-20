@@ -2,8 +2,7 @@
 
 Repositório: [https://github.com/cmmvio/cmmv-parallel](https://github.com/cmmvio/cmmv-parallel)
 
-
-O módulo `@cmmv/parallel` introduz paralelismo na estrutura CMMV, permitindo processamento de dados eficiente usando threads com base em `fast-thread`. Esta implementação aproveita SharedArrayBuffer, Atomics e fast-json-stringify (opcional) para transferência de dados de cópia zero entre threads, tornando-a significativamente mais rápida do que a abordagem tradicional `parentPort.postMessage`.
+O módulo `@cmmv/parallel` introduz paralelismo no framework CMMV, permitindo o processamento eficiente de dados usando threads baseadas no `fast-thread`. Essa implementação utiliza `SharedArrayBuffer`, `Atomics` e, opcionalmente, `fast-json-stringify` para transferência de dados sem cópia entre threads, tornando-o significativamente mais rápido que a abordagem tradicional `parentPort.postMessage`.
 
 ## Instalação
 
@@ -13,44 +12,44 @@ Para instalar o módulo ``@cmmv/parallel``, execute o seguinte comando:
 $ pnpm add @cmmv/parallel
 ```
 
-## Como funciona
+## Como Funciona
 
-Diferentemente do multithreading tradicional em JavaScript, `@cmmv/parallel` cria um contexto de execução isolado dentro de cada thread de trabalho. Isso permite que computações complexas sejam executadas sem bloquear a thread principal, tornando-a ideal para processamento de dados em larga escala.
+Diferente do multi-threading tradicional em JavaScript, o `@cmmv/parallel` cria um contexto de execução isolado dentro de cada thread de trabalho. Isso permite que cálculos complexos sejam executados sem bloquear a thread principal, tornando-o ideal para processamento de dados em grande escala.
 
-| **Recurso**            | **`worker_threads` tradicional**  | **`@cmmv/parallel`** |
-|----------------------|--------------------------------|----------------------|
-| **Transferência de Dados** | Serialização JSON (lenta)  | SharedArrayBuffer (zero-cópia) |
+| **Recurso**           | **Tradicional `worker_threads`** | **`@cmmv/parallel`** |
+|-----------------------|----------------------------------|----------------------|
+| **Transferência de Dados** | Serialização JSON (lenta)   | SharedArrayBuffer (sem cópia) |
 | **Carregamento de Contexto** | Requer importações manuais | Injeção automática de contexto |
 | **Gerenciamento de Threads** | Criação manual de workers | Pool de threads com escalonamento dinâmico |
-| **Comunicação** | `parentPort.postMessage` | Acesso direto à memória via Atomics |
+| **Comunicação**       | `parentPort.postMessage`    | Acesso direto à memória via Atomics |
 
 ## Benchmarks
 
 * [https://github.com/andrehrferreira/fast-thread/blob/main/benchmarks/index.js](https://github.com/andrehrferreira/fast-thread/blob/main/benchmarks/index.js)
-* Machine: linux x64 | 32 vCPUs | 128.0GB Mem
+* Máquina: Linux x64 | 32 vCPUs | 128.0GB de Memória
 * Node: v20.17.0
 
-| Name                     | Messages | Messages Per Second | MB Per Second |
-|--------------------------|----------|---------------------|--------------|
-| **fast-thread**         | 617,483  | 61,748.30          | 65.34        |
-| **JSON**                | 524,235  | 52,423.50          | 55.48        |
-| **fast-json-stringify** | 500,024  | 50,002.40          | 52.10        |
-| **BSON**                | 420,946  | 42,094.60          | 44.19        |
-| **Protobuf.js**         | 296,340  | 29,634.00          | 29.75        |
-| **msgpack-lite**        | 288,180  | 28,818.00          | 29.86        |
-| **CBOR**                | 223,945  | 22,394.50          | 23.20        |
+| Nome                     | Mensagens | Mensagens por Segundo | MB por Segundo |
+|--------------------------|-----------|-----------------------|----------------|
+| **fast-thread**          | 617.483   | 61.748,30             | 65,34          |
+| **JSON**                 | 524.235   | 52.423,50             | 55,48          |
+| **fast-json-stringify**  | 500.024   | 50.002,40             | 52,10          |
+| **BSON**                 | 420.946   | 42.094,60             | 44,19          |
+| **Protobuf.js**          | 296.340   | 29.634,00             | 29,75          |
+| **msgpack-lite**         | 288.180   | 28.818,00             | 29,86          |
+| **CBOR**                 | 223.945   | 22.394,50             | 23,20          |
 
 ## Decorador
 
-O módulo `@cmmv/parallel` introduz um conjunto de decoradores que simplificam a execução paralela ao automatizar o gerenciamento de threads, a transferência de dados e a inicialização de contexto. Esses decoradores fornecem uma maneira intuitiva de definir tarefas paralelas sem manipular manualmente threads de trabalho, serialização e passagem de mensagens.
+O módulo `@cmmv/parallel` introduz um conjunto de decoradores que simplificam a execução paralela ao automatizar o gerenciamento de threads, a transferência de dados e a inicialização do contexto. Esses decoradores fornecem uma maneira intuitiva de definir tarefas paralelas sem lidar manualmente com threads de trabalho, serialização e passagem de mensagens.
 
 ## @Parallel
 
-Marca uma função para ser executada em paralelo usando um conjunto de threads de trabalho.
+Marca uma função para ser executada em paralelo usando um pool de threads de trabalho.
 
-* Gerencia automaticamente threads de trabalho e sincroniza resultados.
+* Gerencia automaticamente as threads de trabalho e sincroniza os resultados.
 * Usa um namespace para agrupar tarefas paralelas relacionadas.
-* Contagem de threads configurável, permitindo dimensionamento dinâmico.
+* Número de threads configurável, permitindo escalonamento dinâmico.
 
 ```typescript
 @Parallel({
@@ -69,17 +68,14 @@ async parserLine(@Tread() thread: any, @ThreadData() payload: any) {
 
 Define um contexto de execução compartilhado para uma função paralela.
 
-* Carrega dependências e recursos dentro do thread do trabalhador.
+* Carrega dependências e recursos dentro da thread de trabalho.
 * Garante que todos os trabalhadores em um pool compartilhem o mesmo contexto.
-* Retorna um objeto que é acessível via `@Tread()`.
+* Retorna um objeto acessível via `@Tread()`.
 
 ```typescript
 @TreadContext("parserLine")
 async threadContext() {
-    const {
-        JSONParser, AbstractParserSchema,
-        ToLowerCase, ToDate
-    } = await import("@cmmv/normalizer");
+    const { JSONParser, AbstractParserSchema, ToLowerCase, ToDate } = await import("@cmmv/normalizer");
 
     class CustomerSchema extends AbstractParserSchema {
         public field = {
@@ -102,11 +98,11 @@ async threadContext() {
 
 ## @ThreadData
 
-Extrai a carga útil de dados que é enviada para o thread do trabalhador.
+Extrai o payload de dados enviado para a thread de trabalho.
 
 * Torna a assinatura da função limpa e legível.
-* Injeta apenas os dados relevantes para processamento.
-* Funciona junto com `@Tread()` para acessar dados de entrada e contexto compartilhado.
+* Injeta apenas os dados relevantes para o processamento.
+* Funciona junto com `@Tread()` para acessar tanto os dados de entrada quanto o contexto compartilhado.
 
 ```typescript
 async parserLine(@Tread() thread: any, @ThreadData() payload: any) {
@@ -119,11 +115,11 @@ async parserLine(@Tread() thread: any, @ThreadData() payload: any) {
 
 ## @Tread
 
-Fornece acesso ao contexto compartilhado do thread, conforme definido por `@TreadContext()`.
+Fornece acesso ao contexto compartilhado da thread, conforme definido por `@TreadContext()`.
 
 * Concede acesso a recursos pré-carregados dentro do worker.
-* Garante processamento de dados eficiente sem inicialização redundante.
-* Funciona junto com `@ThreadData()` para execução de função sem interrupções.
+* Garante processamento eficiente de dados sem inicialização redundante.
+* Trabalha em conjunto com `@ThreadData()` para uma execução fluida da função.
 
 ```typescript
 async parserLine(@Tread() thread: any, @ThreadData() payload: any) {
@@ -134,11 +130,11 @@ async parserLine(@Tread() thread: any, @ThreadData() payload: any) {
 }
 ```
 
-Ao usar esses decoradores, os desenvolvedores podem eliminar códigos clichê, obter compartilhamento de memória de cópia zero e processar dados de alto volume de forma eficiente em paralelo. 🚀
+Ao usar esses decoradores, os desenvolvedores podem eliminar código boilerplate, alcançar compartilhamento de memória sem cópia e processar eficientemente grandes volumes de dados em paralelo. 🚀
 
-## Integrando
+## Integração
 
-Este exemplo demonstra como `@cmmv/parallel` pode analisar com eficiência grandes arquivos JSON usando vários threads.
+Este exemplo demonstra como o `@cmmv/parallel` pode processar eficientemente arquivos JSON grandes usando múltiplas threads.
 
 ```typescript
 import * as fs from 'node:fs';
@@ -162,7 +158,7 @@ export class ReadBigFileWithParallel extends AbstractParallel {
         const filename = path.resolve('./sample/large-customers.json');
 
         if (pool) {
-            console.log('Parsing With Multi-Thread...');
+            console.log('Processando com Multi-Thread...');
             let start;
             const readStream = fs.createReadStream(filename);
             await pool.awaitStart();
@@ -174,7 +170,7 @@ export class ReadBigFileWithParallel extends AbstractParallel {
 
             pool.on('end', () => {
                 const end = Date.now();
-                console.log(`Parallel parser: ${finalData.length} | ${(end - start).toFixed(2)}s`);
+                console.log(`Parser paralelo: \${finalData.length} | \${(end - start).toFixed(2)}s`);
             });
 
             jsonStream.on('data', async ({ value, key }) => {
@@ -187,7 +183,7 @@ export class ReadBigFileWithParallel extends AbstractParallel {
 
             await pool.awaitEnd();
         } else {
-            throw new Error(`Thread pool '${poolNamespace}' not found`);
+            throw new Error(`Pool de threads '\${poolNamespace}' não encontrado`);
         }
     }
 
@@ -232,11 +228,10 @@ Application.exec({
     services: [ReadBigFileWithParallel]
 });
 ```
-
 <br/>
 
-* Processamento multithread – Distribua tarefas de forma eficiente em vários núcleos de CPU.
-* Comunicação de cópia zero – Usa SharedArrayBuffer para evitar duplicação de memória.
-* Threads com reconhecimento de contexto – Carregue recursos específicos dentro de cada thread.
+* Processamento multi-thread – Distribui tarefas eficientemente entre vários núcleos de CPU.
+* Comunicação sem cópia – Usa SharedArrayBuffer para evitar duplicação de memória.
+* Threads conscientes do contexto – Carrega recursos específicos dentro de cada thread.
 * Serialização rápida – Suporta fast-json-stringify para otimização de desempenho.
 * API simplificada – Não há necessidade de criar arquivos separados para threads de trabalho.
