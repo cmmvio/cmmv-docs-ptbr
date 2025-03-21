@@ -352,3 +352,116 @@ export class UserEntity implements IUser {
     root: boolean;
 }
 ```
+
+## Suporte a Migrações
+
+Com a integração ao TypeORM, o módulo ``@cmmv/repository`` agora oferece suporte completo a migrações para gerenciar alterações no esquema do banco de dados. Esse recurso permite que os desenvolvedores mantenham controle sobre a evolução do banco de dados, sincronizando automaticamente mudanças a partir dos contratos ou gerando migrações personalizadas.
+
+### Configuração de Migrações
+
+As configurações relacionadas a migrações foram adicionadas ao arquivo ``.cmmv.config.cjs`` dentro do objeto `repository`. Os novos parâmetros são:
+
+```javascript
+module.exports = {
+    repository: {
+        type: "sqlite",
+        database: "./database.sqlite",
+        synchronize: true, // Cuidado: use com cautela em produção
+        logging: false,
+        migrations: true,
+        migrationsDir: "/src/migrations" // Diretório padrão para geração de migrações
+    },
+};
+```
+<br/>
+
+Esses parâmetros permitem que o TypeORM localize e execute as migrações, bem como defina onde novas migrações serão criadas.
+
+### Criação de Migrações
+
+Existem duas formas principais de criar migrações com o módulo ``@cmmv/repository``:
+
+#### 1. Geração Automática via ``@cmmv/sandbox``
+Contratos criados usando o módulo ``@cmmv/sandbox`` geram automaticamente arquivos de migração correspondentes às entidades definidas. Quando um contrato é criado ou modificado no sandbox, o sistema detecta as alterações e cria os arquivos de migração necessários no diretório especificado por `migrationsDir`. Isso inclui a criação de tabelas, índices e quaisquer ajustes nos campos.
+
+#### 2. Geração Manual com `RepositoryMigration`
+Para cenários mais personalizados ou quando os contratos são definidos fora do sandbox, você pode usar a função ``RepositoryMigration.generateMigration`` para gerar migrações com base nas diferenças entre dois contratos:
+
+```typescript
+import { RepositoryMigration } from '@cmmv/repository';
+
+// Exemplo: Criar uma migração para um novo contrato
+const currentContract = null; // Nenhum contrato anterior
+const updatedContract = {
+    controllerName: 'User',
+    fields: [
+        { name: 'username', protoType: 'string', unique: true },
+        { name: 'email', protoType: 'string' }
+    ]
+};
+
+await RepositoryMigration.generateMigration(currentContract, updatedContract);
+
+// Exemplo: Atualizar um contrato existente
+const currentContract = {
+    controllerName: 'User',
+    fields: [
+        { name: 'username', protoType: 'string', unique: true }
+    ]
+};
+const updatedContract = {
+    controllerName: 'User',
+    fields: [
+        { name: 'username', protoType: 'string', unique: true },
+        { name: 'email', protoType: 'string' }
+    ]
+};
+
+await RepositoryMigration.generateMigration(currentContract, updatedContract);
+
+// Exemplo: Excluir uma tabela
+const currentContract = {
+    controllerName: 'User',
+    fields: [
+        { name: 'username', protoType: 'string', unique: true }
+    ]
+};
+const updatedContract = null;
+
+await RepositoryMigration.generateMigration(currentContract, updatedContract);
+```
+<br/>
+
+- **Casos de Uso:**
+  - **`currentContract` nulo, `updatedContract` preenchido**: Gera uma migração para criar uma tabela (`CREATE TABLE`) e índices com base no contrato fornecido.
+  - **Ambos os parâmetros preenchidos**: Compara os dois contratos e gera uma migração (`ALTER TABLE`) com alterações nos campos e índices.
+  - **`currentContract` preenchido, `updatedContract` nulo**: Gera uma migração para excluir a tabela (`DROP TABLE`).
+
+Os arquivos de migração gerados são salvos no diretório especificado por `migrationsDir` e seguem o padrão do TypeORM, permitindo edição manual, se necessário.
+
+### Integração com Comandos de Migração do TypeORM
+
+Para simplificar o uso das migrações, adicione os seguintes scripts ao seu `package.json`:
+
+```json
+{
+    "scripts": {
+        "typeorm": "node -r @swc-node/register ./node_modules/typeorm/cli.js",
+        "migration:run": "pnpm typeorm migration:run -d src/migration.ts",
+        "schema:sync": "pnpm typeorm schema:sync -d src/migration.ts",
+        "migration:show": "pnpm typeorm migration:show -d src/migration.ts",
+        "migration:generate": "pnpm typeorm migration:generate -d src/migration.ts",
+        "migration:create": "pnpm typeorm migration:create -d src/migration.ts"
+    }
+}
+```
+
+Além disso, crie um arquivo chamado `migration.ts` dentro do diretório `src` para configurar a fonte de dados do TypeORM:
+
+```typescript
+import { Repository } from '@cmmv/repository';
+const datasource = Repository.getDataSource();
+export default datasource;
+```
+
+Esses scripts fornecem uma integração fluida com a CLI do TypeORM, permitindo que você execute migrações, sincronize esquemas e gere novos arquivos de migração diretamente da linha de comando.
