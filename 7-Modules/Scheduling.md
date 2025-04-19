@@ -1,25 +1,38 @@
-# Agendamento
+# Scheduling (Agora parte do `@cmmv/core` desde a versão v0.13)
 
-Repositório: [https://github.com/cmmvio/cmmv/tree/main/packages/scheduling](https://github.com/cmmvio/cmmv/tree/main/packages/scheduling)
+> **Aviso:** A partir da versão `0.13`, o módulo `@cmmv/scheduling` foi totalmente integrado ao `@cmmv/core`. Você não precisa mais instalá-lo ou registrá-lo separadamente — todos os recursos de agendamento agora estão disponíveis nativamente.
 
-O pacote ``@cmmv/scheduling`` oferece uma maneira simples de agendar tarefas em sua aplicação CMMV usando padrões cron. Este módulo é construído com base na biblioteca ``cron``, e o decorador ``@Cron`` permite que você agende facilmente métodos para serem executados em intervalos específicos.
+## Migração
 
-Para instalar o módulo de agendamento, execute o seguinte comando:
+Se sua aplicação utilizava anteriormente o `@cmmv/scheduling`, você pode removê-lo das dependências e atualizar seus imports:
 
-```bash
-$ pnpm add @cmmv/scheduling
+### Antes:
+```ts
+import { SchedulingModule, SchedulingService, Cron } from '@cmmv/scheduling';
 ```
+
+### Depois:
+```ts
+import { Cron } from '@cmmv/core';
+```
+
+Você não precisa mais adicionar `SchedulingModule` nem registrar o `SchedulingService` — o agendamento agora está disponível globalmente por padrão.
+
+## Funcionalidades
+
+- **Agendamento com Cron:** Agende tarefas usando expressões cron.
+- **Decorador @Cron:** Atribua facilmente tarefas agendadas a métodos de classe.
+- **Integração Nativa:** Não é necessário nenhuma configuração manual com aplicações baseadas no core.
+- **Suporte a Logger:** Compatível com o `Logger` do `@cmmv/core`.
 
 ## Uso
 
-O decorador ``@Cron`` é usado para definir métodos que devem ser agendados de acordo com um padrão cron. O agendamento é alimentado pela biblioteca ``cron``, que oferece capacidades de agendamento cron flexíveis e poderosas.
+Use o decorador `@Cron` para definir tarefas que devem rodar em um cronograma:
 
-Após instalar o pacote, você pode usar o decorador ``@Cron`` e o ``SchedulingService`` em seu projeto:
+```ts
+import { Cron, Logger, Service } from '@cmmv/core';
 
-```typescript
-import { Cron } from '@cmmv/scheduling';
-import { Logger } from '@cmmv/core';
-
+@Service('task')
 export class TaskService {
     private logger: Logger = new Logger('TaskService');
 
@@ -30,48 +43,12 @@ export class TaskService {
 }
 ```
 
-## Configuração
+## Formato da Expressão Cron
 
-Certifique-se de que o ``SchedulingService`` seja inicializado durante a inicialização de sua aplicação. Isso registrará e iniciará todas as tarefas agendadas definidas com o decorador ``@Cron``.
-
-```typescript
-require('dotenv').config();
-
-import { Application } from '@cmmv/core';
-import { DefaultAdapter, DefaultHTTPModule } from '@cmmv/http';
-import { WSModule, WSAdapter } from '@cmmv/ws';
-...
-import { SchedulingModule, SchedulingService } from '@cmmv/scheduling';
-
-Application.create({
-    httpAdapter: DefaultAdapter,
-    wsAdapter: WSAdapter,
-    modules: [
-        ...
-        SchedulingModule
-    ],
-    services: [..., SchedulingService]
-});
 ```
-
-## Decorador
-
-O decorador ``@Cron`` é usado para agendar um método para ser executado com base em um padrão cron. Ele aceita uma expressão cron como argumento, que define o agendamento.
-
-```typescript
-@Cron('*/5 * * * * *')  // Executa a cada 5 segundos
-handleTask() {
-    this.logger.log('Tarefa executada a cada 5 segundos');
-}
-```
-
-Os padrões cron seguem o formato padrão usado pela biblioteca ``cron``:
-
-```scss
 *    *    *    *    *    *
 ┬    ┬    ┬    ┬    ┬    ┬
-│    │    │    │    │    │
-│    │    │    │    │    └ Dia da semana (0 - 7) (Domingo=0 ou 7)
+│    │    │    │    │    └ Dia da semana (0 - 7) (Domingo = 0 ou 7)
 │    │    │    │    └───── Mês (1 - 12)
 │    │    │    └────────── Dia do mês (1 - 31)
 │    │    └─────────────── Hora (0 - 23)
@@ -79,14 +56,27 @@ Os padrões cron seguem o formato padrão usado pela biblioteca ``cron``:
 └───────────────────────── Segundo (0 - 59, opcional)
 ```
 
-**Alguns Exemplos de Padrões Cron**
+## Exemplos
 
-Aqui estão alguns exemplos de padrões cron que você pode usar com o decorador ``@Cron``:
+- `* * * * * *` — Executa a cada segundo
+- `*/5 * * * * *` — Executa a cada 5 segundos
+- `0 0 * * * *` — Executa a cada hora
+- `0 0 12 * * *` — Executa todos os dias ao meio-dia
+- `0 0 1 1 *` — Executa uma vez por ano em 1º de janeiro
 
-* ``* * * * * *`` – Executa a cada segundo
-* ``*/5 * * * * *`` – Executa a cada 5 segundos
-* ``0 0 * * * *`` – Executa a cada hora
-* ``0 0 12 * * *`` – Executa todos os dias ao meio-dia
-* ``0 0 1 1 *`` – Executa à meia-noite de 1º de janeiro
+## Observação Importante sobre Múltiplas Instâncias
 
-O módulo ``@cmmv/scheduling`` oferece uma maneira poderosa e flexível de agendar tarefas em uma aplicação CMMV usando padrões cron. O decorador ``@Cron`` facilita a definição de quando certos métodos devem ser executados, e o ``SchedulingService`` garante que essas tarefas sejam gerenciadas e executadas adequadamente em tempo de execução.
+Ao rodar múltiplas instâncias da mesma aplicação, **cada instância executará a mesma tarefa cron**. Isso pode causar **execuções redundantes**.
+
+Até que um sistema nativo de limitação por instância seja introduzido, recomenda-se:
+
+- Usar validações baseadas em ENV (`if (process.env.RUN_CRONS === 'true')`)
+- Confiar em orquestração externa (ex: designar apenas um pod/container executor no k8s)
+- Evitar operações compartilhadas que não sejam idempotentes
+
+## Vantagens
+
+- **Zero Configuração:** O agendamento roda sem necessidade de registro adicional
+- **Sintaxe Limpa:** Baseado em decoradores
+- **Tipagem Segura:** Totalmente compatível com TypeScript
+- **Pronto para o Futuro:** Suporte planejado para orquestração distribuída de tarefas agendadas
